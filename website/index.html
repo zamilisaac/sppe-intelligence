@@ -700,6 +700,11 @@ a.kpi:hover { transform: translateY(-2px); }
 }
 @media (max-width: 340px) { .sp-grid { grid-template-columns: minmax(0, 1fr); } .pf-grid { grid-template-columns: minmax(0, 1fr); } }
 .map path.st { vector-effect: non-scaling-stroke; }
+.pill.rk { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .pill .rk-h { display: none; }
+@media (max-width: 560px) {
+  .pill .rk-l { display: none; } .pill .rk-h { display: inline; }
+  .sp-h { flex-direction: column; align-items: flex-start; } .sp-h .pill { align-self: flex-start; }
+}
 .ramp.hseq { background: linear-gradient(90deg, color-mix(in srgb, var(--red) 4%, var(--map-base)), var(--red) 80%, color-mix(in srgb, #3b0a0a 60%, var(--red))); }
 .yr-cap { margin: 2px 0 8px; padding: 8px 12px; border-radius: 10px; background: var(--soft); font-size: 13px; line-height: 1.45; min-height: 2.9em; }
 .yr-cap b { color: var(--red); }
@@ -3977,7 +3982,7 @@ const SITE = (() => {
     const id = S.sel, v = m.get(id, Y), rk = m.rank(Y), r = rk.findIndex(x => x.id === id) + 1;
     const cls = m.scale === 'seq' || !r ? 'q-slow' : r <= 5 ? 'q-lead' : r >= 12 ? 'q-attn' : 'q-slow';
     const st = m.years.map(y => m.get(id, y)), nat = m.scale === 'seq' ? null : m.years.map(y => m.get('national', y));
-    return `<article class="card profile" aria-live="polite"><div class="pf-h"><h2>${esc(sname(id))}</h2>${r ? `<span class="pill ${cls}">${esc(X('Kedudukan', 'Rank'))} ${r} / ${rk.length}</span>` : ''}</div>
+    return `<article class="card profile" aria-live="polite"><div class="pf-h"><h2>${esc(sname(id))}</h2>${r ? `<span class="pill rk ${cls}"><span class="rk-l">${esc(X('Kedudukan ', 'Rank '))}</span><span class="rk-h">#</span>${r} / ${rk.length}</span>` : ''}</div>
       <div class="pf-big"><span class="pf-v">${esc(m.fmt(v))}</span><span class="muted">${esc(m.l)} · ${esc(m.yl(Y))}</span></div>
       ${SPECIAL_FT.includes(id) ? `<p class="pf-note">${esc(X('Tenaga kerja kecil dan ekonomi khusus. Bandingkan dengan berhati-hati.', 'Small workforce and specialised economy. Compare with care.'))}</p>` : ''}
       <dl class="pf-grid">${items.map(([k, val, sm, c]) => `<div><dt>${esc(k)}</dt><dd class="${c || ''}">${esc(val)}${sm ? `<small>${esc(sm)}</small>` : ''}</dd></div>`).join('')}</dl>
@@ -4268,7 +4273,7 @@ const SITE = (() => {
       const y = m.last, v = m.get(id, y), N = m.get('national', y), rk = m.rank(y), r = rk.findIndex(z => z.id === id) + 1;
       const vs = v == null || N == null ? '' : m.scale === 'seq' ? X('Bahagian Malaysia ', 'Share of Malaysia ') + F.p(v / N * 100) : m.rate ? 'Malaysia ' + m.fmt(N) : X('Berbanding Malaysia ', 'vs Malaysia ') + F.ps((v / N - 1) * 100);
       const cls = !r ? 'q-slow' : r <= 5 ? 'q-lead' : r >= rk.length - 4 ? 'q-attn' : 'q-slow';
-      return `<a class="sp-tile" href="#${BY_PG[m.pg].h}"><div class="sp-h"><span>${esc(m.l)}</span><span class="pill ${cls}">${r ? esc(X('Kedudukan ', 'Rank ') + r + ' / ' + rk.length) : '–'}</span></div><div class="sp-v">${esc(m.fmt(v))}</div><div class="sp-s">${esc(m.yl(y))}${vs ? ' · ' + esc(vs) : ''}</div>${sparkTile(m.years.map(yy => m.get(id, yy)))}</a>`;
+      return `<a class="sp-tile" href="#${BY_PG[m.pg].h}"><div class="sp-h"><span>${esc(m.l)}</span><span class="pill rk ${cls}">${r ? `<span class="rk-l">${esc(X('Kedudukan ', 'Rank '))}</span><span class="rk-h">#</span>${r} / ${rk.length}` : '–'}</span></div><div class="sp-v">${esc(m.fmt(v))}</div><div class="sp-s">${esc(m.yl(y))}${vs ? ' · ' + esc(vs) : ''}</div></a>`;
     }).join('');
     const str = [], chl = [];
     I.SC.forEach((sc, k) => { const r = I.ranks[k][id], n = Object.keys(I.ranks[k]).length; if (r == null) return; const li = `<li><span>${esc(sc.l)}</span><b>${esc(sc.f(sc.v(id)))}</b><em>${r} / ${n}</em></li>`; if (r <= 5) str.push(li); else if (r >= 12) chl.push(li); });
