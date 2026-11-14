@@ -642,7 +642,19 @@ a.kpi:hover { transform: translateY(-2px); }
 
 .hl-h { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; } .hl-h .sec-t { margin: 0; } .hl-h .sub { color: var(--muted); font-size: 12.5px; }
 .kpi-ins { font-size: 13px; line-height: 1.45; margin-top: 6px; padding-top: 8px; border-top: 1px solid currentColor; border-top-color: color-mix(in srgb, currentColor 22%, transparent); }
-.kpis.hl .kpi { min-height: 210px; }
+.kpis.hl { gap: 10px; }
+.kpis.hl .kpi { min-height: 0; padding: 12px 34px 12px 16px; gap: 2px; border-radius: 12px; background: var(--surface); color: var(--ink); border-left: 4px solid var(--line); display: grid; grid-template-columns: auto 1fr; column-gap: 8px; align-items: baseline; }
+.kpis.hl .kpi.k-dark { border-left-color: var(--tile-ink); } .kpis.hl .kpi.k-red { border-left-color: var(--red); } .kpis.hl .kpi.k-grey { border-left-color: var(--tile-stone); } .kpis.hl .kpi.k-light { border-left-color: var(--muted); }
+.kpis.hl .kpi-h { grid-column: 1 / -1; font-size: 12.5px; font-weight: 700; color: var(--muted); }
+.kpis.hl .kpi-v { font-size: 24px; font-weight: 700; }
+.kpis.hl .kpi-s { font-size: 12px; color: var(--muted); opacity: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kpis.hl .kpi-s .delta { color: var(--ink); font-weight: 700; }
+.kpis.hl .kpi-ins { grid-column: 1 / -1; font-size: 12.5px; color: var(--ink); border-top: 0; margin-top: 2px; padding-top: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.kpis.hl .spark { display: none; }
+.kpis.hl .kpi-go { top: 10px; right: 12px; font-size: 15px; color: var(--red); opacity: 1; }
+.kpis.hl .kpi:hover { border-color: var(--line); box-shadow: 0 4px 14px rgba(0,0,0,0.07); }
+@media (max-width: 760px) { .map-seg .seg { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; } .map-seg .seg button { flex: 0 0 auto; } }
+@media (max-width: 760px) { .kpis.hl { display: flex; overflow-x: auto; scrollbar-width: none; scroll-snap-type: x mandatory; } .kpis.hl::-webkit-scrollbar { display: none; } .kpis.hl .kpi { flex: 0 0 78%; scroll-snap-align: start; } }
 .rgn { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 12.5px; color: var(--muted); margin-bottom: 8px; }
 .rgn button { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 5px 12px; font: inherit; font-weight: 600; color: var(--ink); cursor: pointer; }
 .rgn button[aria-pressed="true"] { background: var(--tile-ink); color: var(--on-ink); border-color: var(--tile-ink); }
@@ -4392,8 +4404,8 @@ const SITE = (() => {
     const s3 = wr.length ? X(`Tertinggi ${short(wr[0].id)} ${mw.fmt(wr[0].v)}, terendah ${short(wr[wr.length - 1].id)} ${mw.fmt(wr[wr.length - 1].v)} (tanpa Putrajaya & Labuan).`, `Highest ${short(wr[0].id)} ${mw.fmt(wr[0].v)}, lowest ${short(wr[wr.length - 1].id)} ${mw.fmt(wr[wr.length - 1].v)} (excl. Putrajaya & Labuan).`) : '';
     const s4 = ur.length ? X(`Pengangguran ${F.p(mu.get('national', mu.last))}, penyertaan ${F.p(mpr.get('national', mpr.last))}. Terendah: ${short(ur[0].id)} (${F.p(ur[0].v)}).`, `Unemployment ${F.p(mu.get('national', mu.last))}, participation ${F.p(mpr.get('national', mpr.last))}. Lowest: ${short(ur[0].id)} (${F.p(ur[0].v)}).`) : '';
     return `<section class="hl-sec"><div class="hl-h"><h2 class="sec-t">${esc(X('Sorotan utama ', 'Key highlights ') + Y)}</h2><span class="sub">${esc(X('Ditulis automatik daripada data DOSM · klik untuk teroka', 'Written automatically from DOSM data · click to explore'))}</span></div><div class="kpis hl">`
-      + tile('k-dark', { go: 'productivity', h: X('Produktiviti buruh ', 'Labour productivity ') + Y, v: mp.fmt(N), d: F.ps(mp.chg('national', Y)), s: X('berbanding ', 'vs ') + (Y - 1), ins: s1, spark: mp.years.map(y => mp.get('national', y)) })
-      + tile('k-red', { go: 'gdp', h: X('KDNK ', 'GDP ') + mg.last, v: mg.fmt(mg.get('national', mg.last)), d: F.ps(mgg.get('national', mgg.last)), s: X('berbanding ', 'vs ') + (mg.last - 1), ins: s2, spark: mg.years.map(y => mg.get('national', y)) })
+      + tile('k-dark', { go: 'productivity', h: X('Produktiviti buruh ', 'Labour productivity ') + Y, v: mp.fmt(N), d: F.ps(mp.chg('national', Y)), s: X('dari ', 'from ') + (Y - 1), ins: s1, spark: mp.years.map(y => mp.get('national', y)) })
+      + tile('k-red', { go: 'gdp', h: X('KDNK ', 'GDP ') + mg.last, v: mg.fmt(mg.get('national', mg.last)), d: F.ps(mgg.get('national', mgg.last)), s: X('dari ', 'from ') + (mg.last - 1), ins: s2, spark: mg.years.map(y => mg.get('national', y)) })
       + tile('k-grey', { go: 'wages', h: X('Gaji penengah ', 'Median wage ') + mw.last, v: mw.fmt(mw.get('national', mw.last)), d: F.ps(mw.chg('national', mw.last)), s: X('sebulan', 'per month'), ins: s3, spark: mw.years.map(y => mw.get('national', y)) })
       + tile('k-light', { go: 'labour', h: X('Pasaran buruh ', 'Labour market ') + me.last, v: me.fmt(me.get('national', me.last)), s: X('penduduk bekerja', 'employed persons'), ins: s4, spark: me.years.map(y => me.get('national', y)) })
       + `</div></section>`;
