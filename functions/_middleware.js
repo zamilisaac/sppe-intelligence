@@ -124,7 +124,7 @@ async function finishLogin(request, url, cfg) {
   const claims = decodeJwt(tokens.id_token);
   if (!claims) return fail("The login response could not be read.");
   if (claims.aud !== cfg.clientId) return fail("The login was issued for a different app.");
-  if (claims.tid !== cfg.tenantId || claims.iss !== cfg.authority) {
+  if (claims.tid !== cfg.tenantId || claims.iss !== cfg.issuer) {
     return fail("Only Malaysia Productivity Corporation (MPC) accounts can sign in.");
   }
   if (claims.nonce !== flow.n) return fail("The login response was not valid. Please try again.");
@@ -154,8 +154,9 @@ function config(env) {
     sessionSecret: env.SESSION_SECRET,
     sessionHours: Number(env.SESSION_HOURS) > 0 ? Number(env.SESSION_HOURS) : 8,
     // AUTH_AUTHORITY is only for local testing against a mock server.
-    authority: env.AUTH_AUTHORITY || `https://login.microsoftonline.com/${tenantId}/v2.0`,
+    authority: env.AUTH_AUTHORITY || `https://login.microsoftonline.com/${tenantId}`,
   };
+  cfg.issuer = cfg.authority + "/v2.0";
   cfg.missing = ["AZURE_CLIENT_ID", "AZURE_CLIENT_SECRET", "SESSION_SECRET"].filter((k) => !env[k]);
   if (env.SESSION_SECRET && env.SESSION_SECRET.length < 32) cfg.missing.push("SESSION_SECRET (at least 32 characters)");
   cfg.ok = cfg.missing.length === 0;
