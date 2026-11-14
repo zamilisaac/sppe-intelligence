@@ -708,6 +708,16 @@ a.kpi:hover { transform: translateY(-2px); }
   .pill .rk-l { display: none; } .pill .rk-h { display: inline; }
   .sp-h { flex-direction: column; align-items: flex-start; } .sp-h .pill { align-self: flex-start; }
 }
+.acct-btn { display: none; border: 1px solid var(--line); background: var(--surface); width: 38px; height: 38px; border-radius: 50%; cursor: pointer; font-size: 17px; color: var(--ink); }
+.acct-sheet { display: none; }
+@media (max-width: 560px) {
+  .meth-link { display: none !important; } .acct-btn { display: grid; place-items: center; }
+  .acct-sheet:not([hidden]) { display: flex; flex-direction: column; gap: 2px; position: absolute; right: 0; top: 52px; z-index: 55; min-width: 230px; max-width: calc(100vw - 32px); background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.22); }
+  .acct-who { margin: 4px 8px 8px; font-size: 12px; color: var(--muted); display: flex; flex-direction: column; gap: 2px; } .acct-who b { color: var(--ink); font-size: 14px; overflow-wrap: anywhere; } .acct-who small { overflow-wrap: anywhere; }
+  .acct-sheet a { padding: 12px; border-radius: 10px; text-decoration: none; color: var(--ink); font-weight: 700; font-size: 14.5px; } .acct-sheet a:hover { background: var(--soft); }
+  .acct-sheet a.acct-out { color: var(--red); border-top: 1px solid var(--line); border-radius: 0 0 10px 10px; }
+}
+@media (max-width: 360px) { .acct-btn { width: 34px; height: 34px; } }
 .ramp.hseq { background: linear-gradient(90deg, color-mix(in srgb, var(--red) 4%, var(--map-base)), var(--red) 80%, color-mix(in srgb, #3b0a0a 60%, var(--red))); }
 .yr-cap { margin: 2px 0 8px; padding: 8px 12px; border-radius: 10px; background: var(--soft); font-size: 13px; line-height: 1.45; min-height: 2.9em; }
 .yr-cap b { color: var(--red); }
@@ -747,6 +757,8 @@ a.kpi:hover { transform: translateY(-2px); }
         <button type="button" id="lang-en" data-lang="en" aria-pressed="false">EN</button>
       </div>
       <a class="meth-link" id="meth-link" href="#metodologi">Metodologi</a>
+      <button type="button" class="acct-btn" id="acct-btn" aria-label="Menu" aria-expanded="false" aria-controls="acct-sheet">☰</button>
+      <div class="acct-sheet" id="acct-sheet" hidden></div>
     </div>
   </header>
 
@@ -4514,6 +4526,7 @@ const SITE = (() => {
     $('nav').innerHTML = navP.map((p, i) => navA(p) + (p.id === 'state' ? `<button type="button" class="nav-topic${onTopic ? ' on' : ''}" aria-expanded="false" aria-controls="nav-sheet">${esc(X('Topik', 'Topics'))} ▴</button>` : '')).join('');
     let sh = $('nav-sheet'); if (!sh) { sh = document.createElement('div'); sh.id = 'nav-sheet'; sh.className = 'nav-sheet'; sh.hidden = true; $('nav').after(sh); }
     sh.innerHTML = `<p>${esc(X('Pilih topik', 'Choose a topic'))}</p>` + TOPICS.map(id => `<a href="#${BY_PG[id].h}"${id === curNav ? ' aria-current="page"' : ''}>${esc(pname(BY_PG[id]))}</a>`).join(''); sh.hidden = true;
+    const as = $('acct-sheet'); if (as) { const u2 = window.SPPE_USER; as.innerHTML = (u2 && u2.name ? `<p class="acct-who">${esc(X('Log masuk sebagai', 'Signed in as'))}<b>${esc(u2.name)}</b>${u2.email ? `<small>${esc(u2.email)}</small>` : ''}</p>` : '') + `<a href="#metodologi">ⓘ ${esc(X('Metodologi & sumber data', 'Methodology & data sources'))}</a>` + (u2 && u2.name ? `<a href="/auth/logout" class="acct-out">⎋ ${esc(X('Log keluar', 'Log out'))}</a>` : ''); as.hidden = true; const ab = $('acct-btn'); if (ab) ab.setAttribute('aria-expanded', 'false'); }
     const ml = $('meth-link'); if (ml) { ml.textContent = X('Metodologi', 'Methodology'); ml.classList.toggle('on', page === 'method'); }
     const cur = $('nav').querySelector('[aria-current]'); if (cur && cur.scrollIntoView && $('nav').scrollWidth > $('nav').clientWidth) $('nav').scrollLeft = Math.max(0, cur.offsetLeft - 24);
     navCue();
@@ -4541,6 +4554,8 @@ const SITE = (() => {
     window.addEventListener('hashchange', go);
     $('nav').addEventListener('scroll', navCue, { passive: true }); window.addEventListener('resize', navCue);
     document.addEventListener('click', e => {
+      const as = $('acct-sheet'), ab = e.target.closest('#acct-btn');
+      if (as) { if (ab) { as.hidden = !as.hidden; ab.setAttribute('aria-expanded', !as.hidden); } else if (!as.hidden && (!e.target.closest('#acct-sheet') || e.target.closest('a'))) { as.hidden = true; $('acct-btn').setAttribute('aria-expanded', 'false'); } }
       const sh = $('nav-sheet'), b = e.target.closest('.nav-topic'); if (!sh) return;
       if (b) { sh.hidden = !sh.hidden; b.setAttribute('aria-expanded', !sh.hidden); return; }
       if (!sh.hidden && (!e.target.closest('#nav-sheet') || e.target.closest('a'))) { sh.hidden = true; const t2 = document.querySelector('.nav-topic'); if (t2) t2.setAttribute('aria-expanded', 'false'); }
