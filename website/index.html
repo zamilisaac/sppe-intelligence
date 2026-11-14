@@ -659,6 +659,11 @@ a.kpi:hover { transform: translateY(-2px); }
 .rgn button { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 5px 12px; font: inherit; font-weight: 600; color: var(--ink); cursor: pointer; }
 .rgn button[aria-pressed="true"] { background: var(--tile-ink); color: var(--on-ink); border-color: var(--tile-ink); }
 .tbl tr.dim { opacity: 0.28; } .tbl tr.hl td:first-child { color: var(--red); font-weight: 800; }
+.meth-link { font-size: 13px; font-weight: 700; color: var(--muted); text-decoration: none; padding: 8px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); white-space: nowrap; }
+.meth-link:hover, .meth-link.on { color: var(--ink); border-color: var(--ink); }
+.seg a.seg-a { flex: 0 0 auto; padding: 7px 14px; border-radius: 8px; font-weight: 700; font-size: 13px; color: var(--muted); text-decoration: none; white-space: nowrap; }
+.seg a.seg-a[aria-pressed="true"] { background: var(--tile-ink); color: var(--on-ink); }
+@media (max-width: 560px) { .meth-link { padding: 7px 9px; font-size: 12px; } }
 .ramp.hseq { background: linear-gradient(90deg, color-mix(in srgb, var(--red) 4%, var(--map-base)), var(--red) 80%, color-mix(in srgb, #3b0a0a 60%, var(--red))); }
 .yr-cap { margin: 2px 0 8px; padding: 8px 12px; border-radius: 10px; background: var(--soft); font-size: 13px; line-height: 1.45; min-height: 2.9em; }
 .yr-cap b { color: var(--red); }
@@ -697,6 +702,7 @@ a.kpi:hover { transform: translateY(-2px); }
         <button type="button" id="lang-bm" data-lang="bm" aria-pressed="true">BM</button>
         <button type="button" id="lang-en" data-lang="en" aria-pressed="false">EN</button>
       </div>
+      <a class="meth-link" id="meth-link" href="#metodologi">Metodologi</a>
     </div>
   </header>
 
@@ -3536,8 +3542,8 @@ const SITE = (() => {
     { id: 'wage', h: 'wages', bm: 'Gaji & Upah', en: 'Salaries & Wages' },
     { id: 'lab', h: 'labour', bm: 'Pasaran Buruh', en: 'Labour Market' },
     { id: 'intg', h: 'integrated', bm: 'Risikan Ekonomi Bersepadu', en: 'Integrated Economic Intelligence' },
-    { id: 'cmp', h: 'banding', bm: 'Banding Negeri', en: 'Compare States' },
-    { id: 'method', h: 'metodologi', bm: 'Metodologi', en: 'Methodology' },
+    { id: 'cmp', h: 'banding', bm: 'Banding Negeri', en: 'Compare States', nav: false, parent: 'intg' },
+    { id: 'method', h: 'metodologi', bm: 'Metodologi', en: 'Methodology', nav: false },
     { id: 'reports', h: 'reports', bm: 'Laporan', en: 'Reports' },
   ];
   const BY_H = Object.fromEntries(PAGES.map(p => [p.h, p]));
@@ -4105,7 +4111,7 @@ const SITE = (() => {
     const scRows = I.SC.map((m, i) => { const r = I.ranks[i][id], n = Object.keys(I.ranks[i]).length, [c, l] = tagOf(r); return `<tr><td>${esc(m.l)}</td><td>${esc(m.v(id) == null ? ND() : m.f(m.v(id)))}</td><td>${r == null ? '–' : r + ' / ' + n}</td><td><span class="pill ${c}">${esc(l)}</span></td></tr>`; }).join('');
     const oppRows = SECTORS.map(s => { const p = a.sectorVal(s.id, id, Y), pn = a.sectorVal(s.id, 'national', Y), nd = a.sectorND(s.id, id, Y), c = I.cls(s.id, id); return `<tr><td>${esc(secName(s))}</td><td>${esc(F.p(I.gsh(s.id, id, Y)))}</td><td>${esc(F.n2(I.lq(s.id, id)))}</td><td>${p == null || !pn || nd ? esc(ND()) : Math.round(p / pn * 100) + '%'}</td><td>${c ? `<span class="pill ${I.CL[c][1]}">${esc(I.CL[c][0])}</span>` : esc(ND())}</td></tr>`; }).join('');
     const heat = I.tally.map(x => `<tr class="${x.id === id ? 'sel' : ''}" data-sel="${x.id}" tabindex="0"><td>${esc(sname(x.id))}</td>${I.ranks.map(r => { const v = r[x.id]; return `<td class="${v == null ? '' : v <= 5 ? 'h-s' : v >= 12 ? 'h-c' : ''}">${v == null ? '–' : v}</td>`; }).join('')}<td><b>${x.s}</b></td><td><b>${x.w}</b></td></tr>`).join('');
-    $('pg-intg').innerHTML = head(X('Topik 5', 'Topic 5'), pname(P), X(`Menggabungkan produktiviti, KDNK, gaji dan pasaran buruh untuk melihat kekuatan dan cabaran setiap negeri. Menggunakan tahun sepunya terkini (${Y}); purata pertumbuhan dikira bagi ${Y - sp}–${Y}.`, `Brings productivity, GDP, wages and the labour market together to show each state's strengths and challenges. Uses the latest common year (${Y}); average growth is calculated for ${Y - sp}–${Y}.`), `<div class="ctl">${stPick()}</div>`)
+    $('pg-intg').innerHTML = intgTabs('intg') + head(X('Topik 5', 'Topic 5'), pname(P), X(`Menggabungkan produktiviti, KDNK, gaji dan pasaran buruh untuk melihat kekuatan dan cabaran setiap negeri. Menggunakan tahun sepunya terkini (${Y}); purata pertumbuhan dikira bagi ${Y - sp}–${Y}.`, `Brings productivity, GDP, wages and the labour market together to show each state's strengths and challenges. Uses the latest common year (${Y}); average growth is calculated for ${Y - sp}–${Y}.`), `<div class="ctl">${stPick()}</div>`)
       + `<section class="kpis">${tile('k-dark', { h: X('Gaji berbanding produktiviti, Malaysia ', 'Wages against productivity, Malaysia ') + Y, v: F.p(rN), s: X(`Gaji penengah setahun (${F.rm(wN * 12)}) sebagai peratus daripada nilai yang dihasilkan seorang pekerja (${F.rm(pN)}).`, `Annual median wage (${F.rm(wN * 12)}) as a per cent of the value one worker produces (${F.rm(pN)}).`) })
       + tile('k-red', { h: X('Kekuatan paling banyak', 'Most strengths'), name: sname(best.id), v: best.s + X(' daripada 7', ' of 7'), s: X('penunjuk dalam lima teratas', 'indicators in the top five') })
       + tile('k-grey', { h: X('Cabaran paling banyak', 'Most challenges'), name: sname(worst.id), v: worst.w + X(' daripada 7', ' of 7'), s: X('penunjuk dalam lima terbawah', 'indicators in the bottom five') })
@@ -4354,6 +4360,7 @@ const SITE = (() => {
 
   const CMP_COL = ['var(--red)', 'var(--ink)', '#b45309', '#0f766e'];
   const CMP_M = ['prod', 'gdp', 'gdpg', 'median', 'formal', 'prate', 'urate', 'fprate'];
+  const intgTabs = cur => `<div class="subnav"><div class="seg site-seg">${[['intg', 'integrated', X('Kad skor & analisis', 'Scorecard & analysis')], ['cmp', 'banding', X('Banding negeri', 'Compare states')]].map(([id, h, l]) => `<a href="#${h}" class="seg-a" aria-pressed="${id === cur}">${esc(l)}</a>`).join('')}</div></div>`;
   function comparePage() {
     const C = U.cmp; if (!C.ids.length) { const sv = (store.get('sppe-cmp') || '').split(',').filter(x => STATE_BY_ID[x]); C.ids = sv.length ? sv : [S.sel, ...MET('prod').rank(MET('prod').last).map(r => r.id).filter(x => x !== S.sel && !SPECIAL_FT.includes(x)).slice(0, 2)]; }
     C.ids = C.ids.filter(x => STATE_BY_ID[x]).slice(0, 4); store.set('sppe-cmp', C.ids.join(','));
@@ -4368,7 +4375,7 @@ const SITE = (() => {
     }).join('');
     const lead = [...ids].sort((a, b) => wins[b] - wins[a])[0];
     const pg = $('pg-cmp');
-    pg.innerHTML = head(X('Banding negeri', 'Compare states'), X('Banding sehingga 4 negeri', 'Compare up to 4 states'), X('Pilih negeri untuk melihat semua penunjuk utama sebelah-menyebelah. Nilai terbaik antara negeri dipilih ditandakan merah.', 'Choose states to see every key indicator side by side. The best value among the chosen states is marked in red.'))
+    pg.innerHTML = intgTabs('cmp') + head(X('Banding negeri', 'Compare states'), X('Banding sehingga 4 negeri', 'Compare up to 4 states'), X('Pilih negeri untuk melihat semua penunjuk utama sebelah-menyebelah. Nilai terbaik antara negeri dipilih ditandakan merah.', 'Choose states to see every key indicator side by side. The best value among the chosen states is marked in red.'))
       + `<article class="card"><div class="cmp-chips">${chips}${add}</div></article>`
       + `<article class="card"><div class="card-h"><div><h2>${esc(X('Semua penunjuk, data terkini', 'All indicators, latest data'))}</h2><p class="sub">${esc(X('Klik nama penunjuk untuk ke halaman topik.', 'Click an indicator name to open its topic page.'))}</p></div></div><div class="tbl-w"><table class="tbl cmp-big"><thead><tr><th>${esc(X('Penunjuk', 'Indicator'))}</th>${ids.map((id, i) => `<th style="color:${CMP_COL[i]}">${esc(short(id))}</th>`).join('')}<th>Malaysia</th></tr></thead><tbody>${rows}</tbody></table></div><p class="mean"><b>${esc(X('Apa maksudnya? ', 'What does it mean? '))}</b>${esc(X(`${sname(lead)} mendahului dalam ${wins[lead]} daripada ${CMP_M.length} penunjuk antara negeri yang dipilih.`, `${sname(lead)} leads on ${wins[lead]} of ${CMP_M.length} indicators among the chosen states.`))}</p></article>`
       + `<div class="subnav">${seg('data-m="cmp" data-v', C.m, CMP_M.map(k => [k, MET(k).l]))}</div>`
@@ -4441,7 +4448,9 @@ const SITE = (() => {
   }
   function navCue() { const n = $('nav'); if (n) n.classList.toggle('more', n.scrollWidth - n.clientWidth - n.scrollLeft > 4); }
   function chrome() {
-    $('nav').innerHTML = PAGES.map(p => `<a href="#${p.h}"${p.id === page ? ' aria-current="page"' : ''}>${esc(pname(p))}</a>`).join('');
+    const curNav = (BY_PG[page] && BY_PG[page].parent) || page;
+    $('nav').innerHTML = PAGES.filter(p => p.nav !== false).map(p => `<a href="#${p.h}"${p.id === curNav ? ' aria-current="page"' : ''}>${esc(pname(p))}</a>`).join('');
+    const ml = $('meth-link'); if (ml) { ml.textContent = X('Metodologi', 'Methodology'); ml.classList.toggle('on', page === 'method'); }
     const cur = $('nav').querySelector('[aria-current]'); if (cur && cur.scrollIntoView && $('nav').scrollWidth > $('nav').clientWidth) $('nav').scrollLeft = Math.max(0, cur.offsetLeft - 24);
     navCue();
     $('meta').hidden = true;
