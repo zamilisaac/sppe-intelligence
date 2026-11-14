@@ -716,6 +716,7 @@ a.kpi:hover { transform: translateY(-2px); }
             <div class="ticks" id="map-ticks"></div>
           </div>
         </div>
+        <p class="yr-cap" id="map-cap" aria-live="polite"></p>
         <div class="map-legend" id="map-legend"></div>
         <p class="foot" id="map-note"></p>
         <div class="tip" id="map-tip" hidden></div>
@@ -1527,11 +1528,28 @@ function stackMap(box) {
 }
 window.addEventListener('resize', () => document.querySelectorAll('.map').forEach(stackMap));
 
+// One colour scale for every year (5th-95th percentile of all states and years), so the timeline visibly changes.
+let PRR = null;
+function prodRange() {
+  if (PRR && PRR.snap === S.snap) return PRR;
+  const v = []; AN.years.forEach(y => STATES.forEach(s => { if (SPECIAL_FT.includes(s.id)) return; const x = AN.level(s.id, y); if (x != null) v.push(x); }));
+  v.sort((a, b) => a - b); const q = f => v[Math.max(0, Math.min(v.length - 1, Math.round(f * (v.length - 1))))];
+  return (PRR = { snap: S.snap, lo: q(0.05), hi: q(0.95) });
+}
+function rampFill(t) {
+  t = Math.max(0, Math.min(1, t));
+  return t < 0.8 ? `color-mix(in srgb, var(--red) ${Math.round(4 + t / 0.8 * 96)}%, var(--map-base))` : `color-mix(in srgb, #3b0a0a ${Math.round((t - 0.8) / 0.2 * 60)}%, var(--red))`;
+}
 function mapFill(v, N) {
   if (v == null) return 'var(--map-nd)';
-  const r = v / N - 1;
-  if (r >= 0) return `color-mix(in srgb, var(--red) ${Math.round(18 + Math.min(1, r / 0.4) * 82)}%, var(--map-base))`;
-  return `color-mix(in srgb, var(--map-low) ${Math.round(12 + Math.min(1, -r / 0.35) * 88)}%, var(--map-base))`;
+  const R = prodRange(); return rampFill((v - R.lo) / (R.hi - R.lo || 1));
+}
+function prodCap(Y) {
+  const L = (bm, en) => S.lang === 'en' ? en : bm, ys = AN.years;
+  if (Y === ys[0]) return `<b>${Y}</b> · ${L('Titik permulaan. Tekan ▶ untuk melihat perubahan setiap tahun.', 'Starting point. Press ▶ to see each year change.')}`;
+  const ch = STATES.filter(s => !SPECIAL_FT.includes(s.id)).map(s => ({ id: s.id, g: AN.growth(s.id, Y) })).filter(x => x.g != null);
+  const up = ch.filter(x => x.g > 0).length, dn = ch.filter(x => x.g < 0).length, big = [...ch].sort((a, b) => Math.abs(b.g) - Math.abs(a.g))[0], ng = AN.growth('national', Y);
+  return `<b>${Y}</b> · Malaysia ${esc(fmtP(ng))}. ${L(`${up} negeri meningkat, ${dn} menurun.`, `${up} states rose, ${dn} fell.`)}${big ? ' ' + esc(L('Perubahan terbesar: ', 'Biggest change: ') + sname(big.id) + ' (' + fmtP(big.g) + ')') + '.' : ''}`;
 }
 
 function buildMap() {
@@ -1583,7 +1601,8 @@ function renderMap() {
   const G = MAPGEO;
   const labs = BIG_LABELS.concat(BIG_LABELS.includes(S.sel) || MAP_BUBBLES.some(b => b[0] === S.sel) ? [] : [S.sel]);
   box.querySelector('.labs').innerHTML = labs.map(id => { const [x, y] = G.states[id].c; const v = AN.level(id, Y); const r = v / N - 1; const dark = r > 0.15 || r < -0.2; return `<text class="ml ${dark ? 'on-dark' : ''} ${id === S.sel ? 'is-sel' : ''}" x="${x}" y="${y}" text-anchor="middle">${esc(sname(id).replace('W.P. ', ''))}</text>`; }).join(''); stackMap(box);
-  $('map-legend').innerHTML = `<span>${esc(mt('legLow'))}</span><span class="ramp" aria-hidden="true"></span><span>${esc(mt('legHigh'))}</span><span class="leg-nat">${esc(mt('legNat'))}: ${fmtRM(N)}</span>`;
+  const PR = prodRange(); $('map-legend').innerHTML = `<span>${fmtRM(PR.lo)}</span><span class="ramp hseq" aria-hidden="true"></span><span>${fmtRM(PR.hi)}${S.lang === 'en' ? ' or more' : ' atau lebih'}</span><span class="leg-nat">${esc(mt('legNat'))} ${Y}: ${fmtRM(N)}</span>`;
+  const mc = $('map-cap'); if (mc) mc.innerHTML = prodCap(Y);
   $('map-note').textContent = mt('mapNote');
   renderProfile();
 }
@@ -3507,14 +3526,16 @@ const SITE = (() => {
     if (HR[m.id]) return HR[m.id];
     const v = []; m.years.forEach(y => IDS.forEach(id => { if (!SPECIAL_FT.includes(id)) { const x = m.get(id, y); if (x != null) v.push(x); } }));
     v.sort((a, b) => a - b); const q = f => v[Math.max(0, Math.min(v.length - 1, Math.round(f * (v.length - 1))))];
-    return (HR[m.id] = { lo: q(0.05), hi: q(0.95) });
+    return (HR[m.id] = m.scale === 'seq' ? (() => { const g = []; m.years.forEach(y => IDS.forEach(id => { if (!SPECIAL_FT.includes(id)) { const x = since(m, id, y); if (x != null) g.push(x); } })); g.sort((a, b) => a - b); return { lo: 0, hi: g[Math.round(0.95 * (g.length - 1))] || 1 }; })() : { lo: q(0.05), hi: q(0.95) });
   }
-  function homeFill(m, v) {
+  function since(m, id, y) { const y0 = m.years.find(yy => m.get(id, yy) != null), a = m.get(id, y0), b = m.get(id, y); return a && b != null ? (b / a - 1) * 100 : null; }
+  function homeFill(m, id, y) {
+    const v = m.scale === 'seq' ? since(m, id, y) : m.get(id, y);
     if (v == null) return 'var(--map-nd)';
     const R = homeRange(m); let t = Math.max(0, Math.min(1, (v - R.lo) / (R.hi - R.lo || 1)));
-    if (m.scale === 'seq') t = Math.sqrt(t);
     return t < 0.8 ? `color-mix(in srgb, var(--red) ${Math.round(4 + t / 0.8 * 96)}%, var(--map-base))` : `color-mix(in srgb, #3b0a0a ${Math.round((t - 0.8) / 0.2 * 60)}%, var(--red))`;
   }
+  const hasTl = box => { const c = box.closest('.map-card'); return !!(c && c.querySelector('[data-tlplay]')); };
   function fillOf(m, v, N, mx, span) {
     if (v == null) return 'var(--map-nd)';
     if (m.scale === 'seq') return `color-mix(in srgb, var(--red) ${Math.round(8 + Math.sqrt(v / mx) * 92)}%, var(--map-base))`;
@@ -3524,7 +3545,7 @@ const SITE = (() => {
   function drawMap(box, m, Y) {
     if (!box) return;
     const G = MAPGEO, N = m.get('national', Y), rk = m.rank(Y), vals = rk.map(x => x.v), mx = Math.max(...vals, 0), span = Math.max(0.1, ...vals.map(v => Math.abs(v - N)));
-    const fixed = !!box.closest('#pg-home'), fill = id => fixed ? homeFill(m, m.get(id, Y)) : fillOf(m, m.get(id, Y), N, mx, span);
+    const fixed = hasTl(box), fill = id => fixed ? homeFill(m, id, Y) : fillOf(m, m.get(id, Y), N, mx, span);
     let svg = `<svg viewBox="-6 -6 ${G.w + 12} ${G.h + 12}" role="group" aria-label="${esc(m.l)}">`;
     const order = STATES.filter(s => s.id !== S.sel).concat(STATES.filter(s => s.id === S.sel));
     order.forEach(s => { const v = m.get(s.id, Y), r = rk.findIndex(x => x.id === s.id) + 1; svg += `<path class="st${s.id === S.sel ? ' sel' : ''}" data-id="${s.id}" d="${G.states[s.id].d}" style="fill:${fill(s.id)}" tabindex="${MAP_BUBBLES.some(b => b[0] === s.id) ? -1 : 0}" role="button" aria-label="${esc(sname(s.id))}: ${esc(m.fmt(v))}${r ? `, ${r}/${rk.length}` : ''}"/>`; });
@@ -3558,7 +3579,9 @@ const SITE = (() => {
     const better = x => m.low ? x < 0 : x > 0;
     return `<b>${esc(m.yl(y))}</b> · Malaysia ${esc(nc == null ? '–' : m.chgF(nc))}. ${esc(X(`${m.low ? dn : up} negeri bertambah baik, ${m.low ? up : dn} merosot.`, `${m.low ? dn : up} states improved, ${m.low ? up : dn} worsened.`))}${big ? ' ' + esc(X('Perubahan terbesar: ', 'Biggest change: ') + sname(big.id) + ' (' + m.chgF(big.c) + ')') + '.' : ''}`;
   }
-  const legend = (m, Y, fixed) => fixed
+  const legend = (m, Y, fixed) => fixed && m.scale === 'seq'
+    ? (R => `<span>0%</span><span class="ramp hseq" aria-hidden="true"></span><span>${esc(F.ps(R.hi))}${esc(X(' atau lebih', ' or more'))}</span><span class="leg-nat">${esc(X('Warna: pertumbuhan sejak ', 'Colour: growth since ') + m.years[0])} · Malaysia ${esc(F.ps(since(m, 'national', Y)))}</span>`)(homeRange(m))
+    : fixed
     ? (R => `<span>${esc(m.fmt(R.lo))}</span><span class="ramp hseq" aria-hidden="true"></span><span>${esc(m.fmt(R.hi))}${esc(X(' atau lebih', ' or more'))}</span><span class="leg-nat">Malaysia ${esc(m.yl(Y))}: ${esc(m.fmt(m.get('national', Y)))}</span>`)(homeRange(m))
     : m.scale === 'seq'
     ? `<span>${esc(X('Lebih kecil', 'Smaller'))}</span><span class="ramp seq" aria-hidden="true"></span><span>${esc(X('Lebih besar', 'Larger'))}</span><span class="leg-nat">Malaysia: ${esc(m.fmt(m.get('national', Y)))}</span>`
@@ -3572,7 +3595,7 @@ const SITE = (() => {
   function fillMap(box, m, Y) {
     if (!box || !box.querySelector('svg')) return;
     const N = m.get('national', Y), rk = m.rank(Y), vals = rk.map(x => x.v), mx = Math.max(...vals, 0), span = Math.max(0.1, ...vals.map(v => Math.abs(v - N)));
-    const fixed = !!box.closest('#pg-home'), f = id => fixed ? homeFill(m, m.get(id, Y)) : fillOf(m, m.get(id, Y), N, mx, span);
+    const fixed = hasTl(box), f = id => fixed ? homeFill(m, id, Y) : fillOf(m, m.get(id, Y), N, mx, span);
     box.querySelectorAll('path.st[data-id]').forEach(el => { el.style.fill = f(el.dataset.id); });
     box.querySelectorAll('.bub[data-id] circle').forEach(el => { el.style.fill = f(el.parentNode.dataset.id); });
   }
@@ -3656,6 +3679,40 @@ const SITE = (() => {
     if (!HP) return;
     clearInterval(HP); HP = null; homeIcon(false);
     const pg = $('pg-home'); if (page === 'home' && pg && pg.querySelector('[data-map]')) { const m = MET(U.home.m); drawMap(pg.querySelector('[data-map]'), m, U.home.y && m.years.includes(U.home.y) ? U.home.y : m.last); }
+  }
+  let TP = null, TPpg = null;
+  function topicYear(y, fromPlay) {
+    const pg = page, st = U[pg], root = $('pg-' + pg); if (!st || !root) return;
+    const m = MET(st.m); if (!m.years.includes(y)) return;
+    if (!fromPlay && TP) stopTopic(true);
+    st.y = y;
+    fillMap(root.querySelector('[data-map]'), m, y);
+    const set = (sel, fn) => root.querySelectorAll(sel).forEach(fn);
+    set('[data-msub]', el => { el.textContent = mapSub(m, y); });
+    set('[data-mleg]', el => { el.innerHTML = legend(m, y, true); });
+    set('[data-myr]', el => { el.textContent = m.yl(y); });
+    set('[data-ycap]', el => { el.innerHTML = yearCap(m, y); });
+    set('[data-mean]', el => { el.innerHTML = `<b>${esc(X('Apa maksudnya? ', 'What does it mean? '))}</b>${esc(meanMap(m, y))}`; });
+    set('input[data-tly]', el => { el.value = y; });
+    set('select[data-y]', el => { el.value = y; });
+    root.querySelectorAll('[data-tlt]').forEach(b => b.classList.toggle('on', +b.dataset.tlt === y));
+    clearTimeout(topicYear._t);
+    if (!TP) topicYear._t = setTimeout(() => { if (page === pg) render(); }, 900);
+  }
+  function topicIcon(on) { const root = $('pg-' + page); if (!root) return; root.querySelectorAll('[data-tlplay] .play-ico').forEach(p => p.setAttribute('d', on ? PAUSE_D : PLAY_D)); root.querySelectorAll('[data-tlplay]').forEach(b => b.setAttribute('aria-label', t(on ? 'pause' : 'play'))); }
+  function stopTopic(quiet) { if (!TP) return; clearInterval(TP); TP = null; topicIcon(false); if (!quiet && page === TPpg) render(); }
+  function toggleTopic() {
+    if (TP) { stopTopic(); return; }
+    const pg = page, st = U[pg]; if (!st) return;
+    const m = MET(st.m), ys = m.years, cur = ys.includes(st.y) ? st.y : m.last;
+    TPpg = pg; TP = -1; topicIcon(true);
+    if (cur === ys[ys.length - 1]) topicYear(ys[0], true);
+    TP = setInterval(() => {
+      if (page !== pg) { stopTopic(true); return; }
+      const mm = MET(U[pg].m), yy = mm.years, i = yy.indexOf(U[pg].y);
+      if (i < 0 || i >= yy.length - 1) { stopTopic(); return; }
+      topicYear(yy[i + 1], true);
+    }, reduceMotion() ? 1600 : 1150);
   }
   function toggleHome() {
     if (HP) { stopHome(); return; }
@@ -3788,7 +3845,7 @@ const SITE = (() => {
     const tr = m.scale === 'seq' ? [{ label: short(S.sel), vals: m.years.map(y => m.get(S.sel, y)), color: 'var(--red)' }] : [{ label: 'Malaysia', vals: m.years.map(y => m.get('national', y)), nat: true }, { label: short(S.sel), vals: m.years.map(y => m.get(S.sel, y)), color: 'var(--red)' }];
     $('pg-' + pg).innerHTML = head(X('Topik ', 'Topic ') + o.num, pname(P), o.desc, seg(`data-m="${pg}" data-v`, st.m, o.metrics.map(k => [k, MET(k).l])))
       + `<section class="kpis">${o.tiles()}</section>`
-      + `<section class="row r-map">${mapCard(m, Y, ctl)}${profile(m, Y, o.items(S.sel, Y, m), [['reports', X('Bina laporan Word', 'Build a Word report'), true], ['home', X('Gambaran keseluruhan', 'Overview')]])}</section>`
+      + `<section class="row r-map">${mapCard(m, Y, ctl, tlPlayer(m.years, Y))}${profile(m, Y, o.items(S.sel, Y, m), [['reports', X('Bina laporan Word', 'Build a Word report'), true], ['home', X('Gambaran keseluruhan', 'Overview')]])}</section>`
       + `<section class="row r3">${rankCard(m, Y)}${lineCard('ln-' + pg, X('Trend: ', 'Trend: ') + m.l, `${sname(S.sel)}${m.scale === 'seq' ? '' : X(' berbanding Malaysia', ' vs Malaysia')} · ${m.unit}`)}</section>`
       + o.extra(Y) + srcNote(o.notes);
     drawMap($('pg-' + pg).querySelector('[data-map]'), m, Y);
@@ -4227,7 +4284,7 @@ const SITE = (() => {
     catch (err) { console.error('SITE render', err); const el = $('pg-' + page); if (el) el.innerHTML = `<div class="banner err">${esc(X('Halaman ini tidak dapat dipaparkan.', 'This page could not be displayed.'))}</div>`; }
     try { afterRender(); } catch (err) { console.error('afterRender', err); }
   }
-  function go() { const before = page; readHash(); if (page !== before) { if (before === 'home') stopHome(); renderAll(); try { window.scrollTo(0, 0); } catch (e) { } } }
+  function go() { const before = page; readHash(); if (page !== before) { if (before === 'home') stopHome(); stopTopic(true); renderAll(); try { window.scrollTo(0, 0); } catch (e) { } } }
   function init() {
     readHash();
     window.addEventListener('hashchange', go);
@@ -4241,9 +4298,9 @@ const SITE = (() => {
     d.addEventListener('pointerleave', () => { gt.hidden = true; });
     d.addEventListener('click', e => {
       if (!e.target.closest('.pg[data-site]')) return;
-      if (e.target.closest('button[data-tlplay]')) { toggleHome(); return; }
-      const tb = e.target.closest('button[data-tlt]'); if (tb) { homeYear(+tb.dataset.tlt); return; }
-      const mb = e.target.closest('button[data-m]'); if (mb) { if (mb.dataset.m === 'home') { stopHome(); store.set('sppe-hm', mb.dataset.v); } U[mb.dataset.m].m = mb.dataset.v; U[mb.dataset.m].y = null; render(); return; }
+      if (e.target.closest('button[data-tlplay]')) { if (page === 'home') toggleHome(); else toggleTopic(); return; }
+      const tb = e.target.closest('button[data-tlt]'); if (tb) { if (page === 'home') homeYear(+tb.dataset.tlt); else topicYear(+tb.dataset.tlt); return; }
+      const mb = e.target.closest('button[data-m]'); if (mb) { if (mb.dataset.m === 'home') { stopHome(); store.set('sppe-hm', mb.dataset.v); } else stopTopic(true); U[mb.dataset.m].m = mb.dataset.v; U[mb.dataset.m].y = null; render(); return; }
       const gb = e.target.closest('button[data-grp]'); if (gb) { U.wage.grp = gb.dataset.grp; render(); return; }
       const mt = e.target.closest('button[data-mtab]'); if (mt) { U.home.tab = mt.dataset.mtab; render(); return; }
       const up = e.target.closest('button[data-unpin]'); if (up) { e.preventDefault(); const a = pins(); a.splice(+up.dataset.unpin, 1); savePins(a); render(); return; }
@@ -4251,7 +4308,7 @@ const SITE = (() => {
       const s = e.target.closest('[data-sel]'); if (s) select(s.dataset.sel);
     });
     d.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('.pg[data-site] [data-sel]')) { e.preventDefault(); select(e.target.dataset.sel); } });
-    d.addEventListener('input', e => { if (e.target.matches && e.target.matches('#pg-home input[data-tly]')) homeYear(+e.target.value); });
+    d.addEventListener('input', e => { if (e.target.matches && e.target.matches('.pg[data-site] input[data-tly]')) { if (page === 'home') homeYear(+e.target.value); else topicYear(+e.target.value); } });
     d.addEventListener('change', e => {
       if (!e.target.closest('.pg[data-site]')) return;
       if (e.target.matches('select[data-st]')) select(e.target.value);
