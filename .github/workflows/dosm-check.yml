@@ -1,0 +1,37 @@
+name: Weekly DOSM data check
+
+on:
+  schedule:
+    - cron: "17 1 * * 1"   # every Monday 09:17 Malaysia time
+  workflow_dispatch: {}     # "Run workflow" button for a manual check
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - id: check
+        run: python scripts/check_dosm.py
+      - name: Save new files to a branch and open an issue
+        if: steps.check.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          BR="dosm-update-$(date +%Y-%m-%d)"
+          git config user.name "dosm-check"
+          git config user.email "dosm-check@users.noreply.github.com"
+          git checkout -b "$BR"
+          git add dosm/
+          git commit -m "New DOSM data ($(date +%Y-%m-%d))"
+          git push origin "$BR"
+          gh issue create --title "Data DOSM baharu tersedia / New DOSM data available ($(date +%Y-%m-%d))" \
+            --body "$(cat dosm_check.md)
+
+          The new files are on branch \`$BR\`. The website still shows the old figures until the site data is rebuilt from these files."
