@@ -593,6 +593,24 @@ a.kpi:hover { transform: translateY(-2px); }
   .skel-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
+
+/* ----- slim summary bar on topic pages (Home keeps the big tiles) ----- */
+.pg:not(#pg-home) .kpis { gap: 8px; }
+.pg:not(#pg-home) .kpi { min-height: 0; padding: 10px 14px 10px 16px; gap: 1px; border-radius: 12px; background: var(--surface); color: var(--ink); border-left: 4px solid var(--tile-stone); }
+.pg:not(#pg-home) .kpi.k-dark { border-left-color: var(--tile-ink); } .pg:not(#pg-home) .kpi.k-red { border-left-color: var(--red); } .pg:not(#pg-home) .kpi.k-light { border-left-color: var(--line); }
+.pg:not(#pg-home) .kpi .spark, .pg:not(#pg-home) .kpi .mini, .pg:not(#pg-home) .kpi-go { display: none; }
+.pg:not(#pg-home) .kpi-h { font-size: 11.5px; font-weight: 700; color: var(--muted); text-transform: none; }
+.pg:not(#pg-home) .kpi-v { font-size: 19px; font-weight: 700; }
+.pg:not(#pg-home) .kpi-name { font-size: 14.5px; margin-top: 0; display: inline; }
+.pg:not(#pg-home) .kpi-v.sm { font-size: 15px; font-weight: 600; }
+.pg:not(#pg-home) .kpi-s { font-size: 11.5px; opacity: 1; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pg:not(#pg-home) .kpi .delta { color: var(--ink); font-weight: 700; }
+.subnav { position: sticky; top: 66px; z-index: 14; display: flex; }
+.subnav .seg { overflow-x: auto; scrollbar-width: none; box-shadow: 0 4px 14px rgba(0,0,0,0.06); max-width: 100%; }
+.subnav .seg::-webkit-scrollbar { display: none; }
+@media (max-width: 760px) { .pg:not(#pg-home) .kpis { display: flex; overflow-x: auto; scrollbar-width: none; scroll-snap-type: x mandatory; } .pg:not(#pg-home) .kpis::-webkit-scrollbar { display: none; } .pg:not(#pg-home) .kpi { flex: 0 0 66%; scroll-snap-align: start; } }
+@media (max-width: 560px) { .subnav { top: 8px; } }
+
 .ramp.hseq { background: linear-gradient(90deg, color-mix(in srgb, var(--red) 4%, var(--map-base)), var(--red) 80%, color-mix(in srgb, #3b0a0a 60%, var(--red))); }
 .yr-cap { margin: 2px 0 8px; padding: 8px 12px; border-radius: 10px; background: var(--soft); font-size: 13px; line-height: 1.45; min-height: 2.9em; }
 .yr-cap b { color: var(--red); }
@@ -3837,14 +3855,27 @@ const SITE = (() => {
   }
   const upDn = v => v == null ? '' : v >= 0 ? 'up' : 'dn';
 
+  /* ---------- slim summary for the chosen indicator ---------- */
+  function slimTiles(m, Y) {
+    const N = m.get('national', Y), rk = m.rank(Y), id = S.sel, r = rk.findIndex(z => z.id === id) + 1, v = m.get(id, Y), c = m.chg('national', Y);
+    if (!rk.length) return '';
+    const top = rk[0], bot = rk[rk.length - 1], better = N == null || m.scale === 'seq' ? null : rk.filter(x => m.low ? x.v < N : x.v > N).length;
+    const vsN = x => N == null || x == null ? '' : m.scale === 'seq' ? X('Bahagian ', 'Share ') + F.p(x / N * 100) : m.rate ? 'Malaysia ' + m.fmt(N) : F.ps((x / N - 1) * 100) + X(' berbanding Malaysia', ' vs Malaysia');
+    return tile('k-dark', { h: (m.scale === 'seq' ? X('Jumlah Malaysia ', 'Malaysia total ') : 'Malaysia ') + m.yl(Y), v: m.fmt(N), d: c == null ? '' : m.chgF(c), s: X('berbanding ', 'vs ') + m.yl(Y - 1) })
+      + tile('k-red', { h: m.low ? X('Terbaik (paling rendah)', 'Best (lowest)') : X('Tertinggi', 'Highest'), name: sname(top.id), v: m.fmt(top.v), s: vsN(top.v) })
+      + tile('k-grey', { h: m.low ? X('Paling tinggi', 'Highest') : X('Terendah', 'Lowest'), name: sname(bot.id), v: m.fmt(bot.v), s: vsN(bot.v) })
+      + tile('k-light', { h: X('Negeri dipilih', 'Selected state'), name: sname(id), v: m.fmt(v), s: (r ? X('Kedudukan ', 'Rank ') + r + ' / ' + rk.length : '') + (better != null ? X(` · ${better} negeri atas Malaysia`, ` · ${better} states above Malaysia`) : '') });
+  }
+
   /* ---------- generic topic page ---------- */
   function topic(pg, o) {
     const st = U[pg], m = MET(st.m); if (st.y == null || !m.years.includes(st.y)) st.y = m.last;
     const Y = st.y, P = PAGES.find(p => p.id === pg);
     const ctl = `${stPick()}<select data-y="${pg}" aria-label="${esc(X('Tahun', 'Year'))}">${m.years.map(y => `<option value="${y}"${y === Y ? ' selected' : ''}>${esc(m.yl(y))}</option>`).join('')}</select>`;
     const tr = m.scale === 'seq' ? [{ label: short(S.sel), vals: m.years.map(y => m.get(S.sel, y)), color: 'var(--red)' }] : [{ label: 'Malaysia', vals: m.years.map(y => m.get('national', y)), nat: true }, { label: short(S.sel), vals: m.years.map(y => m.get(S.sel, y)), color: 'var(--red)' }];
-    $('pg-' + pg).innerHTML = head(X('Topik ', 'Topic ') + o.num, pname(P), o.desc, seg(`data-m="${pg}" data-v`, st.m, o.metrics.map(k => [k, MET(k).l])))
-      + `<section class="kpis">${o.tiles()}</section>`
+    $('pg-' + pg).innerHTML = head(X('Topik ', 'Topic ') + o.num, pname(P), o.desc)
+      + `<div class="subnav">${seg(`data-m="${pg}" data-v`, st.m, o.metrics.map(k => [k, MET(k).l]))}</div>`
+      + `<section class="kpis">${slimTiles(m, Y)}</section>`
       + `<section class="row r-map">${mapCard(m, Y, ctl, tlPlayer(m.years, Y))}${profile(m, Y, o.items(S.sel, Y, m), [['reports', X('Bina laporan Word', 'Build a Word report'), true], ['home', X('Gambaran keseluruhan', 'Overview')]])}</section>`
       + `<section class="row r3">${rankCard(m, Y)}${lineCard('ln-' + pg, X('Trend: ', 'Trend: ') + m.l, `${sname(S.sel)}${m.scale === 'seq' ? '' : X(' berbanding Malaysia', ' vs Malaysia')} · ${m.unit}`)}</section>`
       + o.extra(Y) + srcNote(o.notes);
