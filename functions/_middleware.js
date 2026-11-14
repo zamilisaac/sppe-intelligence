@@ -52,7 +52,7 @@ export async function onRequest(context) {
   const out = new Response(res.body, { status: res.status, statusText: res.statusText, headers });
   if (!type.includes("text/html")) return out;
   return new HTMLRewriter()
-    .on("body", { element: (el) => el.append(userBadge(user), { html: true }) })
+    .on("head", { element: (el) => el.append(userScript(user), { html: true }) })
     .transform(out);
 }
 
@@ -308,11 +308,8 @@ Add these in Cloudflare Pages → Settings → Variables and Secrets, then redep
 <code>${missing.map(esc).join("</code>, <code>")}</code></p>`);
 }
 
-function userBadge(user) {
-  return `<div id="sppe-user" style="position:fixed;right:16px;bottom:16px;z-index:2147483647;display:flex;align-items:center;gap:10px;
-background:#1c1917;color:#fff;border-radius:999px;padding:6px 6px 6px 14px;font:13px/1.2 system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
-box-shadow:0 2px 10px rgba(0,0,0,.25);max-width:calc(100vw - 32px)">
-<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(user.email)}">${esc(user.name)}</span>
-<a href="/auth/logout" style="background:#b91c1c;color:#fff;text-decoration:none;border-radius:999px;padding:6px 12px;font-weight:600;white-space:nowrap">Log keluar · Log out</a>
-</div>`;
+// Tells the site who is signed in; the site shows "Welcome, <name> · Log out" in its header.
+function userScript(user) {
+  const data = JSON.stringify({ name: user.name, email: user.email }).replace(/</g, "\\u003c");
+  return `<script>window.SPPE_USER=${data};</script>`;
 }

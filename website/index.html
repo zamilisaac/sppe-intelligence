@@ -525,6 +525,74 @@ a.kpi:hover { transform: translateY(-2px); }
 /* ----- review fixes (Nov 2026) ----- */
 .nav.more { -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 56px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 56px), transparent); }
 .cmp-tbl { margin-top: 14px; }
+
+/* ----- 10/10 upgrade ----- */
+.srch input { width: 230px; max-width: 46vw; padding: 9px 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font: inherit; font-size: 13.5px; }
+.srch input:focus { outline: 2px solid var(--red); outline-offset: 1px; }
+.top-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+.hello { font-size: 13px; color: var(--muted); white-space: nowrap; max-width: 320px; overflow: hidden; text-overflow: ellipsis; }
+.hello b { color: var(--ink); } .hello a { color: var(--red); font-weight: 700; text-decoration: none; margin-left: 4px; }
+.ph-u { font-size: 12px; color: var(--muted); margin-top: 8px; } .ph-u a { color: var(--red); font-weight: 600; text-decoration: none; }
+.ins-card .ins { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 22px; }
+.ins li { display: flex; gap: 12px; align-items: flex-start; font-size: 14.5px; line-height: 1.5; }
+.ins li b { color: var(--ink); }
+.ins-i { flex: none; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--soft); color: var(--red); font-weight: 800; font-size: 14px; }
+.mean { font-size: 13px; line-height: 1.5; color: var(--ink); background: var(--soft); border-left: 3px solid var(--red); border-radius: 0 8px 8px 0; padding: 8px 12px; margin: 0; }
+.mean b { color: var(--red); }
+.ctools { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; border-top: 1px solid var(--line); padding-top: 10px; margin-top: auto; }
+.ctools button { border: 1px solid var(--line); background: var(--surface); color: var(--muted); border-radius: 999px; padding: 5px 11px; font: inherit; font-size: 12px; font-weight: 600; cursor: pointer; }
+.ctools button:hover { color: var(--ink); border-color: var(--ink); }
+.ctools button[aria-pressed="true"] { color: var(--red); border-color: var(--red); }
+.cdata { max-height: 320px; overflow: auto; }
+.card.flash { box-shadow: 0 0 0 3px var(--red); transition: box-shadow 0.3s; }
+.favs { display: flex; flex-wrap: wrap; gap: 8px; }
+.fav { display: inline-flex; align-items: center; gap: 8px; padding: 7px 8px 7px 14px; border-radius: 999px; background: var(--soft); color: var(--ink); text-decoration: none; font-size: 13px; font-weight: 600; }
+.fav small { color: var(--muted); font-weight: 500; } .fav:hover { background: var(--line); }
+.fav button { border: 0; background: transparent; color: var(--muted); cursor: pointer; font-size: 15px; line-height: 1; padding: 2px 6px; border-radius: 50%; }
+.sp-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.sp-tile { background: var(--surface); border-radius: var(--r-card); padding: 16px 18px; text-decoration: none; color: var(--ink); display: flex; flex-direction: column; gap: 6px; border: 1px solid transparent; transition: transform 0.15s, border-color 0.15s; }
+.sp-tile:hover { transform: translateY(-2px); border-color: var(--line); }
+.sp-h { display: flex; justify-content: space-between; gap: 8px; align-items: flex-start; font-size: 12.5px; font-weight: 700; color: var(--muted); }
+.sp-h .pill { font-size: 10.5px; white-space: nowrap; }
+.sp-v { font-family: var(--f-display); font-weight: 800; font-size: 24px; font-variant-numeric: tabular-nums; }
+.sp-s { font-size: 12px; color: var(--muted); }
+.sp-tile .spark { width: 100%; height: 34px; color: var(--red); margin-top: auto; }
+.sc-list { list-style: none; margin: 0; padding: 0; } .sc-list li { display: grid; grid-template-columns: 1fr auto 52px; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--line); font-size: 13.5px; align-items: center; }
+.sc-list li b { font-variant-numeric: tabular-nums; } .sc-list li em { font-style: normal; text-align: right; font-weight: 700; }
+.sc-list.good em { color: var(--ink); } .sc-list.bad em { color: var(--red); }
+.sp-act { display: flex; flex-wrap: wrap; gap: 8px; }
+.sp-act a { text-decoration: none; }
+.mt-sec h3 { font-size: 15px; margin: 4px 0 2px; } .mt-sec p, .mt-sec li { font-size: 14px; line-height: 1.6; color: var(--ink); } .mt-sec ul { margin: 0; padding-left: 20px; }
+.mt-sec code { background: var(--soft); padding: 1px 6px; border-radius: 4px; font-size: 13px; }
+.skel { border-radius: var(--r-card); background: linear-gradient(90deg, var(--surface) 0%, var(--soft) 50%, var(--surface) 100%); background-size: 200% 100%; animation: skel 1.2s linear infinite; height: 140px; }
+.skel.big { height: 380px; } .skel-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+@keyframes skel { to { background-position: -200% 0; } }
+#gtip { position: fixed; z-index: 60; pointer-events: none; background: var(--tile-ink); color: var(--on-ink); font-size: 12.5px; font-weight: 600; padding: 6px 10px; border-radius: 8px; max-width: 280px; box-shadow: 0 4px 14px rgba(0,0,0,0.2); }
+.mtabs { display: none; gap: 4px; background: var(--surface); border-radius: 999px; padding: 4px; }
+.mtabs button { flex: 1; border: 0; background: transparent; border-radius: 999px; padding: 8px 4px; font: inherit; font-size: 12.5px; font-weight: 700; color: var(--muted); cursor: pointer; }
+.mtabs button.on { background: var(--tile-ink); color: var(--on-ink); }
+.fb-btn { display: inline-block; margin-top: 8px; color: var(--red); font-weight: 700; text-decoration: none; }
+@keyframes sppeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: no-preference) {
+  .pg.enter > *, .pg.enter > section > * { animation: sppeIn 0.55s cubic-bezier(.2,.8,.2,1) both; }
+  .pg.enter > *:nth-child(2), .pg.enter > section > *:nth-child(2) { animation-delay: 0.06s; }
+  .pg.enter > *:nth-child(3), .pg.enter > section > *:nth-child(3) { animation-delay: 0.12s; }
+  .pg.enter > *:nth-child(4), .pg.enter > section > *:nth-child(4) { animation-delay: 0.18s; }
+  .pg.enter > *:nth-child(n+5) { animation-delay: 0.24s; }
+}
+@media (max-width: 1080px) { .sp-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .ins-card .ins { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 560px) {
+  .nav { position: fixed; top: auto; bottom: 10px; left: 10px; right: 10px; z-index: 40; box-shadow: 0 6px 24px rgba(0,0,0,0.18); }
+  .page { padding-bottom: 96px; }
+  .srch input { width: 100%; max-width: none; } .srch { flex: 1 1 100%; order: 3; } .hello { max-width: 100%; }
+  .mtabs { display: flex; }
+  #pg-home[data-tab] .r-tl > .card, #pg-home[data-tab] .r-home2 > .card { display: none; }
+  #pg-home[data-tab="map"] .r-tl > .card:first-child, #pg-home[data-tab="rank"] .r-tl > .card:last-child,
+  #pg-home[data-tab="trend"] .r-home2 > .card:first-child, #pg-home[data-tab="snap"] .r-home2 > .card:last-child { display: flex; }
+  .sp-grid { gap: 8px; } .sp-tile { padding: 12px 14px; } .sp-v { font-size: 19px; }
+  .skel-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
 .ramp.hseq { background: linear-gradient(90deg, color-mix(in srgb, var(--red) 4%, var(--map-base)), var(--red) 80%, color-mix(in srgb, #3b0a0a 60%, var(--red))); }
 .yr-cap { margin: 2px 0 8px; padding: 8px 12px; border-radius: 10px; background: var(--soft); font-size: 13px; line-height: 1.45; min-height: 2.9em; }
 .yr-cap b { color: var(--red); }
@@ -556,6 +624,8 @@ a.kpi:hover { transform: translateY(-2px); }
       </div>
     </div>
     <div class="top-right">
+      <span class="hello" id="hello" hidden></span>
+      <div class="srch"><input type="search" id="q" list="q-list" autocomplete="off" aria-label="Cari / Search"><datalist id="q-list"></datalist></div>
       <div class="lang" role="group" aria-label="Bahasa / Language">
         <button type="button" id="lang-bm" data-lang="bm" aria-pressed="true">BM</button>
         <button type="button" id="lang-en" data-lang="en" aria-pressed="false">EN</button>
@@ -752,6 +822,8 @@ a.kpi:hover { transform: translateY(-2px); }
     <div class="pg" id="pg-wage" data-site hidden></div>
     <div class="pg" id="pg-lab" data-site hidden></div>
     <div class="pg" id="pg-intg" data-site hidden></div>
+    <div class="pg" id="pg-state" data-site hidden></div>
+    <div class="pg" id="pg-method" data-site hidden></div>
     <div class="pg" id="pg-reports" hidden>
     <div id="ph-reports"></div>
     <section class="card m6" id="m6" aria-label="Smart Report Builder"></section>
@@ -761,6 +833,7 @@ a.kpi:hover { transform: translateY(-2px); }
   <footer class="foot-page">
     <p id="foot-text"></p>
     <p id="other-files" class="muted"></p>
+    <p><a class="fb-btn" id="fb-btn" hidden>✉ Maklum balas / Feedback</a></p>
   </footer>
 </div>
 <div class="toast" id="toast" role="status" hidden></div>
@@ -1998,7 +2071,7 @@ function togglePlay() {
 
 function selectState(id, fromMap) {
   if (!STATE_BY_ID[id]) return;
-  S.sel = id; S.report = id; renderRace(); renderPickers(); renderSectors(); renderMap(); renderMatrix();
+  S.sel = id; S.report = id; store.set('sppe-sel', id); renderRace(); renderPickers(); renderSectors(); renderMap(); renderMatrix();
   try { if (location.hash !== '#' + id) history.replaceState(null, '', '#' + id); } catch (e) { }
 }
 function renderPickers() {
@@ -2399,6 +2472,8 @@ function wire() {
 
 async function boot() {
   const h0 = location.hash.slice(1); if (STATE_BY_ID[h0]) { S.sel = h0; S.report = h0; }
+  else { const ss = store.get('sppe-sel'); if (STATE_BY_ID[ss]) { S.sel = ss; S.report = ss; } }
+  if (!h0) { const lp = store.get('sppe-pg'); if (lp && lp !== 'home' && /^[a-z]+$/.test(lp)) { try { history.replaceState(null, '', '#' + lp); } catch (e) { } } }
   const saved = store.get('spd-lang'); if (saved === 'en' || saved === 'bm') S.lang = saved;
   SITE.init(); wire(); applyLang();
   if (!window.claude || typeof window.claude.use !== 'function') {
@@ -3345,11 +3420,13 @@ const SITE = (() => {
   const IDS = STATES.map(s => s.id);
   const PAGES = [
     { id: 'home', h: 'home', bm: 'Utama', en: 'Home' },
+    { id: 'state', h: 'negeri', bm: 'Profil Negeri', en: 'State Profile' },
     { id: 'prod', h: 'productivity', bm: 'Produktiviti Buruh', en: 'Labour Productivity' },
     { id: 'gdp', h: 'gdp', bm: 'KDNK & Struktur Ekonomi', en: 'GDP & Economic Structure' },
     { id: 'wage', h: 'wages', bm: 'Gaji & Upah', en: 'Salaries & Wages' },
     { id: 'lab', h: 'labour', bm: 'Pasaran Buruh', en: 'Labour Market' },
     { id: 'intg', h: 'integrated', bm: 'Risikan Ekonomi Bersepadu', en: 'Integrated Economic Intelligence' },
+    { id: 'method', h: 'metodologi', bm: 'Metodologi', en: 'Methodology' },
     { id: 'reports', h: 'reports', bm: 'Laporan', en: 'Reports' },
   ];
   const BY_H = Object.fromEntries(PAGES.map(p => [p.h, p]));
@@ -3418,7 +3495,7 @@ const SITE = (() => {
     return `<svg viewBox="0 0 300 62" preserveAspectRatio="none" aria-hidden="true">${nat ? `<path class="sp-nat" d="${path(nat)}"/>` : ''}<path class="sp-st" d="${path(st)}"/>${li >= 0 ? `<circle class="sp-dot" cx="${(li / (n - 1) * 300).toFixed(1)}" cy="${(56 - (st[li] - mn) / (mx - mn || 1) * 50).toFixed(1)}" r="4"/>` : ''}</svg>`;
   }
   const tile = (cls, o) => `<${o.go ? 'a' : 'article'} class="kpi ${cls}"${o.go ? ` href="#${o.go}"` : ''}><div class="kpi-h">${esc(o.h)}</div>${o.name ? `<div class="kpi-name">${esc(o.name)}</div>` : ''}<div class="kpi-v${o.name ? ' sm' : ''}">${esc(o.v)}</div><div class="kpi-s">${o.d ? `<span class="delta">${esc(o.d)}</span> ` : ''}${esc(o.s || '')}</div>${o.spark ? sparkTile(o.spark) : ''}${o.mini ? `<div class="mini w">${o.mini.map(([l, w, v]) => `<div class="mini-row"><span>${esc(l)}</span><div class="mini-bar" style="transform:scaleX(${Math.max(0.02, Math.min(1, w)).toFixed(3)})"></div><b>${esc(v)}</b></div>`).join('')}</div>` : ''}${o.go ? `<span class="kpi-go" aria-hidden="true">→</span>` : ''}</${o.go ? 'a' : 'article'}>`;
-  const head = (kick, title, desc, right = '') => `<div class="ph"><div><p class="ph-k">${esc(kick)}</p><h2 class="ph-t">${esc(title)}</h2><p class="ph-d">${esc(desc)}</p></div>${right}</div>`;
+  const head = (kick, title, desc, right = '') => `<div class="ph"><div><p class="ph-k">${esc(kick)}</p><h2 class="ph-t">${esc(title)}</h2><p class="ph-d">${esc(desc)}</p>${S.snap ? `<p class="ph-u">${esc(X('Data dikemas kini: ', 'Data updated: ') + (S.snap.processedAt ? fmtTime(S.snap.processedAt) : '–') + X(' · Sumber: Jabatan Perangkaan Malaysia (DOSM)', ' · Source: Department of Statistics Malaysia (DOSM)'))} · <a href="#metodologi">${esc(X('Metodologi', 'Methodology'))}</a></p>` : ''}</div>${right}</div>`;
   const seg = (attr, cur, opts) => `<div class="seg site-seg" role="group">${opts.map(([v, l]) => `<button type="button" ${attr}="${v}" aria-pressed="${v === cur}">${esc(l)}</button>`).join('')}</div>`;
   const stPick = () => `<select data-st aria-label="${esc(X('Negeri', 'State'))}">${STATES.map(s => `<option value="${s.id}"${s.id === S.sel ? ' selected' : ''}>${esc(sname(s.id))}</option>`).join('')}</select>`;
   const srcNote = lines => `<article class="card src-card"><h2>${esc(X('Sumber dan nota data', 'Sources and data notes'))}</h2><ul>${lines.map(l => `<li>${esc(l)}</li>`).join('')}</ul></article>`;
@@ -3487,7 +3564,7 @@ const SITE = (() => {
     ? `<span>${esc(X('Lebih kecil', 'Smaller'))}</span><span class="ramp seq" aria-hidden="true"></span><span>${esc(X('Lebih besar', 'Larger'))}</span><span class="leg-nat">Malaysia: ${esc(m.fmt(m.get('national', Y)))}</span>`
     : `<span>${esc(X('Di bawah Malaysia', 'Below Malaysia'))}</span><span class="ramp" aria-hidden="true"></span><span>${esc(X('Di atas Malaysia', 'Above Malaysia'))}</span><span class="leg-nat">Malaysia: ${esc(m.fmt(m.get('national', Y)))}</span>`;
   const mapSub = (m, Y) => X('Klik negeri untuk melihat profilnya.', 'Click a state to see its profile.') + ' ' + m.yl(Y) + ' · ' + m.unit;
-  const mapCard = (m, Y, ctl, tl) => `<article class="card map-card"><div class="card-h"><div><h2>${esc(X('Peta: ', 'Map: ') + m.l)}</h2><p class="sub" data-msub>${esc(mapSub(m, Y))}</p></div><div class="ctl">${ctl || ''}</div></div><div class="map-wrap"><div class="map" data-map></div>${tl ? `<div class="map-yr" data-myr aria-hidden="true">${esc(m.yl(Y))}</div>` : ''}</div>${tl || ''}${tl ? `<p class="yr-cap" data-ycap aria-live="polite">${yearCap(m, Y)}</p>` : ''}<div class="map-legend" data-mleg>${legend(m, Y, !!tl)}</div><p class="foot">${esc(X('Sabah, Sarawak dan Labuan dianjak ke barat supaya peta muat. Bulatan: wilayah persekutuan yang kecil.', 'Sabah, Sarawak and Labuan are shifted west to fit. Circles: small federal territories.'))}${m.rank(Y).length < IDS.length ? ' ' + esc(X('Kelabu pucat: tiada data.', 'Pale grey: no data.')) : ''}</p><div class="tip" hidden></div></article>`;
+  const mapCard = (m, Y, ctl, tl) => `<article class="card map-card"><div class="card-h"><div><h2>${esc(X('Peta: ', 'Map: ') + m.l)}</h2><p class="sub" data-msub>${esc(mapSub(m, Y))}</p></div><div class="ctl">${ctl || ''}</div></div><div class="map-wrap"><div class="map" data-map></div>${tl ? `<div class="map-yr" data-myr aria-hidden="true">${esc(m.yl(Y))}</div>` : ''}</div>${tl || ''}${tl ? `<p class="yr-cap" data-ycap aria-live="polite">${yearCap(m, Y)}</p>` : ''}<div class="map-legend" data-mleg>${legend(m, Y, !!tl)}</div><p class="foot">${esc(X('Sabah, Sarawak dan Labuan dianjak ke barat supaya peta muat. Bulatan: wilayah persekutuan yang kecil.', 'Sabah, Sarawak and Labuan are shifted west to fit. Circles: small federal territories.'))}${m.rank(Y).length < IDS.length ? ' ' + esc(X('Kelabu pucat: tiada data.', 'Pale grey: no data.')) : ''}</p><div class="tip" hidden></div><p class="mean" data-mean><b>${esc(X('Apa maksudnya? ', 'What does it mean? '))}</b>${esc(meanMap(m, Y))}</p></article>`;
 
   /* ---------- 10-year timeline: player, in-place map colours, sliding ranking ---------- */
   const PLAY_D = 'M8 5v14l11-7z', PAUSE_D = 'M7 5h4v14H7zM13 5h4v14h-4z';
@@ -3566,6 +3643,7 @@ const SITE = (() => {
     set('[data-mleg]', el => { el.innerHTML = legend(m, y, true); });
     set('[data-myr]', el => { el.textContent = m.yl(y); });
     set('[data-ycap]', el => { el.innerHTML = yearCap(m, y); });
+    set('[data-mean]', el => { el.innerHTML = `<b>${esc(X('Apa maksudnya? ', 'What does it mean? '))}</b>${esc(meanMap(m, y))}`; });
     set('[data-tlyr]', el => { el.textContent = m.yl(y); });
     set('input[data-tly]', el => { el.value = y; });
     pg.querySelectorAll('[data-tlt]').forEach(b => b.classList.toggle('on', +b.dataset.tlt === y));
@@ -3627,6 +3705,7 @@ const SITE = (() => {
     ends.forEach(e => { svg += `<text class="endlab" x="${sx(lastI(e.s)) + 10}" y="${e.y + 4}" fill="${e.s.nat ? 'var(--ink)' : e.s.color}">${esc(e.s.label)}</text>`; });
     svg += `<line class="hover-line" x1="0" x2="0" y1="${mg.t}" y2="${H - mg.b}" visibility="hidden"/><rect class="hov" x="${mg.l}" y="${mg.t}" width="${W - mg.l - mg.r}" height="${H - mg.t - mg.b}" fill="transparent"/></svg>`;
     box.innerHTML = svg;
+    box._data = { head: [X('Tahun', 'Year')].concat(o.series.map(s => s.label)), rows: ys.map((y, i) => [y].concat(o.series.map(s => o.fmt(s.vals[i])))) };
     const rect = box.querySelector('.hov'), hl = box.querySelector('.hover-line'), tip = box.parentElement.querySelector('.tip');
     const show = ev => {
       const bb = box.querySelector('svg').getBoundingClientRect(), scale = W / bb.width, x = (ev.clientX - bb.left) * scale;
@@ -3913,27 +3992,213 @@ const SITE = (() => {
       + tile('k-red', { go: 'gdp', h: X('KDNK ', 'GDP ') + mg.last, v: mg.fmt(mg.get('national', mg.last)), d: F.ps(mgg.get('national', mgg.last)), s: X('berbanding ', 'vs ') + (mg.last - 1), spark: mg.years.map(y => mg.get('national', y)) })
       + tile('k-grey', { go: 'wages', h: X('Gaji penengah ', 'Median wage ') + mw.last, v: mw.fmt(mw.get('national', mw.last)), d: F.ps(mw.chg('national', mw.last)), s: X('berbanding ', 'vs ') + (mw.last - 1) + X(' · sebulan', ' · per month'), spark: mw.years.map(y => mw.get('national', y)) })
       + tile('k-light', { go: 'labour', h: X('Pasaran buruh ', 'Labour market ') + me.last, v: me.fmt(me.get('national', me.last)), s: X('penduduk bekerja', 'employed persons'), mini: [[X('Penyertaan', 'Participation'), mpr.get('national', mpr.last) / 100, F.p(mpr.get('national', mpr.last))], [X('Pengangguran', 'Unemployed'), mu.get('national', mu.last) / 100, F.p(mu.get('national', mu.last))]] })}</section>`
+      + homeInsights() + favHtml()
+      + `<div class="mtabs" role="tablist">${[['map', X('Peta', 'Map')], ['rank', X('Kedudukan', 'Ranking')], ['trend', 'Trend'], ['snap', X('Ringkasan', 'Snapshot')]].map(([k, l]) => `<button type="button" role="tab" data-mtab="${k}" class="${(U.home.tab || 'map') === k ? 'on' : ''}" aria-selected="${(U.home.tab || 'map') === k}">${esc(l)}</button>`).join('')}</div>`
       + `<section class="row r-tl">${mapCard(m, Y, stPick(), tlPlayer(m.years, Y))}${raceCard(m, Y)}</section>`
-      + `<section class="row r-map r-home2"><article class="card"><div class="card-h"><div><h2>${esc(X('Trend ', 'Trend ') + m.years[0] + '–' + m.last + ': ' + m.l)}</h2><p class="sub">${esc(sname(id))}${cmp ? ' · ' + esc(sname(cmp)) : ''}${m.scale !== 'seq' ? esc(X(' berbanding Malaysia', ' against Malaysia')) : ''} · ${esc(m.unit)}</p></div><div class="ctl">${cmpPick(id, cmp)}</div></div><div class="chart" data-tlline></div><div class="tip" hidden></div>${cmpTbl(m, cmp ? [id, cmp] : [id])}</article><article class="card profile" aria-live="polite"><div class="pf-h"><h2>${esc(sname(id))}</h2><span class="pill q-slow">${esc(X('Ringkasan negeri', 'State snapshot'))}</span></div>
+      + `<section class="row r-map r-home2"><article class="card"><div class="card-h"><div><h2>${esc(X('Trend ', 'Trend ') + m.years[0] + '–' + m.last + ': ' + m.l)}</h2><p class="sub">${esc(sname(id))}${cmp ? ' · ' + esc(sname(cmp)) : ''}${m.scale !== 'seq' ? esc(X(' berbanding Malaysia', ' against Malaysia')) : ''} · ${esc(m.unit)}</p></div><div class="ctl">${cmpPick(id, cmp)}</div></div><div class="chart" data-tlline></div><div class="tip" hidden></div><p class="mean"><b>${esc(X('Apa maksudnya? ', 'What does it mean? '))}</b>${esc(meanTrend(m, id))}</p>${cmpTbl(m, cmp ? [id, cmp] : [id])}</article><article class="card profile" aria-live="polite"><div class="pf-h"><h2>${esc(sname(id))}</h2><span class="pill q-slow">${esc(X('Ringkasan negeri', 'State snapshot'))}</span></div>
         ${SPECIAL_FT.includes(id) ? `<p class="pf-note">${esc(X('Tenaga kerja kecil dan ekonomi khusus. Bandingkan dengan berhati-hati.', 'Small workforce and specialised economy. Compare with care.'))}</p>` : ''}
         <div class="tbl-w"><table class="tbl snap"><thead><tr><th>${esc(X('Penunjuk', 'Indicator'))}</th><th>${esc(X('Nilai', 'Value'))}</th><th>${esc(X('Kedudukan', 'Rank'))}</th></tr></thead><tbody>${snapRows}</tbody></table></div>
         <p class="foot">${esc(X(`Kad skor ${I.Y}: ${mine.s} kekuatan dan ${mine.w} cabaran daripada 7 penunjuk.`, `Scorecard ${I.Y}: ${mine.s} strength${mine.s === 1 ? '' : 's'} and ${mine.w} challenge${mine.w === 1 ? '' : 's'} out of 7 indicators.`))}</p>
-        <div class="pf-act"><a class="btn dark" href="#integrated">${esc(X('Lihat kad skor', 'See scorecard'))}</a><a class="btn" href="#reports">${esc(X('Bina laporan', 'Build a report'))}</a></div></article></section>`
+        <div class="pf-act"><a class="btn dark" href="#negeri">${esc(X('Profil penuh', 'Full profile'))}</a><a class="btn" href="#integrated">${esc(X('Lihat kad skor', 'See scorecard'))}</a><a class="btn" href="#reports">${esc(X('Bina laporan', 'Build a report'))}</a></div></article></section>`
       + `<div class="map-seg">${seg('data-m="home" data-v', U.home.m, HM.map(k => [k, MET(k).l]))}</div>`
       + `<section><h2 class="sec-t">${esc(X('Terokai mengikut topik', 'Explore by topic'))}</h2><div class="xgrid">${cards}</div></section>`
       + `<article class="card"><div class="card-h"><div><h2>${esc(X('Liputan data', 'Data coverage'))}</h2><p class="sub">${esc(X('Semua angka daripada Jabatan Perangkaan Malaysia (DOSM). Nilai yang tiada ditunjukkan sebagai "Tiada data" dan tidak dianggarkan.', 'All figures are from the Department of Statistics Malaysia (DOSM). Missing values are shown as "No data" and are not estimated.'))}</p></div></div><details class="cov-d"${window.innerWidth > 560 ? ' open' : ''}><summary>${esc(X('Lihat set data', 'Show datasets'))}</summary><div class="tbl-w"><table class="tbl cov"><thead><tr><th>${esc(X('Set data', 'Dataset'))}</th><th>${esc(X('Tempoh', 'Period'))}</th><th>${esc(X('Fail sumber', 'Source file'))}</th><th>${esc(X('Kemas kini', 'Updates'))}</th></tr></thead><tbody>${cov.map(r => `<tr>${r.map(c => `<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div></details></article>`;
-    const sec = $('pg-home').querySelector('.r-tl'), ms = $('pg-home').querySelector('.map-seg'); sec.parentNode.insertBefore(ms, sec);
+    const sec = $('pg-home').querySelector('.mtabs'), ms = $('pg-home').querySelector('.map-seg'); sec.parentNode.insertBefore(ms, sec); $('pg-home').dataset.tab = U.home.tab || 'map';
     drawMap($('pg-home').querySelector('[data-map]'), m, Y);
     drawRace($('pg-home').querySelector('[data-race]'), m, Y);
     drawLine($('pg-home').querySelector('[data-tlline]'), { years: m.years, series: (m.scale !== 'seq' ? [{ label: 'Malaysia', vals: m.years.map(y => m.get('national', y)), nat: true }] : []).concat(cmp ? [{ label: short(cmp), vals: m.years.map(y => m.get(cmp, y)), color: 'var(--ink)' }] : []).concat([{ label: short(id), vals: m.years.map(y => m.get(id, y)), color: 'var(--red)' }]), fmt: m.fmt, ax: m.ax, title: m.l });
   }
+
+  /* ---------- 10/10 upgrade: insights, meaning, state profile, methodology, chart tools, favourites ---------- */
+  const NOSP = () => IDS.filter(id => !SPECIAL_FT.includes(id));
+  const cg = (a, b, n) => a && b != null && n > 0 ? (Math.pow(b / a, 1 / n) - 1) * 100 : null;
+  function homeInsights() {
+    const mp = MET('prod'), Y = mp.last, N = mp.get('national', Y), g = mp.chg('national', Y);
+    const ch = NOSP().map(id => ({ id, c: mp.chg(id, Y), v: mp.get(id, Y) })).filter(x => x.c != null && x.v != null);
+    if (!ch.length || N == null) return '';
+    const fast = [...ch].sort((a, b) => b.c - a.c)[0], low = [...ch].sort((a, b) => a.v - b.v)[0];
+    const mw = MET('median'), mu = MET('urate'), mg = MET('gdp'), t3 = mg.rank(mg.last).slice(0, 3), sh = t3.reduce((a, x) => a + x.v, 0) / mg.get('national', mg.last) * 100;
+    const b = v => `<b>${esc(v)}</b>`, n3 = t3.map(x => esc(short(x.id))).join(', ');
+    const items = [
+      ['↗', X(`Produktiviti buruh Malaysia ${g >= 0 ? 'meningkat' : 'menurun'} ${b(F.p(Math.abs(g)))} pada ${Y} kepada ${b(mp.fmt(N))} setiap pekerja.`, `Malaysia's labour productivity ${g >= 0 ? 'rose' : 'fell'} ${b(F.p(Math.abs(g)))} in ${Y} to ${b(mp.fmt(N))} per worker.`)],
+      ['★', X(`${b(sname(fast.id))} mencatat pertumbuhan produktiviti terpantas pada ${Y} (${b(F.ps(fast.c))}).`, `${b(sname(fast.id))} recorded the fastest productivity growth in ${Y} (${b(F.ps(fast.c))}).`)],
+      ['!', X(`${b(sname(low.id))} kekal ${b(F.p(Math.abs((low.v / N - 1) * 100)))} di bawah paras produktiviti nasional.`, `${b(sname(low.id))} remains ${b(F.p(Math.abs((low.v / N - 1) * 100)))} below the national productivity level.`)],
+      ['◆', X(`Tiga ekonomi terbesar (${n3}) menyumbang ${b(F.p(sh))} daripada KDNK. Gaji penengah ${b(F.ps(mw.chg('national', mw.last)))}; pengangguran ${b(F.p(mu.get('national', mu.last)))}.`, `The three largest economies (${n3}) make up ${b(F.p(sh))} of GDP. Median wage ${b(F.ps(mw.chg('national', mw.last)))}; unemployment ${b(F.p(mu.get('national', mu.last)))}.`)],
+    ];
+    return `<section class="card ins-card"><div class="card-h"><div><h2>${esc(X('Sorotan utama ', 'Key highlights ') + Y)}</h2><p class="sub">${esc(X('Ditulis secara automatik daripada data DOSM terkini.', 'Written automatically from the latest DOSM data.'))}</p></div></div><ul class="ins">${items.map(([i, t]) => `<li><span class="ins-i" aria-hidden="true">${i}</span><span>${t}</span></li>`).join('')}</ul></section>`;
+  }
+  function meanMap(m, Y) {
+    const rk = m.rank(Y), N = m.get('national', Y); if (!rk.length) return '';
+    if (m.scale === 'seq') { const t3 = rk.slice(0, 3), sh = N ? t3.reduce((a, x) => a + x.v, 0) / N * 100 : null; return X(`Tiga terbesar pada ${m.yl(Y)}: ${t3.map(x => short(x.id)).join(', ')}${sh ? `, bersama ${F.p(sh)} daripada jumlah Malaysia` : ''}.`, `Three largest in ${m.yl(Y)}: ${t3.map(x => short(x.id)).join(', ')}${sh ? `, together ${F.p(sh)} of Malaysia's total` : ''}.`); }
+    const top = rk[0], bot = rk[rk.length - 1], better = N == null ? 0 : rk.filter(x => m.low ? x.v < N : x.v > N).length;
+    return X(`${better} daripada ${rk.length} negeri lebih baik daripada paras Malaysia pada ${m.yl(Y)}. Terbaik: ${short(top.id)} (${m.fmt(top.v)}); paling lemah: ${short(bot.id)} (${m.fmt(bot.v)}).`, `${better} of ${rk.length} states do better than Malaysia in ${m.yl(Y)}. Best: ${short(top.id)} (${m.fmt(top.v)}); weakest: ${short(bot.id)} (${m.fmt(bot.v)}).`);
+  }
+  function meanTrend(m, id) {
+    const ys = m.years, V = y => m.get(id, y), N = y => m.get('national', y), last = m.last;
+    if (V(last) == null || N(last) == null) return X('Data tidak lengkap untuk negeri ini.', 'Data is incomplete for this state.');
+    if (m.scale === 'seq') { const y0 = ys.find(y => V(y) != null && N(y)); return X(`Bahagian ${sname(id)} daripada Malaysia: ${F.p(V(y0) / N(y0) * 100)} (${y0}) → ${F.p(V(last) / N(last) * 100)} (${last}).`, `${sname(id)}'s share of Malaysia: ${F.p(V(y0) / N(y0) * 100)} (${y0}) → ${F.p(V(last) / N(last) * 100)} (${last}).`); }
+    const good = y => m.low ? V(y) < N(y) : V(y) > N(y), now = good(last); let since = last;
+    for (let i = ys.length - 1; i >= 0; i--) { const y = ys[i]; if (V(y) == null || N(y) == null || good(y) !== now) break; since = y; }
+    const y0 = ys.find(y => V(y) != null), n = last - y0;
+    const gs = m.rate ? F.pp((V(last) - V(y0)) / Math.max(1, n)) : F.ps(cg(V(y0), V(last), n)), gn = m.rate ? F.pp((N(last) - N(y0)) / Math.max(1, n)) : F.ps(cg(N(y0), N(last), n));
+    const pos = now ? X('lebih baik daripada', 'better than') : X('lebih lemah daripada', 'weaker than');
+    const when = since === ys[0] ? X(`sepanjang ${ys[0]}–${last}`, `throughout ${ys[0]}–${last}`) : X(`sejak ${since}`, `since ${since}`);
+    return X(`${sname(id)} ${pos} paras Malaysia ${when}. Purata perubahan setahun: ${gs} berbanding Malaysia ${gn}.`, `${sname(id)} has been ${pos} Malaysia ${when}. Average change a year: ${gs} against Malaysia's ${gn}.`);
+  }
+  function statePage() {
+    const id = S.sel, I = INTG(), el = $('pg-state');
+    const mets = ['prod', 'gdp', 'gdpg', 'median', 'formal', 'prate', 'urate', 'fprate'].map(MET);
+    const tiles = mets.map(m => {
+      const y = m.last, v = m.get(id, y), N = m.get('national', y), rk = m.rank(y), r = rk.findIndex(z => z.id === id) + 1;
+      const vs = v == null || N == null ? '' : m.scale === 'seq' ? X('Bahagian Malaysia ', 'Share of Malaysia ') + F.p(v / N * 100) : m.rate ? 'Malaysia ' + m.fmt(N) : X('Berbanding Malaysia ', 'vs Malaysia ') + F.ps((v / N - 1) * 100);
+      const cls = !r ? 'q-slow' : r <= 5 ? 'q-lead' : r >= rk.length - 4 ? 'q-attn' : 'q-slow';
+      return `<a class="sp-tile" href="#${BY_PG[m.pg].h}"><div class="sp-h"><span>${esc(m.l)}</span><span class="pill ${cls}">${r ? esc(X('Kedudukan ', 'Rank ') + r + ' / ' + rk.length) : '–'}</span></div><div class="sp-v">${esc(m.fmt(v))}</div><div class="sp-s">${esc(m.yl(y))}${vs ? ' · ' + esc(vs) : ''}</div>${sparkTile(m.years.map(yy => m.get(id, yy)))}</a>`;
+    }).join('');
+    const str = [], chl = [];
+    I.SC.forEach((sc, k) => { const r = I.ranks[k][id], n = Object.keys(I.ranks[k]).length; if (r == null) return; const li = `<li><span>${esc(sc.l)}</span><b>${esc(sc.f(sc.v(id)))}</b><em>${r} / ${n}</em></li>`; if (r <= 5) str.push(li); else if (r >= 12) chl.push(li); });
+    const none = `<p class="muted">${esc(X('Tiada penunjuk dalam kumpulan ini.', 'No indicators in this group.'))}</p>`;
+    const rp = S.snap.reports && S.snap.reports[id + (S.lang === 'en' ? '__en' : '')], mp = MET('prod');
+    el.innerHTML = head(X('Profil negeri', 'State profile'), sname(id), X(`Semua penunjuk utama ${sname(id)} di satu tempat: nilai terkini, kedudukan antara 16 negeri, kekuatan, cabaran dan trend.`, `Every key indicator for ${sname(id)} in one place: latest values, rank among 16 states, strengths, challenges and trends.`), `<div class="ctl">${stPick()}</div>`)
+      + (SPECIAL_FT.includes(id) ? `<div class="banner">${esc(X('Tenaga kerja kecil dan ekonomi khusus. Bandingkan dengan berhati-hati.', 'Small workforce and specialised economy. Compare with care.'))}</div>` : '')
+      + `<section class="sp-grid">${tiles}</section>`
+      + `<section class="row r-half"><article class="card"><div class="card-h"><div><h2>${esc(X('Kekuatan', 'Strengths'))}</h2><p class="sub">${esc(X(`Penunjuk dalam lima teratas, ${I.Y}`, `Indicators in the top five, ${I.Y}`))}</p></div></div>${str.length ? `<ul class="sc-list good">${str.join('')}</ul>` : none}</article><article class="card"><div class="card-h"><div><h2>${esc(X('Cabaran', 'Challenges'))}</h2><p class="sub">${esc(X(`Penunjuk dalam lima terbawah, ${I.Y}`, `Indicators in the bottom five, ${I.Y}`))}</p></div></div>${chl.length ? `<ul class="sc-list bad">${chl.join('')}</ul>` : none}</article></section>`
+      + `<section class="row r-half"><article class="card"><div class="card-h"><div><h2>${esc(X('Trend produktiviti buruh', 'Labour productivity trend'))}</h2><p class="sub">${esc(sname(id) + X(' berbanding Malaysia · ', ' against Malaysia · ') + mp.unit)}</p></div></div><div class="chart" data-spline></div><div class="tip" hidden></div><p class="mean"><b>${esc(X('Apa maksudnya? ', 'What does it mean? '))}</b>${esc(meanTrend(mp, id))}</p></article>`
+      + `<article class="card"><div class="card-h"><div><h2>${esc(X('Tindakan', 'Actions'))}</h2><p class="sub">${esc(X('Muat turun atau teroka lebih lanjut.', 'Download or explore further.'))}</p></div></div><div class="sp-act">${rp && rp.path ? `<a class="btn dark" href="${esc(rp.path)}" download>${esc(X('Muat turun laporan produktiviti (PDF)', 'Download productivity report (PDF)'))}</a>` : ''}<a class="btn" href="#reports">${esc(X('Bina laporan Word', 'Build a Word report'))}</a><a class="btn" href="#productivity">${esc(X('Lihat di peta produktiviti', 'See on the productivity map'))}</a><a class="btn" href="#integrated">${esc(X('Kad skor penuh', 'Full scorecard'))}</a></div><p class="mean"><b>${esc(X('Kad skor ', 'Scorecard ') + I.Y + ': ')}</b>${esc(X(`${str.length} kekuatan dan ${chl.length} cabaran daripada ${I.SC.length} penunjuk.`, `${str.length} strength(s) and ${chl.length} challenge(s) out of ${I.SC.length} indicators.`))}</p></article></section>`;
+    drawLine(el.querySelector('[data-spline]'), { years: mp.years, series: [{ label: 'Malaysia', vals: mp.years.map(y => mp.get('national', y)), nat: true }, { label: short(id), vals: mp.years.map(y => mp.get(id, y)), color: 'var(--red)' }], fmt: mp.fmt, ax: mp.ax, title: mp.l });
+  }
+  function methodPage() {
+    const sec = (t, body) => `<article class="card mt-sec"><h2>${esc(t)}</h2>${body}</article>`, li = a => `<ul>${a.map(x => `<li>${x}</li>`).join('')}</ul>`;
+    const ds = [
+      [X('Produktiviti buruh negeri', 'State labour productivity'), 'Produktiviti Buruh Negeri 2015–2025 (DOSM)', '2015–2025'],
+      [X('KDNK negeri, harga malar 2015', 'State GDP, constant 2015 prices'), 'gdp_state_real_supply', '2015–2025'],
+      [X('Gaji & upah (survei)', 'Salaries & wages (survey)'), 'wages_state, wages_sector, wages_industry, wages_skill, wages_education', '2010–2025'],
+      [X('Gaji sektor formal', 'Formal sector wages'), 'formal_wages_state', X('Jun 2022 – Jun 2026', 'Jun 2022 – Jun 2026')],
+      [X('Survei tenaga buruh', 'Labour force survey'), 'lfs_state_sex', '2011–2025'],
+      [X('Indeks Harga Pengguna negeri', 'State Consumer Price Index'), 'cpi_2d_state', '2010–2025'],
+    ];
+    $('pg-method').innerHTML = head(X('Metodologi', 'Methodology'), X('Bagaimana angka dikira', 'How the numbers are calculated'), X('Sumber data, definisi setiap penunjuk, cara pengiraan dan had data. Semua angka daripada Jabatan Perangkaan Malaysia (DOSM) melalui OpenDOSM.', 'Data sources, the definition of each indicator, how calculations are done, and the limits of the data. All figures come from the Department of Statistics Malaysia (DOSM) via OpenDOSM.'))
+      + sec(X('1. Sumber data', '1. Data sources'), `<div class="tbl-w"><table class="tbl"><thead><tr><th style="text-align:left">${esc(X('Set data', 'Dataset'))}</th><th style="text-align:left">${esc(X('Fail', 'File'))}</th><th>${esc(X('Tempoh', 'Period'))}</th></tr></thead><tbody>${ds.map(r => `<tr><td style="text-align:left">${esc(r[0])}</td><td style="text-align:left"><code>${esc(r[1])}</code></td><td>${esc(r[2])}</td></tr>`).join('')}</tbody></table></div>`)
+      + sec(X('2. Definisi penunjuk', '2. Indicator definitions'), li([
+        X('<b>Produktiviti buruh</b>: nilai ditambah (KDNK) dibahagi bilangan penduduk bekerja, RM setiap pekerja setahun.', '<b>Labour productivity</b>: value added (GDP) divided by employed persons, RM per worker per year.'),
+        X('<b>KDNK</b>: Keluaran Dalam Negeri Kasar pada harga malar 2015, jadi perubahan menunjukkan pertumbuhan sebenar tanpa kesan harga.', '<b>GDP</b>: Gross Domestic Product at constant 2015 prices, so changes show real growth without price effects.'),
+        X('<b>Gaji penengah</b>: separuh pekerja bergaji kurang dan separuh lebih daripada nilai ini (survei gaji & upah).', '<b>Median wage</b>: half of workers earn less and half earn more than this (salaries & wages survey).'),
+        X('<b>Gaji sektor formal</b>: gaji penengah pekerja berdaftar, bulan Jun setiap tahun supaya bulan yang sama dibandingkan.', '<b>Formal sector wage</b>: median wage of registered employees, June of each year so the same month is compared.'),
+        X('<b>Kadar penyertaan tenaga buruh</b>: peratus penduduk umur bekerja yang bekerja atau mencari kerja.', '<b>Labour force participation rate</b>: share of working-age people who are working or looking for work.'),
+        X('<b>Kadar pengangguran</b>: peratus tenaga buruh yang tidak bekerja tetapi mencari kerja.', '<b>Unemployment rate</b>: share of the labour force without work but looking for work.'),
+      ]))
+      + sec(X('3. Cara pengiraan', '3. How calculations work'), li([
+        X('<b>Perubahan tahunan</b>: <code>(nilai tahun ini ÷ nilai tahun lepas − 1) × 100</code>. Bagi kadar (%), perubahan ditunjukkan dalam mata peratusan (mp).', '<b>Annual change</b>: <code>(this year ÷ last year − 1) × 100</code>. For rates (%), change is shown in percentage points (pp).'),
+        X('<b>Purata setahun</b>: kadar pertumbuhan tahunan kompaun, <code>(akhir ÷ awal)^(1 ÷ bilangan tahun) − 1</code>.', '<b>Average a year</b>: compound annual growth rate, <code>(end ÷ start)^(1 ÷ years) − 1</code>.'),
+        X('<b>Jurang dengan Malaysia</b>: <code>(negeri ÷ Malaysia − 1) × 100</code>; bagi kadar, beza dalam mp.', '<b>Gap with Malaysia</b>: <code>(state ÷ Malaysia − 1) × 100</code>; for rates, the difference in pp.'),
+        X('<b>Gaji benar</b>: gaji penengah dibahagi Indeks Harga Pengguna negeri (purata tahunan), untuk membuang kesan inflasi.', '<b>Real wage</b>: median wage divided by the state Consumer Price Index (annual average), to remove inflation.'),
+        X('<b>Kedudukan</b>: 1 = terbaik antara 16 negeri dan wilayah persekutuan. Bagi pengangguran, 1 = paling rendah.', '<b>Rank</b>: 1 = best among 16 states and federal territories. For unemployment, 1 = lowest.'),
+        X('<b>Kad skor</b>: tujuh penunjuk; lima teratas dikira kekuatan, lima terbawah dikira cabaran.', '<b>Scorecard</b>: seven indicators; the top five count as strengths, the bottom five as challenges.'),
+        X('<b>Indeks pengkhususan</b>: bahagian sektor dalam KDNK negeri ÷ bahagian sektor yang sama dalam KDNK Malaysia. Melebihi 1.00 bermakna sektor itu lebih penting kepada negeri.', '<b>Specialisation index</b>: sector share of state GDP ÷ the same sector\'s share of Malaysia\'s GDP. Above 1.00 means the sector matters more to the state.'),
+        X('<b>Matriks prestasi</b>: paras produktiviti berbanding nasional × purata pertumbuhan 3 tahun terakhir berbanding nasional.', '<b>Performance matrix</b>: productivity level against national × average growth over the last 3 years against national.'),
+      ]))
+      + sec(X('4. Had dan nota', '4. Limits and notes'), li([
+        X('Nilai yang tiada dalam data rasmi ditunjukkan sebagai "Tiada data" dan <b>tidak dianggarkan</b>.', 'Values missing from the official data are shown as "No data" and are <b>never estimated</b>.'),
+        X('W.P. Putrajaya dan W.P. Labuan mempunyai tenaga kerja kecil dan ekonomi khusus; bandingkan dengan berhati-hati.', 'Putrajaya and Labuan have small workforces and specialised economies; compare with care.'),
+        X('Supra (aktiviti luar pesisir, terutamanya minyak dan gas) bukan negeri dan tidak dimasukkan dalam kedudukan.', 'Supra (offshore activity, mainly oil and gas) is not a state and is left out of rankings.'),
+        X('Tiada data gaji atau guna tenaga mengikut negeri × sektor; analisis sektor menggunakan KDNK dan produktiviti.', 'There is no state × sector data for wages or employment; sector analysis uses GDP and productivity.'),
+        X('Tiada IHP atau pendapatan isi rumah peringkat nasional dalam fail; nilai nasional ini tidak dijumlahkan daripada negeri.', 'The files have no national CPI or household income; these national values are not summed from states.'),
+        X('Data adalah tetap sehingga fail DOSM baharu dimuatkan.', 'Data stays fixed until new DOSM files are loaded.'),
+      ]));
+  }
+
+  /* favourites, chart tools, count-up, tooltips */
+  const pins = () => { try { return JSON.parse(store.get('sppe-pins') || '[]'); } catch (e) { return []; } };
+  const savePins = a => store.set('sppe-pins', JSON.stringify(a.slice(0, 12)));
+  let pendingFav = null, lastAnim = null;
+  function favHtml() {
+    const a = pins(); if (!a.length) return '';
+    return `<section class="card"><div class="card-h"><div><h2>${esc(X('Kegemaran saya', 'My favourites'))}</h2><p class="sub">${esc(X('Carta yang anda simpan. Klik untuk terus ke carta itu.', 'Charts you saved. Click to jump straight to it.'))}</p></div></div><div class="favs">${a.map((f, i) => `<a class="fav" href="#${esc(f.h)}" data-fav="${esc(f.t)}">${esc(f.t)} <small>${esc(f.p || '')}</small><button type="button" data-unpin="${i}" aria-label="${esc(X('Buang', 'Remove'))}">×</button></a>`).join('')}</div></section>`;
+  }
+  const cardTitle = card => { const h = card.querySelector('h2'); return h ? h.textContent.trim() : ''; };
+  function afterRender() {
+    const pg = $('pg-' + page); if (!pg || pg.hidden) return;
+    pg.querySelectorAll('.card').forEach(card => {
+      if (card.querySelector(':scope > .ctools')) return;
+      const svg = card.querySelector('.chart > svg, .map > svg, #matrix > svg'), race = card.querySelector('.race'), t = cardTitle(card);
+      if ((!svg && !race) || !t) return;
+      const on = pins().some(f => f.t === t && f.h === BY_PG[page].h);
+      const bar = document.createElement('div'); bar.className = 'ctools';
+      bar.innerHTML = (svg ? `<button type="button" data-ct="png">⤓ ${esc(X('Muat turun carta', 'Download chart'))}</button>` : '') + `<button type="button" data-ct="data">☰ ${esc(X('Lihat data', 'View data'))}</button><button type="button" data-ct="pin" aria-pressed="${on}">${on ? '★' : '☆'} ${esc(X('Kegemaran', 'Favourite'))}</button>`;
+      card.appendChild(bar);
+    });
+    if (lastAnim !== page) {
+      lastAnim = page; pg.classList.remove('enter'); void pg.offsetWidth; pg.classList.add('enter'); setTimeout(() => pg.classList.remove('enter'), 1200);
+      if (!reduceMotion()) pg.querySelectorAll('.kpi-v, .sp-v').forEach(countUp);
+    }
+    if (pendingFav) { const t = pendingFav; pendingFav = null; const c = [...pg.querySelectorAll('.card')].find(x => cardTitle(x) === t); if (c) { setTimeout(() => { c.scrollIntoView({ behavior: reduceMotion() ? 'auto' : 'smooth', block: 'center' }); c.classList.add('flash'); setTimeout(() => c.classList.remove('flash'), 1800); }, 150); } }
+  }
+  function countUp(el) {
+    const txt = el.textContent, mm = txt.match(/^(.*?)(\d[\d,]*(?:\.\d+)?)(.*)$/); if (!mm) return;
+    const [, pre, num, suf] = mm, target = parseFloat(num.replace(/,/g, '')), dec = (num.split('.')[1] || '').length, comma = num.includes(',');
+    if (!isFinite(target)) return;
+    const fmt = v => { let s2 = v.toFixed(dec); if (comma) { const [a, b2] = s2.split('.'); s2 = a.replace(/\B(?=(\d{3})+(?!\d))/g, ',') + (b2 ? '.' + b2 : ''); } return pre + s2 + suf; };
+    const t0 = performance.now(), d = 900;
+    const step = now => { const k = Math.min(1, (now - t0) / d), e = 1 - Math.pow(1 - k, 3); el.textContent = fmt(target * e); if (k < 1) requestAnimationFrame(step); else el.textContent = txt; };
+    requestAnimationFrame(step);
+  }
+  function chartData(card) {
+    const box = card.querySelector('.chart, .map'); if (box && box._data) return box._data;
+    const els = [...card.querySelectorAll('[aria-label]')].filter(e => e.tagName !== 'svg' && e.tagName !== 'SELECT' && e.tagName !== 'BUTTON' && e.getAttribute('role') !== 'group' && e.getAttribute('role') !== 'img');
+    const seen = new Set(), rows = [];
+    els.forEach(e => { const a = e.getAttribute('aria-label'); if (!a || seen.has(a) || !a.includes(':')) return; seen.add(a); const i = a.indexOf(':'); rows.push([a.slice(0, i).replace(/^\d+\.\s*/, ''), a.slice(i + 1).trim()]); });
+    return rows.length ? { head: [X('Negeri', 'State'), X('Nilai', 'Value')], rows } : null;
+  }
+  function svgPng(card) {
+    const svg = card.querySelector('.chart > svg, .map > svg, #matrix > svg'); if (!svg) return;
+    const bb = svg.getBoundingClientRect(), W = Math.round(bb.width), H = Math.round(bb.height), clone = svg.cloneNode(true);
+    const props = ['fill', 'stroke', 'stroke-width', 'stroke-dasharray', 'stroke-dashoffset', 'stroke-linejoin', 'stroke-linecap', 'opacity', 'fill-opacity', 'font-size', 'font-weight', 'font-family', 'text-anchor', 'paint-order', 'visibility'];
+    const src = [svg, ...svg.querySelectorAll('*')], dst = [clone, ...clone.querySelectorAll('*')];
+    src.forEach((e, i) => { const cs = getComputedStyle(e); let st = props.map(p2 => `${p2}:${cs.getPropertyValue(p2)}`).join(';'); if (e.style && e.style.transform) st += `;transform:${e.style.transform}`; if (e.classList && e.classList.contains('draw')) st += ';stroke-dasharray:none;stroke-dashoffset:0'; dst[i].setAttribute('style', st); dst[i].removeAttribute('class'); });
+    clone.querySelectorAll('.hov,rect[fill="transparent"]').forEach(e => e.remove());
+    clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg'); clone.setAttribute('width', W); clone.setAttribute('height', H);
+    const url = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(new XMLSerializer().serializeToString(clone));
+    const img = new Image();
+    img.onload = () => {
+      const sc = 2, top = 64, bot = 34, c = document.createElement('canvas'); c.width = (W + 40) * sc; c.height = (H + top + bot) * sc;
+      const g = c.getContext('2d'); g.scale(sc, sc); g.fillStyle = '#ffffff'; g.fillRect(0, 0, W + 40, H + top + bot);
+      const sub = card.querySelector('.sub'); g.fillStyle = '#1c1917'; g.font = '700 17px Arial, sans-serif'; g.fillText(cardTitle(card), 20, 28);
+      g.fillStyle = '#6b6560'; g.font = '12px Arial, sans-serif'; if (sub) g.fillText(sub.textContent.trim().slice(0, 140), 20, 48);
+      g.drawImage(img, 20, top, W, H);
+      g.fillStyle = '#8a837d'; g.font = '11px Arial, sans-serif'; g.fillText(X('Sumber: DOSM · SPPE Intelligence · Perbadanan Produktiviti Malaysia', 'Source: DOSM · SPPE Intelligence · Malaysia Productivity Corporation'), 20, H + top + 22);
+      const a = document.createElement('a'); a.download = cardTitle(card).replace(/[^\w\- ]+/g, '').trim().replace(/\s+/g, '-').slice(0, 60) + '.png'; a.href = c.toDataURL('image/png'); document.body.appendChild(a); a.click(); a.remove();
+    };
+    img.src = url;
+  }
+  function chartTool(b) {
+    const card = b.closest('.card'), k = b.dataset.ct; if (!card) return;
+    if (k === 'png') svgPng(card);
+    else if (k === 'data') {
+      let d = card.querySelector(':scope > .cdata'); if (d) { d.remove(); return; }
+      const dt = chartData(card); d = document.createElement('div'); d.className = 'cdata';
+      d.innerHTML = dt ? `<table class="tbl tight"><thead><tr>${dt.head.map((h, i) => `<th${i ? '' : ' style="text-align:left"'}>${esc(h)}</th>`).join('')}</tr></thead><tbody>${dt.rows.map(r => `<tr>${r.map((c, i) => `<td${i ? '' : ' style="text-align:left"'}>${esc(c)}</td>`).join('')}</tr>`).join('')}</tbody></table>` : `<p class="muted">${esc(X('Data penuh tersedia melalui butang "Muat turun data" (Excel) di halaman Produktiviti Buruh.', 'Full data is available through the "Download data" (Excel) button on the Labour Productivity page.'))}</p>`;
+      card.insertBefore(d, b.parentNode);
+    } else if (k === 'pin') {
+      const t = cardTitle(card), h = BY_PG[page].h, a = pins(), i = a.findIndex(f => f.t === t && f.h === h);
+      if (i >= 0) a.splice(i, 1); else a.unshift({ t, h, p: pname(BY_PG[page]) });
+      savePins(a); const on = i < 0; b.setAttribute('aria-pressed', on); b.textContent = (on ? '★ ' : '☆ ') + X('Kegemaran', 'Favourite');
+    }
+  }
+  function search(v) {
+    const q = (v || '').trim().toLowerCase(); if (!q) return false;
+    const st = STATES.find(s => [s.bm, s.en, sname(s.id), short(s.id)].some(n => n && n.toLowerCase() === q)) || STATES.find(s => [s.bm, s.en].some(n => n && n.toLowerCase().includes(q)));
+    if (st) { S.sel = st.id; S.report = st.id; store.set('sppe-sel', st.id); if (location.hash === '#negeri') render(); else location.hash = 'negeri'; return true; }
+    const pp = PAGES.find(p => [p.bm, p.en].some(n => n.toLowerCase() === q)) || PAGES.find(p => [p.bm, p.en].some(n => n.toLowerCase().includes(q)));
+    if (pp) { location.hash = pp.h; return true; }
+    return false;
+  }
+  const FEEDBACK_EMAIL = '';
   const BY_PG = Object.fromEntries(PAGES.map(p => [p.id, p]));
 
   /* ---------- routing and chrome ---------- */
   function select(id) {
     if (!STATE_BY_ID[id]) return;
     if (page === 'prod') { selectState(id); return; }
-    S.sel = id; S.report = id; render();
+    S.sel = id; S.report = id; store.set('sppe-sel', id); render();
   }
   function readHash() {
     const h = location.hash.slice(1);
@@ -3948,14 +4213,19 @@ const SITE = (() => {
     const tg = document.querySelector('.tagline'); if (tg) tg.textContent = page === 'prod' ? t('tagline') : X('Analitik Ekonomi & Produktiviti Negeri', 'State Economic & Productivity Analytics');
     PAGES.forEach(p => { const el = $('pg-' + p.id); if (el) el.hidden = p.id !== page; });
     document.title = (page === 'home' ? '' : pname(BY_PG[page]) + ' · ') + t('title');
+    const u = window.SPPE_USER, hi = $('hello'); if (hi) { hi.hidden = !(u && u.name); if (u && u.name) hi.innerHTML = `${esc(X('Selamat datang, ', 'Welcome, '))}<b>${esc(u.name)}</b><a href="/auth/logout">${esc(X('Log keluar', 'Log out'))}</a>`; }
+    const q = $('q'); if (q) { q.placeholder = X('Cari negeri atau halaman…', 'Search a state or page…'); $('q-list').innerHTML = STATES.map(s => `<option value="${esc(sname(s.id))}">`).join('') + PAGES.map(p => `<option value="${esc(pname(p))}">`).join(''); }
+    const fb = $('fb-btn'); if (fb) { fb.hidden = !FEEDBACK_EMAIL; if (FEEDBACK_EMAIL) fb.href = `mailto:${FEEDBACK_EMAIL}?subject=${encodeURIComponent('SPPE Intelligence: ' + X('Maklum balas', 'Feedback'))}&body=${encodeURIComponent(X('Halaman: ', 'Page: ') + location.href + '\n\n')}`; }
+    store.set('sppe-pg', BY_PG[page] ? BY_PG[page].h : 'home');
   }
   function render() {
     chrome();
-    if (!S.snap || !AN) return;
+    if (!S.snap || !AN) { const el = $('pg-' + page); if (el && el.hasAttribute('data-site') && !S.snapLoaded) el.innerHTML = `<div class="skel-row"><div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div></div><div class="skel big"></div>`; return; }
     $('ph-prod').innerHTML = head(X('Topik 1', 'Topic 1'), pname(BY_PG.prod), X('Nilai yang dihasilkan oleh setiap pekerja dalam setahun, mengikut negeri dan sektor. Lebih tinggi bermakna setiap pekerja menghasilkan lebih banyak.', 'The value each worker produces in a year, by state and sector. Higher means each worker is producing more.'));
     $('ph-reports').innerHTML = head(X('Laporan', 'Reports'), X('Pembina Laporan Pintar', 'Smart Report Builder'), X('Pilih topik, penunjuk, negeri dan tahun. Laporan dijana sebagai fail Word yang boleh disunting, dalam gaya yang sama dengan laporan produktiviti asal. Laporan PDF produktiviti sedia ada boleh dimuat turun di halaman Produktiviti Buruh.', 'Choose topics, indicators, states and years. The report is generated as an editable Word file, in the same style as the original productivity report. The ready-made productivity PDF reports can be downloaded on the Labour Productivity page.'));
-    try { ({ home: homePage, gdp: gdpPage, wage: wagePage, lab: labPage, intg: intgPage }[page] || (() => { }))(); }
+    try { ({ home: homePage, gdp: gdpPage, wage: wagePage, lab: labPage, intg: intgPage, state: statePage, method: methodPage }[page] || (() => { }))(); }
     catch (err) { console.error('SITE render', err); const el = $('pg-' + page); if (el) el.innerHTML = `<div class="banner err">${esc(X('Halaman ini tidak dapat dipaparkan.', 'This page could not be displayed.'))}</div>`; }
+    try { afterRender(); } catch (err) { console.error('afterRender', err); }
   }
   function go() { const before = page; readHash(); if (page !== before) { if (before === 'home') stopHome(); renderAll(); try { window.scrollTo(0, 0); } catch (e) { } } }
   function init() {
@@ -3963,12 +4233,21 @@ const SITE = (() => {
     window.addEventListener('hashchange', go);
     $('nav').addEventListener('scroll', navCue, { passive: true }); window.addEventListener('resize', navCue);
     const d = $('dash');
+    { const hm = store.get('sppe-hm'); if (['prod', 'gdp', 'median', 'prate', 'urate'].includes(hm)) U.home.m = hm; }
+    d.addEventListener('click', e => { const b = e.target.closest('button[data-ct]'); if (b) chartTool(b); });
+    const q = $('q'); if (q) { const run = () => { if (search(q.value)) { q.value = ''; q.blur(); } }; q.addEventListener('change', run); q.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); run(); } }); }
+    const gt = document.createElement('div'); gt.id = 'gtip'; gt.hidden = true; document.body.appendChild(gt);
+    d.addEventListener('pointermove', e => { const t2 = e.target.closest && e.target.closest('.rrow[aria-label], .pt[aria-label], .mp[aria-label]'); if (!t2) { gt.hidden = true; return; } gt.textContent = t2.getAttribute('aria-label'); gt.hidden = false; let x = e.clientX + 14, y = e.clientY + 14; if (x + 290 > innerWidth) x = e.clientX - 290; gt.style.left = x + 'px'; gt.style.top = y + 'px'; });
+    d.addEventListener('pointerleave', () => { gt.hidden = true; });
     d.addEventListener('click', e => {
       if (!e.target.closest('.pg[data-site]')) return;
       if (e.target.closest('button[data-tlplay]')) { toggleHome(); return; }
       const tb = e.target.closest('button[data-tlt]'); if (tb) { homeYear(+tb.dataset.tlt); return; }
-      const mb = e.target.closest('button[data-m]'); if (mb) { if (mb.dataset.m === 'home') stopHome(); U[mb.dataset.m].m = mb.dataset.v; U[mb.dataset.m].y = null; render(); return; }
+      const mb = e.target.closest('button[data-m]'); if (mb) { if (mb.dataset.m === 'home') { stopHome(); store.set('sppe-hm', mb.dataset.v); } U[mb.dataset.m].m = mb.dataset.v; U[mb.dataset.m].y = null; render(); return; }
       const gb = e.target.closest('button[data-grp]'); if (gb) { U.wage.grp = gb.dataset.grp; render(); return; }
+      const mt = e.target.closest('button[data-mtab]'); if (mt) { U.home.tab = mt.dataset.mtab; render(); return; }
+      const up = e.target.closest('button[data-unpin]'); if (up) { e.preventDefault(); const a = pins(); a.splice(+up.dataset.unpin, 1); savePins(a); render(); return; }
+      const fv = e.target.closest('a[data-fav]'); if (fv) { pendingFav = fv.dataset.fav; if (fv.getAttribute('href') === location.hash) { e.preventDefault(); afterRender(); } }
       const s = e.target.closest('[data-sel]'); if (s) select(s.dataset.sel);
     });
     d.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('.pg[data-site] [data-sel]')) { e.preventDefault(); select(e.target.dataset.sel); } });
