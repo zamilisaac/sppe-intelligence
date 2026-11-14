@@ -230,7 +230,7 @@ select { background: var(--soft); border: 1px solid var(--line); border-radius: 
 
 /* race */
 .race-wrap { position: relative; padding-top: 24px; }
-.race-year { position: absolute; right: 4px; bottom: 0; font-family: var(--f-display); font-weight: 800; font-size: clamp(48px, 8vw, 92px); line-height: 1; color: var(--line); pointer-events: none; font-variant-numeric: tabular-nums; }
+.race-year { position: static; display: block; text-align: right; margin: -16px 0 28px; font-family: var(--f-display); font-weight: 800; font-size: clamp(30px, 4vw, 44px); line-height: 1; color: var(--line); pointer-events: none; font-variant-numeric: tabular-nums; }
 .race { position: relative; --row: 28px; --lab: 150px; --val: 82px; }
 .race .natline { position: absolute; top: -4px; bottom: -4px; width: 0; border-left: 2px dashed var(--red); transition: left 0.7s cubic-bezier(.2,.8,.2,1); z-index: 0; pointer-events: none; }
 .race .natlab { position: absolute; top: -22px; transform: translateX(-50%); font-size: 11px; font-weight: 700; color: var(--red); white-space: nowrap; background: var(--surface); padding: 0 4px; }
@@ -244,7 +244,7 @@ select { background: var(--soft); border: 1px solid var(--line); border-radius: 
 .rrow.sel .rlab { color: var(--red); }
 .rrow.below .rbar { background: var(--bar-dim); }
 .rrow.sel.below .rbar { background: var(--red); }
-.rval { position: absolute; top: 50%; transform: translateY(-50%); font-size: 12.5px; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; transition: left 0.7s cubic-bezier(.2,.8,.2,1); padding-left: 6px; }
+.rval { position: absolute; top: 50%; transform: translateY(-50%); font-size: 12.5px; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; transition: left 0.7s cubic-bezier(.2,.8,.2,1); padding: 0 4px; margin-left: 2px; background: var(--surface); border-radius: 4px; z-index: 2; }
 .rval small { color: var(--muted); font-weight: 500; }
 .player { display: flex; gap: 14px; align-items: center; padding-top: 8px; }
 .play { width: 44px; height: 44px; border-radius: 50%; border: 0; background: var(--red); color: var(--on-red); display: grid; place-items: center; cursor: pointer; flex: none; transition: transform 0.15s; }
@@ -331,7 +331,7 @@ select { background: var(--soft); border: 1px solid var(--line); border-radius: 
   .brand-text { padding-left: 12px; }
   .ticks button:nth-child(even) { display: none; }
   .rval small { display: none; }
-  .race-year { font-size: 44px; }
+  .race-year { font-size: 30px; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
@@ -457,6 +457,7 @@ a.kpi:hover { transform: translateY(-2px); }
 
 /* tables */
 .tbl-w { overflow-x: auto; }
+@media (max-width: 560px) { .tbl.cov th:nth-child(3), .tbl.cov td:nth-child(3) { display: none; } .tbl.cov th, .tbl.cov td { text-align: left; } }
 .tbl { width: 100%; border-collapse: collapse; font-size: 13.5px; font-variant-numeric: tabular-nums; }
 .tbl th { text-align: right; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); font-weight: 700; padding: 6px 8px; border-bottom: 2px solid var(--ink); vertical-align: bottom; }
 .tbl td { text-align: right; padding: 7px 8px; border-bottom: 1px solid var(--line); }
@@ -512,7 +513,7 @@ a.kpi:hover { transform: translateY(-2px); }
 .map-wrap .map { z-index: 1; }
 .map-yr { z-index: 0; }
 .pg[data-site] .map-card .map-wrap { margin-block: auto; }
-.map-yr { position: absolute; right: 4px; bottom: 0; font-family: var(--f-display); font-weight: 800; font-size: clamp(40px, 6.5vw, 76px); line-height: 1; color: var(--line); pointer-events: none; font-variant-numeric: tabular-nums; }
+.map-yr { position: static; display: block; text-align: right; margin-top: 4px; font-family: var(--f-display); font-weight: 800; font-size: clamp(30px, 4vw, 44px); line-height: 1; color: var(--line); pointer-events: none; font-variant-numeric: tabular-nums; }
 .map-player { padding-top: 4px; padding-bottom: 6px; border-bottom: 1px solid var(--line); margin-bottom: 10px; }
 .r-tl { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); }
 .r-tl .race-wrap { padding-top: 28px; }
@@ -520,7 +521,7 @@ a.kpi:hover { transform: translateY(-2px); }
 .hrace .rrow { cursor: pointer; }
 .tl-hint { font-size: 12px; color: var(--muted); margin: 6px 0 0; }
 @media (max-width: 1080px) { .r-tl { grid-template-columns: minmax(0, 1fr); } }
-@media (max-width: 560px) { .hrace { --lab: 100px; --val: 96px; } .map-yr { font-size: 38px; } }
+@media (max-width: 560px) { .hrace { --lab: 100px; --val: 96px; } .map-yr { font-size: 30px; } }
 </style>
 
 <div class="page">
@@ -1602,10 +1603,12 @@ function renderMatrix() {
   const order = [...pts].sort((p, q) => (p.id === S.sel ? -1 : q.id === S.sel ? 1 : p.x - q.x));
   const offs = {};
   order.forEach(p => {
-    const x = sx(p.x), y = sy(p.y), w = sname(p.id).replace('W.P. ', '').length * (p.id === S.sel ? 7.6 : 6.6) + 2;
-    const cands = [[11, 4], [-11 - w, 4], [-w / 2, -12], [-w / 2, 21], [11, -9], [11, 17], [-11 - w, -9], [-11 - w, 17]];
+    const x = sx(p.x), y = sy(p.y), w = sname(p.id).replace('W.P. ', '').length * (p.id === S.sel ? 8.2 : 7.1) + 4;
+    const cands = [[11, 4], [-11 - w, 4], [-w / 2, -12], [-w / 2, 21], [11, -9], [11, 17], [-11 - w, -9], [-11 - w, 17], [-w / 2, -26], [-w / 2, 35], [11, -23], [11, 31], [-11 - w, -23], [-11 - w, 31]];
     const hit = (cx, cy) => placed.some(b => cx < b.x + b.w && b.x < cx + w && cy - 11 < b.y && b.y - 11 < cy) || cx < m.l || cx + w > W - m.r;
-    const c = cands.find(([dx, dy]) => !hit(x + dx, y + dy)) || cands[0];
+    let c = cands.find(([dx, dy]) => !hit(x + dx, y + dy));
+    if (!c && p.id !== S.sel) { offs[p.id] = null; return; }
+    c = c || cands[0];
     placed.push({ x: x + c[0], y: y + c[1], w }); offs[p.id] = c;
   });
   box.querySelectorAll('.mp').forEach(g => {
@@ -1614,7 +1617,8 @@ function renderMatrix() {
     g.style.opacity = 1; g.style.pointerEvents = '';
     g.style.transform = `translate(${sx(p.x)}px, ${sy(p.y)}px)`;
     g.setAttribute('class', `mp q-${qOf(p)}${p.id === S.sel ? ' sel' : ''}`);
-    const tx = g.querySelector('text'); tx.textContent = sname(p.id).replace('W.P. ', ''); tx.setAttribute('x', offs[p.id][0]); tx.setAttribute('y', offs[p.id][1]);
+    const tx = g.querySelector('text'), o = offs[p.id]; tx.textContent = o ? sname(p.id).replace('W.P. ', '') : ''; if (o) { tx.setAttribute('x', o[0]); tx.setAttribute('y', o[1]); }
+    let tt = g.querySelector('title'); if (!tt) { tt = document.createElementNS('http://www.w3.org/2000/svg', 'title'); g.appendChild(tt); } tt.textContent = sname(p.id);
     g.setAttribute('aria-label', `${sname(p.id)}: ${fmtP(p.y)} ${S.lang === 'en' ? 'vs national' : 'berbanding nasional'}, ${fmtP(p.x)}`);
   });
   const sel = box.querySelector(`.mp[data-id="${S.sel}"]`); if (sel) sel.parentNode.appendChild(sel);
@@ -3577,13 +3581,15 @@ const SITE = (() => {
     const hit = (a, b) => a[0] < b[2] && b[0] < a[2] && a[1] < b[3] && b[1] < a[3];
     const placed = o.pts.map(p => [sx(p.x) - 8, sy(p.y) - 8, sx(p.x) + 8, sy(p.y) + 8]), lab = {};
     o.pts.filter(p => p.id === S.sel).concat(o.pts.filter(p => p.id !== S.sel)).forEach(p => {
-      const x = sx(p.x), y = sy(p.y), big = p.id === S.sel, w = short(p.id).length * (big ? 7.4 : 6.4) + 6, h = 14;
-      const cand = [[x + 11, y + 4, 'start', [x + 9, y - 8, x + 11 + w, y + 6]], [x - 11, y + 4, 'end', [x - 11 - w, y - 8, x - 9, y + 6]], [x, y - 12, 'middle', [x - w / 2, y - 12 - h + 2, x + w / 2, y - 10]], [x, y + 21, 'middle', [x - w / 2, y + 9, x + w / 2, y + 23]]];
-      const ok = cand.find(c => c[3][0] >= mg.l && c[3][2] <= W - 4 && c[3][1] >= mg.t - 2 && c[3][3] <= H - mg.b + 2 && !placed.some(b => hit(c[3], b))) || cand.find(c => c[3][0] >= mg.l && c[3][2] <= W - 4) || cand[0];
-      placed.push(ok[3]); lab[p.id] = ok;
+      const x = sx(p.x), y = sy(p.y), big = p.id === S.sel, w = short(p.id).length * (big ? 8.2 : 7.1) + 6, h = 14;
+      const R = (dx, dy, a) => { const x0 = a === 'start' ? x + dx : a === 'end' ? x + dx - w : x + dx - w / 2; return [x + dx, y + dy, a, [x0, y + dy - 12, x0 + w, y + dy + 2]]; };
+      const cand = [R(11, 4, 'start'), R(-11, 4, 'end'), R(0, -12, 'middle'), R(0, 21, 'middle'), R(11, -9, 'start'), R(11, 17, 'start'), R(-11, -9, 'end'), R(-11, 17, 'end'), R(0, -26, 'middle'), R(0, 35, 'middle'), R(11, -23, 'start'), R(-11, -23, 'end'), R(11, 31, 'start'), R(-11, 31, 'end')];
+      const fits = c => c[3][0] >= mg.l && c[3][2] <= W - 4 && c[3][1] >= mg.t - 2 && c[3][3] <= H - mg.b + 2;
+      const ok = cand.find(c => fits(c) && !placed.some(b => hit(c[3], b))) || (big ? (cand.find(fits) || cand[0]) : null);
+      if (ok) placed.push(ok[3]); lab[p.id] = ok;
     });
     const pts = o.pts.filter(p => p.id !== S.sel).concat(o.pts.filter(p => p.id === S.sel));
-    pts.forEach(p => { const x = sx(p.x), y = sy(p.y), l = lab[p.id]; svg += `<g class="pt${p.id === S.sel ? ' sel' : ''}" data-sel="${p.id}" role="button" tabindex="0" aria-label="${esc(nm(p.id))}: ${esc(o.fx(p.x))}, ${esc(o.fy(p.y))}"><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${p.id === S.sel ? 8 : 6}"/><text x="${l[0].toFixed(1)}" y="${l[1].toFixed(1)}" text-anchor="${l[2]}">${esc(short(p.id))}</text></g>`; });
+    pts.forEach(p => { const x = sx(p.x), y = sy(p.y), l = lab[p.id]; svg += `<g class="pt${p.id === S.sel ? ' sel' : ''}" data-sel="${p.id}" role="button" tabindex="0" aria-label="${esc(nm(p.id))}: ${esc(o.fx(p.x))}, ${esc(o.fy(p.y))}"><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${p.id === S.sel ? 8 : 6}"><title>${esc(nm(p.id))}</title></circle>${l ? `<text x="${l[0].toFixed(1)}" y="${l[1].toFixed(1)}" text-anchor="${l[2]}">${esc(short(p.id))}</text>` : ''}</g>`; });
     box.innerHTML = svg + '</svg>';
   }
 
@@ -3814,7 +3820,7 @@ const SITE = (() => {
       ['reports', '6', X('Bina laporan Word mengikut topik, penunjuk, negeri dan tahun pilihan anda.', 'Build a Word report from the topics, indicators, states and years you choose.'), '.docx', X('Bahasa Melayu atau English', 'Bahasa Melayu or English')],
     ].map(([pg, n, d, big, sm]) => `<a class="xcard${pg === 'reports' ? ' x-red' : ''}" href="#${BY_PG[pg].h}"><span class="x-n">${n}</span><h3>${esc(pname(BY_PG[pg]))}</h3><p>${esc(d)}</p><div class="x-f"><span><b>${esc(big)}</b><small>${esc(sm)}</small></span><i aria-hidden="true">→</i></div></a>`).join('');
     const cov = [
-      [X('Produktiviti buruh', 'Labour productivity'), `${mp.years[0]}–${mp.last}`, S.snap.source.name, X('Dikemas kini automatik daripada Google Drive', 'Updated automatically from Google Drive')],
+      [X('Produktiviti buruh', 'Labour productivity'), `${mp.years[0]}–${mp.last}`, S.snap.source.name, X('Data tetap', 'Fixed data')],
       [X('KDNK negeri (harga malar 2015)', 'State GDP (constant 2015 prices)'), '2015–2025', 'gdp_state_real_supply', X('Data tetap', 'Fixed data')],
       [X('Gaji & upah (survei)', 'Salaries & wages (survey)'), '2010–2025', 'wages_state', X('Data tetap', 'Fixed data')],
       [X('Gaji sektor formal', 'Formal sector wages'), X('Jun 2022 – Jun 2026', 'Jun 2022 – Jun 2026'), 'formal_wages_state', X('Data tetap', 'Fixed data')],
