@@ -347,6 +347,9 @@ select { background: var(--soft); border: 1px solid var(--line); border-radius: 
 .m6-step h3 b { width: 24px; height: 24px; border-radius: 50%; background: var(--tile-ink); color: var(--on-ink); display: inline-flex; align-items: center; justify-content: center; font-size: 12.5px; flex: none; }
 .m6-seg { background: var(--surface); flex-wrap: wrap; }
 .m6-seg button { min-width: 88px; }
+.m6-seg button[aria-pressed="true"] { background: var(--tile-ink); color: var(--on-ink); box-shadow: none; }
+.m6-chk:has(input:checked) { font-weight: 700; }
+.m6-chk:has(input:not(:checked)) { color: var(--muted); }
 .m6-topics { display: grid; gap: 6px; }
 .m6-topic { display: grid; grid-template-columns: 26px 1fr auto; align-items: center; gap: 10px; text-align: left; border: 1px solid var(--line); background: var(--surface); border-radius: 12px; padding: 10px 12px; cursor: pointer; font-weight: 600; font-size: 14px; }
 .m6-topic b { color: var(--muted); font-family: var(--f-display); }
@@ -1599,7 +1602,7 @@ function buildPdf(jsPDF, rep, meta, logoDataUrl) {
   const n = doc.getNumberOfPages();
   for (let i = 1; i <= n; i++) {
     doc.setPage(i); stroke(C.line); doc.setLineWidth(0.3); doc.line(M, PH - 13, PW - M, PH - 13);
-    font(7.5); color(C.grey); doc.text(X('SPPE Intelligence · Perbadanan Produktiviti Malaysia · Sumber data: DOSM', 'SPPE Intelligence · Malaysia Productivity Corporation · Data source: DOSM'), M, PH - 8.5);
+    font(7.5); color(C.grey); doc.text(X('Analisis oleh Perbadanan Produktiviti Malaysia (MPC) · Sumber: Jabatan Perangkaan Malaysia (DOSM)', 'Analysis by Malaysia Productivity Corporation (MPC) · Source: Department of Statistics Malaysia (DOSM)'), M, PH - 8.5);
     doc.text(X(`Halaman ${i} / ${n}`, `Page ${i} of ${n}`), PW - M, PH - 8.5, { align: 'right' });
   }
   return doc.output('blob');
@@ -3390,7 +3393,7 @@ const M6R = (() => {
     const lw1 = mm(30), lw2 = mm(60);
     const header1 = `${XML}<w:hdr ${NS}>${tbl([lw1, TW - lw1], [row([cell(lw1, para(logoBytes ? drawing('rIdL', 1, 22, 22 * logoH, 'Perbadanan Produktiviti Malaysia') : '', { after: 60 })), cell(TW - lw1, para(run(`${rep.title} · ${rep.subtitle}`, { c: HEX.grey, sz: 8.5 }), { after: 60, jc: 'right' }))])], { borders: hLine, padX: 0 })}${para('', { after: 0, line: 120 })}</w:hdr>`;
     const header2 = `${XML}<w:hdr ${NS}>${tbl([lw2, TW - lw2], [row([cell(lw2, para(logoBytes ? drawing('rIdL', 2, 44, 44 * logoH, 'Perbadanan Produktiviti Malaysia') : '', { after: 0 }), { v: 'top' }), cell(TW - lw2, para(run(rep.eyebrow, { b: true, c: HEX.grey, sz: 8 }), { after: 30, jc: 'right' }) + para(run(X(`Data DOSM sehingga ${rep.year}`, `DOSM data up to ${rep.year}`), { c: HEX.grey, sz: 8 }), { after: 0, jc: 'right' }), { v: 'top' })])], { borders: noB, padX: 0 })}${para('', { after: 0, line: 200 })}</w:hdr>`;
-    const footer1 = `${XML}<w:ftr ${NS}>${para(`<w:r><w:rPr>${gs.replace(/17/g, '15')}</w:rPr><w:t xml:space="preserve">${xe(X('SPPE Intelligence · Perbadanan Produktiviti Malaysia · Sumber data: DOSM', 'SPPE Intelligence · Malaysia Productivity Corporation · Data source: DOSM'))}</w:t></w:r><w:r><w:rPr>${gs.replace(/17/g, '15')}</w:rPr><w:tab/><w:t xml:space="preserve">${X('Halaman ', 'Page ')}</w:t></w:r>${field('PAGE', gs.replace(/17/g, '15'))}<w:r><w:rPr>${gs.replace(/17/g, '15')}</w:rPr><w:t xml:space="preserve">${X(' / ', ' of ')}</w:t></w:r>${field('NUMPAGES', gs.replace(/17/g, '15'))}`, { after: 0, bdr: `<w:pBdr><w:top w:val="single" w:sz="4" w:space="6" w:color="${HEX.line}"/></w:pBdr>`, tabs: `<w:tabs><w:tab w:val="right" w:pos="${TW}"/></w:tabs>` })}</w:ftr>`;
+    const footer1 = `${XML}<w:ftr ${NS}>${para(`<w:r><w:rPr>${gs.replace(/17/g, '15')}</w:rPr><w:t xml:space="preserve">${xe(X('Analisis oleh Perbadanan Produktiviti Malaysia (MPC) · Sumber: Jabatan Perangkaan Malaysia (DOSM)', 'Analysis by Malaysia Productivity Corporation (MPC) · Source: Department of Statistics Malaysia (DOSM)'))}</w:t></w:r><w:r><w:rPr>${gs.replace(/17/g, '15')}</w:rPr><w:tab/><w:t xml:space="preserve">${X('Halaman ', 'Page ')}</w:t></w:r>${field('PAGE', gs.replace(/17/g, '15'))}<w:r><w:rPr>${gs.replace(/17/g, '15')}</w:rPr><w:t xml:space="preserve">${X(' / ', ' of ')}</w:t></w:r>${field('NUMPAGES', gs.replace(/17/g, '15'))}`, { after: 0, bdr: `<w:pBdr><w:top w:val="single" w:sz="4" w:space="6" w:color="${HEX.line}"/></w:pBdr>`, tabs: `<w:tabs><w:tab w:val="right" w:pos="${TW}"/></w:tabs>` })}</w:ftr>`;
 
     const font = '<w:rFonts w:ascii="Arial" w:hAnsi="Arial" w:eastAsia="Arial" w:cs="Arial"/>';
     const styles = `${XML}<w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:docDefaults><w:rPrDefault><w:rPr>${font}<w:color w:val="${HEX.ink}"/><w:sz w:val="20"/><w:szCs w:val="20"/><w:lang w:val="${en ? 'en-GB' : 'ms-MY'}" w:eastAsia="en-US" w:bidi="ar-SA"/></w:rPr></w:rPrDefault><w:pPrDefault><w:pPr><w:spacing w:after="120" w:line="259" w:lineRule="auto"/></w:pPr></w:pPrDefault></w:docDefaults>
