@@ -525,6 +525,9 @@ a.kpi:hover { transform: translateY(-2px); }
 /* ----- review fixes (Nov 2026) ----- */
 .nav.more { -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 56px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 56px), transparent); }
 .cmp-tbl { margin-top: 14px; }
+.ramp.hseq { background: linear-gradient(90deg, color-mix(in srgb, var(--red) 4%, var(--map-base)), var(--red) 80%, color-mix(in srgb, #3b0a0a 60%, var(--red))); }
+.yr-cap { margin: 2px 0 8px; padding: 8px 12px; border-radius: 10px; background: var(--soft); font-size: 13px; line-height: 1.45; min-height: 2.9em; }
+.yr-cap b { color: var(--red); }
 .more-link { color: var(--red); font-weight: 700; text-decoration: none; display: inline-block; margin-bottom: 4px; } .more-link:hover { text-decoration: underline; }
 .cmp-tbl th:first-child, .cmp-tbl td:first-child { text-align: left; }
 .cmp-tbl td:first-child { color: var(--muted); font-size: 12.5px; }
@@ -3426,13 +3429,14 @@ const SITE = (() => {
   function homeRange(m) {
     if (HR[m.id]) return HR[m.id];
     const v = []; m.years.forEach(y => IDS.forEach(id => { if (!SPECIAL_FT.includes(id)) { const x = m.get(id, y); if (x != null) v.push(x); } }));
-    return (HR[m.id] = { lo: Math.min(...v), hi: Math.max(...v) });
+    v.sort((a, b) => a - b); const q = f => v[Math.max(0, Math.min(v.length - 1, Math.round(f * (v.length - 1))))];
+    return (HR[m.id] = { lo: q(0.05), hi: q(0.95) });
   }
   function homeFill(m, v) {
     if (v == null) return 'var(--map-nd)';
     const R = homeRange(m); let t = Math.max(0, Math.min(1, (v - R.lo) / (R.hi - R.lo || 1)));
     if (m.scale === 'seq') t = Math.sqrt(t);
-    return `color-mix(in srgb, var(--red) ${Math.round(6 + t * 94)}%, var(--map-base))`;
+    return t < 0.8 ? `color-mix(in srgb, var(--red) ${Math.round(4 + t / 0.8 * 96)}%, var(--map-base))` : `color-mix(in srgb, #3b0a0a ${Math.round((t - 0.8) / 0.2 * 60)}%, var(--red))`;
   }
   function fillOf(m, v, N, mx, span) {
     if (v == null) return 'var(--map-nd)';
@@ -3469,13 +3473,21 @@ const SITE = (() => {
     };
     box.onpointerleave = () => { if (tip) tip.hidden = true; };
   }
+  function yearCap(m, y) {
+    const ys = m.years, ids = IDS.filter(id => !SPECIAL_FT.includes(id));
+    if (y === ys[0]) return `<b>${esc(m.yl(y))}</b> · ${esc(X('Titik permulaan. Tekan ▶ untuk melihat perubahan setiap tahun.', 'Starting point. Press ▶ to see each year change.'))}`;
+    const ch = ids.map(id => ({ id, c: m.chg(id, y) })).filter(x => x.c != null), up = ch.filter(x => x.c > 0).length, dn = ch.filter(x => x.c < 0).length;
+    const big = [...ch].sort((a, b) => Math.abs(b.c) - Math.abs(a.c))[0], nc = m.chg('national', y);
+    const better = x => m.low ? x < 0 : x > 0;
+    return `<b>${esc(m.yl(y))}</b> · Malaysia ${esc(nc == null ? '–' : m.chgF(nc))}. ${esc(X(`${m.low ? dn : up} negeri bertambah baik, ${m.low ? up : dn} merosot.`, `${m.low ? dn : up} states improved, ${m.low ? up : dn} worsened.`))}${big ? ' ' + esc(X('Perubahan terbesar: ', 'Biggest change: ') + sname(big.id) + ' (' + m.chgF(big.c) + ')') + '.' : ''}`;
+  }
   const legend = (m, Y, fixed) => fixed
-    ? (R => `<span>${esc(m.fmt(R.lo))}</span><span class="ramp seq" aria-hidden="true"></span><span>${esc(m.fmt(R.hi))}${esc(X(' atau lebih', ' or more'))}</span><span class="leg-nat">Malaysia ${esc(m.yl(Y))}: ${esc(m.fmt(m.get('national', Y)))}</span>`)(homeRange(m))
+    ? (R => `<span>${esc(m.fmt(R.lo))}</span><span class="ramp hseq" aria-hidden="true"></span><span>${esc(m.fmt(R.hi))}${esc(X(' atau lebih', ' or more'))}</span><span class="leg-nat">Malaysia ${esc(m.yl(Y))}: ${esc(m.fmt(m.get('national', Y)))}</span>`)(homeRange(m))
     : m.scale === 'seq'
     ? `<span>${esc(X('Lebih kecil', 'Smaller'))}</span><span class="ramp seq" aria-hidden="true"></span><span>${esc(X('Lebih besar', 'Larger'))}</span><span class="leg-nat">Malaysia: ${esc(m.fmt(m.get('national', Y)))}</span>`
     : `<span>${esc(X('Di bawah Malaysia', 'Below Malaysia'))}</span><span class="ramp" aria-hidden="true"></span><span>${esc(X('Di atas Malaysia', 'Above Malaysia'))}</span><span class="leg-nat">Malaysia: ${esc(m.fmt(m.get('national', Y)))}</span>`;
   const mapSub = (m, Y) => X('Klik negeri untuk melihat profilnya.', 'Click a state to see its profile.') + ' ' + m.yl(Y) + ' · ' + m.unit;
-  const mapCard = (m, Y, ctl, tl) => `<article class="card map-card"><div class="card-h"><div><h2>${esc(X('Peta: ', 'Map: ') + m.l)}</h2><p class="sub" data-msub>${esc(mapSub(m, Y))}</p></div><div class="ctl">${ctl || ''}</div></div><div class="map-wrap"><div class="map" data-map></div>${tl ? `<div class="map-yr" data-myr aria-hidden="true">${esc(m.yl(Y))}</div>` : ''}</div>${tl || ''}<div class="map-legend" data-mleg>${legend(m, Y, !!tl)}</div><p class="foot">${esc(X('Sabah, Sarawak dan Labuan dianjak ke barat supaya peta muat. Bulatan: wilayah persekutuan yang kecil.', 'Sabah, Sarawak and Labuan are shifted west to fit. Circles: small federal territories.'))}${m.rank(Y).length < IDS.length ? ' ' + esc(X('Kelabu pucat: tiada data.', 'Pale grey: no data.')) : ''}</p><div class="tip" hidden></div></article>`;
+  const mapCard = (m, Y, ctl, tl) => `<article class="card map-card"><div class="card-h"><div><h2>${esc(X('Peta: ', 'Map: ') + m.l)}</h2><p class="sub" data-msub>${esc(mapSub(m, Y))}</p></div><div class="ctl">${ctl || ''}</div></div><div class="map-wrap"><div class="map" data-map></div>${tl ? `<div class="map-yr" data-myr aria-hidden="true">${esc(m.yl(Y))}</div>` : ''}</div>${tl || ''}${tl ? `<p class="yr-cap" data-ycap aria-live="polite">${yearCap(m, Y)}</p>` : ''}<div class="map-legend" data-mleg>${legend(m, Y, !!tl)}</div><p class="foot">${esc(X('Sabah, Sarawak dan Labuan dianjak ke barat supaya peta muat. Bulatan: wilayah persekutuan yang kecil.', 'Sabah, Sarawak and Labuan are shifted west to fit. Circles: small federal territories.'))}${m.rank(Y).length < IDS.length ? ' ' + esc(X('Kelabu pucat: tiada data.', 'Pale grey: no data.')) : ''}</p><div class="tip" hidden></div></article>`;
 
   /* ---------- 10-year timeline: player, in-place map colours, sliding ranking ---------- */
   const PLAY_D = 'M8 5v14l11-7z', PAUSE_D = 'M7 5h4v14H7zM13 5h4v14h-4z';
@@ -3553,6 +3565,7 @@ const SITE = (() => {
     set('[data-msub]', el => { el.textContent = mapSub(m, y); });
     set('[data-mleg]', el => { el.innerHTML = legend(m, y, true); });
     set('[data-myr]', el => { el.textContent = m.yl(y); });
+    set('[data-ycap]', el => { el.innerHTML = yearCap(m, y); });
     set('[data-tlyr]', el => { el.textContent = m.yl(y); });
     set('input[data-tly]', el => { el.value = y; });
     pg.querySelectorAll('[data-tlt]').forEach(b => b.classList.toggle('on', +b.dataset.tlt === y));
