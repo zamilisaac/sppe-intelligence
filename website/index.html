@@ -668,7 +668,11 @@ a.kpi:hover { transform: translateY(-2px); }
   .meth-link::before { content: 'ⓘ'; font-size: 18px; color: var(--ink); }
   .brand-text { min-width: 0; } .brand h1 { font-size: 15px; line-height: 1.15; } .brand { flex: 1 1 auto; }
   .top-right { flex: 0 0 auto; } .lang button { padding: 6px 10px; }
+  .lang button[aria-pressed="true"] { display: none; } .lang { padding: 2px; }
+  .brand-text { overflow: hidden; } .brand h1 { overflow-wrap: anywhere; hyphens: auto; }
+  .brand .logo { height: 26px; } .brand-text { border-left: 0; padding-left: 0; } .brand h1 { font-size: clamp(12.5px, 3.9vw, 15px); overflow-wrap: break-word; }
 }
+@media (max-width: 360px) { .brand .logo { height: 22px; } .srch-btn, .meth-link { width: 34px; height: 34px; } }
 .nav .ns, .nav-topic, .nav-sheet { display: none; }
 @media (max-width: 760px) {
   .nav { overflow: visible; -webkit-mask-image: none !important; mask-image: none !important; gap: 2px; padding: 4px; }
@@ -683,6 +687,19 @@ a.kpi:hover { transform: translateY(-2px); }
   .nav-sheet a[aria-current] { background: var(--tile-ink); color: var(--on-ink); }
 }
 @media (min-width: 561px) and (max-width: 760px) { .nav-sheet:not([hidden]) { bottom: auto; top: 120px; position: absolute; } }
+/* ----- narrow-screen fixes (any phone text size) ----- */
+.sp-tile { min-width: 0; } .sp-h { flex-wrap: wrap; row-gap: 4px; } .sp-h > span:first-child { min-width: 0; }
+.sp-v { font-size: clamp(17px, 5.2vw, 24px); overflow-wrap: anywhere; }
+.pf-h { flex-wrap: wrap; } .pf-grid dt, .pf-grid dd { overflow-wrap: anywhere; min-width: 0; }
+.m6-two { grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); }
+@media (max-width: 560px) {
+  .hb { grid-template-columns: minmax(70px, 30%) minmax(0, 1fr) auto; font-size: 12px; } .hb b { font-size: 11.5px; }
+  .race { --val: 92px !important; } .race .rval small { display: none; }
+  .sp-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pf-grid dd { font-size: 15px; }
+}
+@media (max-width: 340px) { .sp-grid { grid-template-columns: minmax(0, 1fr); } .pf-grid { grid-template-columns: minmax(0, 1fr); } }
+.map path.st { vector-effect: non-scaling-stroke; }
 .ramp.hseq { background: linear-gradient(90deg, color-mix(in srgb, var(--red) 4%, var(--map-base)), var(--red) 80%, color-mix(in srgb, #3b0a0a 60%, var(--red))); }
 .yr-cap { margin: 2px 0 8px; padding: 8px 12px; border-radius: 10px; background: var(--soft); font-size: 13px; line-height: 1.45; min-height: 2.9em; }
 .yr-cap b { color: var(--red); }
@@ -1589,7 +1606,7 @@ const MAPGEO = {"w":1000,"h":395.8,"states":{"sabah":{"d":"M838.0,183.3L835.6,18
 const MAP_I18N = {
   bm: {
     mapTitle: 'Peta produktiviti', mapSub: 'Klik negeri untuk melihat profilnya. Warna menunjukkan jarak daripada paras nasional.',
-    legLow: 'Di bawah nasional', legNat: 'Paras nasional', legHigh: 'Di atas nasional', mapNote: 'Sabah, Sarawak dan Labuan dianjak ke barat supaya peta muat. Bulatan: wilayah persekutuan yang kecil.',
+    legLow: 'Di bawah nasional', legNat: 'Paras nasional', legHigh: 'Di atas nasional', mapNote: 'Semenanjung dibesarkan dan Sabah, Sarawak serta Labuan dianjak supaya peta muat dan mudah dibaca; bukan skala sebenar. Bulatan: wilayah persekutuan yang kecil.',
     rank: 'Kedudukan', vsNat: 'Berbanding nasional', yoy: 'Tahun ke tahun', cagr: (a, b) => `Purata setahun ${a}–${b}`, natShort: 'nasional',
     strong: 'Sektor paling kukuh', weak: 'Sektor paling ketinggalan', ofNat: 'daripada paras nasional', group: 'Kumpulan prestasi',
     seeSectors: 'Lihat sektor', getReport: 'Muat turun laporan', profileHint: 'Pilih negeri pada peta.', of: 'daripada', ftNote: 'Tenaga kerja kecil dan ekonomi khusus. Bandingkan dengan berhati-hati.',
@@ -1597,7 +1614,7 @@ const MAP_I18N = {
   },
   en: {
     mapTitle: 'Productivity map', mapSub: 'Click a state to see its profile. Colour shows the distance from the national level.',
-    legLow: 'Below national', legNat: 'National level', legHigh: 'Above national', mapNote: 'Sabah, Sarawak and Labuan are shifted west to fit. Circles: small federal territories.',
+    legLow: 'Below national', legNat: 'National level', legHigh: 'Above national', mapNote: 'The Peninsula is enlarged and Sabah, Sarawak and Labuan are moved so the map fits and reads easily; not to scale. Circles: small federal territories.',
     rank: 'Rank', vsNat: 'vs national', yoy: 'Year on year', cagr: (a, b) => `Average per year ${a}–${b}`, natShort: 'national',
     strong: 'Strongest sector', weak: 'Weakest sector', ofNat: 'of national level', group: 'Performance group',
     seeSectors: 'See sectors', getReport: 'Download report', profileHint: 'Pick a state on the map.', of: 'of', ftNote: 'Small workforce and specialised economy. Compare with care.',
@@ -1608,16 +1625,31 @@ const mt = k => MAP_I18N[S.lang][k];
 // Callout bubbles for territories too small to click: [id, bubbleX, bubbleY, short label]
 const MAP_BUBBLES = [['kl', 30, 232, 'KL'], ['putrajaya', 30, 282, 'PJY'], ['labuan', 722, 88, 'LBN']];
 const BIG_LABELS = ['sabah', 'sarawak', 'pahang', 'johor', 'perak', 'kelantan', 'terengganu', 'kedah'];
-// On narrow screens show Borneo below the Peninsula so the map is larger.
+// Map layout: the Peninsula is enlarged (K) for readability; on narrow screens Borneo sits below it.
+// Shapes are scaled; labels, pins and bubbles move to their new spots but keep their size.
+const MAP_K = 1.35;
+function mapXY(x, y, isPen, stacked) {
+  if (isPen) return stacked ? [512 + MAP_K * x, 39 + MAP_K * (y - 39)] : [MAP_K * x, 39 + MAP_K * (y - 39)];
+  return stacked ? [x, y + 486] : [x + 5, y + 54];
+}
 function stackMap(box) {
   const svg = box && box.querySelector('svg'); if (!svg || !MAPGEO) return;
   const on = box.clientWidth > 0 && box.clientWidth < 520;
-  svg.setAttribute('viewBox', on ? '394 14 612 760' : `-6 -6 ${MAPGEO.w + 12} ${MAPGEO.h + 12}`);
-  svg.querySelectorAll('path.st, g.bub, line.lead, circle.pin, text.ml').forEach(el => {
-    if (!on) { el.removeAttribute('transform'); return; }
-    const id = el.dataset && el.dataset.id, x = id && MAPGEO.states[id] ? MAPGEO.states[id].c[0] : +(el.getAttribute('x1') || el.getAttribute('cx') || el.getAttribute('x'));
-    el.setAttribute('transform', x < 350 ? 'translate(562 0)' : 'translate(0 370)');
+  svg.setAttribute('viewBox', on ? '398 26 610 870' : '-6 26 1019 486');
+  const num = (el, a) => { const k = 'o' + a.replace(/\d/, d => 'n' + d); if (el.dataset[k] == null) el.dataset[k] = el.getAttribute(a); return +el.dataset[k]; };
+  const pen = x => x < 350;
+  svg.querySelectorAll('path.st').forEach(el => {
+    const p0 = pen(MAPGEO.states[el.dataset.id].c[0]);
+    const [a, b] = mapXY(0, 0, p0, on), [c] = mapXY(1, 0, p0, on), k = c - a;
+    el.setAttribute('transform', `matrix(${k} 0 0 ${k} ${a} ${b})`);
   });
+  svg.querySelectorAll('g.bub').forEach(g => {
+    const c = g.querySelector('circle'), x = num(c, 'cx'), y = num(c, 'cy'), [nx, ny] = mapXY(x, y, pen(MAPGEO.states[g.dataset.id].c[0]), on);
+    g.setAttribute('transform', `translate(${(nx - x).toFixed(1)} ${(ny - y).toFixed(1)})`);
+  });
+  svg.querySelectorAll('circle.pin').forEach(el => { const x = num(el, 'cx'), y = num(el, 'cy'), [nx, ny] = mapXY(x, y, pen(x), on); el.setAttribute('transform', `translate(${(nx - x).toFixed(1)} ${(ny - y).toFixed(1)})`); });
+  svg.querySelectorAll('line.lead').forEach(el => { const x1 = num(el, 'x1'), y1 = num(el, 'y1'), x2 = num(el, 'x2'), y2 = num(el, 'y2'), p0 = pen(x2), [a, b] = mapXY(x1, y1, p0, on), [c, d] = mapXY(x2, y2, p0, on); el.setAttribute('x1', a); el.setAttribute('y1', b); el.setAttribute('x2', c); el.setAttribute('y2', d); });
+  svg.querySelectorAll('text.ml').forEach(el => { const x = num(el, 'x'), y = num(el, 'y'), [nx, ny] = mapXY(x, y, pen(x), on); el.setAttribute('transform', `translate(${(nx - x).toFixed(1)} ${(ny - y).toFixed(1)})`); });
 }
 window.addEventListener('resize', () => document.querySelectorAll('.map').forEach(stackMap));
 
@@ -2633,7 +2665,7 @@ const M6E = (() => {
     { id: 'gdp', bm: 'KDNK & Struktur Ekonomi', en: 'GDP & Economic Structure', inds: [['level', 'KDNK negeri', 'State GDP'], ['growth', 'Pertumbuhan KDNK', 'GDP growth'], ['sector', 'KDNK mengikut sektor', 'GDP by sector'], ['share', 'Sumbangan sektor kepada KDNK negeri', 'Sector contribution to state GDP'], ['natshare', 'Sumbangan negeri kepada KDNK sektor nasional', 'State contribution to national sector GDP'], ['change', 'Perubahan struktur ekonomi', 'Economic structure changes'], ['spec', 'Pengkhususan sektor', 'Sector specialisation']] },
     { id: 'wage', bm: 'Gaji & Upah', en: 'Salaries & Wages', inds: [['median', 'Gaji penengah bulanan', 'Median monthly wages'], ['mean', 'Gaji purata bulanan', 'Mean monthly wages'], ['growth', 'Pertumbuhan gaji tahunan', 'Annual wage growth'], ['real', 'Pertumbuhan gaji benar', 'Real wage growth'], ['rank', 'Kedudukan gaji negeri', 'State wage rankings'], ['sector', 'Gaji mengikut sektor', 'Wages by sector', 'nat'], ['industry', 'Gaji mengikut industri', 'Wages by industry', 'nat'], ['formal', 'Gaji sektor formal', 'Formal sector wages']] },
     { id: 'lab', bm: 'Pasaran Buruh', en: 'Labour Market', inds: [['emp', 'Guna tenaga', 'Employment'], ['empg', 'Pertumbuhan guna tenaga', 'Employment growth'], ['lf', 'Tenaga buruh', 'Labour force'], ['lfpr', 'Kadar penyertaan tenaga buruh', 'Labour force participation rate'], ['unemp', 'Kadar pengangguran', 'Unemployment rate'], ['flfpr', 'Penyertaan tenaga buruh wanita', 'Female labour force participation'], ['empsec', 'Guna tenaga mengikut sektor', 'Employment by sector', 'nat']] },
-    { id: 'intg', bm: 'Risikan Ekonomi Bersepadu', en: 'Integrated Economic Intelligence', inds: [['pw', 'Produktiviti berbanding gaji', 'Productivity versus wages'], ['pgwg', 'Pertumbuhan produktiviti berbanding pertumbuhan gaji', 'Productivity growth versus wage growth'], ['gdpemp', 'Pertumbuhan KDNK berbanding pertumbuhan guna tenaga', 'GDP growth versus employment growth'], ['secprod', 'Sumbangan sektor KDNK berbanding produktiviti', 'GDP sector contribution versus productivity'], ['sc', 'Kekuatan dan cabaran ekonomi negeri', 'State economic strengths and challenges'], ['opp', 'Saringan peluang sektor', 'Sector opportunity screening'], ['profile', 'Profil ekonomi negeri perbandingan', 'Comparative state economic profiles']] },
+    { id: 'intg', bm: 'Kecerdasan Ekonomi Bersepadu', en: 'Integrated Economic Intelligence', inds: [['pw', 'Produktiviti berbanding gaji', 'Productivity versus wages'], ['pgwg', 'Pertumbuhan produktiviti berbanding pertumbuhan gaji', 'Productivity growth versus wage growth'], ['gdpemp', 'Pertumbuhan KDNK berbanding pertumbuhan guna tenaga', 'GDP growth versus employment growth'], ['secprod', 'Sumbangan sektor KDNK berbanding produktiviti', 'GDP sector contribution versus productivity'], ['sc', 'Kekuatan dan cabaran ekonomi negeri', 'State economic strengths and challenges'], ['opp', 'Saringan peluang sektor', 'Sector opportunity screening'], ['profile', 'Profil ekonomi negeri perbandingan', 'Comparative state economic profiles']] },
   ];
   const TOPIC = Object.fromEntries(TOPICS.map(t => [t.id, t]));
 
@@ -3055,14 +3087,14 @@ const M6E = (() => {
         charts.forEach(b => blocks.push(chartTable(b, c))); }
     }
     // title logic
-    const one = topics[0], tname = multi ? (cfg.mode === 'full' ? X('Laporan Risikan Ekonomi', 'Economic Intelligence Report') : X('Laporan Ekonomi', 'Economic Report')) : ({ prod: X('Laporan Produktiviti Buruh', 'Labour Productivity Report'), gdp: X('Laporan KDNK & Struktur Ekonomi', 'GDP & Economic Structure Report'), wage: X('Laporan Gaji & Upah', 'Salaries & Wages Report'), lab: X('Laporan Pasaran Buruh', 'Labour Market Report'), intg: X('Laporan Risikan Ekonomi Bersepadu', 'Integrated Economic Intelligence Report') })[one.id];
+    const one = topics[0], tname = multi ? (cfg.mode === 'full' ? X('Laporan Kecerdasan Ekonomi', 'Economic Intelligence Report') : X('Laporan Ekonomi', 'Economic Report')) : ({ prod: X('Laporan Produktiviti Buruh', 'Labour Productivity Report'), gdp: X('Laporan KDNK & Struktur Ekonomi', 'GDP & Economic Structure Report'), wage: X('Laporan Gaji & Upah', 'Salaries & Wages Report'), lab: X('Laporan Pasaran Buruh', 'Labour Market Report'), intg: X('Laporan Kecerdasan Ekonomi Bersepadu', 'Integrated Economic Intelligence Report') })[one.id];
     const yT = multi ? Ymax : (one.id === 'prod' ? c.a.latest : (one.x && one.x.Y) || one.common);
     const subtitle = c.isNat ? (multi && cfg.mode !== 'full' ? topics.map(t => t.title).join(' · ') : X('Malaysia: Gambaran nasional dan negeri', 'Malaysia: National and state overview')) : c.single ? k.nm(c.S1) : X(`Perbandingan: ${scopeTxt}`, `Comparison: ${scopeTxt}`);
     const stemScope = (c.isNat ? X('Nasional', 'National') : c.single ? (k.en ? STATE_BY_ID[c.S1].en : STATE_BY_ID[c.S1].bm) : X('Perbandingan', 'Comparison')).replace(/\./g, '');
     const kp = multi ? topics.slice(0, 3).map(t => t.kpis[0]) : one.kpis;
     while (kp.length < 3 && multi) { const extra = topics.flatMap(t => t.kpis.slice(1)); kp.push(extra[kp.length - topics.length] || extra[0]); }
     return { lang: cfg.lang, title: `${tname} ${yT}`, subtitle, fileStem: `${tname} ${yT} - ${stemScope}${k.en ? ' (EN)' : ''}`, kpis: kp.slice(0, 3), blocks: blocks.filter(Boolean), topics: topics.map(t => ({ id: t.id, title: t.title })), multi, year: yT,
-      eyebrow: multi || one.id === 'intg' ? X('LAPORAN RISIKAN EKONOMI NEGERI', 'STATE ECONOMIC INTELLIGENCE REPORT') : ({ prod: X('LAPORAN PRODUKTIVITI BURUH NEGERI', 'STATE LABOUR PRODUCTIVITY REPORT'), gdp: X('LAPORAN KDNK NEGERI', 'STATE GDP REPORT'), wage: X('LAPORAN GAJI & UPAH NEGERI', 'STATE SALARIES & WAGES REPORT'), lab: X('LAPORAN PASARAN BURUH NEGERI', 'STATE LABOUR MARKET REPORT') })[one.id],
+      eyebrow: multi || one.id === 'intg' ? X('LAPORAN KECERDASAN EKONOMI NEGERI', 'STATE ECONOMIC INTELLIGENCE REPORT') : ({ prod: X('LAPORAN PRODUKTIVITI BURUH NEGERI', 'STATE LABOUR PRODUCTIVITY REPORT'), gdp: X('LAPORAN KDNK NEGERI', 'STATE GDP REPORT'), wage: X('LAPORAN GAJI & UPAH NEGERI', 'STATE SALARIES & WAGES REPORT'), lab: X('LAPORAN PASARAN BURUH NEGERI', 'STATE LABOUR MARKET REPORT') })[one.id],
       sourceLine: multi || one.id !== 'prod' ? X('Data rasmi DOSM', 'Official DOSM data') : snap.source.name };
   }
 
@@ -3555,12 +3587,12 @@ const SITE = (() => {
   const IDS = STATES.map(s => s.id);
   const PAGES = [
     { id: 'home', h: 'home', bm: 'Utama', en: 'Home' },
-    { id: 'state', h: 'negeri', bm: 'Profil Negeri', en: 'State Profile' },
+    { id: 'state', h: 'negeri', bm: 'Negeri', en: 'State' },
     { id: 'prod', h: 'productivity', bm: 'Produktiviti Buruh', en: 'Labour Productivity' },
     { id: 'gdp', h: 'gdp', bm: 'KDNK & Struktur Ekonomi', en: 'GDP & Economic Structure' },
     { id: 'wage', h: 'wages', bm: 'Gaji & Upah', en: 'Salaries & Wages' },
     { id: 'lab', h: 'labour', bm: 'Pasaran Buruh', en: 'Labour Market' },
-    { id: 'intg', h: 'integrated', bm: 'Risikan Ekonomi Bersepadu', en: 'Integrated Economic Intelligence' },
+    { id: 'intg', h: 'integrated', bm: 'Kecerdasan Ekonomi Bersepadu', en: 'Integrated Economic Intelligence' },
     { id: 'cmp', h: 'banding', bm: 'Banding Negeri', en: 'Compare States', nav: false, parent: 'intg' },
     { id: 'method', h: 'metodologi', bm: 'Metodologi', en: 'Methodology', nav: false },
     { id: 'reports', h: 'reports', bm: 'Laporan', en: 'Reports' },
@@ -3704,7 +3736,7 @@ const SITE = (() => {
     ? `<span>${esc(X('Lebih kecil', 'Smaller'))}</span><span class="ramp seq" aria-hidden="true"></span><span>${esc(X('Lebih besar', 'Larger'))}</span><span class="leg-nat">Malaysia: ${esc(m.fmt(m.get('national', Y)))}</span>`
     : `<span>${esc(X('Di bawah Malaysia', 'Below Malaysia'))}</span><span class="ramp" aria-hidden="true"></span><span>${esc(X('Di atas Malaysia', 'Above Malaysia'))}</span><span class="leg-nat">Malaysia: ${esc(m.fmt(m.get('national', Y)))}</span>`;
   const mapSub = (m, Y) => X('Klik negeri untuk melihat profilnya.', 'Click a state to see its profile.') + ' ' + m.yl(Y) + ' · ' + m.unit;
-  const mapCard = (m, Y, ctl, tl) => `<article class="card map-card"><div class="card-h"><div><h2>${esc(X('Peta: ', 'Map: ') + m.l)}</h2><p class="sub" data-msub>${esc(mapSub(m, Y))}</p></div><div class="ctl">${ctl || ''}</div></div><div class="map-wrap"><div class="map" data-map></div>${tl ? `<div class="map-yr" data-myr aria-hidden="true">${esc(m.yl(Y))}</div>` : ''}</div>${tl || ''}${tl ? `<p class="yr-cap" data-ycap aria-live="polite">${yearCap(m, Y)}</p>` : ''}<div class="map-legend" data-mleg>${legend(m, Y, !!tl)}</div><p class="foot">${esc(X('Sabah, Sarawak dan Labuan dianjak ke barat supaya peta muat. Bulatan: wilayah persekutuan yang kecil.', 'Sabah, Sarawak and Labuan are shifted west to fit. Circles: small federal territories.'))}${m.rank(Y).length < IDS.length ? ' ' + esc(X('Kelabu pucat: tiada data.', 'Pale grey: no data.')) : ''}</p><div class="tip" hidden></div><p class="mean" data-mean><b>${esc(X('Apa maksudnya? ', 'What does it mean? '))}</b>${esc(meanMap(m, Y))}</p></article>`;
+  const mapCard = (m, Y, ctl, tl) => `<article class="card map-card"><div class="card-h"><div><h2>${esc(X('Peta: ', 'Map: ') + m.l)}</h2><p class="sub" data-msub>${esc(mapSub(m, Y))}</p></div><div class="ctl">${ctl || ''}</div></div><div class="map-wrap"><div class="map" data-map></div>${tl ? `<div class="map-yr" data-myr aria-hidden="true">${esc(m.yl(Y))}</div>` : ''}</div>${tl || ''}${tl ? `<p class="yr-cap" data-ycap aria-live="polite">${yearCap(m, Y)}</p>` : ''}<div class="map-legend" data-mleg>${legend(m, Y, !!tl)}</div><p class="foot">${esc(X('Semenanjung dibesarkan dan Sabah, Sarawak serta Labuan dianjak supaya peta muat dan mudah dibaca; bukan skala sebenar. Bulatan: wilayah persekutuan yang kecil.', 'The Peninsula is enlarged and Sabah, Sarawak and Labuan are moved so the map fits and reads easily; not to scale. Circles: small federal territories.'))}${m.rank(Y).length < IDS.length ? ' ' + esc(X('Kelabu pucat: tiada data.', 'Pale grey: no data.')) : ''}</p><div class="tip" hidden></div><p class="mean" data-mean><b>${esc(X('Apa maksudnya? ', 'What does it mean? '))}</b>${esc(meanMap(m, Y))}</p></article>`;
 
   /* ---------- 10-year timeline: player, in-place map colours, sliding ranking ---------- */
   const PLAY_D = 'M8 5v14l11-7z', PAUSE_D = 'M7 5h4v14H7zM13 5h4v14h-4z';
@@ -4242,7 +4274,7 @@ const SITE = (() => {
     I.SC.forEach((sc, k) => { const r = I.ranks[k][id], n = Object.keys(I.ranks[k]).length; if (r == null) return; const li = `<li><span>${esc(sc.l)}</span><b>${esc(sc.f(sc.v(id)))}</b><em>${r} / ${n}</em></li>`; if (r <= 5) str.push(li); else if (r >= 12) chl.push(li); });
     const none = `<p class="muted">${esc(X('Tiada penunjuk dalam kumpulan ini.', 'No indicators in this group.'))}</p>`;
     const rp = S.snap.reports && S.snap.reports[id + (S.lang === 'en' ? '__en' : '')], mp = MET('prod');
-    el.innerHTML = head(X('Profil negeri', 'State profile'), sname(id), X(`Semua penunjuk utama ${sname(id)} di satu tempat: nilai terkini, kedudukan antara 16 negeri, kekuatan, cabaran dan trend.`, `Every key indicator for ${sname(id)} in one place: latest values, rank among 16 states, strengths, challenges and trends.`), `<div class="ctl">${stPick()}</div>`)
+    el.innerHTML = head(X('Negeri', 'State'), sname(id), X(`Semua penunjuk utama ${sname(id)} di satu tempat: nilai terkini, kedudukan antara 16 negeri, kekuatan, cabaran dan trend.`, `Every key indicator for ${sname(id)} in one place: latest values, rank among 16 states, strengths, challenges and trends.`), `<div class="ctl">${stPick()}</div>`)
       + (SPECIAL_FT.includes(id) ? `<div class="banner">${esc(X('Tenaga kerja kecil dan ekonomi khusus. Bandingkan dengan berhati-hati.', 'Small workforce and specialised economy. Compare with care.'))}</div>` : '')
       + `<section class="sp-grid">${tiles}</section>`
       + `<section class="row r-half"><article class="card"><div class="card-h"><div><h2>${esc(X('Kekuatan', 'Strengths'))}</h2><p class="sub">${esc(X(`Penunjuk dalam lima teratas, ${I.Y}`, `Indicators in the top five, ${I.Y}`))}</p></div></div>${str.length ? `<ul class="sc-list good">${str.join('')}</ul>` : none}</article><article class="card"><div class="card-h"><div><h2>${esc(X('Cabaran', 'Challenges'))}</h2><p class="sub">${esc(X(`Penunjuk dalam lima terbawah, ${I.Y}`, `Indicators in the bottom five, ${I.Y}`))}</p></div></div>${chl.length ? `<ul class="sc-list bad">${chl.join('')}</ul>` : none}</article></section>`
@@ -4468,7 +4500,7 @@ const SITE = (() => {
   function navCue() { const n = $('nav'); if (n) n.classList.toggle('more', n.scrollWidth - n.clientWidth - n.scrollLeft > 4); }
   function chrome() {
     const curNav = (BY_PG[page] && BY_PG[page].parent) || page;
-    const TOPICS = ['prod', 'gdp', 'wage', 'lab'], SHORT = { home: ['Utama', 'Home'], state: ['Negeri', 'States'], intg: ['Risikan', 'Insights'], reports: ['Laporan', 'Reports'] };
+    const TOPICS = ['prod', 'gdp', 'wage', 'lab'], SHORT = { home: ['Utama', 'Home'], state: ['Negeri', 'State'], intg: ['Kecerdasan', 'Insights'], reports: ['Laporan', 'Reports'] };
     const navA = p => `<a href="#${p.h}"${TOPICS.includes(p.id) ? ' data-topic' : ''}${p.id === curNav ? ' aria-current="page"' : ''}><span class="nl">${esc(pname(p))}</span>${SHORT[p.id] ? `<span class="ns">${esc(X(...SHORT[p.id]))}</span>` : ''}</a>`;
     const navP = PAGES.filter(p => p.nav !== false), onTopic = TOPICS.includes(curNav);
     $('nav').innerHTML = navP.map((p, i) => navA(p) + (p.id === 'state' ? `<button type="button" class="nav-topic${onTopic ? ' on' : ''}" aria-expanded="false" aria-controls="nav-sheet">${esc(X('Topik', 'Topics'))} ▴</button>` : '')).join('');
