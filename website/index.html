@@ -611,6 +611,42 @@ a.kpi:hover { transform: translateY(-2px); }
 @media (max-width: 760px) { .pg:not(#pg-home) .kpis { display: flex; overflow-x: auto; scrollbar-width: none; scroll-snap-type: x mandatory; } .pg:not(#pg-home) .kpis::-webkit-scrollbar { display: none; } .pg:not(#pg-home) .kpi { flex: 0 0 66%; scroll-snap-align: start; } }
 @media (max-width: 560px) { .subnav { top: 8px; } }
 
+
+/* ----- round 3 ----- */
+.srch-btn { display: none; border: 1px solid var(--line); background: var(--surface); width: 38px; height: 38px; border-radius: 50%; cursor: pointer; font-size: 16px; color: var(--ink); }
+@media (max-width: 760px) { .subnav .seg { flex-wrap: nowrap; } .subnav .seg button { flex: 0 0 auto; } }
+@media (max-width: 560px) {
+  .top { flex-wrap: nowrap; gap: 8px; } .tagline { display: none; } .brand .logo { height: 30px; } .brand h1 { font-size: 17px; }
+  .brand { gap: 10px; min-width: 0; } .top-right { flex-wrap: nowrap; gap: 6px; } .hello { display: none; }
+  .srch-btn { display: grid; place-items: center; } .srch { display: none; position: absolute; left: 16px; right: 16px; top: 64px; z-index: 50; }
+  .srch.open { display: block; } .srch.open input { width: 100%; box-shadow: 0 8px 24px rgba(0,0,0,0.18); padding: 12px 16px; font-size: 15px; }
+  .top { position: relative; }
+}
+.cmp-chips { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.cmp-chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 6px 6px 12px; border-radius: 999px; font-weight: 700; font-size: 13px; color: #fff; }
+.cmp-chip button { border: 0; background: rgba(255,255,255,0.25); color: #fff; border-radius: 50%; width: 22px; height: 22px; cursor: pointer; line-height: 1; }
+.cmp-big td, .cmp-big th { padding: 9px 10px; } .cmp-big td.best { font-weight: 800; color: var(--red); } .cmp-big td small { display: block; color: var(--muted); font-weight: 500; font-size: 11px; }
+.cmp-big th:first-child, .cmp-big td:first-child { text-align: left; }
+.tbl th.sortable { cursor: pointer; user-select: none; } .tbl th.sortable:hover { color: var(--ink); } .tbl th[data-dir]::after { content: ' ▲'; font-size: 9px; } .tbl th[data-dir="desc"]::after { content: ' ▼'; }
+.m6-modal { position: fixed; inset: 0; z-index: 80; background: rgba(20,16,14,0.55); display: grid; place-items: center; padding: 16px; }
+.m6-paper { background: #fff; color: #1c1917; width: min(820px, 100%); max-height: 88vh; overflow: auto; border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,0.35); }
+.m6-paper .pv-bar { position: sticky; top: 0; background: #fff; display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 12px 18px; border-bottom: 1px solid #e7e5e4; z-index: 1; }
+.m6-paper .pv-body { padding: 28px 40px 40px; font-family: Arial, sans-serif; font-size: 14px; line-height: 1.55; }
+.pv-cover { background: #1c1917; color: #fff; border-radius: 10px; padding: 22px 24px; margin-bottom: 18px; } .pv-cover small { color: #f87171; font-weight: 700; letter-spacing: 0.06em; font-size: 11px; } .pv-cover h1 { font-size: 22px; margin: 6px 0 2px; } .pv-cover p { margin: 0; opacity: 0.8; }
+.pv-kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 18px; } .pv-kpis div { border: 1px solid #e7e5e4; border-radius: 8px; padding: 10px 12px; } .pv-kpis b { display: block; font-size: 18px; }
+.pv-body h2 { font-size: 18px; border-left: 4px solid #dc2626; padding-left: 10px; margin: 22px 0 8px; } .pv-body h3 { font-size: 15px; margin: 14px 0 6px; }
+.pv-call { background: #f5f5f4; border-left: 3px solid #dc2626; padding: 8px 12px; border-radius: 0 6px 6px 0; }
+.pv-chart { border: 1px dashed #d6d3d1; border-radius: 8px; padding: 14px; text-align: center; color: #78716c; font-size: 13px; margin: 8px 0; } .pv-chart b { color: #1c1917; display: block; }
+.pv-body table { border-collapse: collapse; width: 100%; font-size: 12.5px; margin: 8px 0; } .pv-body th, .pv-body td { border-bottom: 1px solid #e7e5e4; padding: 5px 6px; text-align: left; } .pv-body th { background: #1c1917; color: #fff; }
+@media (max-width: 560px) { .m6-paper .pv-body { padding: 18px; } .pv-kpis { grid-template-columns: 1fr; } }
+
+.hl-h { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; } .hl-h .sec-t { margin: 0; } .hl-h .sub { color: var(--muted); font-size: 12.5px; }
+.kpi-ins { font-size: 13px; line-height: 1.45; margin-top: 6px; padding-top: 8px; border-top: 1px solid currentColor; border-top-color: color-mix(in srgb, currentColor 22%, transparent); }
+.kpis.hl .kpi { min-height: 210px; }
+.rgn { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 12.5px; color: var(--muted); margin-bottom: 8px; }
+.rgn button { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 5px 12px; font: inherit; font-weight: 600; color: var(--ink); cursor: pointer; }
+.rgn button[aria-pressed="true"] { background: var(--tile-ink); color: var(--on-ink); border-color: var(--tile-ink); }
+.tbl tr.dim { opacity: 0.28; } .tbl tr.hl td:first-child { color: var(--red); font-weight: 800; }
 .ramp.hseq { background: linear-gradient(90deg, color-mix(in srgb, var(--red) 4%, var(--map-base)), var(--red) 80%, color-mix(in srgb, #3b0a0a 60%, var(--red))); }
 .yr-cap { margin: 2px 0 8px; padding: 8px 12px; border-radius: 10px; background: var(--soft); font-size: 13px; line-height: 1.45; min-height: 2.9em; }
 .yr-cap b { color: var(--red); }
@@ -643,6 +679,7 @@ a.kpi:hover { transform: translateY(-2px); }
     </div>
     <div class="top-right">
       <span class="hello" id="hello" hidden></span>
+      <button type="button" class="srch-btn" id="srch-btn" aria-label="Cari / Search">🔍</button>
       <div class="srch"><input type="search" id="q" list="q-list" autocomplete="off" aria-label="Cari / Search"><datalist id="q-list"></datalist></div>
       <div class="lang" role="group" aria-label="Bahasa / Language">
         <button type="button" id="lang-bm" data-lang="bm" aria-pressed="true">BM</button>
@@ -842,6 +879,7 @@ a.kpi:hover { transform: translateY(-2px); }
     <div class="pg" id="pg-lab" data-site hidden></div>
     <div class="pg" id="pg-intg" data-site hidden></div>
     <div class="pg" id="pg-state" data-site hidden></div>
+    <div class="pg" id="pg-cmp" data-site hidden></div>
     <div class="pg" id="pg-method" data-site hidden></div>
     <div class="pg" id="pg-reports" hidden>
     <div id="ph-reports"></div>
@@ -3377,6 +3415,7 @@ const M6 = (() => {
             <button type="button" class="btn-big alt" id="m6-btn"${prob.length || M.busy ? ' disabled' : ''}>
               <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 19h16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
               <span>Jana Laporan Word / Generate Word Report<small>${M.lang === 'en' ? 'English' : 'Bahasa Melayu'} · .docx · ${X('boleh disunting', 'editable')}</small></span></button>
+            <button type="button" class="btn" id="m6-prev" style="margin-top:8px"${prob.length || M.busy ? ' disabled' : ''}>👁 ${X('Pratonton laporan dahulu', 'Preview the report first')}</button>
             <div id="m6-status" role="status" aria-live="polite">${statusHtml()}</div>
           </div>
         </div>
@@ -3426,7 +3465,29 @@ const M6 = (() => {
     } finally { M.busy = false; const b = document.getElementById('m6-btn'); if (b) b.disabled = problems().length > 0; const s = document.getElementById('m6-status'); if (s) s.innerHTML = statusHtml(); }
   }
 
+  function preview() {
+    if (problems().length) return;
+    const rep = M6E.compose(config(), S.snap), txt = v => Array.isArray(v) ? v.map(txt).join('') : v && typeof v === 'object' ? txt(v.text ?? v.t ?? v.v ?? '') : String(v ?? '');
+    let n = 0;
+    const body = rep.blocks.map(b => {
+      if (b.t === 'h0' || b.t === 'h1') return `<h2>${esc(txt(b.text))}</h2>`;
+      if (b.t === 'h3') return `<h3>${esc(txt(b.text))}</h3>`;
+      if (b.t === 'p') return `<p>${esc(txt(b.text))}</p>`;
+      if (b.t === 'callout') return `<p class="pv-call">${esc(txt(b.text))}</p>`;
+      if (b.t === 'bullets') return `<ul>${(b.items || []).map(i => `<li>${esc(txt(i))}</li>`).join('')}</ul>`;
+      if (b.t === 'chart') { n++; return `<div class="pv-chart"><b>${esc(X('Carta ', 'Chart ') + n + ': ' + txt(b.title))}</b>${esc(X('Carta penuh dilukis dalam fail Word.', 'The full chart is drawn in the Word file.'))}</div>`; }
+      if (b.t === 'table' && b.head) return `<table><thead><tr>${b.head.map(h => `<th>${esc(txt(h))}</th>`).join('')}</tr></thead><tbody>${(b.rows || []).slice(0, 6).map(r => `<tr>${(Array.isArray(r) ? r : r.cells || []).map(c => `<td>${esc(txt(c))}</td>`).join('')}</tr>`).join('')}</tbody></table>${(b.rows || []).length > 6 ? `<p style="color:#78716c;font-size:12px">${esc(X(`… dan ${b.rows.length - 6} baris lagi`, `… and ${b.rows.length - 6} more rows`))}</p>` : ''}`;
+      if (b.t === 'quadtable') return `<table><tbody>${(b.rows || []).map(r => `<tr><td><b>${esc(txt(r.q))}</b></td><td>${esc(txt(r.list))}</td></tr>`).join('')}</tbody></table>`;
+      return '';
+    }).join('');
+    const md = document.createElement('div'); md.className = 'm6-modal'; md.setAttribute('role', 'dialog'); md.setAttribute('aria-label', X('Pratonton laporan', 'Report preview'));
+    md.innerHTML = `<div class="m6-paper"><div class="pv-bar"><b>${esc(X('Pratonton laporan', 'Report preview'))}</b><span><button type="button" class="btn dark" data-pv="go">${esc(X('Jana fail Word', 'Generate Word file'))}</button> <button type="button" class="btn" data-pv="x">${esc(X('Tutup', 'Close'))}</button></span></div><div class="pv-body"><div class="pv-cover"><small>${esc(txt(rep.eyebrow))}</small><h1>${esc(txt(rep.title))}</h1><p>${esc(txt(rep.subtitle))}</p></div><div class="pv-kpis">${(rep.kpis || []).map(q => `<div>${esc(txt(q.l))}<b>${esc(txt(q.v))}</b></div>`).join('')}</div>${body}</div></div>`;
+    md.addEventListener('click', ev => { const a = ev.target.closest('[data-pv]'); if (ev.target === md || (a && a.dataset.pv === 'x')) md.remove(); else if (a && a.dataset.pv === 'go') { md.remove(); generate(); } });
+    document.addEventListener('keydown', function esc2(ev) { if (ev.key === 'Escape') { md.remove(); document.removeEventListener('keydown', esc2); } });
+    document.body.appendChild(md);
+  }
   function onClick(e) {
+    if (e.target.closest('#m6-prev')) { preview(); return; }
     if (e.target.closest('#m6-btn')) { generate(); return; }
     const b = e.target.closest('button[data-m6]'); if (!b) return; const n = b.dataset.m6, v = b.dataset.v;
     if (n === 'mode') M.mode = v; else if (n === 'topic') M.topic = v; else if (n === 'geo') M.geo = v; else if (n === 'ymode') M.ymode = v; else if (n === 'lang') M.lang = v; else if (n === 'len') M.len = +v; else if (n === 'open') M.open[v] = !M.open[v];
@@ -3463,13 +3524,14 @@ const SITE = (() => {
     { id: 'wage', h: 'wages', bm: 'Gaji & Upah', en: 'Salaries & Wages' },
     { id: 'lab', h: 'labour', bm: 'Pasaran Buruh', en: 'Labour Market' },
     { id: 'intg', h: 'integrated', bm: 'Risikan Ekonomi Bersepadu', en: 'Integrated Economic Intelligence' },
+    { id: 'cmp', h: 'banding', bm: 'Banding Negeri', en: 'Compare States' },
     { id: 'method', h: 'metodologi', bm: 'Metodologi', en: 'Methodology' },
     { id: 'reports', h: 'reports', bm: 'Laporan', en: 'Reports' },
   ];
   const BY_H = Object.fromEntries(PAGES.map(p => [p.h, p]));
   const pname = p => S.lang === 'en' ? p.en : p.bm;
   let page = 'home';
-  const U = { home: { m: 'prod' }, gdp: { m: 'gdp', y: null }, wage: { m: 'median', y: null, grp: 'sector' }, lab: { m: 'prate', y: null } };
+  const U = { cmp: { m: 'prod', y: null, ids: [] }, home: { m: 'prod' }, gdp: { m: 'gdp', y: null }, wage: { m: 'median', y: null, grp: 'sector' }, lab: { m: 'prate', y: null } };
   const E = () => M6E.econ();
   const ND = () => t('noData');
   const at = (tbl, years, who, y) => { const i = years.indexOf(y), a = tbl && tbl[who]; return i < 0 || !a || a[i] == null ? null : a[i]; };
@@ -3531,7 +3593,7 @@ const SITE = (() => {
     const li = st.reduce((a, v, i) => v != null ? i : a, -1);
     return `<svg viewBox="0 0 300 62" preserveAspectRatio="none" aria-hidden="true">${nat ? `<path class="sp-nat" d="${path(nat)}"/>` : ''}<path class="sp-st" d="${path(st)}"/>${li >= 0 ? `<circle class="sp-dot" cx="${(li / (n - 1) * 300).toFixed(1)}" cy="${(56 - (st[li] - mn) / (mx - mn || 1) * 50).toFixed(1)}" r="4"/>` : ''}</svg>`;
   }
-  const tile = (cls, o) => `<${o.go ? 'a' : 'article'} class="kpi ${cls}"${o.go ? ` href="#${o.go}"` : ''}><div class="kpi-h">${esc(o.h)}</div>${o.name ? `<div class="kpi-name">${esc(o.name)}</div>` : ''}<div class="kpi-v${o.name ? ' sm' : ''}">${esc(o.v)}</div><div class="kpi-s">${o.d ? `<span class="delta">${esc(o.d)}</span> ` : ''}${esc(o.s || '')}</div>${o.spark ? sparkTile(o.spark) : ''}${o.mini ? `<div class="mini w">${o.mini.map(([l, w, v]) => `<div class="mini-row"><span>${esc(l)}</span><div class="mini-bar" style="transform:scaleX(${Math.max(0.02, Math.min(1, w)).toFixed(3)})"></div><b>${esc(v)}</b></div>`).join('')}</div>` : ''}${o.go ? `<span class="kpi-go" aria-hidden="true">→</span>` : ''}</${o.go ? 'a' : 'article'}>`;
+  const tile = (cls, o) => `<${o.go ? 'a' : 'article'} class="kpi ${cls}"${o.go ? ` href="#${o.go}"` : ''}><div class="kpi-h">${esc(o.h)}</div>${o.name ? `<div class="kpi-name">${esc(o.name)}</div>` : ''}<div class="kpi-v${o.name ? ' sm' : ''}">${esc(o.v)}</div><div class="kpi-s">${o.d ? `<span class="delta">${esc(o.d)}</span> ` : ''}${esc(o.s || '')}</div>${o.ins ? `<div class="kpi-ins">${esc(o.ins)}</div>` : ''}${o.spark ? sparkTile(o.spark) : ''}${o.mini ? `<div class="mini w">${o.mini.map(([l, w, v]) => `<div class="mini-row"><span>${esc(l)}</span><div class="mini-bar" style="transform:scaleX(${Math.max(0.02, Math.min(1, w)).toFixed(3)})"></div><b>${esc(v)}</b></div>`).join('')}</div>` : ''}${o.go ? `<span class="kpi-go" aria-hidden="true">→</span>` : ''}</${o.go ? 'a' : 'article'}>`;
   const head = (kick, title, desc, right = '') => `<div class="ph"><div><p class="ph-k">${esc(kick)}</p><h2 class="ph-t">${esc(title)}</h2><p class="ph-d">${esc(desc)}</p>${S.snap ? `<p class="ph-u">${esc(X('Data dikemas kini: ', 'Data updated: ') + (S.snap.processedAt ? fmtTime(S.snap.processedAt) : '–') + X(' · Sumber: Jabatan Perangkaan Malaysia (DOSM)', ' · Source: Department of Statistics Malaysia (DOSM)'))} · <a href="#metodologi">${esc(X('Metodologi', 'Methodology'))}</a></p>` : ''}</div>${right}</div>`;
   const seg = (attr, cur, opts) => `<div class="seg site-seg" role="group">${opts.map(([v, l]) => `<button type="button" ${attr}="${v}" aria-pressed="${v === cur}">${esc(l)}</button>`).join('')}</div>`;
   const stPick = () => `<select data-st aria-label="${esc(X('Negeri', 'State'))}">${STATES.map(s => `<option value="${s.id}"${s.id === S.sel ? ' selected' : ''}>${esc(sname(s.id))}</option>`).join('')}</select>`;
@@ -4076,11 +4138,8 @@ const SITE = (() => {
       [X('Indeks Harga Pengguna negeri', 'State Consumer Price Index'), '2010–2025', 'cpi_2d_state', X('Data tetap', 'Fixed data')],
     ];
     $('pg-home').innerHTML = head(X('Gambaran keseluruhan', 'Overview'), X('Ekonomi negeri-negeri Malaysia sepintas lalu', 'Malaysia\'s state economies at a glance'), X('Produktiviti, KDNK, gaji dan pasaran buruh bagi 16 negeri dan wilayah persekutuan, daripada data rasmi DOSM. Pilih topik untuk melihat lebih lanjut.', 'Productivity, GDP, wages and the labour market for 16 states and federal territories, from official DOSM data. Pick a topic to go deeper.'))
-      + `<section class="kpis">${tile('k-dark', { go: 'productivity', h: X('Produktiviti buruh ', 'Labour productivity ') + mp.last, v: mp.fmt(mp.get('national', mp.last)), d: F.ps(mp.chg('national', mp.last)), s: X('berbanding ', 'vs ') + (mp.last - 1) + X(' · setiap pekerja', ' · per worker'), spark: mp.years.map(y => mp.get('national', y)) })
-      + tile('k-red', { go: 'gdp', h: X('KDNK ', 'GDP ') + mg.last, v: mg.fmt(mg.get('national', mg.last)), d: F.ps(mgg.get('national', mgg.last)), s: X('berbanding ', 'vs ') + (mg.last - 1), spark: mg.years.map(y => mg.get('national', y)) })
-      + tile('k-grey', { go: 'wages', h: X('Gaji penengah ', 'Median wage ') + mw.last, v: mw.fmt(mw.get('national', mw.last)), d: F.ps(mw.chg('national', mw.last)), s: X('berbanding ', 'vs ') + (mw.last - 1) + X(' · sebulan', ' · per month'), spark: mw.years.map(y => mw.get('national', y)) })
-      + tile('k-light', { go: 'labour', h: X('Pasaran buruh ', 'Labour market ') + me.last, v: me.fmt(me.get('national', me.last)), s: X('penduduk bekerja', 'employed persons'), mini: [[X('Penyertaan', 'Participation'), mpr.get('national', mpr.last) / 100, F.p(mpr.get('national', mpr.last))], [X('Pengangguran', 'Unemployed'), mu.get('national', mu.last) / 100, F.p(mu.get('national', mu.last))]] })}</section>`
-      + homeInsights() + favHtml()
+      + homeHighlights()
+      + favHtml()
       + `<div class="mtabs" role="tablist">${[['map', X('Peta', 'Map')], ['rank', X('Kedudukan', 'Ranking')], ['trend', 'Trend'], ['snap', X('Ringkasan', 'Snapshot')]].map(([k, l]) => `<button type="button" role="tab" data-mtab="${k}" class="${(U.home.tab || 'map') === k ? 'on' : ''}" aria-selected="${(U.home.tab || 'map') === k}">${esc(l)}</button>`).join('')}</div>`
       + `<section class="row r-tl">${mapCard(m, Y, stPick(), tlPlayer(m.years, Y))}${raceCard(m, Y)}</section>`
       + `<section class="row r-map r-home2"><article class="card"><div class="card-h"><div><h2>${esc(X('Trend ', 'Trend ') + m.years[0] + '–' + m.last + ': ' + m.l)}</h2><p class="sub">${esc(sname(id))}${cmp ? ' · ' + esc(sname(cmp)) : ''}${m.scale !== 'seq' ? esc(X(' berbanding Malaysia', ' against Malaysia')) : ''} · ${esc(m.unit)}</p></div><div class="ctl">${cmpPick(id, cmp)}</div></div><div class="chart" data-tlline></div><div class="tip" hidden></div><p class="mean"><b>${esc(X('Apa maksudnya? ', 'What does it mean? '))}</b>${esc(meanTrend(m, id))}</p>${cmpTbl(m, cmp ? [id, cmp] : [id])}</article><article class="card profile" aria-live="polite"><div class="pf-h"><h2>${esc(sname(id))}</h2><span class="pill q-slow">${esc(X('Ringkasan negeri', 'State snapshot'))}</span></div>
@@ -4151,7 +4210,7 @@ const SITE = (() => {
       + `<section class="sp-grid">${tiles}</section>`
       + `<section class="row r-half"><article class="card"><div class="card-h"><div><h2>${esc(X('Kekuatan', 'Strengths'))}</h2><p class="sub">${esc(X(`Penunjuk dalam lima teratas, ${I.Y}`, `Indicators in the top five, ${I.Y}`))}</p></div></div>${str.length ? `<ul class="sc-list good">${str.join('')}</ul>` : none}</article><article class="card"><div class="card-h"><div><h2>${esc(X('Cabaran', 'Challenges'))}</h2><p class="sub">${esc(X(`Penunjuk dalam lima terbawah, ${I.Y}`, `Indicators in the bottom five, ${I.Y}`))}</p></div></div>${chl.length ? `<ul class="sc-list bad">${chl.join('')}</ul>` : none}</article></section>`
       + `<section class="row r-half"><article class="card"><div class="card-h"><div><h2>${esc(X('Trend produktiviti buruh', 'Labour productivity trend'))}</h2><p class="sub">${esc(sname(id) + X(' berbanding Malaysia · ', ' against Malaysia · ') + mp.unit)}</p></div></div><div class="chart" data-spline></div><div class="tip" hidden></div><p class="mean"><b>${esc(X('Apa maksudnya? ', 'What does it mean? '))}</b>${esc(meanTrend(mp, id))}</p></article>`
-      + `<article class="card"><div class="card-h"><div><h2>${esc(X('Tindakan', 'Actions'))}</h2><p class="sub">${esc(X('Muat turun atau teroka lebih lanjut.', 'Download or explore further.'))}</p></div></div><div class="sp-act">${rp && rp.path ? `<a class="btn dark" href="${esc(rp.path)}" download>${esc(X('Muat turun laporan produktiviti (PDF)', 'Download productivity report (PDF)'))}</a>` : ''}<a class="btn" href="#reports">${esc(X('Bina laporan Word', 'Build a Word report'))}</a><a class="btn" href="#productivity">${esc(X('Lihat di peta produktiviti', 'See on the productivity map'))}</a><a class="btn" href="#integrated">${esc(X('Kad skor penuh', 'Full scorecard'))}</a></div><p class="mean"><b>${esc(X('Kad skor ', 'Scorecard ') + I.Y + ': ')}</b>${esc(X(`${str.length} kekuatan dan ${chl.length} cabaran daripada ${I.SC.length} penunjuk.`, `${str.length} strength(s) and ${chl.length} challenge(s) out of ${I.SC.length} indicators.`))}</p></article></section>`;
+      + `<article class="card"><div class="card-h"><div><h2>${esc(X('Tindakan', 'Actions'))}</h2><p class="sub">${esc(X('Muat turun atau teroka lebih lanjut.', 'Download or explore further.'))}</p></div></div><div class="sp-act">${rp && rp.path ? `<a class="btn dark" href="${esc(rp.path)}" download>${esc(X('Muat turun laporan produktiviti (PDF)', 'Download productivity report (PDF)'))}</a>` : ''}<a class="btn" href="#reports">${esc(X('Bina laporan Word', 'Build a Word report'))}</a><a class="btn" href="#productivity">${esc(X('Lihat di peta produktiviti', 'See on the productivity map'))}</a><a class="btn" href="#integrated">${esc(X('Kad skor penuh', 'Full scorecard'))}</a><a class="btn" href="#banding" data-cmpfrom="${id}">${esc(X('Banding dengan negeri lain', 'Compare with other states'))}</a></div><p class="mean"><b>${esc(X('Kad skor ', 'Scorecard ') + I.Y + ': ')}</b>${esc(X(`${str.length} kekuatan dan ${chl.length} cabaran daripada ${I.SC.length} penunjuk.`, `${str.length} strength(s) and ${chl.length} challenge(s) out of ${I.SC.length} indicators.`))}</p></article></section>`;
     drawLine(el.querySelector('[data-spline]'), { years: mp.years, series: [{ label: 'Malaysia', vals: mp.years.map(y => mp.get('national', y)), nat: true }, { label: short(id), vals: mp.years.map(y => mp.get(id, y)), color: 'var(--red)' }], fmt: mp.fmt, ax: mp.ax, title: mp.l });
   }
   function methodPage() {
@@ -4205,6 +4264,7 @@ const SITE = (() => {
   const cardTitle = card => { const h = card.querySelector('h2'); return h ? h.textContent.trim() : ''; };
   function afterRender() {
     const pg = $('pg-' + page); if (!pg || pg.hidden) return;
+    sortTables(pg); regionFilter(pg);
     pg.querySelectorAll('.card').forEach(card => {
       if (card.querySelector(':scope > .ctools')) return;
       const svg = card.querySelector('.chart > svg, .map > svg, #matrix > svg'), race = card.querySelector('.race'), t = cardTitle(card);
@@ -4279,6 +4339,81 @@ const SITE = (() => {
     if (pp) { location.hash = pp.h; return true; }
     return false;
   }
+
+  const CMP_COL = ['var(--red)', 'var(--ink)', '#b45309', '#0f766e'];
+  const CMP_M = ['prod', 'gdp', 'gdpg', 'median', 'formal', 'prate', 'urate', 'fprate'];
+  function comparePage() {
+    const C = U.cmp; if (!C.ids.length) { const sv = (store.get('sppe-cmp') || '').split(',').filter(x => STATE_BY_ID[x]); C.ids = sv.length ? sv : [S.sel, ...MET('prod').rank(MET('prod').last).map(r => r.id).filter(x => x !== S.sel && !SPECIAL_FT.includes(x)).slice(0, 2)]; }
+    C.ids = C.ids.filter(x => STATE_BY_ID[x]).slice(0, 4); store.set('sppe-cmp', C.ids.join(','));
+    const ids = C.ids, m = MET(C.m);
+    const chips = ids.map((id, i) => `<span class="cmp-chip" style="background:${CMP_COL[i]}">${esc(sname(id))}${ids.length > 1 ? `<button type="button" data-cmprm="${id}" aria-label="${esc(X('Buang ', 'Remove ') + sname(id))}">×</button>` : ''}</span>`).join('');
+    const add = ids.length < 4 ? `<select data-cmpadd aria-label="${esc(X('Tambah negeri', 'Add a state'))}"><option value="">${esc(X('+ Tambah negeri (maks. 4)', '+ Add a state (max 4)'))}</option>${STATES.filter(s => !ids.includes(s.id)).map(s => `<option value="${s.id}">${esc(sname(s.id))}</option>`).join('')}</select>` : '';
+    const wins = Object.fromEntries(ids.map(id => [id, 0]));
+    const rows = CMP_M.map(k => {
+      const mm = MET(k), y = mm.last, rk = mm.rank(y), vals = ids.map(id => mm.get(id, y)), ok = vals.filter(v => v != null);
+      const best = ok.length ? (mm.low ? Math.min(...ok) : Math.max(...ok)) : null; ids.forEach((id, i) => { if (vals[i] != null && vals[i] === best) wins[id]++; });
+      return `<tr><td><a href="#${BY_PG[mm.pg].h}">${esc(mm.l)}</a><small>${esc(mm.yl(y))}${mm.low ? ' · ' + esc(X('rendah lebih baik', 'lower is better')) : ''}</small></td>${ids.map((id, i) => { const r = rk.findIndex(z => z.id === id) + 1; return `<td class="${vals[i] != null && vals[i] === best ? 'best' : ''}">${esc(mm.fmt(vals[i]))}<small>${r ? esc(X('Kedudukan ', 'Rank ') + r) : ''}</small></td>`; }).join('')}<td>${esc(mm.fmt(mm.get('national', y)))}</td></tr>`;
+    }).join('');
+    const lead = [...ids].sort((a, b) => wins[b] - wins[a])[0];
+    const pg = $('pg-cmp');
+    pg.innerHTML = head(X('Banding negeri', 'Compare states'), X('Banding sehingga 4 negeri', 'Compare up to 4 states'), X('Pilih negeri untuk melihat semua penunjuk utama sebelah-menyebelah. Nilai terbaik antara negeri dipilih ditandakan merah.', 'Choose states to see every key indicator side by side. The best value among the chosen states is marked in red.'))
+      + `<article class="card"><div class="cmp-chips">${chips}${add}</div></article>`
+      + `<article class="card"><div class="card-h"><div><h2>${esc(X('Semua penunjuk, data terkini', 'All indicators, latest data'))}</h2><p class="sub">${esc(X('Klik nama penunjuk untuk ke halaman topik.', 'Click an indicator name to open its topic page.'))}</p></div></div><div class="tbl-w"><table class="tbl cmp-big"><thead><tr><th>${esc(X('Penunjuk', 'Indicator'))}</th>${ids.map((id, i) => `<th style="color:${CMP_COL[i]}">${esc(short(id))}</th>`).join('')}<th>Malaysia</th></tr></thead><tbody>${rows}</tbody></table></div><p class="mean"><b>${esc(X('Apa maksudnya? ', 'What does it mean? '))}</b>${esc(X(`${sname(lead)} mendahului dalam ${wins[lead]} daripada ${CMP_M.length} penunjuk antara negeri yang dipilih.`, `${sname(lead)} leads on ${wins[lead]} of ${CMP_M.length} indicators among the chosen states.`))}</p></article>`
+      + `<div class="subnav">${seg('data-m="cmp" data-v', C.m, CMP_M.map(k => [k, MET(k).l]))}</div>`
+      + `<article class="card"><div class="card-h"><div><h2>${esc(X('Trend: ', 'Trend: ') + m.l)}</h2><p class="sub">${esc(m.years[0] + '–' + m.last + ' · ' + m.unit)}</p></div></div><div class="chart" data-cmpline></div><div class="tip" hidden></div></article>`;
+    drawLine(pg.querySelector('[data-cmpline]'), { years: m.years, series: (m.scale !== 'seq' ? [{ label: 'Malaysia', vals: m.years.map(y => m.get('national', y)), nat: true }] : []).concat(ids.map((id, i) => ({ label: short(id), vals: m.years.map(y => m.get(id, y)), color: CMP_COL[i] }))), fmt: m.fmt, ax: m.ax, title: m.l });
+  }
+  function sortTables(pg) {
+    pg.querySelectorAll('table.tbl').forEach(tb => {
+      if (tb._sort || !tb.tBodies[0] || tb.tBodies[0].rows.length < 6 || !tb.tHead) return; tb._sort = true;
+      [...tb.tHead.rows[0].cells].forEach((th, ci) => {
+        th.classList.add('sortable'); th.title = X('Klik untuk susun', 'Click to sort');
+        th.addEventListener('click', () => {
+          const dir = th.dataset.dir === 'asc' ? 'desc' : 'asc'; [...tb.tHead.rows[0].cells].forEach(x => delete x.dataset.dir); th.dataset.dir = dir;
+          const num = t2 => { const v = parseFloat(t2.replace(/−/g, '-').replace(/[^\d.\-]/g, '')); return isNaN(v) ? null : v; };
+          const rows = [...tb.tBodies[0].rows];
+          rows.sort((a, b) => { const x = (a.cells[ci] || {}).textContent || '', y = (b.cells[ci] || {}).textContent || '', nx = num(x), ny = num(y); const r = nx != null && ny != null ? nx - ny : x.localeCompare(y); return dir === 'asc' ? r : -r; });
+          rows.forEach(r => tb.tBodies[0].appendChild(r));
+        });
+      });
+    });
+  }
+
+  // Home: one section that is both the headline numbers and the highlights; each tile opens its topic.
+  function homeHighlights() {
+    const mp = MET('prod'), mg = MET('gdp'), mgg = MET('gdpg'), mw = MET('median'), mpr = MET('prate'), mu = MET('urate'), me = MET('emp');
+    const Y = mp.last, N = mp.get('national', Y);
+    const ch = NOSP().map(id => ({ id, c: mp.chg(id, Y), v: mp.get(id, Y) })).filter(x => x.c != null && x.v != null);
+    const fast = [...ch].sort((a, b) => b.c - a.c)[0], low = [...ch].sort((a, b) => a.v - b.v)[0];
+    const t3 = mg.rank(mg.last).slice(0, 3), sh = t3.reduce((a, x) => a + x.v, 0) / mg.get('national', mg.last) * 100;
+    const wr = mw.rank(mw.last).filter(x => !SPECIAL_FT.includes(x.id)), ur = mu.rank(mu.last);
+    const s1 = fast && low ? X(`${short(fast.id)} tumbuh terpantas (${F.ps(fast.c)}); ${short(low.id)} ${F.p(Math.abs((low.v / N - 1) * 100))} di bawah paras nasional.`, `${short(fast.id)} grew fastest (${F.ps(fast.c)}); ${short(low.id)} is ${F.p(Math.abs((low.v / N - 1) * 100))} below the national level.`) : '';
+    const s2 = X(`${t3.map(x => short(x.id)).join(', ')} menyumbang ${F.p(sh)} daripada KDNK.`, `${t3.map(x => short(x.id)).join(', ')} make up ${F.p(sh)} of GDP.`);
+    const s3 = wr.length ? X(`Tertinggi ${short(wr[0].id)} ${mw.fmt(wr[0].v)}, terendah ${short(wr[wr.length - 1].id)} ${mw.fmt(wr[wr.length - 1].v)} (tanpa Putrajaya & Labuan).`, `Highest ${short(wr[0].id)} ${mw.fmt(wr[0].v)}, lowest ${short(wr[wr.length - 1].id)} ${mw.fmt(wr[wr.length - 1].v)} (excl. Putrajaya & Labuan).`) : '';
+    const s4 = ur.length ? X(`Pengangguran ${F.p(mu.get('national', mu.last))}, penyertaan ${F.p(mpr.get('national', mpr.last))}. Terendah: ${short(ur[0].id)} (${F.p(ur[0].v)}).`, `Unemployment ${F.p(mu.get('national', mu.last))}, participation ${F.p(mpr.get('national', mpr.last))}. Lowest: ${short(ur[0].id)} (${F.p(ur[0].v)}).`) : '';
+    return `<section class="hl-sec"><div class="hl-h"><h2 class="sec-t">${esc(X('Sorotan utama ', 'Key highlights ') + Y)}</h2><span class="sub">${esc(X('Ditulis automatik daripada data DOSM · klik untuk teroka', 'Written automatically from DOSM data · click to explore'))}</span></div><div class="kpis hl">`
+      + tile('k-dark', { go: 'productivity', h: X('Produktiviti buruh ', 'Labour productivity ') + Y, v: mp.fmt(N), d: F.ps(mp.chg('national', Y)), s: X('berbanding ', 'vs ') + (Y - 1), ins: s1, spark: mp.years.map(y => mp.get('national', y)) })
+      + tile('k-red', { go: 'gdp', h: X('KDNK ', 'GDP ') + mg.last, v: mg.fmt(mg.get('national', mg.last)), d: F.ps(mgg.get('national', mgg.last)), s: X('berbanding ', 'vs ') + (mg.last - 1), ins: s2, spark: mg.years.map(y => mg.get('national', y)) })
+      + tile('k-grey', { go: 'wages', h: X('Gaji penengah ', 'Median wage ') + mw.last, v: mw.fmt(mw.get('national', mw.last)), d: F.ps(mw.chg('national', mw.last)), s: X('sebulan', 'per month'), ins: s3, spark: mw.years.map(y => mw.get('national', y)) })
+      + tile('k-light', { go: 'labour', h: X('Pasaran buruh ', 'Labour market ') + me.last, v: me.fmt(me.get('national', me.last)), s: X('penduduk bekerja', 'employed persons'), ins: s4, spark: me.years.map(y => me.get('national', y)) })
+      + `</div></section>`;
+  }
+  const REGIONS = [['utara', 'Utara', 'North', ['perlis', 'kedah', 'ppinang', 'perak']], ['tengah', 'Tengah', 'Central', ['selangor', 'kl', 'putrajaya', 'nsembilan']], ['selatan', 'Selatan', 'South', ['melaka', 'johor']], ['timur', 'Pantai Timur', 'East Coast', ['kelantan', 'terengganu', 'pahang']], ['borneo', 'Borneo', 'Borneo', ['sabah', 'sarawak', 'labuan']]];
+  function regionFilter(pg) {
+    if (page !== 'intg') return;
+    const tb = [...pg.querySelectorAll('table.tbl')].sort((a, b) => b.tBodies[0].rows.length - a.tBodies[0].rows.length)[0];
+    if (!tb || tb.tBodies[0].rows.length < 12 || tb._rgn) return; tb._rgn = true;
+    const names = id => [sname(id), short(id), STATE_BY_ID[id].bm, STATE_BY_ID[id].en].map(x => (x || '').toLowerCase());
+    const bar = document.createElement('div'); bar.className = 'rgn';
+    bar.innerHTML = `<span>${esc(X('Serlahkan wilayah:', 'Highlight a region:'))}</span><button type="button" data-rgn="" aria-pressed="true">${esc(X('Semua', 'All'))}</button>` + REGIONS.map(r => `<button type="button" data-rgn="${r[0]}" aria-pressed="false">${esc(S.lang === 'en' ? r[2] : r[1])}</button>`).join('');
+    const wrap = tb.closest('.tbl-w') || tb; wrap.parentNode.insertBefore(bar, wrap);
+    bar.addEventListener('click', e => {
+      const b = e.target.closest('button[data-rgn]'); if (!b) return;
+      bar.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b));
+      const r = REGIONS.find(x => x[0] === b.dataset.rgn), set = r ? r[3].flatMap(names) : null;
+      [...tb.tBodies[0].rows].forEach(row => { const t = (row.cells[0] || {}).textContent.trim().toLowerCase(); row.classList.toggle('dim', !!set && !set.includes(t)); row.classList.toggle('hl', !!set && set.includes(t)); });
+    });
+  }
   const FEEDBACK_EMAIL = '';
   const BY_PG = Object.fromEntries(PAGES.map(p => [p.id, p]));
 
@@ -4297,7 +4432,7 @@ const SITE = (() => {
     $('nav').innerHTML = PAGES.map(p => `<a href="#${p.h}"${p.id === page ? ' aria-current="page"' : ''}>${esc(pname(p))}</a>`).join('');
     const cur = $('nav').querySelector('[aria-current]'); if (cur && cur.scrollIntoView && $('nav').scrollWidth > $('nav').clientWidth) $('nav').scrollLeft = Math.max(0, cur.offsetLeft - 24);
     navCue();
-    $('meta').hidden = page !== 'prod';
+    $('meta').hidden = true;
     const tg = document.querySelector('.tagline'); if (tg) tg.textContent = page === 'prod' ? t('tagline') : X('Analitik Ekonomi & Produktiviti Negeri', 'State Economic & Productivity Analytics');
     PAGES.forEach(p => { const el = $('pg-' + p.id); if (el) el.hidden = p.id !== page; });
     document.title = (page === 'home' ? '' : pname(BY_PG[page]) + ' · ') + t('title');
@@ -4311,7 +4446,7 @@ const SITE = (() => {
     if (!S.snap || !AN) { const el = $('pg-' + page); if (el && el.hasAttribute('data-site') && !S.snapLoaded) el.innerHTML = `<div class="skel-row"><div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div></div><div class="skel big"></div>`; return; }
     $('ph-prod').innerHTML = head(X('Topik 1', 'Topic 1'), pname(BY_PG.prod), X('Nilai yang dihasilkan oleh setiap pekerja dalam setahun, mengikut negeri dan sektor. Lebih tinggi bermakna setiap pekerja menghasilkan lebih banyak.', 'The value each worker produces in a year, by state and sector. Higher means each worker is producing more.'));
     $('ph-reports').innerHTML = head(X('Laporan', 'Reports'), X('Pembina Laporan Pintar', 'Smart Report Builder'), X('Pilih topik, penunjuk, negeri dan tahun. Laporan dijana sebagai fail Word yang boleh disunting, dalam gaya yang sama dengan laporan produktiviti asal. Laporan PDF produktiviti sedia ada boleh dimuat turun di halaman Produktiviti Buruh.', 'Choose topics, indicators, states and years. The report is generated as an editable Word file, in the same style as the original productivity report. The ready-made productivity PDF reports can be downloaded on the Labour Productivity page.'));
-    try { ({ home: homePage, gdp: gdpPage, wage: wagePage, lab: labPage, intg: intgPage, state: statePage, method: methodPage }[page] || (() => { }))(); }
+    try { ({ home: homePage, gdp: gdpPage, wage: wagePage, lab: labPage, intg: intgPage, state: statePage, method: methodPage, cmp: comparePage }[page] || (() => { }))(); }
     catch (err) { console.error('SITE render', err); const el = $('pg-' + page); if (el) el.innerHTML = `<div class="banner err">${esc(X('Halaman ini tidak dapat dipaparkan.', 'This page could not be displayed.'))}</div>`; }
     try { afterRender(); } catch (err) { console.error('afterRender', err); }
   }
@@ -4323,7 +4458,8 @@ const SITE = (() => {
     const d = $('dash');
     { const hm = store.get('sppe-hm'); if (['prod', 'gdp', 'median', 'prate', 'urate'].includes(hm)) U.home.m = hm; }
     d.addEventListener('click', e => { const b = e.target.closest('button[data-ct]'); if (b) chartTool(b); });
-    const q = $('q'); if (q) { const run = () => { if (search(q.value)) { q.value = ''; q.blur(); } }; q.addEventListener('change', run); q.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); run(); } }); }
+    const sb = $('srch-btn'); if (sb) sb.addEventListener('click', () => { const w = document.querySelector('.srch'); w.classList.toggle('open'); if (w.classList.contains('open')) $('q').focus(); });
+    const q = $('q'); if (q) { const run = () => { if (search(q.value)) { q.value = ''; q.blur(); document.querySelector('.srch').classList.remove('open'); } }; q.addEventListener('change', run); q.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); run(); } }); }
     const gt = document.createElement('div'); gt.id = 'gtip'; gt.hidden = true; document.body.appendChild(gt);
     d.addEventListener('pointermove', e => { const t2 = e.target.closest && e.target.closest('.rrow[aria-label], .pt[aria-label], .mp[aria-label]'); if (!t2) { gt.hidden = true; return; } gt.textContent = t2.getAttribute('aria-label'); gt.hidden = false; let x = e.clientX + 14, y = e.clientY + 14; if (x + 290 > innerWidth) x = e.clientX - 290; gt.style.left = x + 'px'; gt.style.top = y + 'px'; });
     d.addEventListener('pointerleave', () => { gt.hidden = true; });
@@ -4333,8 +4469,10 @@ const SITE = (() => {
       const tb = e.target.closest('button[data-tlt]'); if (tb) { if (page === 'home') homeYear(+tb.dataset.tlt); else topicYear(+tb.dataset.tlt); return; }
       const mb = e.target.closest('button[data-m]'); if (mb) { if (mb.dataset.m === 'home') { stopHome(); store.set('sppe-hm', mb.dataset.v); } else stopTopic(true); U[mb.dataset.m].m = mb.dataset.v; U[mb.dataset.m].y = null; render(); return; }
       const gb = e.target.closest('button[data-grp]'); if (gb) { U.wage.grp = gb.dataset.grp; render(); return; }
+      const cr = e.target.closest('button[data-cmprm]'); if (cr) { U.cmp.ids = U.cmp.ids.filter(x => x !== cr.dataset.cmprm); render(); return; }
       const mt = e.target.closest('button[data-mtab]'); if (mt) { U.home.tab = mt.dataset.mtab; render(); return; }
       const up = e.target.closest('button[data-unpin]'); if (up) { e.preventDefault(); const a = pins(); a.splice(+up.dataset.unpin, 1); savePins(a); render(); return; }
+      const cf = e.target.closest('a[data-cmpfrom]'); if (cf) { const f = cf.dataset.cmpfrom; U.cmp.ids = [f, ...U.cmp.ids.filter(x => x !== f)].slice(0, 4); }
       const fv = e.target.closest('a[data-fav]'); if (fv) { pendingFav = fv.dataset.fav; if (fv.getAttribute('href') === location.hash) { e.preventDefault(); afterRender(); } }
       const s = e.target.closest('[data-sel]'); if (s) select(s.dataset.sel);
     });
@@ -4344,6 +4482,7 @@ const SITE = (() => {
       if (!e.target.closest('.pg[data-site]')) return;
       if (e.target.matches('select[data-st]')) select(e.target.value);
       else if (e.target.matches('select[data-cmp]')) { U.home.cmp = e.target.value; render(); }
+      else if (e.target.matches('select[data-cmpadd]')) { if (e.target.value && U.cmp.ids.length < 4) { U.cmp.ids.push(e.target.value); render(); } }
       else if (e.target.matches('input[data-hex]')) { U.home.ex = e.target.checked; const m = MET(U.home.m); drawRace($('pg-home').querySelector('[data-race]'), m, U.home.y && m.years.includes(U.home.y) ? U.home.y : m.last); }
       else if (e.target.matches('select[data-y]')) { U[e.target.dataset.y].y = +e.target.value; render(); }
     });
