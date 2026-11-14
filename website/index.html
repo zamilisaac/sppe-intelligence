@@ -663,7 +663,26 @@ a.kpi:hover { transform: translateY(-2px); }
 .meth-link:hover, .meth-link.on { color: var(--ink); border-color: var(--ink); }
 .seg a.seg-a { flex: 0 0 auto; padding: 7px 14px; border-radius: 8px; font-weight: 700; font-size: 13px; color: var(--muted); text-decoration: none; white-space: nowrap; }
 .seg a.seg-a[aria-pressed="true"] { background: var(--tile-ink); color: var(--on-ink); }
-@media (max-width: 560px) { .meth-link { padding: 7px 9px; font-size: 12px; } }
+@media (max-width: 560px) {
+  .meth-link { font-size: 0; width: 38px; height: 38px; padding: 0; display: grid; place-items: center; border-radius: 50%; }
+  .meth-link::before { content: 'ⓘ'; font-size: 18px; color: var(--ink); }
+  .brand-text { min-width: 0; } .brand h1 { font-size: 15px; line-height: 1.15; } .brand { flex: 1 1 auto; }
+  .top-right { flex: 0 0 auto; } .lang button { padding: 6px 10px; }
+}
+.nav .ns, .nav-topic, .nav-sheet { display: none; }
+@media (max-width: 760px) {
+  .nav { overflow: visible; -webkit-mask-image: none !important; mask-image: none !important; gap: 2px; padding: 4px; }
+  .nav a[data-topic] { display: none; }
+  .nav a, .nav-topic { flex: 1 1 0; min-width: 0; text-align: center; padding: 10px 2px; font-size: 12.5px; margin-left: 0 !important; }
+  .nav .nl { display: none; } .nav .ns { display: inline; }
+  .nav-topic { display: block; border: 0; background: transparent; border-radius: 999px; font: inherit; font-weight: 700; font-size: 12.5px; color: var(--muted); cursor: pointer; white-space: nowrap; }
+  .nav-topic.on { background: var(--tile-ink); color: var(--on-ink); }
+  .nav-sheet:not([hidden]) { display: flex; flex-direction: column; gap: 4px; position: fixed; left: 10px; right: 10px; bottom: 70px; z-index: 45; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.22); }
+  .nav-sheet p { margin: 2px 6px 4px; font-size: 11.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+  .nav-sheet a { padding: 12px 14px; border-radius: 10px; text-decoration: none; color: var(--ink); font-weight: 700; font-size: 15px; }
+  .nav-sheet a[aria-current] { background: var(--tile-ink); color: var(--on-ink); }
+}
+@media (min-width: 561px) and (max-width: 760px) { .nav-sheet:not([hidden]) { bottom: auto; top: 120px; position: absolute; } }
 .ramp.hseq { background: linear-gradient(90deg, color-mix(in srgb, var(--red) 4%, var(--map-base)), var(--red) 80%, color-mix(in srgb, #3b0a0a 60%, var(--red))); }
 .yr-cap { margin: 2px 0 8px; padding: 8px 12px; border-radius: 10px; background: var(--soft); font-size: 13px; line-height: 1.45; min-height: 2.9em; }
 .yr-cap b { color: var(--red); }
@@ -4449,7 +4468,12 @@ const SITE = (() => {
   function navCue() { const n = $('nav'); if (n) n.classList.toggle('more', n.scrollWidth - n.clientWidth - n.scrollLeft > 4); }
   function chrome() {
     const curNav = (BY_PG[page] && BY_PG[page].parent) || page;
-    $('nav').innerHTML = PAGES.filter(p => p.nav !== false).map(p => `<a href="#${p.h}"${p.id === curNav ? ' aria-current="page"' : ''}>${esc(pname(p))}</a>`).join('');
+    const TOPICS = ['prod', 'gdp', 'wage', 'lab'], SHORT = { home: ['Utama', 'Home'], state: ['Negeri', 'States'], intg: ['Risikan', 'Insights'], reports: ['Laporan', 'Reports'] };
+    const navA = p => `<a href="#${p.h}"${TOPICS.includes(p.id) ? ' data-topic' : ''}${p.id === curNav ? ' aria-current="page"' : ''}><span class="nl">${esc(pname(p))}</span>${SHORT[p.id] ? `<span class="ns">${esc(X(...SHORT[p.id]))}</span>` : ''}</a>`;
+    const navP = PAGES.filter(p => p.nav !== false), onTopic = TOPICS.includes(curNav);
+    $('nav').innerHTML = navP.map((p, i) => navA(p) + (p.id === 'state' ? `<button type="button" class="nav-topic${onTopic ? ' on' : ''}" aria-expanded="false" aria-controls="nav-sheet">${esc(X('Topik', 'Topics'))} ▴</button>` : '')).join('');
+    let sh = $('nav-sheet'); if (!sh) { sh = document.createElement('div'); sh.id = 'nav-sheet'; sh.className = 'nav-sheet'; sh.hidden = true; $('nav').after(sh); }
+    sh.innerHTML = `<p>${esc(X('Pilih topik', 'Choose a topic'))}</p>` + TOPICS.map(id => `<a href="#${BY_PG[id].h}"${id === curNav ? ' aria-current="page"' : ''}>${esc(pname(BY_PG[id]))}</a>`).join(''); sh.hidden = true;
     const ml = $('meth-link'); if (ml) { ml.textContent = X('Metodologi', 'Methodology'); ml.classList.toggle('on', page === 'method'); }
     const cur = $('nav').querySelector('[aria-current]'); if (cur && cur.scrollIntoView && $('nav').scrollWidth > $('nav').clientWidth) $('nav').scrollLeft = Math.max(0, cur.offsetLeft - 24);
     navCue();
@@ -4476,6 +4500,11 @@ const SITE = (() => {
     readHash();
     window.addEventListener('hashchange', go);
     $('nav').addEventListener('scroll', navCue, { passive: true }); window.addEventListener('resize', navCue);
+    document.addEventListener('click', e => {
+      const sh = $('nav-sheet'), b = e.target.closest('.nav-topic'); if (!sh) return;
+      if (b) { sh.hidden = !sh.hidden; b.setAttribute('aria-expanded', !sh.hidden); return; }
+      if (!sh.hidden && (!e.target.closest('#nav-sheet') || e.target.closest('a'))) { sh.hidden = true; const t2 = document.querySelector('.nav-topic'); if (t2) t2.setAttribute('aria-expanded', 'false'); }
+    });
     const d = $('dash');
     { const hm = store.get('sppe-hm'); if (['prod', 'gdp', 'median', 'prate', 'urate'].includes(hm)) U.home.m = hm; }
     d.addEventListener('click', e => { const b = e.target.closest('button[data-ct]'); if (b) chartTool(b); });
