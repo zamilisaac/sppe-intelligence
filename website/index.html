@@ -718,6 +718,12 @@ a.kpi:hover { transform: translateY(-2px); }
   .acct-sheet a.acct-out { color: var(--red); border-top: 1px solid var(--line); border-radius: 0 0 10px 10px; }
 }
 @media (max-width: 360px) { .acct-btn { width: 34px; height: 34px; } }
+.race-year.hd { margin: 0; font-size: clamp(28px, 3vw, 40px); line-height: 1; flex: none; }
+.r-tl .card-h .toggle { margin-top: 10px; display: inline-flex; }
+.r-tl .race-wrap { padding-top: 26px; }
+.pg[data-site] .r-tl .map-card .map-wrap, .pg[data-site] .r-tl .map-card .map { margin-block: 4px 0; }
+.pg[data-site] .r-tl .map-card .map-wrap { margin-bottom: auto; }
+@media (min-width: 1081px) { .pg[data-site] .r-tl .map-card .map-wrap { margin-top: 22px; } }
 .ramp.hseq { background: linear-gradient(90deg, color-mix(in srgb, var(--red) 4%, var(--map-base)), var(--red) 80%, color-mix(in srgb, #3b0a0a 60%, var(--red))); }
 .yr-cap { margin: 2px 0 8px; padding: 8px 12px; border-radius: 10px; background: var(--soft); font-size: 13px; line-height: 1.45; min-height: 2.9em; }
 .yr-cap b { color: var(--red); }
@@ -3820,7 +3826,7 @@ const SITE = (() => {
     const cls = w => w === ids[0] ? 'c-sel' : w === 'national' ? '' : 'c-cmp';
     return `<div class="tbl-w"><table class="tbl tight cmp-tbl"><thead><tr><th></th>${cols.map(w => `<th class="${cls(w)}">${esc(short(w))}</th>`).join('')}</tr></thead><tbody>${rows.map(([l, f]) => `<tr><td>${esc(l)}</td>${cols.map(w => `<td class="${cls(w)}">${f(w)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
   }
-  const raceCard = (m, Y) => `<article class="card"><div class="card-h"><div><h2>${esc(X('Garis masa kedudukan negeri', 'State ranking over time'))}</h2><p class="sub">${esc(m.l)} · ${esc(m.unit)}${m.low ? ' · ' + esc(X('1 = paling rendah', '1 = lowest')) : ''}</p></div><label class="toggle"><input type="checkbox" data-hex${U.home.ex ? ' checked' : ''}><span>${esc(X('Tanpa W.P. Putrajaya & Labuan', 'Without Putrajaya & Labuan'))}</span></label></div><div class="race-wrap"><div class="race-year" data-tlyr aria-hidden="true">${esc(m.yl(Y))}</div><div class="race hrace" data-race role="list"></div></div><p class="foot"><a class="more-link" href="#${BY_PG[m.pg].h}">${esc(X('Lihat analisis penuh: ', 'See full analysis: ') + pname(BY_PG[m.pg]))} →</a><br>${esc(m.scale !== 'seq' ? X('Garis putus merah: paras Malaysia. Bar kelabu: lebih lemah daripada Malaysia. Angka kecil: perubahan berbanding tahun sebelumnya.', 'Dashed red line: Malaysia. Grey bars: weaker than Malaysia. Small figures: change from the previous year.') : X('Angka kecil: perubahan berbanding tahun sebelumnya.', 'Small figures: change from the previous year.'))}${IDS.some(id => SPECIAL_FT.includes(id) && m.get(id, Y) != null) ? ' ' + esc(X('* Tenaga kerja kecil dan ekonomi khusus.', '* Small workforce and specialised economy.')) : ''}</p></article>`;
+  const raceCard = (m, Y) => `<article class="card"><div class="card-h"><div><h2>${esc(X('Garis masa kedudukan negeri', 'State ranking over time'))}</h2><p class="sub">${esc(m.l)} · ${esc(m.unit)}${m.low ? ' · ' + esc(X('1 = paling rendah', '1 = lowest')) : ''}</p><label class="toggle"><input type="checkbox" data-hex${U.home.ex ? ' checked' : ''}><span>${esc(X('Tanpa W.P. Putrajaya & Labuan', 'Without Putrajaya & Labuan'))}</span></label></div><div class="race-year hd" data-tlyr aria-hidden="true">${esc(m.yl(Y))}</div></div><div class="race-wrap"><div class="race hrace" data-race role="list"></div></div><p class="foot"><a class="more-link" href="#${BY_PG[m.pg].h}">${esc(X('Lihat analisis penuh: ', 'See full analysis: ') + pname(BY_PG[m.pg]))} →</a><br>${esc(m.scale !== 'seq' ? X('Garis putus merah: paras Malaysia. Bar kelabu: lebih lemah daripada Malaysia. Angka kecil: perubahan berbanding tahun sebelumnya.', 'Dashed red line: Malaysia. Grey bars: weaker than Malaysia. Small figures: change from the previous year.') : X('Angka kecil: perubahan berbanding tahun sebelumnya.', 'Small figures: change from the previous year.'))}${IDS.some(id => SPECIAL_FT.includes(id) && m.get(id, Y) != null) ? ' ' + esc(X('* Tenaga kerja kecil dan ekonomi khusus.', '* Small workforce and specialised economy.')) : ''}</p></article>`;
   let HP = null, HPm = null;
   function homeYear(y, fromPlay) {
     const pg = $('pg-home');
