@@ -16,7 +16,7 @@ ut.forEach(x=>console.log(x[1]?'PASS':'FAIL',x[0],x[2]!==undefined?`(${x[2]} vs 
 // --- vertical slice: Selangor, GDP + wages, 2020-2025, integrated
 await p.goto(B+'/#bina-laporan');await p.waitForTimeout(1500);
 console.log('tabs:',await p.$$eval('#pg-build .seg-a',l=>l.map(a=>a.textContent).join(' | ')));
-await p.selectOption('#pg-build select[data-k2="addgeo"]','selangor').catch(()=>{});
+await p.click('#pg-build [data-k2type="custom"]');await p.waitForTimeout(500);await p.selectOption('#pg-build select[data-k2="addgeo"]','selangor').catch(()=>{});
 for(const id of ['emp']) await p.uncheck(`#pg-build input[data-k2ind="${id}"]`);
 await p.selectOption('#pg-build select[data-k2="y0"]','2020');await p.selectOption('#pg-build select[data-k2="y1"]','2025');await p.selectOption('#pg-build select[data-k2="mode"]','intg');
 await p.waitForTimeout(300);console.log('geos:',await p.$$eval('#pg-build .k2-chip',l=>l.map(x=>x.textContent.replace('×','')).join(',')),'| status:',await p.textContent('#pg-build h2 .k2-st'));
