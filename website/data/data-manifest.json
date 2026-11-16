@@ -9,7 +9,7 @@
     "wages_industry": "2025",
     "wages_education": "2025",
     "wages_skill": "2025",
-    "formal_wages_state": "2026-06",
+    "formal_wages_state": "2026-07",
     "formal_wages_msic": "2026-06",
     "formal_wages_band": "2026-06",
     "lfs_state_sex": "2025",
@@ -56,9 +56,9 @@
       "sha256": "52f0cc023581045c33fde74ff2d60db05d37b2a4bd921ee8ae449b21b7eb4a34"
     },
     "formal_wages_state": {
-      "latest": "2026-06",
-      "rows": 918,
-      "sha256": "f6159ee5980d06c312ce6fce7d1df52b97d897e5e006dfbcc04d54337309b37e"
+      "latest": "2026-07",
+      "rows": 935,
+      "sha256": "be8086436077217ab0225461446b91fc4bef3bdd3fcfb7b57587e86152e8d260"
     },
     "formal_wages_msic": {
       "latest": "2026-06",
@@ -97,8 +97,8 @@
     }
   },
   "packs": {
-    "k3-data": "fa15cebee647",
-    "m6-data": "554c6dbc9eb7",
+    "k3-data": "17eedc23fc02",
+    "m6-data": "188ed48ccf8b",
     "snapshot.json": "2d3928898de6"
   },
   "stateProductivity": {
