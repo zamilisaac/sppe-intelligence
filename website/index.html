@@ -757,6 +757,12 @@ p.k2-warn { margin: 0 0 6px; padding: 8px 12px; border-radius: 8px; font-size: 1
 @media (max-width: 560px) { .k2-grid4 { grid-template-columns: minmax(0, 1fr); } .k2-paper .pv-body { padding: 16px; } }
 
 .k2-note { margin: 0 0 4px; font-size: 12px; color: var(--muted); background: var(--soft); border-radius: 8px; padding: 6px 10px; }
+.ktabs { flex-wrap: wrap; gap: 8px 12px; align-items: stretch; }
+.ktab-g { display: flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 4px 4px 4px 12px; max-width: 100%; box-shadow: 0 4px 14px rgba(0,0,0,0.06); }
+.ktab-g .seg { box-shadow: none; border: 0; background: transparent; padding: 0; }
+.ktab-l { font-size: 10.5px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+.ktab-g.on { border-color: var(--ink); } .ktab-g.on .ktab-l { color: var(--red); }
+@media (max-width: 760px) { .ktabs { flex-direction: column; gap: 6px; position: static; } .ktab-g { padding-left: 10px; } .ktab-g .seg { flex-wrap: nowrap; overflow-x: auto; } }
 .ramp.hseq { background: linear-gradient(90deg, color-mix(in srgb, var(--red) 4%, var(--map-base)), var(--red) 80%, color-mix(in srgb, #3b0a0a 60%, var(--red))); }
 .yr-cap { margin: 2px 0 8px; padding: 8px 12px; border-radius: 10px; background: var(--soft); font-size: 13px; line-height: 1.45; min-height: 2.9em; }
 .yr-cap b { color: var(--red); }
@@ -795,7 +801,6 @@ p.k2-warn { margin: 0 0 6px; padding: 8px 12px; border-radius: 8px; font-size: 1
         <button type="button" id="lang-bm" data-lang="bm" aria-pressed="true">BM</button>
         <button type="button" id="lang-en" data-lang="en" aria-pressed="false">EN</button>
       </div>
-      <a class="meth-link" id="rep-link" href="#bina-laporan">Laporan</a>
       <a class="meth-link" id="meth-link" href="#metodologi">Metodologi</a>
       <button type="button" class="acct-btn" id="acct-btn" aria-label="Menu" aria-expanded="false" aria-controls="acct-sheet">☰</button>
       <div class="acct-sheet" id="acct-sheet" hidden></div>
@@ -3660,12 +3665,12 @@ const SITE = (() => {
     { id: 'intg', h: 'integrated', bm: 'Kecerdasan Ekonomi Bersepadu', en: 'Integrated Economic Intelligence' },
     { id: 'cmp', h: 'banding', bm: 'Banding Negeri', en: 'Compare States', nav: false, parent: 'intg' },
     { id: 'explore', h: 'teroka', bm: 'Teroka Data', en: 'Explore Data', nav: false, parent: 'intg' },
-    { id: 'build', h: 'bina-laporan', bm: 'Bina Laporan Sendiri', en: 'Build Your Own Report', nav: false, parent: 'reports' },
-    { id: 'kit', h: 'laporan-negeri', bm: 'Laporan Produktiviti Negeri', en: 'State Productivity Report', nav: false, parent: 'reports' },
+    { id: 'build', h: 'bina-laporan', bm: 'Bina Laporan Sendiri', en: 'Build Your Own Report', nav: false, parent: 'intg' },
+    { id: 'kit', h: 'laporan-negeri', bm: 'Laporan Produktiviti Negeri', en: 'State Productivity Report', nav: false, parent: 'intg' },
     { id: 'sim', h: 'simulasi', bm: 'Simulasi Produktiviti', en: 'Productivity Simulation', nav: false, parent: 'intg' },
-    { id: 'saved', h: 'tersimpan', bm: 'Laporan Tersimpan', en: 'Saved Reports', nav: false, parent: 'reports' },
+    { id: 'saved', h: 'tersimpan', bm: 'Laporan Tersimpan', en: 'Saved Reports', nav: false, parent: 'intg' },
     { id: 'method', h: 'metodologi', bm: 'Metodologi', en: 'Methodology', nav: false },
-    { id: 'reports', h: 'reports', bm: 'Laporan Siap', en: 'Ready-made Reports', nav: false, parent: 'reports' },
+    { id: 'reports', h: 'reports', bm: 'Laporan Siap', en: 'Ready-made Reports', nav: false, parent: 'intg' },
   ];
   const BY_H = Object.fromEntries(PAGES.map(p => [p.h, p]));
   const pname = p => S.lang === 'en' ? p.en : p.bm;
@@ -4481,8 +4486,9 @@ const SITE = (() => {
 
   const CMP_COL = ['var(--red)', 'var(--ink)', '#b45309', '#0f766e'];
   const CMP_M = ['prod', 'gdp', 'gdpg', 'median', 'formal', 'prate', 'urate', 'fprate'];
-  const intgTabs = cur => `<div class="subnav"><div class="seg site-seg">${[['explore', 'teroka', X('Teroka Data', 'Explore Data')], ['intg', 'integrated', X('Analisis Bersepadu', 'Integrated Analysis')], ['cmp', 'banding', X('Banding Negeri', 'Compare States')], ['sim', 'simulasi', X('Simulasi Produktiviti', 'Productivity Simulation')]].map(([id, h, l]) => `<a href="#${h}" class="seg-a" aria-pressed="${id === cur}">${esc(l)}</a>`).join('')}</div></div>`;
-  const repTabs = cur => `<div class="subnav"><div class="seg site-seg">${[['build', 'bina-laporan', X('Bina Laporan Sendiri', 'Build Your Own Report')], ['reports', 'reports', X('Laporan Siap', 'Ready-made Reports')], ['kit', 'laporan-negeri', X('Laporan Produktiviti Negeri', 'State Productivity Report')], ['saved', 'tersimpan', X('Laporan Tersimpan', 'Saved Reports')]].map(([id, h, l]) => `<a href="#${h}" class="seg-a" aria-pressed="${id === cur}">${esc(l)}</a>`).join('')}</div></div>`;
+  const KT_GROUPS = () => [[X('Analisis', 'Analysis'), [['explore', 'teroka', X('Teroka Data', 'Explore Data')], ['intg', 'integrated', X('Analisis Bersepadu', 'Integrated Analysis')], ['cmp', 'banding', X('Banding Negeri', 'Compare States')], ['sim', 'simulasi', X('Simulasi Produktiviti', 'Productivity Simulation')]]], [X('Laporan', 'Reports'), [['build', 'bina-laporan', X('Bina Laporan Sendiri', 'Build Your Own Report')], ['reports', 'reports', X('Laporan Siap', 'Ready-made Reports')], ['kit', 'laporan-negeri', X('Laporan Produktiviti Negeri', 'State Productivity Report')], ['saved', 'tersimpan', X('Laporan Tersimpan', 'Saved Reports')]]]];
+  const intgTabs = cur => `<div class="subnav ktabs">${KT_GROUPS().map(([gl, tabs]) => `<div class="ktab-g${tabs.some(t => t[0] === cur) ? ' on' : ''}"><span class="ktab-l">${esc(gl)}</span><div class="seg site-seg">${tabs.map(([id, h, l]) => `<a href="#${h}" class="seg-a" aria-pressed="${id === cur}">${esc(l)}</a>`).join('')}</div></div>`).join('')}</div>`;
+  const repTabs = intgTabs;
   const K2H = {
     explore: [X('Teroka data', 'Explore data'), X('Katalog penunjuk, liputan dan status setiap set data DOSM dalam sistem.', 'Indicator catalogue, coverage and status of every DOSM dataset in the system.')],
     build: [X('Bina laporan sendiri', 'Build your own report'), X('Pilih lokasi, penunjuk dan tempoh; semak data; jana analisis mengikut topik atau bersepadu; pratonton; muat turun Word, PDF, Excel atau pakej ZIP.', 'Choose locations, indicators and a period; check the data; generate topic or integrated analysis; preview; download Word, PDF, Excel or a ZIP package.')],
@@ -4490,7 +4496,7 @@ const SITE = (() => {
     sim: [X('Simulasi produktiviti', 'Productivity simulation'), X('Senario asas, penambahbaikan dan tersuai hingga 2030, 2035 atau 2040.', 'Baseline, improvement and custom scenarios to 2030, 2035 or 2040.')],
     saved: [X('Laporan tersimpan', 'Saved reports'), X('Templat laporan yang anda simpan.', 'Report templates you have saved.')],
   };
-  const k2Page = id => () => { const el = $('pg-' + id); el.innerHTML = (BY_PG[id].parent === 'reports' ? repTabs(id) + head(X('Laporan', 'Reports'), K2H[id][0], K2H[id][1]) : intgTabs(id) + head(X('Topik 5 · Kecerdasan Ekonomi Bersepadu', 'Topic 5 · Integrated Economic Intelligence'), K2H[id][0], K2H[id][1])) + '<div class="k2-root"></div>'; K2.wire($('dash')); K2.render(id, el.querySelector('.k2-root')); };
+  const k2Page = id => () => { const el = $('pg-' + id); el.innerHTML = intgTabs(id) + head(X('Kecerdasan Ekonomi Bersepadu · ', 'Integrated Economic Intelligence · ') + (['build', 'kit', 'saved'].includes(id) ? X('Laporan', 'Reports') : X('Analisis', 'Analysis')), K2H[id][0], K2H[id][1]) + '<div class="k2-root"></div>'; K2.wire($('dash')); K2.render(id, el.querySelector('.k2-root')); };
   function comparePage() {
     const C = U.cmp; if (!C.ids.length) { const sv = (store.get('sppe-cmp') || '').split(',').filter(x => STATE_BY_ID[x]); C.ids = sv.length ? sv : [S.sel, ...MET('prod').rank(MET('prod').last).map(r => r.id).filter(x => x !== S.sel && !SPECIAL_FT.includes(x)).slice(0, 2)]; }
     C.ids = C.ids.filter(x => STATE_BY_ID[x]).slice(0, 4); store.set('sppe-cmp', C.ids.join(','));
@@ -4585,8 +4591,7 @@ const SITE = (() => {
     $('nav').innerHTML = navP.map((p, i) => navA(p) + (p.id === 'state' ? `<button type="button" class="nav-topic${onTopic ? ' on' : ''}" aria-expanded="false" aria-controls="nav-sheet">${esc(X('Topik', 'Topics'))} ▴</button>` : '')).join('');
     let sh = $('nav-sheet'); if (!sh) { sh = document.createElement('div'); sh.id = 'nav-sheet'; sh.className = 'nav-sheet'; sh.hidden = true; $('nav').after(sh); }
     sh.innerHTML = `<p>${esc(X('Pilih topik', 'Choose a topic'))}</p>` + TOPICS.map(id => `<a href="#${BY_PG[id].h}"${id === curNav ? ' aria-current="page"' : ''}>${esc(pname(BY_PG[id]))}</a>`).join(''); sh.hidden = true;
-    const as = $('acct-sheet'); if (as) { const u2 = window.SPPE_USER; as.innerHTML = (u2 && u2.name ? `<p class="acct-who">${esc(X('Log masuk sebagai', 'Signed in as'))}<b>${esc(u2.name)}</b>${u2.email ? `<small>${esc(u2.email)}</small>` : ''}</p>` : '') + `<a href="#bina-laporan">📄 ${esc(X('Laporan', 'Reports'))}</a><a href="#metodologi">ⓘ ${esc(X('Metodologi & sumber data', 'Methodology & data sources'))}</a>` + (u2 && u2.name ? `<a href="/auth/logout" class="acct-out">⎋ ${esc(X('Log keluar', 'Log out'))}</a>` : ''); as.hidden = true; const ab = $('acct-btn'); if (ab) ab.setAttribute('aria-expanded', 'false'); }
-    const rl = $('rep-link'); if (rl) { rl.textContent = X('Laporan', 'Reports'); rl.classList.toggle('on', curNav === 'reports'); }
+    const as = $('acct-sheet'); if (as) { const u2 = window.SPPE_USER; as.innerHTML = (u2 && u2.name ? `<p class="acct-who">${esc(X('Log masuk sebagai', 'Signed in as'))}<b>${esc(u2.name)}</b>${u2.email ? `<small>${esc(u2.email)}</small>` : ''}</p>` : '') + `<a href="#metodologi">ⓘ ${esc(X('Metodologi & sumber data', 'Methodology & data sources'))}</a>` + (u2 && u2.name ? `<a href="/auth/logout" class="acct-out">⎋ ${esc(X('Log keluar', 'Log out'))}</a>` : ''); as.hidden = true; const ab = $('acct-btn'); if (ab) ab.setAttribute('aria-expanded', 'false'); }
     const ml = $('meth-link'); if (ml) { ml.textContent = X('Metodologi', 'Methodology'); ml.classList.toggle('on', page === 'method'); }
     const cur = $('nav').querySelector('[aria-current]'); if (cur && cur.scrollIntoView && $('nav').scrollWidth > $('nav').clientWidth) $('nav').scrollLeft = Math.max(0, cur.offsetLeft - 24);
     navCue();
@@ -4603,7 +4608,7 @@ const SITE = (() => {
     chrome();
     if (!S.snap || !AN) { const el = $('pg-' + page); if (el && el.hasAttribute('data-site') && !S.snapLoaded) el.innerHTML = `<div class="skel-row"><div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div></div><div class="skel big"></div>`; return; }
     $('ph-prod').innerHTML = head(X('Topik 1', 'Topic 1'), pname(BY_PG.prod), X('Nilai yang dihasilkan oleh setiap pekerja dalam setahun, mengikut negeri dan sektor. Lebih tinggi bermakna setiap pekerja menghasilkan lebih banyak.', 'The value each worker produces in a year, by state and sector. Higher means each worker is producing more.'));
-    $('ph-reports').innerHTML = repTabs('reports') + head(X('Laporan', 'Reports'), X('Laporan siap', 'Ready-made reports'), X('Pilih topik, penunjuk, negeri dan tahun. Laporan dijana sebagai fail Word yang boleh disunting, dalam gaya yang sama dengan laporan produktiviti asal. Laporan PDF produktiviti sedia ada boleh dimuat turun di halaman Produktiviti Buruh.', 'Choose topics, indicators, states and years. The report is generated as an editable Word file, in the same style as the original productivity report. The ready-made productivity PDF reports can be downloaded on the Labour Productivity page.'));
+    $('ph-reports').innerHTML = repTabs('reports') + head(X('Kecerdasan Ekonomi Bersepadu · Laporan', 'Integrated Economic Intelligence · Reports'), X('Laporan siap', 'Ready-made reports'), X('Pilih topik, penunjuk, negeri dan tahun. Laporan dijana sebagai fail Word yang boleh disunting, dalam gaya yang sama dengan laporan produktiviti asal. Laporan PDF produktiviti sedia ada boleh dimuat turun di halaman Produktiviti Buruh.', 'Choose topics, indicators, states and years. The report is generated as an editable Word file, in the same style as the original productivity report. The ready-made productivity PDF reports can be downloaded on the Labour Productivity page.'));
     try { ({ home: homePage, gdp: gdpPage, wage: wagePage, lab: labPage, intg: intgPage, state: statePage, method: methodPage, cmp: comparePage, explore: k2Page('explore'), build: k2Page('build'), kit: k2Page('kit'), sim: k2Page('sim'), saved: k2Page('saved') }[page] || (() => { }))(); }
     catch (err) { console.error('SITE render', err); const el = $('pg-' + page); if (el) el.innerHTML = `<div class="banner err">${esc(X('Halaman ini tidak dapat dipaparkan.', 'This page could not be displayed.'))}</div>`; }
     try { afterRender(); } catch (err) { console.error('afterRender', err); }
