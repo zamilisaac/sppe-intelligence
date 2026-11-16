@@ -110,5 +110,31 @@
     "nationalRowsFrom": "dosm/productivity_annual.csv"
   },
   "warnings": [],
-  "deployments": []
+  "deployments": [
+    {
+      "sha": "fb492450059e3162e6a5963a4ba4343300738184",
+      "ref": "stage3-test/base",
+      "at": "2026-11-16T23:58:50Z",
+      "pr": 2,
+      "cloudflare": "success",
+      "asOf": {
+        "gdp_state_real_supply": "2025",
+        "productivity_annual": "2025",
+        "wages_state": "2025",
+        "wages_sector": "2025",
+        "wages_industry": "2025",
+        "wages_education": "2025",
+        "wages_skill": "2025",
+        "formal_wages_state": "2026-07",
+        "formal_wages_msic": "2026-06",
+        "formal_wages_band": "2026-06",
+        "lfs_state_sex": "2025",
+        "cpi_2d_state": "2026-09",
+        "cpi_2d_state_inflation": "2026-09",
+        "hies_state": "2024",
+        "hies_state_percentile": "2024",
+        "state_productivity_workbook": "2025"
+      }
+    }
+  ]
 }
