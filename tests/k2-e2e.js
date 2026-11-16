@@ -9,21 +9,21 @@ const ut=await p.evaluate(()=>{const T=K2.ST,r=[];const eq=(n,a,b,t=1e-6)=>r.pus
  const d=T.decompose(T.cagr(100,121,2),T.cagr(50,55,2),T.cagr(2,2.2,2));eq('decompose interaction = gLP*gE/100',d.inter,d.gLP*d.gE/100,1e-9);
  eq('pearson perfect',T.pearson([1,2,3,4],[2,4,6,8]).r,1);eq('pearson neg',T.pearson([1,2,3],[3,2,1]).r,-1);r.push(['pearson n<3 null',T.pearson([1,2],[1,2]).r===null]);
  const pr=T.project(100,10,2);eq('project y2',pr[1],121);r.push(['cagr zero start null',T.cagr(0,5,2)===null]);r.push(['gap null bench',T.gap(5,0)===null]);
- // identity check on real data: real GDP = lpc x emp
- const C=K2.CAT().I,gdp=C.find(i=>i.id==='gdp'),lpc=C.find(i=>i.id==='lpc'),emp=SITE.MET('emp');eq('identity Selangor 2025',lpc.get('selangor',2025)*emp.get('selangor',2025)*1e3/1e6,gdp.get('selangor',2025),1e-6);
+ const C=K2.CAT().I;r.push(['no calculated productivity in catalogue',!C.some(i=>i.id==='lpc')]);r.push(['wage series marked KIV',['median','mean','rwage','formal'].every(id=>C.find(i=>i.id===id).kiv)]);
+ const sm=K2.simulate('johor',{end:2035,uplift:1});eq('sim baseline = official CAGR',sm.gL,T.cagr(SITE.MET('prod').get('johor',sm.h0),SITE.MET('prod').get('johor',sm.h1),sm.h1-sm.h0));eq('sim 2026 baseline',sm.sc.base[0].L,SITE.MET('prod').get('johor',2025)*(1+sm.gL/100),1e-6);
  return r;});
 ut.forEach(x=>console.log(x[1]?'PASS':'FAIL',x[0],x[2]!==undefined?`(${x[2]} vs ${x[3]})`:''));
 // --- vertical slice: Selangor, GDP + wages, 2020-2025, integrated
 await p.goto(B+'/#bina-laporan');await p.waitForTimeout(1500);
 console.log('tabs:',await p.$$eval('#pg-build .seg-a',l=>l.map(a=>a.textContent).join(' | ')));
 await p.selectOption('#pg-build select[data-k2="addgeo"]','selangor').catch(()=>{});
-for(const id of ['prod']) await p.uncheck(`#pg-build input[data-k2ind="${id}"]`);
+for(const id of ['emp']) await p.uncheck(`#pg-build input[data-k2ind="${id}"]`);
 await p.selectOption('#pg-build select[data-k2="y0"]','2020');await p.selectOption('#pg-build select[data-k2="y1"]','2025');await p.selectOption('#pg-build select[data-k2="mode"]','intg');
 await p.waitForTimeout(300);console.log('geos:',await p.$$eval('#pg-build .k2-chip',l=>l.map(x=>x.textContent.replace('×','')).join(',')),'| status:',await p.textContent('#pg-build h2 .k2-st'));
 console.log('warnings:',await p.$$eval('#pg-build p.k2-warn',l=>l.length));
 await p.click('#pg-build [data-k2act="gen"]');await p.waitForTimeout(2500);
 console.log('preview headings:',await p.$$eval('#pg-build .pv-body h2',l=>l.map(h=>h.textContent).join(' | ')));
-console.log('cross para:',(await p.$$eval('#pg-build .pv-body p',l=>l.map(x=>x.textContent).find(t=>/KDNK benar .* tumbuh/.test(t))||'NONE')).slice(0,220));
+console.log('builder indicators:',await p.$$eval('#pg-build input[data-k2ind]',l=>l.map(i=>i.dataset.k2ind).join(',')),'| disabled shown:',await p.$$eval('#pg-build .k2-off',l=>l.length));console.log('cross headings:',await p.$$eval('#pg-build .pv-body h3',l=>l.map(h=>h.textContent).join(' | ')));console.log('gap para:',(await p.$$eval('#pg-build .pv-body p',l=>l.map(x=>x.textContent).find(t=>/Jurang produktiviti/.test(t))||'NONE')).slice(0,200));
 console.log('charts drawn:',await p.$$eval('#pg-build .k2-chart img',l=>l.length));
 await p.screenshot({path:'shot-build.png',fullPage:false});
 await p.evaluate(()=>document.querySelector('#pg-build .k2-prev').scrollIntoView());await p.waitForTimeout(500);await p.screenshot({path:'shot-build-prev.png'});
