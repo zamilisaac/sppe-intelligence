@@ -1,0 +1,40 @@
+{
+  "about": "Extra DOSM releases checked every week by scripts/check_dosm.py. NOTIFY-ONLY: a change opens/updates the dosm-update issue; nothing is downloaded or ingested. Fields: id, name, url (direct file or page URL; null = not set up yet), local (file name in dosm/ that holds your manual copy, optional), known (fingerprint of the version you already have: ETag or Last-Modified as printed in the weekly report; null = take the local file's MD5 when the server's ETag is an MD5, otherwise just report the current fingerprint). After you download a new release into dosm/, either the MD5 comparison clears the alert on its own or you paste the new fingerprint into known.",
+  "sources": [
+    {
+      "id": "productivity_p14",
+      "name": "National labour productivity, 14 sub-sectors (CSV; codes special.01-14 have no names, so not used on the site yet)",
+      "url": "https://storage.dosm.gov.my/labour/productivity_annual_p14.csv",
+      "local": "productivity_annual_p14.csv",
+      "known": null
+    },
+    {
+      "id": "state_productivity",
+      "name": "Produktiviti Buruh Negeri / State labour productivity workbook (Excel, source of website/data/snapshot.json and the PDF reports)",
+      "url": null,
+      "local": "Produktiviti Buruh Negeri 2015-2025.xlsx",
+      "known": null
+    },
+    {
+      "id": "stb",
+      "name": "Statistik Tenaga Buruh / Labour force statistics release (Excel/PDF)",
+      "url": null,
+      "local": null,
+      "known": null
+    },
+    {
+      "id": "gdp_flash",
+      "name": "Anggaran awal KDNK / GDP advance (flash) estimate (PDF)",
+      "url": null,
+      "local": null,
+      "known": null
+    },
+    {
+      "id": "wages_report",
+      "name": "Laporan Survei Gaji & Upah / Salaries & Wages Survey report (Excel/PDF)",
+      "url": null,
+      "local": null,
+      "known": null
+    }
+  ]
+}

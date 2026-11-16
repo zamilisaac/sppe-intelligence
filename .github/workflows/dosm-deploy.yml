@@ -1,0 +1,124 @@
+# Stage 3 of the DOSM automation (see docs/dosm-automation.md)
+# Runs after a human merges into main (any push that touches website/ or dosm/):
+#   - waits for the Cloudflare Pages check/status on that commit and reports success or failure
+#   - records a deployment entry in website/data/data-manifest.json ([skip ci] commit; no loop, see below)
+#   - comments on the merged pull request and closes the related dosm-update issue
+# The live site is behind Microsoft login, so this workflow cannot and does not read it.
+#
+# No infinite loop: (1) data-manifest.json is excluded from the trigger paths, (2) the commit message
+# carries [skip ci], which GitHub Actions and Cloudflare Pages both honour, and (3) pushes made with
+# GITHUB_TOKEN never start new workflow runs.
+name: DOSM deploy report
+
+on:
+  push:
+    branches:
+      - main
+      - "stage3-test/**"   # throwaway branches used to test this workflow without touching main
+    paths:
+      - "website/**"
+      - "dosm/**"
+      - "!website/data/data-manifest.json"
+  workflow_dispatch:
+    inputs:
+      sha:
+        description: "Commit to report on (default: the branch head)"
+        type: string
+        required: false
+
+permissions:
+  contents: write        # commit the deployment entry (skipped if branch protection refuses)
+  issues: write          # comment on / close the dosm-update issue
+  pull-requests: write   # comment on the merged pull request
+  checks: read           # read the Cloudflare Pages check run
+  statuses: read         # read the Cloudflare Pages commit status
+
+concurrency:
+  group: dosm-deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  report:
+    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+      SHA: ${{ inputs.sha || github.sha }}
+      SITE: https://sppeintelligence.pages.dev
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+
+      - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6.0.0
+        with:
+          python-version: "3.12"
+
+      - name: Find the merged pull request
+        id: pr
+        run: python scripts/dosm_github.py pr-for-commit --sha "$SHA"
+
+      - name: Wait for the Cloudflare Pages check (up to 20 min)
+        id: cf
+        run: python scripts/dosm_github.py wait-cloudflare --sha "$SHA" --timeout 1200 --interval 30
+
+      - name: Record the deployment in website/data/data-manifest.json
+        id: rec
+        run: |
+          python scripts/dosm_github.py record-deploy --sha "$SHA" --ref "$GITHUB_REF_NAME" \
+            --pr "${{ steps.pr.outputs.pr_number }}" --cf-state "${{ steps.cf.outputs.cf_state }}"
+          if git diff --quiet; then echo "recorded=unchanged" >> "$GITHUB_OUTPUT"; exit 0; fi
+          git config user.name "dosm-automation"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add website/data/data-manifest.json
+          git commit -m "Record deployment ${SHA::7} in data manifest [skip ci]"
+          for i in 1 2 3; do
+            if git push origin "HEAD:$GITHUB_REF_NAME"; then echo "recorded=pushed" >> "$GITHUB_OUTPUT"; exit 0; fi
+            git pull --rebase origin "$GITHUB_REF_NAME" || break
+          done
+          echo "recorded=refused" >> "$GITHUB_OUTPUT"
+          echo "Could not push the manifest entry (branch protection or a newer commit). The entry is in this run's summary instead." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Comment on the pull request and close the dosm-update issue
+        if: steps.pr.outputs.pr_number != ''
+        env:
+          STATE: ${{ steps.cf.outputs.cf_state }}
+          DETAIL: ${{ steps.cf.outputs.cf_detail }}
+          CFURL: ${{ steps.cf.outputs.cf_url }}
+          PRN: ${{ steps.pr.outputs.pr_number }}
+          HEADREF: ${{ steps.pr.outputs.pr_head }}
+          RECORDED: ${{ steps.rec.outputs.recorded }}
+        run: |
+          ASOF=$(python -c "import json;m=json.load(open('website/data/data-manifest.json'));print('\n'.join('| %s | %s |'%kv for kv in m.get('asOf',{}).items()))" 2>/dev/null || true)
+          {
+            case "$STATE" in
+              success) echo "### Cloudflare Pages: deployed :white_check_mark:";;
+              failure) echo "### Cloudflare Pages: FAILED :x:";;
+              *)       echo "### Cloudflare Pages: no result ($STATE)";;
+            esac
+            echo
+            echo "Commit \`${SHA::7}\` on \`$GITHUB_REF_NAME\`. Check: $DETAIL ${CFURL}"
+            echo "Deployment entry in data-manifest.json: ${RECORDED:-not recorded}. Workflow run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+            echo
+            echo "GitHub Actions cannot open the live site (it is behind the MPC Microsoft login), so the live content was **not** checked automatically. Please confirm by hand:"
+            echo
+            echo "1. Sign in at $SITE with your MPC Microsoft account."
+            echo "2. Open $SITE/data/data-manifest.json (press Ctrl+F5 to skip the cache) and check that \`asOf\` shows the dates below."
+            echo "3. Open the page that uses the updated dataset (e.g. Salaries & Wages, Labour Market, Productivity Lab) and check that the newest year/month appears."
+            echo "4. If anything is wrong: revert the merge commit (see docs/dosm-automation.md, Rollback)."
+            echo
+            echo "| Dataset | Data as of |"
+            echo "|---|---|"
+            echo "$ASOF"
+          } > "$RUNNER_TEMP/comment.md"
+          python scripts/dosm_github.py comment --number "$PRN" --body-file "$RUNNER_TEMP/comment.md"
+          if [[ "$HEADREF" == dosm-update/* ]]; then
+            if [ "$STATE" = "success" ]; then
+              python scripts/dosm_github.py close-issues --body-file "$RUNNER_TEMP/comment.md"
+            else
+              echo "Cloudflare result is '$STATE', so the dosm-update issue stays open." >> "$GITHUB_STEP_SUMMARY"
+            fi
+          fi
+
+      - name: Fail the run if Cloudflare Pages failed
+        if: steps.cf.outputs.cf_state == 'failure'
+        run: exit 1
