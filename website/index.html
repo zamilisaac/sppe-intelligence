@@ -4519,7 +4519,7 @@ const SITE = (() => {
   const intgTabs = () => '';   // section navigation lives in the Kecerdasan mega menu
   const repTabs = intgTabs;
 
-  function labPage() {
+  function makmalPage() {
     const el = $('pg-labx'), calcs = [
       ['lp', X('Produktiviti buruh', 'Labour productivity'), X('Nilai ditambah ÷ bilangan pekerja', 'Value added ÷ number of employees'), [['va', X('Nilai ditambah (RM)', 'Value added (RM)')], ['emp', X('Bilangan pekerja', 'Number of employees')]], v => v.emp ? ['RM' + Math.round(v.va / v.emp).toLocaleString('en-US'), X('setiap pekerja', 'per employee')] : null],
       ['out', X('Jumlah output setiap pekerja', 'Total output per employee'), X('Jumlah output ÷ bilangan pekerja', 'Total output ÷ number of employees'), [['out', X('Jumlah output (RM)', 'Total output (RM)')], ['emp', X('Bilangan pekerja', 'Number of employees')]], v => v.emp ? ['RM' + Math.round(v.out / v.emp).toLocaleString('en-US'), X('setiap pekerja', 'per employee')] : null],
@@ -4531,7 +4531,7 @@ const SITE = (() => {
       ['lce', X('Kos buruh setiap pekerja', 'Labour cost per employee'), X('Kos buruh ÷ bilangan pekerja', 'Labour cost ÷ number of employees'), [['lc', X('Kos buruh (RM)', 'Labour cost (RM)')], ['emp', X('Bilangan pekerja', 'Number of employees')]], v => v.emp ? ['RM' + Math.round(v.lc / v.emp).toLocaleString('en-US'), X('setiap pekerja', 'per employee')] : null],
       ['lcu', X('Kos buruh setiap unit output', 'Labour cost per unit of output'), X('Kos buruh ÷ jumlah output', 'Labour cost ÷ total output'), [['lc', X('Kos buruh (RM)', 'Labour cost (RM)')], ['out', X('Jumlah output (RM)', 'Total output (RM)')]], v => v.out ? [(v.lc / v.out).toFixed(3), X('RM kos buruh bagi setiap RM1 output', 'RM of labour cost per RM1 of output')] : null],
     ];
-    labPage.calcs = calcs;
+    makmalPage.calcs = calcs;
     el.innerHTML = head(X('Kecerdasan Ekonomi Bersepadu · Analisis', 'Integrated Economic Intelligence · Analysis'), pname(BY_PG.labx), X('Kalkulator penunjuk produktiviti untuk data anda sendiri, contohnya data syarikat atau sektor. Formula mengikut Lampiran A Laporan Produktiviti MPC. Angka yang dimasukkan tidak disimpan atau dihantar.', 'Productivity indicator calculators for your own figures, such as company or sector data. Formulas follow Appendix A of the MPC Productivity Report. Figures you enter are not stored or sent anywhere.'))
       + `<section class="lab-grid">${calcs.map(([id, t, f, ins]) => `<article class="card lab-c" data-lab="${id}"><h2>${esc(t)}</h2><p class="lab-f">${esc(f)}</p>${ins.map(([k, l]) => `<label>${esc(l)}<input type="number" inputmode="decimal" step="any" min="0" data-lk="${k}"></label>`).join('')}<p class="lab-r" aria-live="polite"><b>–</b><span></span></p></article>`).join('')}</section>`;
   }
@@ -4712,7 +4712,7 @@ const SITE = (() => {
     if (!S.snap || !AN) { const el = $('pg-' + page); if (el && el.hasAttribute('data-site') && !S.snapLoaded) el.innerHTML = `<div class="skel-row"><div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div></div><div class="skel big"></div>`; return; }
     $('ph-prod').innerHTML = head(X('Topik 1', 'Topic 1'), pname(BY_PG.prod), X('Nilai yang dihasilkan oleh setiap pekerja dalam setahun, mengikut negeri dan sektor. Lebih tinggi bermakna setiap pekerja menghasilkan lebih banyak.', 'The value each worker produces in a year, by state and sector. Higher means each worker is producing more.'));
     $('ph-reports').innerHTML = repTabs('reports') + head(X('Kecerdasan Ekonomi Bersepadu · Laporan', 'Integrated Economic Intelligence · Reports'), X('Laporan siap', 'Ready-made reports'), X('Pilih topik, penunjuk, negeri dan tahun. Laporan dijana sebagai fail Word yang boleh disunting, dalam gaya yang sama dengan laporan produktiviti asal. Laporan PDF produktiviti sedia ada boleh dimuat turun di halaman Produktiviti Buruh.', 'Choose topics, indicators, states and years. The report is generated as an editable Word file, in the same style as the original productivity report. The ready-made productivity PDF reports can be downloaded on the Labour Productivity page.'));
-    try { ({ home: homePage, gdp: gdpPage, wage: wagePage, lab: labPage, intg: intgPage, state: statePage, method: methodPage, cmp: comparePage, explore: k2Page('explore'), labx: labPage, build: k2Page('build'), kit: k2Page('kit'), sim: k2Page('sim'), saved: k2Page('saved') }[page] || (() => { }))(); }
+    try { ({ home: homePage, gdp: gdpPage, wage: wagePage, lab: labPage, intg: intgPage, state: statePage, method: methodPage, cmp: comparePage, explore: k2Page('explore'), labx: makmalPage, build: k2Page('build'), kit: k2Page('kit'), sim: k2Page('sim'), saved: k2Page('saved') }[page] || (() => { }))(); }
     catch (err) { console.error('SITE render', err); const el = $('pg-' + page); if (el) el.innerHTML = `<div class="banner err">${esc(X('Halaman ini tidak dapat dipaparkan.', 'This page could not be displayed.'))}</div>`; }
     try { afterRender(); } catch (err) { console.error('afterRender', err); }
   }
@@ -4753,7 +4753,7 @@ const SITE = (() => {
       const s = e.target.closest('[data-sel]'); if (s) select(s.dataset.sel);
     });
     d.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('.pg[data-site] [data-sel]')) { e.preventDefault(); select(e.target.dataset.sel); } });
-    d.addEventListener('input', e => { const lc = e.target.closest && e.target.closest('.lab-c'); if (lc && labPage.calcs) { const c = labPage.calcs.find(x => x[0] === lc.dataset.lab), v = {}; lc.querySelectorAll('input[data-lk]').forEach(i => { v[i.dataset.lk] = i.value === '' ? NaN : +i.value; }); const r = Object.values(v).some(x => isNaN(x)) ? null : c[4](v); lc.querySelector('.lab-r b').textContent = r ? r[0] : '–'; lc.querySelector('.lab-r span').textContent = r ? r[1] : ''; return; } if (e.target.matches && e.target.matches('.pg[data-site] input[data-tly]')) { if (page === 'home') homeYear(+e.target.value); else topicYear(+e.target.value); } });
+    d.addEventListener('input', e => { const lc = e.target.closest && e.target.closest('.lab-c'); if (lc && makmalPage.calcs) { const c = makmalPage.calcs.find(x => x[0] === lc.dataset.lab), v = {}; lc.querySelectorAll('input[data-lk]').forEach(i => { v[i.dataset.lk] = i.value === '' ? NaN : +i.value; }); const r = Object.values(v).some(x => isNaN(x)) ? null : c[4](v); lc.querySelector('.lab-r b').textContent = r ? r[0] : '–'; lc.querySelector('.lab-r span').textContent = r ? r[1] : ''; return; } if (e.target.matches && e.target.matches('.pg[data-site] input[data-tly]')) { if (page === 'home') homeYear(+e.target.value); else topicYear(+e.target.value); } });
     d.addEventListener('change', e => {
       if (!e.target.closest('.pg[data-site]')) return;
       if (e.target.matches('select[data-st]')) select(e.target.value);
