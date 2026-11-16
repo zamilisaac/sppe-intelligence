@@ -763,6 +763,33 @@ p.k2-warn { margin: 0 0 6px; padding: 8px 12px; border-radius: 8px; font-size: 1
 .ktab-l { font-size: 10.5px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
 .ktab-g.on { border-color: var(--ink); } .ktab-g.on .ktab-l { color: var(--red); }
 @media (max-width: 760px) { .ktabs { flex-direction: column; gap: 6px; position: static; } .ktab-g { padding-left: 10px; } .ktab-g .seg { flex-wrap: nowrap; overflow-x: auto; } }
+.nav a[data-mega], .nav a[data-mega]:last-child { margin-left: 0; color: var(--muted); }
+.nav a[data-mega]:hover { color: var(--ink); }
+.nav a[data-mega][aria-current="page"] { background: var(--tile-ink); color: var(--on-ink); }
+.nav a[data-mega].mm-open, .nav a[data-mega].mm-open[aria-current="page"] { background: var(--red); color: var(--on-red); }
+.kei-sheet p.mm-h { text-transform: none; letter-spacing: 0; color: var(--ink); font-size: 15.5px; font-weight: 800; }
+.mm-chev { margin-left: 4px; vertical-align: -2px; transition: transform 0.2s; } a[data-mega].mm-open .mm-chev { transform: rotate(180deg); }
+.mega { position: fixed; z-index: 60; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 12px 32px rgba(0,0,0,0.10); padding: 22px 26px 18px; }
+.mega::before { content: ''; position: absolute; left: 0; right: 0; top: -12px; height: 12px; }
+.mega[hidden] { display: none; }
+.mm-h { margin: 0 0 14px; font-family: var(--f-display); font-weight: 800; font-size: 18px; color: var(--ink); }
+.mm-cols { display: grid; grid-template-columns: 1fr 1fr; column-gap: 28px; }
+.mm-gl { margin: 0 0 6px; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; color: var(--muted); }
+.mm-col ul { list-style: none; margin: 0; padding: 0; }
+.mm-a { display: flex; align-items: center; gap: 12px; padding: 9px 10px; margin: 0 -10px; border-radius: 10px; text-decoration: none; color: var(--ink); font-size: 15px; font-weight: 500; }
+.mm-a .mm-i { color: var(--muted); flex: none; }
+.mm-a:hover, .mm-a:focus-visible { background: var(--soft); outline: none; } .mm-a:hover .mm-i, .mm-a:focus-visible .mm-i { color: var(--red); }
+.mm-a:focus-visible { box-shadow: 0 0 0 2px var(--red); }
+.mm-a[aria-current="page"] { color: var(--red); font-weight: 700; } .mm-a[aria-current="page"] .mm-i { color: var(--red); }
+.kei-sheet .mm-h { font-size: 15px; margin: 4px 6px 8px; } .kei-sheet .mm-cols { grid-template-columns: minmax(0, 1fr); row-gap: 10px; } .kei-sheet .mm-gl { margin: 0 6px 2px; } .kei-sheet .mm-a { margin: 0; padding: 10px 8px; font-size: 14.5px; }
+.kei-sheet:not([hidden]) { max-height: calc(100vh - 110px); overflow: auto; }
+@media (max-width: 760px) { .mega { display: none !important; } }
+.lab-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.lab-c h2 { font-size: 15px; } .lab-f { margin: 0; font-size: 12.5px; color: var(--muted); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.lab-c label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; font-weight: 700; color: var(--muted); }
+.lab-c input { padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font: inherit; font-size: 14px; }
+.lab-r { margin: auto 0 0; padding-top: 10px; border-top: 1px solid var(--line); } .lab-r b { display: block; font-family: var(--f-display); font-size: 22px; color: var(--ink); } .lab-r span { font-size: 12px; color: var(--muted); }
+@media (max-width: 1080px) { .lab-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } } @media (max-width: 560px) { .lab-grid { grid-template-columns: minmax(0, 1fr); } }
 .ramp.hseq { background: linear-gradient(90deg, color-mix(in srgb, var(--red) 4%, var(--map-base)), var(--red) 80%, color-mix(in srgb, #3b0a0a 60%, var(--red))); }
 .yr-cap { margin: 2px 0 8px; padding: 8px 12px; border-radius: 10px; background: var(--soft); font-size: 13px; line-height: 1.45; min-height: 2.9em; }
 .yr-cap b { color: var(--red); }
@@ -1003,6 +1030,7 @@ p.k2-warn { margin: 0 0 6px; padding: 8px 12px; border-radius: 8px; font-size: 1
     <div class="pg" id="pg-build" data-site hidden></div>
     <div class="pg" id="pg-kit" data-site hidden></div>
     <div class="pg" id="pg-sim" data-site hidden></div>
+    <div class="pg" id="pg-labx" data-site hidden></div>
     <div class="pg" id="pg-saved" data-site hidden></div>
     <div class="pg" id="pg-method" data-site hidden></div>
     <div class="pg" id="pg-reports" hidden>
@@ -1014,7 +1042,7 @@ p.k2-warn { margin: 0 0 6px; padding: 8px 12px; border-radius: 8px; font-size: 1
   <footer class="foot-page">
     <p id="foot-text"></p>
     <p id="other-files" class="muted"></p>
-    <p><a class="fb-btn" id="fb-btn" hidden>✉ Maklum balas / Feedback</a></p>
+    <p><a class="fb-btn" id="fb-btn" hidden>✉ Maklum balas</a></p>
   </footer>
 </div>
 <div class="toast" id="toast" role="status" hidden></div>
@@ -3553,7 +3581,7 @@ const M6 = (() => {
             ${prob.length ? `<p class="m6-err">${prob.map(esc).join(' ')}</p>` : ''}
             <button type="button" class="btn-big alt" id="m6-btn"${prob.length || M.busy ? ' disabled' : ''}>
               <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 19h16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <span>Jana Laporan Word / Generate Word Report<small>${M.lang === 'en' ? 'English' : 'Bahasa Melayu'} · .docx · ${X('boleh disunting', 'editable')}</small></span></button>
+              <span>${X('Jana Laporan Word', 'Generate Word Report')}<small>${M.lang === 'en' ? 'English' : 'Bahasa Melayu'} · .docx · ${X('boleh disunting', 'editable')}</small></span></button>
             <button type="button" class="btn" id="m6-prev" style="margin-top:8px"${prob.length || M.busy ? ' disabled' : ''}>👁 ${X('Pratonton laporan dahulu', 'Preview the report first')}</button>
             <div id="m6-status" role="status" aria-live="polite">${statusHtml()}</div>
           </div>
@@ -3657,20 +3685,21 @@ const SITE = (() => {
   const IDS = STATES.map(s => s.id);
   const PAGES = [
     { id: 'home', h: 'home', bm: 'Utama', en: 'Home' },
-    { id: 'state', h: 'negeri', bm: 'Negeri', en: 'State' },
+    { id: 'state', h: 'negeri', bm: 'Negeri', en: 'States' },
     { id: 'prod', h: 'productivity', bm: 'Produktiviti Buruh', en: 'Labour Productivity' },
     { id: 'gdp', h: 'gdp', bm: 'KDNK & Struktur Ekonomi', en: 'GDP & Economic Structure' },
-    { id: 'wage', h: 'wages', bm: 'Gaji & Upah', en: 'Salaries & Wages' },
+    { id: 'wage', h: 'wages', bm: 'Gaji & Upah', en: 'Wages & Salaries' },
     { id: 'lab', h: 'labour', bm: 'Pasaran Buruh', en: 'Labour Market' },
     { id: 'intg', h: 'integrated', bm: 'Kecerdasan Ekonomi Bersepadu', en: 'Integrated Economic Intelligence' },
-    { id: 'cmp', h: 'banding', bm: 'Banding Negeri', en: 'Compare States', nav: false, parent: 'intg' },
-    { id: 'explore', h: 'teroka', bm: 'Teroka Data', en: 'Explore Data', nav: false, parent: 'intg' },
-    { id: 'build', h: 'bina-laporan', bm: 'Bina Laporan Sendiri', en: 'Build Your Own Report', nav: false, parent: 'intg' },
-    { id: 'kit', h: 'laporan-negeri', bm: 'Laporan Produktiviti Negeri', en: 'State Productivity Report', nav: false, parent: 'intg' },
+    { id: 'cmp', h: 'banding', bm: 'Banding Negeri', en: 'State Comparison', nav: false, parent: 'intg' },
+    { id: 'explore', h: 'teroka', bm: 'Teroka Data', en: 'Data Explorer', nav: false, parent: 'intg' },
+    { id: 'build', h: 'bina-laporan', bm: 'Bina Laporan Sendiri', en: 'Custom Report Builder', nav: false, parent: 'intg' },
+    { id: 'kit', h: 'laporan-negeri', bm: 'Laporan Produktiviti Negeri', en: 'State Productivity Reports', nav: false, parent: 'intg' },
     { id: 'sim', h: 'simulasi', bm: 'Simulasi Produktiviti', en: 'Productivity Simulation', nav: false, parent: 'intg' },
+    { id: 'labx', h: 'makmal', bm: 'Makmal Produktiviti', en: 'Productivity Lab', nav: false, parent: 'intg' },
     { id: 'saved', h: 'tersimpan', bm: 'Laporan Tersimpan', en: 'Saved Reports', nav: false, parent: 'intg' },
     { id: 'method', h: 'metodologi', bm: 'Metodologi', en: 'Methodology', nav: false },
-    { id: 'reports', h: 'reports', bm: 'Laporan Siap', en: 'Ready-made Reports', nav: false, parent: 'intg' },
+    { id: 'reports', h: 'reports', bm: 'Laporan Siap', en: 'Ready-Made Reports', nav: false, parent: 'intg' },
   ];
   const BY_H = Object.fromEntries(PAGES.map(p => [p.h, p]));
   const pname = p => S.lang === 'en' ? p.en : p.bm;
@@ -4487,8 +4516,25 @@ const SITE = (() => {
   const CMP_COL = ['var(--red)', 'var(--ink)', '#b45309', '#0f766e'];
   const CMP_M = ['prod', 'gdp', 'gdpg', 'median', 'formal', 'prate', 'urate', 'fprate'];
   const KT_GROUPS = () => [[X('Analisis', 'Analysis'), [['explore', 'teroka', X('Teroka Data', 'Explore Data')], ['intg', 'integrated', X('Analisis Bersepadu', 'Integrated Analysis')], ['cmp', 'banding', X('Banding Negeri', 'Compare States')], ['sim', 'simulasi', X('Simulasi Produktiviti', 'Productivity Simulation')]]], [X('Laporan', 'Reports'), [['build', 'bina-laporan', X('Bina Laporan Sendiri', 'Build Your Own Report')], ['reports', 'reports', X('Laporan Siap', 'Ready-made Reports')], ['kit', 'laporan-negeri', X('Laporan Produktiviti Negeri', 'State Productivity Report')], ['saved', 'tersimpan', X('Laporan Tersimpan', 'Saved Reports')]]]];
-  const intgTabs = cur => `<div class="subnav ktabs">${KT_GROUPS().map(([gl, tabs]) => `<div class="ktab-g${tabs.some(t => t[0] === cur) ? ' on' : ''}"><span class="ktab-l">${esc(gl)}</span><div class="seg site-seg">${tabs.map(([id, h, l]) => `<a href="#${h}" class="seg-a" aria-pressed="${id === cur}">${esc(l)}</a>`).join('')}</div></div>`).join('')}</div>`;
+  const intgTabs = () => '';   // section navigation lives in the Kecerdasan mega menu
   const repTabs = intgTabs;
+
+  function labPage() {
+    const el = $('pg-labx'), calcs = [
+      ['lp', X('Produktiviti buruh', 'Labour productivity'), X('Nilai ditambah ÷ bilangan pekerja', 'Value added ÷ number of employees'), [['va', X('Nilai ditambah (RM)', 'Value added (RM)')], ['emp', X('Bilangan pekerja', 'Number of employees')]], v => v.emp ? ['RM' + Math.round(v.va / v.emp).toLocaleString('en-US'), X('setiap pekerja', 'per employee')] : null],
+      ['out', X('Jumlah output setiap pekerja', 'Total output per employee'), X('Jumlah output ÷ bilangan pekerja', 'Total output ÷ number of employees'), [['out', X('Jumlah output (RM)', 'Total output (RM)')], ['emp', X('Bilangan pekerja', 'Number of employees')]], v => v.emp ? ['RM' + Math.round(v.out / v.emp).toLocaleString('en-US'), X('setiap pekerja', 'per employee')] : null],
+      ['gr', X('Pertumbuhan & purata setahun (CAGR)', 'Growth & average a year (CAGR)'), X('((akhir ÷ awal)^(1 ÷ tahun) − 1) × 100', '((end ÷ start)^(1 ÷ years) − 1) × 100'), [['a', X('Nilai awal', 'Start value')], ['b', X('Nilai akhir', 'End value')], ['n', X('Bilangan tahun', 'Number of years')]], v => v.a > 0 && v.b > 0 && v.n > 0 ? [((v.b / v.a - 1) * 100).toFixed(1) + '%', X('jumlah; purata ', 'total; average ') + ((Math.pow(v.b / v.a, 1 / v.n) - 1) * 100).toFixed(2) + X('% setahun', '% a year')] : null],
+      ['gap', X('Jurang produktiviti', 'Productivity gap'), X('(produktiviti ÷ penanda aras − 1) × 100', '(productivity ÷ benchmark − 1) × 100'), [['v', X('Produktiviti anda (RM)', 'Your productivity (RM)')], ['b', X('Penanda aras (RM)', 'Benchmark (RM)')]], v => v.b ? [((v.v / v.b - 1) * 100).toFixed(1) + '%', (v.v >= v.b ? X('di atas', 'above') : X('di bawah', 'below')) + X(' penanda aras', ' the benchmark')] : null],
+      ['cap', X('Produktiviti modal', 'Capital productivity'), X('Nilai ditambah ÷ aset tetap', 'Value added ÷ fixed assets'), [['va', X('Nilai ditambah (RM)', 'Value added (RM)')], ['fa', X('Aset tetap (RM)', 'Fixed assets (RM)')]], v => v.fa ? [(v.va / v.fa).toFixed(2), X('RM nilai ditambah bagi setiap RM1 aset tetap', 'RM of value added per RM1 of fixed assets')] : null],
+      ['ci', X('Intensiti modal', 'Capital intensity'), X('Aset tetap ÷ bilangan pekerja', 'Fixed assets ÷ number of employees'), [['fa', X('Aset tetap (RM)', 'Fixed assets (RM)')], ['emp', X('Bilangan pekerja', 'Number of employees')]], v => v.emp ? ['RM' + Math.round(v.fa / v.emp).toLocaleString('en-US'), X('aset tetap setiap pekerja', 'fixed assets per employee')] : null],
+      ['valc', X('Nilai ditambah bagi setiap kos buruh', 'Value added per labour cost'), X('Nilai ditambah ÷ kos buruh', 'Value added ÷ labour cost'), [['va', X('Nilai ditambah (RM)', 'Value added (RM)')], ['lc', X('Kos buruh (RM)', 'Labour cost (RM)')]], v => v.lc ? [(v.va / v.lc).toFixed(2), X('RM nilai ditambah bagi setiap RM1 kos buruh', 'RM of value added per RM1 of labour cost')] : null],
+      ['lce', X('Kos buruh setiap pekerja', 'Labour cost per employee'), X('Kos buruh ÷ bilangan pekerja', 'Labour cost ÷ number of employees'), [['lc', X('Kos buruh (RM)', 'Labour cost (RM)')], ['emp', X('Bilangan pekerja', 'Number of employees')]], v => v.emp ? ['RM' + Math.round(v.lc / v.emp).toLocaleString('en-US'), X('setiap pekerja', 'per employee')] : null],
+      ['lcu', X('Kos buruh setiap unit output', 'Labour cost per unit of output'), X('Kos buruh ÷ jumlah output', 'Labour cost ÷ total output'), [['lc', X('Kos buruh (RM)', 'Labour cost (RM)')], ['out', X('Jumlah output (RM)', 'Total output (RM)')]], v => v.out ? [(v.lc / v.out).toFixed(3), X('RM kos buruh bagi setiap RM1 output', 'RM of labour cost per RM1 of output')] : null],
+    ];
+    labPage.calcs = calcs;
+    el.innerHTML = head(X('Kecerdasan Ekonomi Bersepadu · Analisis', 'Integrated Economic Intelligence · Analysis'), pname(BY_PG.labx), X('Kalkulator penunjuk produktiviti untuk data anda sendiri, contohnya data syarikat atau sektor. Formula mengikut Lampiran A Laporan Produktiviti MPC. Angka yang dimasukkan tidak disimpan atau dihantar.', 'Productivity indicator calculators for your own figures, such as company or sector data. Formulas follow Appendix A of the MPC Productivity Report. Figures you enter are not stored or sent anywhere.'))
+      + `<section class="lab-grid">${calcs.map(([id, t, f, ins]) => `<article class="card lab-c" data-lab="${id}"><h2>${esc(t)}</h2><p class="lab-f">${esc(f)}</p>${ins.map(([k, l]) => `<label>${esc(l)}<input type="number" inputmode="decimal" step="any" min="0" data-lk="${k}"></label>`).join('')}<p class="lab-r" aria-live="polite"><b>–</b><span></span></p></article>`).join('')}</section>`;
+  }
   const K2H = {
     explore: [X('Teroka data', 'Explore data'), X('Katalog penunjuk, liputan dan status setiap set data DOSM dalam sistem.', 'Indicator catalogue, coverage and status of every DOSM dataset in the system.')],
     build: [X('Bina laporan sendiri', 'Build your own report'), X('Pilih lokasi, penunjuk dan tempoh; semak data; jana analisis mengikut topik atau bersepadu; pratonton; muat turun Word, PDF, Excel atau pakej ZIP.', 'Choose locations, indicators and a period; check the data; generate topic or integrated analysis; preview; download Word, PDF, Excel or a ZIP package.')],
@@ -4582,13 +4628,70 @@ const SITE = (() => {
     const h = location.hash.slice(1);
     if (BY_H[h]) page = BY_H[h].id; else if (STATE_BY_ID[h]) page = 'prod'; else page = 'home';
   }
+
+  /* ---------- Kecerdasan Ekonomi Bersepadu mega menu ---------- */
+  const ICO = {
+    db: '<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/>',
+    combo: '<path d="M12 16v5"/><path d="M16 14v7"/><path d="M20 10v11"/><path d="m22 3-8.646 8.646a.5.5 0 0 1-.708 0L9.354 8.354a.5.5 0 0 0-.707 0L2 15"/><path d="M4 18v3"/><path d="M8 14v7"/>',
+    map: '<path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/>',
+    line: '<path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="m19 9-5 5-4-4-3 3"/>',
+    calc: '<rect width="16" height="20" x="4" y="2" rx="2"/><path d="M8 6h8"/><path d="M16 14v4"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/>',
+    filepen: '<path d="M12.5 22H18a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v9.5"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M13.378 15.626a1 1 0 1 0-3.004-3.004l-5.01 5.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"/>',
+    book: '<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>',
+    pin: '<path d="M18 8c0 3.613-3.869 7.429-5.393 8.795a1 1 0 0 1-1.214 0C9.87 15.429 6 11.613 6 8a6 6 0 0 1 12 0"/><circle cx="12" cy="8" r="2"/><path d="M8.714 14h-3.71a1 1 0 0 0-.948.683l-2.004 6A1 1 0 0 0 3 22h18a1 1 0 0 0 .948-1.316l-2-6a1 1 0 0 0-.949-.684h-3.712"/>',
+    folder: '<path d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"/>',
+  };
+  const svgI = k => `<svg class="mm-i" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICO[k]}</svg>`;
+  const MEGA = () => [[X('ANALISIS', 'ANALYSIS'), [['explore', 'db'], ['intg', 'combo'], ['cmp', 'map'], ['sim', 'line'], ['labx', 'calc']]], [X('LAPORAN', 'REPORTS'), [['build', 'filepen'], ['reports', 'book'], ['kit', 'pin'], ['saved', 'folder']]]];
+  const megaItemLabel = id => id === 'intg' ? X('Analisis Bersepadu', 'Integrated Analytics') : pname(BY_PG[id]);
+  function megaHtml(cur) {
+    return `<p class="mm-h">${esc(pname(BY_PG.intg))}</p><div class="mm-cols">${MEGA().map(([gl, items]) => `<div class="mm-col" role="group" aria-label="${esc(gl)}"><p class="mm-gl">${esc(gl)}</p><ul>${items.map(([id, ic]) => `<li><a href="#${BY_PG[id].h}" class="mm-a" role="menuitem"${id === cur ? ' aria-current="page"' : ''}>${svgI(ic)}<span>${esc(megaItemLabel(id))}</span></a></li>`).join('')}</ul></div>`).join('')}</div>`;
+  }
+  let MM = { open: false, t: 0 };
+  function megaPlace() {
+    const p = $('mega'), trig = $('nav') && $('nav').querySelector('a[data-mega]'); if (!p || !trig) return;
+    const nav = $('nav').getBoundingClientRect(), w = Math.min(nav.width, 860);
+    p.style.top = Math.round(nav.bottom + 8) + 'px';
+    p.style.left = Math.round(Math.max(nav.left, Math.min(nav.right - w, trig.getBoundingClientRect().right - w))) + 'px'; p.style.width = Math.round(w) + 'px';
+  }
+  function megaSet(open, focusFirst) {
+    const p = $('mega'), trig = $('nav') && $('nav').querySelector('a[data-mega]'); if (!p || !trig) return;
+    clearTimeout(MM.t); MM.open = open; if (open) megaPlace();
+    p.hidden = !open; trig.setAttribute('aria-expanded', open); trig.classList.toggle('mm-open', open);
+    if (open && focusFirst) { const a = p.querySelector('.mm-a'); if (a) a.focus(); }
+  }
+  const megaLater = (open, ms) => { clearTimeout(MM.t); MM.t = setTimeout(() => megaSet(open), ms); };
+  function megaWire() {
+    if (megaWire.done) return; megaWire.done = true;
+    const p = document.createElement('div'); p.id = 'mega'; p.className = 'mega'; p.hidden = true; p.setAttribute('role', 'menu'); document.body.appendChild(p);
+    const desk = () => window.matchMedia('(min-width: 761px) and (hover: hover)').matches;
+    const nav = $('nav');
+    nav.addEventListener('pointerover', e => { if (desk() && e.target.closest('a[data-mega]')) megaLater(true, MM.open ? 0 : 120); });
+    nav.addEventListener('pointerout', e => { if (desk() && e.target.closest('a[data-mega]') && !(e.relatedTarget && (e.relatedTarget.closest && (e.relatedTarget.closest('#mega') || e.relatedTarget.closest('a[data-mega]'))))) megaLater(false, 250); });
+    p.addEventListener('pointerenter', () => clearTimeout(MM.t));
+    p.addEventListener('pointerleave', e => { if (!(e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest('a[data-mega]'))) megaLater(false, 250); });
+    p.addEventListener('click', e => { if (e.target.closest('.mm-a')) megaSet(false); });
+    nav.addEventListener('keydown', e => { const t = e.target.closest && e.target.closest('a[data-mega]'); if (t && (e.key === 'ArrowDown' || e.key === ' ')) { e.preventDefault(); megaSet(true, true); } });
+    p.addEventListener('keydown', e => {
+      const items = [...p.querySelectorAll('.mm-a')], i = items.indexOf(document.activeElement);
+      if (e.key === 'ArrowDown') { e.preventDefault(); items[Math.min(items.length - 1, i + 1)].focus(); }
+      if (e.key === 'ArrowUp') { e.preventDefault(); if (i <= 0) { megaSet(false); nav.querySelector('a[data-mega]').focus(); } else items[i - 1].focus(); }
+    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && MM.open) { megaSet(false); const t = nav.querySelector('a[data-mega]'); if (t) t.focus(); } });
+    document.addEventListener('pointerdown', e => { if (MM.open && !e.target.closest('#mega') && !e.target.closest('a[data-mega]')) megaSet(false); });
+    document.addEventListener('focusin', e => { if (MM.open && !e.target.closest('#mega') && !e.target.closest('a[data-mega]')) megaSet(false); });
+    window.addEventListener('resize', () => MM.open && megaPlace()); window.addEventListener('scroll', () => MM.open && megaPlace(), { passive: true });
+  }
   function navCue() { const n = $('nav'); if (n) n.classList.toggle('more', n.scrollWidth - n.clientWidth - n.scrollLeft > 4); }
   function chrome() {
     const curNav = (BY_PG[page] && BY_PG[page].parent) || page;
     const TOPICS = ['prod', 'gdp', 'wage', 'lab'], SHORT = { home: ['Utama', 'Home'], state: ['Negeri', 'State'], intg: ['Kecerdasan', 'Insights'], reports: ['Laporan', 'Reports'] };
-    const navA = p => `<a href="#${p.h}"${TOPICS.includes(p.id) ? ' data-topic' : ''}${p.id === curNav ? ' aria-current="page"' : ''}><span class="nl">${esc(pname(p))}</span>${SHORT[p.id] ? `<span class="ns">${esc(X(...SHORT[p.id]))}</span>` : ''}</a>`;
+    const navA = p => `<a href="#${p.h}"${TOPICS.includes(p.id) ? ' data-topic' : ''}${p.id === curNav ? ' aria-current="page"' : ''}${p.id === 'intg' ? ' data-mega aria-haspopup="true" aria-expanded="false" aria-controls="mega"' : ''}><span class="nl">${esc(pname(p))}${p.id === 'intg' ? '<svg class="mm-chev" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>' : ''}</span>${SHORT[p.id] ? `<span class="ns">${esc(X(...SHORT[p.id]))}</span>` : ''}</a>`;
     const navP = PAGES.filter(p => p.nav !== false), onTopic = TOPICS.includes(curNav);
     $('nav').innerHTML = navP.map((p, i) => navA(p) + (p.id === 'state' ? `<button type="button" class="nav-topic${onTopic ? ' on' : ''}" aria-expanded="false" aria-controls="nav-sheet">${esc(X('Topik', 'Topics'))} ▴</button>` : '')).join('');
+    megaWire(); const mg = $('mega'); if (mg) { mg.innerHTML = megaHtml(page); mg.hidden = true; MM.open = false; }
+    let ks = $('kei-sheet'); if (!ks) { ks = document.createElement('div'); ks.id = 'kei-sheet'; ks.className = 'nav-sheet kei-sheet'; ks.hidden = true; $('nav').after(ks); }
+    ks.innerHTML = megaHtml(page); ks.hidden = true;
     let sh = $('nav-sheet'); if (!sh) { sh = document.createElement('div'); sh.id = 'nav-sheet'; sh.className = 'nav-sheet'; sh.hidden = true; $('nav').after(sh); }
     sh.innerHTML = `<p>${esc(X('Pilih topik', 'Choose a topic'))}</p>` + TOPICS.map(id => `<a href="#${BY_PG[id].h}"${id === curNav ? ' aria-current="page"' : ''}>${esc(pname(BY_PG[id]))}</a>`).join(''); sh.hidden = true;
     const as = $('acct-sheet'); if (as) { const u2 = window.SPPE_USER; as.innerHTML = (u2 && u2.name ? `<p class="acct-who">${esc(X('Log masuk sebagai', 'Signed in as'))}<b>${esc(u2.name)}</b>${u2.email ? `<small>${esc(u2.email)}</small>` : ''}</p>` : '') + `<a href="#metodologi">ⓘ ${esc(X('Metodologi & sumber data', 'Methodology & data sources'))}</a>` + (u2 && u2.name ? `<a href="/auth/logout" class="acct-out">⎋ ${esc(X('Log keluar', 'Log out'))}</a>` : ''); as.hidden = true; const ab = $('acct-btn'); if (ab) ab.setAttribute('aria-expanded', 'false'); }
@@ -4601,7 +4704,7 @@ const SITE = (() => {
     document.title = (page === 'home' ? '' : pname(BY_PG[page]) + ' · ') + t('title');
     const u = window.SPPE_USER, hi = $('hello'); if (hi) { hi.hidden = !(u && u.name); if (u && u.name) hi.innerHTML = `${esc(X('Selamat datang, ', 'Welcome, '))}<b>${esc(u.name)}</b><a href="/auth/logout">${esc(X('Log keluar', 'Log out'))}</a>`; }
     const q = $('q'); if (q) { q.placeholder = X('Cari negeri atau halaman…', 'Search a state or page…'); $('q-list').innerHTML = STATES.map(s => `<option value="${esc(sname(s.id))}">`).join('') + PAGES.map(p => `<option value="${esc(pname(p))}">`).join(''); }
-    const fb = $('fb-btn'); if (fb) { fb.hidden = !FEEDBACK_EMAIL; if (FEEDBACK_EMAIL) fb.href = `mailto:${FEEDBACK_EMAIL}?subject=${encodeURIComponent('SPPE Intelligence: ' + X('Maklum balas', 'Feedback'))}&body=${encodeURIComponent(X('Halaman: ', 'Page: ') + location.href + '\n\n')}`; }
+    const fb = $('fb-btn'); if (fb) { fb.textContent = '✉ ' + X('Maklum balas', 'Feedback'); fb.hidden = !FEEDBACK_EMAIL; if (FEEDBACK_EMAIL) fb.href = `mailto:${FEEDBACK_EMAIL}?subject=${encodeURIComponent('SPPE Intelligence: ' + X('Maklum balas', 'Feedback'))}&body=${encodeURIComponent(X('Halaman: ', 'Page: ') + location.href + '\n\n')}`; }
     store.set('sppe-pg', BY_PG[page] ? BY_PG[page].h : 'home');
   }
   function render() {
@@ -4609,7 +4712,7 @@ const SITE = (() => {
     if (!S.snap || !AN) { const el = $('pg-' + page); if (el && el.hasAttribute('data-site') && !S.snapLoaded) el.innerHTML = `<div class="skel-row"><div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div></div><div class="skel big"></div>`; return; }
     $('ph-prod').innerHTML = head(X('Topik 1', 'Topic 1'), pname(BY_PG.prod), X('Nilai yang dihasilkan oleh setiap pekerja dalam setahun, mengikut negeri dan sektor. Lebih tinggi bermakna setiap pekerja menghasilkan lebih banyak.', 'The value each worker produces in a year, by state and sector. Higher means each worker is producing more.'));
     $('ph-reports').innerHTML = repTabs('reports') + head(X('Kecerdasan Ekonomi Bersepadu · Laporan', 'Integrated Economic Intelligence · Reports'), X('Laporan siap', 'Ready-made reports'), X('Pilih topik, penunjuk, negeri dan tahun. Laporan dijana sebagai fail Word yang boleh disunting, dalam gaya yang sama dengan laporan produktiviti asal. Laporan PDF produktiviti sedia ada boleh dimuat turun di halaman Produktiviti Buruh.', 'Choose topics, indicators, states and years. The report is generated as an editable Word file, in the same style as the original productivity report. The ready-made productivity PDF reports can be downloaded on the Labour Productivity page.'));
-    try { ({ home: homePage, gdp: gdpPage, wage: wagePage, lab: labPage, intg: intgPage, state: statePage, method: methodPage, cmp: comparePage, explore: k2Page('explore'), build: k2Page('build'), kit: k2Page('kit'), sim: k2Page('sim'), saved: k2Page('saved') }[page] || (() => { }))(); }
+    try { ({ home: homePage, gdp: gdpPage, wage: wagePage, lab: labPage, intg: intgPage, state: statePage, method: methodPage, cmp: comparePage, explore: k2Page('explore'), labx: labPage, build: k2Page('build'), kit: k2Page('kit'), sim: k2Page('sim'), saved: k2Page('saved') }[page] || (() => { }))(); }
     catch (err) { console.error('SITE render', err); const el = $('pg-' + page); if (el) el.innerHTML = `<div class="banner err">${esc(X('Halaman ini tidak dapat dipaparkan.', 'This page could not be displayed.'))}</div>`; }
     try { afterRender(); } catch (err) { console.error('afterRender', err); }
   }
@@ -4619,6 +4722,9 @@ const SITE = (() => {
     window.addEventListener('hashchange', go);
     $('nav').addEventListener('scroll', navCue, { passive: true }); window.addEventListener('resize', navCue);
     document.addEventListener('click', e => {
+      const ks = $('kei-sheet'), kt = e.target.closest('#nav a[data-mega]');
+      if (ks) { if (kt && window.matchMedia('(max-width: 760px)').matches) { e.preventDefault(); ks.hidden = !ks.hidden; kt.setAttribute('aria-expanded', !ks.hidden); const ns = $('nav-sheet'); if (ns) ns.hidden = true; return; }
+        if (!ks.hidden && (!e.target.closest('#kei-sheet') || e.target.closest('a'))) ks.hidden = true; }
       const as = $('acct-sheet'), ab = e.target.closest('#acct-btn');
       if (as) { if (ab) { as.hidden = !as.hidden; ab.setAttribute('aria-expanded', !as.hidden); } else if (!as.hidden && (!e.target.closest('#acct-sheet') || e.target.closest('a'))) { as.hidden = true; $('acct-btn').setAttribute('aria-expanded', 'false'); } }
       const sh = $('nav-sheet'), b = e.target.closest('.nav-topic'); if (!sh) return;
@@ -4647,7 +4753,7 @@ const SITE = (() => {
       const s = e.target.closest('[data-sel]'); if (s) select(s.dataset.sel);
     });
     d.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('.pg[data-site] [data-sel]')) { e.preventDefault(); select(e.target.dataset.sel); } });
-    d.addEventListener('input', e => { if (e.target.matches && e.target.matches('.pg[data-site] input[data-tly]')) { if (page === 'home') homeYear(+e.target.value); else topicYear(+e.target.value); } });
+    d.addEventListener('input', e => { const lc = e.target.closest && e.target.closest('.lab-c'); if (lc && labPage.calcs) { const c = labPage.calcs.find(x => x[0] === lc.dataset.lab), v = {}; lc.querySelectorAll('input[data-lk]').forEach(i => { v[i.dataset.lk] = i.value === '' ? NaN : +i.value; }); const r = Object.values(v).some(x => isNaN(x)) ? null : c[4](v); lc.querySelector('.lab-r b').textContent = r ? r[0] : '–'; lc.querySelector('.lab-r span').textContent = r ? r[1] : ''; return; } if (e.target.matches && e.target.matches('.pg[data-site] input[data-tly]')) { if (page === 'home') homeYear(+e.target.value); else topicYear(+e.target.value); } });
     d.addEventListener('change', e => {
       if (!e.target.closest('.pg[data-site]')) return;
       if (e.target.matches('select[data-st]')) select(e.target.value);
