@@ -30,7 +30,7 @@ const SP = (() => {
 
   /* ---------------- data model ---------------- */
   function model(id, o = {}) {
-    const opt = { uplift: 1, end: 2035, mode: 'umum', ...o };
+    const opt = { uplift: 1, end: 2035, ...o };
     const a = A(S.snap), ec = M6E.econ(), G = ec.gdp, L = ec.lfs;
     const at = (obj, ys, w, y) => { const i = ys.indexOf(y); return obj && obj[w] && i >= 0 && obj[w][i] != null ? obj[w][i] : null; };
     const gdp = (w, y, p = 'p0') => at(G.v[p], G.years, w, y), emp = (w, y) => at(L.emp, L.years, w, y), lp = (w, y) => a.level(w, y);
@@ -334,8 +334,8 @@ const SP = (() => {
     y += 1; tag('FAKTA DAN PENGIRAAN', M, y + 2, C.navy); y = para(m.text.fw, M, y + 7, W - 2 * M, 8);
     footer();
 
-    /* ---- pages 7-8: strategic priorities + implementation (or workshop mode) ---- */
-    if (m.opt.mode === 'bengkel') { workshop(); } else {
+    /* ---- pages 7-8: strategic priorities + implementation ---- */
+    {
       newPage(); y = secBar(6, 'Keutamaan strategik dan cadangan intervensi', 38);
       y = para(`Jadual berikut menghubungkan setiap sektor keutamaan ${m.name} dengan kekangan yang dikenal pasti, cadangan intervensi, agensi pelaksana yang berpotensi, tempoh dan petunjuk hasil. Semua cadangan ialah cadangan awal untuk dibincangkan, bukan program kerajaan yang telah diluluskan.`, M, y + 1, W - 2 * M, 8) + 3;
       const P = plan(m), cols = [['Sektor', 20], ['Bukti (fakta)', 30], ['Kekangan utama (hipotesis)', 28], ['Cadangan intervensi', 34], ['Agensi berpotensi', 22], ['Tempoh', 18], ['Petunjuk hasil', 30]];
@@ -382,42 +382,20 @@ const SP = (() => {
     d.__layout = LAY;
     return d;
 
-    function workshop() {
-      newPage(); y = secBar(6, 'Bengkel / sesi strategik: agenda dan fokus perbincangan', 38);
-      font(9, true); tc(C.navy); text('Fokus perbincangan', M, y + 2); y += 5;
-      [['A', 'Mengesahkan sektor fokus negeri', `Mengesahkan kesesuaian ${lsj([...m.lon, ...m.pen].map(r => r.short.toLowerCase()))} berdasarkan struktur ekonomi dan hala tuju pembangunan negeri.`], ['B', 'Menilai isu dan cabaran setiap sektor', 'Mengenal pasti kekangan dari aspek pasaran, keupayaan produktif dan persekitaran perniagaan.'], ['C', 'Mengenal pasti pelan strategik keutamaan', 'Menentukan keutamaan tindakan mengikut tempoh pelaksanaan dan peranan pihak berkepentingan.']].forEach(([k, t2, s2], i) => { const bx = M + i * 61; fill(C.red); d.roundedRect(bx, y, 9, 9, 1.5, 1.5, 'F'); font(10, true); tc(C.white); text(k, bx + 4.5, y + 6.5, { align: 'center' }); font(8, true); tc(C.navy); d.text(d.splitTextToSize(T(t2), 46), bx + 11, y + 3.5); para(s2, bx, y + 14, 56, 7.2); });
-      y += 36; font(9, true); tc(C.navy); text('Atur cara (untuk diisi oleh penganjur)', M, y); y += 3;
-      const ag = [['[masa]', 'Pendaftaran dan ucapan alu-aluan'], ['[masa]', 'Taklimat dapatan profil strategik dan perjalanan bengkel'], ['[masa]', 'Sesi 1: Pengesahan sektor fokus mengikut kluster'], ['[masa]', 'Sesi 2: Penilaian kekangan mengikut kerangka tiga dimensi'], ['[masa]', 'Sesi 3: Keutamaan tindakan dan garis masa'], ['[masa]', 'Pembentangan kumpulan, rumusan dan penutup']];
-      fill(C.navy); d.rect(M, y, W - 2 * M, 6.5, 'F'); font(7, true); tc(C.white); text('Masa', M + 2, y + 4.4); text('Atur cara', M + 30, y + 4.4); y += 6.5;
-      ag.forEach((r, k) => { if (k % 2) { fill(C.soft); d.rect(M, y, W - 2 * M, 7, 'F'); } font(7.6); tc(C.mute); text(r[0], M + 2, y + 4.6); tc(C.ink); text(r[1], M + 30, y + 4.6); y += 7; });
-      font(7, false, true); tc(C.mute); text('Tarikh, tempat dan masa sengaja dibiarkan kosong; tiada maklumat bengkel direka.', M, y + 4);
-      footer();
-      newPage(); y = secBar(7, 'Susun atur perbincangan dan output', 38);
-      font(9, true); tc(C.navy); text('Kumpulan prestasi negeri (berdasarkan data, untuk penyusunan kluster)', M, y + 2); y += 5;
-      const grp = { lead: [], catch: [], slow: [], attn: [] }; const a = A(S.snap); STATES.forEach(s2 => { try { grp[a.quadrant(s2.id)].push(s2.bm); } catch (e) { } });
-      [['lead', 'Peneraju'], ['catch', 'Pengejar'], ['slow', 'Tinggi tetapi perlahan'], ['attn', 'Perlu perhatian']].forEach(([k, l], i) => { const bx = M + (i % 2) * 92, by = y + Math.floor(i / 2) * 26; box(bx, by, 88, 23, grp[k].includes(m.name) ? [253, 236, 238] : C.soft); fill(C.navy); d.rect(bx, by, 88, 7, 'F'); font(8.2, true); tc(C.white); text(`MEJA ${i + 1}: ${l.toUpperCase()}`, bx + 3, by + 5); font(7.2); tc(C.ink); d.text(d.splitTextToSize(T(grp[k].join(', ') || '-'), 82), bx + 3, by + 12); });
-      y += 56; font(9, true); tc(C.navy); text('Komposisi peserta setiap meja', M, y); text('Fungsi fasilitator', W / 2 + 4, y);
-      para('1. Wakil Unit Perancang Ekonomi Negeri\n2. Wakil Kementerian Ekonomi\n3. Wakil kementerian dan agensi sektor berkaitan\n4. Wakil Perbadanan Produktiviti Malaysia\n5. Fasilitator', M, y + 5, W / 2 - M - 4, 7.8);
-      para('1. Memandu perbincangan berdasarkan objektif dan output.\n2. Memastikan sektor fokus dicadangkan berdasarkan bukti.\n3. Merumuskan dapatan perbincangan kluster.', W / 2 + 4, y + 5, W / 2 - M - 4, 7.8);
-      y += 34; font(9, true); tc(C.navy); text('Output utama perbincangan', M, y); y += 3;
-      ['Sektor fokus negeri yang dimuktamadkan', 'Cadangan pelan strategik mengikut sektor dan pemacu produktiviti', 'Keutamaan tindakan susulan dan hala tuju pelaksanaan negeri'].forEach((t2, i) => { const bx = M + i * 61; fill(C.navy2); d.roundedRect(bx, y, 58, 22, 2, 2, 'F'); fill(C.white); d.roundedRect(bx + 3, y + 4, 9, 9, 1.5, 1.5, 'F'); font(11, true); tc(C.navy); text(String(i + 1), bx + 7.5, y + 10.5, { align: 'center' }); font(7.6, true); tc(C.white); d.text(d.splitTextToSize(T(t2), 41), bx + 14, y + 7); });
-      footer();
-    }
   }
 
   /* ---------------- page UI ---------------- */
-  const U = { id: null, mode: 'umum', uplift: 1, end: 2035, url: null, busy: false, msg: '', m: null };
+  const U = { id: null, uplift: 1, end: 2035, url: null, busy: false, msg: '', m: null };
   function render(el) {
     if (!U.id) U.id = (S.sel && STATE_BY_ID[S.sel]) ? S.sel : 'johor';
     const opts = STATES.map(s => `<option value="${s.id}"${s.id === U.id ? ' selected' : ''}>${esc(s.bm)}</option>`).join('');
     const yrs = S.snap ? S.snap.years.slice().reverse() : [];
-    let m = null, err = ''; try { m = model(U.id, { mode: U.mode, uplift: U.uplift, end: U.end }); U.m = m; } catch (e) { err = e.message; console.error(e); }
+    let m = null, err = ''; try { m = model(U.id, { uplift: U.uplift, end: U.end }); U.m = m; } catch (e) { err = e.message; console.error(e); }
     const okAll = m && m.qc.every(c => c.ok);
     el.innerHTML = `<article class="card sp-card"><div class="card-h"><div><h2>Jana Profil Strategik Negeri</h2><p class="sub">Laporan PDF A4 bertaraf penerbitan bagi mana-mana negeri: pencapaian semasa, prestasi, sektor keutamaan, simulasi, kerangka strategik, cadangan pelaksanaan dan lampiran sektor. Semua angka daripada data rasmi DOSM dalam laman ini.</p></div></div>
       <div class="sp-form">
         <label>Negeri<select data-sp="id">${opts}</select></label>
         <label>Tahun rujukan<select data-sp="year"><option>Terkini (${yrs[0] || '-'})</option></select></label>
-        <label>Mod laporan<select data-sp="mode"><option value="umum"${U.mode === 'umum' ? ' selected' : ''}>Profil strategik umum</option><option value="bengkel"${U.mode === 'bengkel' ? ' selected' : ''}>Bengkel / sesi strategik</option></select></label>
         <label>Peningkatan simulasi (mata peratus setahun)<input type="number" step="0.1" min="0" max="5" data-sp="uplift" value="${U.uplift}"></label>
         <label>Unjuran hingga<select data-sp="end">${[2030, 2035, 2040].map(y => `<option${y === U.end ? ' selected' : ''}>${y}</option>`).join('')}</select></label>
       </div>
@@ -438,7 +416,7 @@ const SP = (() => {
   function mount(el) {
     root = el; render(el);
     if (wired) return; wired = true;
-    document.addEventListener('change', e => { const t = e.target.closest('[data-sp]'); if (!t || !root || !root.contains(t)) return; const k = t.dataset.sp; if (k === 'id') U.id = t.value; else if (k === 'mode') U.mode = t.value; else if (k === 'uplift') U.uplift = Math.max(0, Math.min(5, +t.value || 0)); else if (k === 'end') U.end = +t.value; else return; if (U.url) { URL.revokeObjectURL(U.url); U.url = null; } U.msg = ''; render(root); });
+    document.addEventListener('change', e => { const t = e.target.closest('[data-sp]'); if (!t || !root || !root.contains(t)) return; const k = t.dataset.sp; if (k === 'id') U.id = t.value; else if (k === 'uplift') U.uplift = Math.max(0, Math.min(5, +t.value || 0)); else if (k === 'end') U.end = +t.value; else return; if (U.url) { URL.revokeObjectURL(U.url); U.url = null; } U.msg = ''; render(root); });
     document.addEventListener('click', e => { const b = e.target.closest('[data-spact]'); if (!b || !root || !root.contains(b)) return; act(b.dataset.spact); });
   }
   return { model, validate, pdf, mount, plan, fileName };

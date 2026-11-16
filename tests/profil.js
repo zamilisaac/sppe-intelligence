@@ -22,8 +22,8 @@ const ok = (n, c, x = '') => console.log((c ? 'PASS' : 'FAIL') + ' ' + n + (x !=
   ok('improvement scenario above baseline', r.simUp);
   ok('other states get their own figures', r.diff);
   ok('file name format', /^Profil_Strategik_Produktiviti_Johor_\d{4}\.pdf$/.test(r.file), r.file);
-  const all = await p.evaluate(async () => { const out = []; for (const s of STATES) for (const mode of ['umum', 'bengkel']) { const m = SP.model(s.id, { mode }), d = await SP.pdf(m); out.push({ id: s.id, mode, pages: d.getNumberOfPages(), qc: m.qc.every(c => c.ok), lay: d.__layout.length, bad: /NaN|undefined|Infinity/.test(JSON.stringify(m.text)) }); } return out; });
-  ok('all 16 states x 2 modes pass quality checks', all.every(x => x.qc), all.filter(x => !x.qc).map(x => x.id + '/' + x.mode).join(','));
+  const all = await p.evaluate(async () => { const out = []; for (const s of STATES) { const mode = 'umum'; const m = SP.model(s.id), d = await SP.pdf(m); out.push({ id: s.id, mode, pages: d.getNumberOfPages(), qc: m.qc.every(c => c.ok), lay: d.__layout.length, bad: /NaN|undefined|Infinity/.test(JSON.stringify(m.text)) }); } return out; });
+  ok('all 16 states pass quality checks', all.every(x => x.qc), all.filter(x => !x.qc).map(x => x.id + '/' + x.mode).join(','));
   ok('all reports are 9 pages', all.every(x => x.pages === 9), [...new Set(all.map(x => x.pages))].join(','));
   ok('no text outside the printable area', all.every(x => !x.lay), all.filter(x => x.lay).map(x => x.id).join(','));
   ok('no NaN/undefined in the narrative', all.every(x => !x.bad));
