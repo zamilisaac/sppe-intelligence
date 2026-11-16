@@ -724,6 +724,37 @@ a.kpi:hover { transform: translateY(-2px); }
 .pg[data-site] .r-tl .map-card .map-wrap, .pg[data-site] .r-tl .map-card .map { margin-block: 4px 0; }
 .pg[data-site] .r-tl .map-card .map-wrap { margin-bottom: auto; }
 @media (min-width: 1081px) { .pg[data-site] .r-tl .map-card .map-wrap { margin-top: 22px; } }
+
+/* ----- K2: Kecerdasan Ekonomi Bersepadu 2.0 ----- */
+.k2-wrap { display: grid; grid-template-columns: 340px minmax(0, 1fr); gap: 16px; align-items: start; }
+.k2-cfg { position: sticky; top: 120px; max-height: calc(100vh - 140px); overflow: auto; gap: 14px; }
+.k2-cfg h2 { font-size: 16px; } .k2-f { display: flex; flex-direction: column; gap: 6px; } .k2-f > label { font-size: 11.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+.k2-f select, .k2-f input[type=text], .k2-f textarea, .k2-grid4 select, .k2-grid4 input, .k2-ta textarea { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font: inherit; font-size: 13.5px; }
+.k2-row { display: flex; gap: 6px; align-items: center; } .k2-row select { flex: 1; }
+.k2-chips { display: flex; flex-wrap: wrap; gap: 6px; } .k2-chip { display: inline-flex; gap: 4px; align-items: center; background: var(--tile-ink); color: var(--on-ink); border-radius: 999px; padding: 4px 6px 4px 10px; font-size: 12.5px; font-weight: 700; }
+.k2-chip button { border: 0; background: rgba(255,255,255,0.2); color: inherit; border-radius: 50%; width: 20px; height: 20px; cursor: pointer; }
+.btn.k2-mini { padding: 5px 10px; font-size: 12px; }
+.k2-chk { display: flex; gap: 8px; align-items: flex-start; font-size: 13.5px; padding: 4px 0; cursor: pointer; } .k2-chk input { accent-color: var(--red); margin-top: 3px; } .k2-chk small { display: block; color: var(--muted); font-size: 11.5px; }
+.k2-chk:has(input:checked) > span { font-weight: 700; } .k2-off { opacity: 0.55; cursor: default; }
+.k2-topic { border: 1px solid var(--line); border-radius: 10px; padding: 6px 10px; } .k2-topic summary { cursor: pointer; font-weight: 700; font-size: 13.5px; } .k2-topic summary small { color: var(--muted); font-weight: 600; margin-left: 4px; }
+.k2-secs { margin: 0; padding-left: 20px; font-size: 13px; } .k2-secs li { display: flex; justify-content: space-between; gap: 6px; padding: 3px 0; border-bottom: 1px solid var(--line); }
+.k2-secs button { border: 0; background: transparent; cursor: pointer; color: var(--muted); padding: 0 4px; } .k2-secs button:hover { color: var(--red); }
+.k2-main { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.k2-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; } .k2-bar.card { flex-direction: row; position: sticky; top: 110px; z-index: 5; }
+.k2-dl { display: flex; flex-wrap: wrap; gap: 6px; } .k2-msg { font-size: 12.5px; color: var(--muted); margin: 0; width: 100%; }
+.k2-st { display: inline-block; font-size: 11px; font-weight: 800; padding: 3px 9px; border-radius: 999px; white-space: nowrap; vertical-align: middle; }
+.k2-ok { background: #dcfce7; color: #14532d; } .k2-part { background: #fef3c7; color: #78350f; } .k2-none { background: #fee2e2; color: #7f1d1d; } .k2-review { background: #e0e7ff; color: #312e81; }
+p.k2-warn { margin: 0 0 6px; padding: 8px 12px; border-radius: 8px; font-size: 13px; } p.k2-warn.k2-info { background: var(--soft); color: var(--ink); }
+.k2-cat td small, .tbl td small { display: block; } .k2-cat td, .k2-cat th { text-align: left; } tr.k2-na td { color: var(--muted); }
+.k2-paper { max-height: none; width: 100%; box-shadow: 0 2px 10px rgba(0,0,0,0.08); } .k2-paper .pv-body { padding: 28px 34px; }
+.k2-fig { margin: 10px 0; } .k2-fig figcaption { font-weight: 700; font-size: 13px; } .k2-fig img { max-width: 100%; display: block; } .k2-fig small { color: #78716c; font-size: 11px; }
+.k2-edit textarea { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font: inherit; font-size: 13.5px; } .k2-edit label { font-size: 12px; font-weight: 700; color: var(--muted); display: flex; flex-direction: column; gap: 4px; }
+.k2-grid4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; } .k2-grid4 label, .k2-ta { font-size: 12px; font-weight: 700; color: var(--muted); display: flex; flex-direction: column; gap: 4px; }
+.k2-num { max-width: 120px; } .k2-h3 { font-size: 14px; margin: 6px 0 0; } .k2-more { border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; } .k2-more summary { cursor: pointer; font-weight: 700; font-size: 13.5px; } .k2-more[open] { display: flex; flex-direction: column; gap: 10px; }
+.k2-acts { display: flex; flex-wrap: wrap; gap: 4px; justify-content: flex-end; } .k2-empty p { color: var(--muted); }
+@media (max-width: 1080px) { .k2-wrap { grid-template-columns: minmax(0, 1fr); } .k2-cfg { position: static; max-height: none; } .k2-grid4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } .k2-bar.card { position: static; } }
+@media (max-width: 560px) { .k2-grid4 { grid-template-columns: minmax(0, 1fr); } .k2-paper .pv-body { padding: 16px; } }
+
 .ramp.hseq { background: linear-gradient(90deg, color-mix(in srgb, var(--red) 4%, var(--map-base)), var(--red) 80%, color-mix(in srgb, #3b0a0a 60%, var(--red))); }
 .yr-cap { margin: 2px 0 8px; padding: 8px 12px; border-radius: 10px; background: var(--soft); font-size: 13px; line-height: 1.45; min-height: 2.9em; }
 .yr-cap b { color: var(--red); }
@@ -960,6 +991,11 @@ a.kpi:hover { transform: translateY(-2px); }
     <div class="pg" id="pg-intg" data-site hidden></div>
     <div class="pg" id="pg-state" data-site hidden></div>
     <div class="pg" id="pg-cmp" data-site hidden></div>
+    <div class="pg" id="pg-explore" data-site hidden></div>
+    <div class="pg" id="pg-build" data-site hidden></div>
+    <div class="pg" id="pg-kit" data-site hidden></div>
+    <div class="pg" id="pg-sim" data-site hidden></div>
+    <div class="pg" id="pg-saved" data-site hidden></div>
     <div class="pg" id="pg-method" data-site hidden></div>
     <div class="pg" id="pg-reports" hidden>
     <div id="ph-reports"></div>
@@ -3439,7 +3475,7 @@ const M6R = (() => {
     return { blob, info: { size: blob.size, parts: files.map(f => f.name), images: media.map(m => ({ name: m.name, bytes: m.data.length })) } };
   }
 
-  return { buildDocx, chartPng };
+  return { buildDocx, chartPng, zip };
 })();
 
 /* ===== MODULE 06: Smart Report Builder — interface (5 steps) ===== */
@@ -3620,6 +3656,11 @@ const SITE = (() => {
     { id: 'lab', h: 'labour', bm: 'Pasaran Buruh', en: 'Labour Market' },
     { id: 'intg', h: 'integrated', bm: 'Kecerdasan Ekonomi Bersepadu', en: 'Integrated Economic Intelligence' },
     { id: 'cmp', h: 'banding', bm: 'Banding Negeri', en: 'Compare States', nav: false, parent: 'intg' },
+    { id: 'explore', h: 'teroka', bm: 'Teroka Data', en: 'Explore Data', nav: false, parent: 'intg' },
+    { id: 'build', h: 'bina-laporan', bm: 'Bina Laporan Sendiri', en: 'Build Your Own Report', nav: false, parent: 'intg' },
+    { id: 'kit', h: 'laporan-negeri', bm: 'Laporan Produktiviti Negeri', en: 'State Productivity Report', nav: false, parent: 'intg' },
+    { id: 'sim', h: 'simulasi', bm: 'Simulasi Produktiviti', en: 'Productivity Simulation', nav: false, parent: 'intg' },
+    { id: 'saved', h: 'tersimpan', bm: 'Laporan Tersimpan', en: 'Saved Reports', nav: false, parent: 'intg' },
     { id: 'method', h: 'metodologi', bm: 'Metodologi', en: 'Methodology', nav: false },
     { id: 'reports', h: 'reports', bm: 'Laporan', en: 'Reports' },
   ];
@@ -4437,7 +4478,15 @@ const SITE = (() => {
 
   const CMP_COL = ['var(--red)', 'var(--ink)', '#b45309', '#0f766e'];
   const CMP_M = ['prod', 'gdp', 'gdpg', 'median', 'formal', 'prate', 'urate', 'fprate'];
-  const intgTabs = cur => `<div class="subnav"><div class="seg site-seg">${[['intg', 'integrated', X('Kad skor & analisis', 'Scorecard & analysis')], ['cmp', 'banding', X('Banding negeri', 'Compare states')]].map(([id, h, l]) => `<a href="#${h}" class="seg-a" aria-pressed="${id === cur}">${esc(l)}</a>`).join('')}</div></div>`;
+  const intgTabs = cur => `<div class="subnav"><div class="seg site-seg">${[['explore', 'teroka', X('Teroka Data', 'Explore Data')], ['intg', 'integrated', X('Analisis Bersepadu', 'Integrated Analysis')], ['cmp', 'banding', X('Banding Negeri', 'Compare States')], ['build', 'bina-laporan', X('Bina Laporan Sendiri', 'Build Your Own Report')], ['kit', 'laporan-negeri', X('Laporan Produktiviti Negeri', 'State Productivity Report')], ['sim', 'simulasi', X('Simulasi Produktiviti', 'Productivity Simulation')], ['saved', 'tersimpan', X('Laporan Tersimpan', 'Saved Reports')]].map(([id, h, l]) => `<a href="#${h}" class="seg-a" aria-pressed="${id === cur}">${esc(l)}</a>`).join('')}</div></div>`;
+  const K2H = {
+    explore: [X('Teroka data', 'Explore data'), X('Katalog penunjuk, liputan dan status setiap set data DOSM dalam sistem.', 'Indicator catalogue, coverage and status of every DOSM dataset in the system.')],
+    build: [X('Bina laporan sendiri', 'Build your own report'), X('Pilih lokasi, penunjuk dan tempoh; semak data; jana analisis mengikut topik atau bersepadu; pratonton; muat turun Word, PDF, Excel atau pakej ZIP.', 'Choose locations, indicators and a period; check the data; generate topic or integrated analysis; preview; download Word, PDF, Excel or a ZIP package.')],
+    kit: [X('Laporan produktiviti negeri', 'State productivity report'), X('Kit bengkel hala tuju produktiviti negeri, dijana daripada data negeri yang dipilih.', 'State productivity direction workshop kit, generated from the chosen state\'s data.')],
+    sim: [X('Simulasi produktiviti', 'Productivity simulation'), X('Senario asas, penambahbaikan dan tersuai hingga 2030, 2035 atau 2040.', 'Baseline, improvement and custom scenarios to 2030, 2035 or 2040.')],
+    saved: [X('Laporan tersimpan', 'Saved reports'), X('Templat laporan yang anda simpan.', 'Report templates you have saved.')],
+  };
+  const k2Page = id => () => { const el = $('pg-' + id); el.innerHTML = intgTabs(id) + head(X('Topik 5 · Kecerdasan Ekonomi Bersepadu', 'Topic 5 · Integrated Economic Intelligence'), K2H[id][0], K2H[id][1]) + '<div class="k2-root"></div>'; K2.wire($('dash')); K2.render(id, el.querySelector('.k2-root')); };
   function comparePage() {
     const C = U.cmp; if (!C.ids.length) { const sv = (store.get('sppe-cmp') || '').split(',').filter(x => STATE_BY_ID[x]); C.ids = sv.length ? sv : [S.sel, ...MET('prod').rank(MET('prod').last).map(r => r.id).filter(x => x !== S.sel && !SPECIAL_FT.includes(x)).slice(0, 2)]; }
     C.ids = C.ids.filter(x => STATE_BY_ID[x]).slice(0, 4); store.set('sppe-cmp', C.ids.join(','));
@@ -4550,7 +4599,7 @@ const SITE = (() => {
     if (!S.snap || !AN) { const el = $('pg-' + page); if (el && el.hasAttribute('data-site') && !S.snapLoaded) el.innerHTML = `<div class="skel-row"><div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div></div><div class="skel big"></div>`; return; }
     $('ph-prod').innerHTML = head(X('Topik 1', 'Topic 1'), pname(BY_PG.prod), X('Nilai yang dihasilkan oleh setiap pekerja dalam setahun, mengikut negeri dan sektor. Lebih tinggi bermakna setiap pekerja menghasilkan lebih banyak.', 'The value each worker produces in a year, by state and sector. Higher means each worker is producing more.'));
     $('ph-reports').innerHTML = head(X('Laporan', 'Reports'), X('Pembina Laporan Pintar', 'Smart Report Builder'), X('Pilih topik, penunjuk, negeri dan tahun. Laporan dijana sebagai fail Word yang boleh disunting, dalam gaya yang sama dengan laporan produktiviti asal. Laporan PDF produktiviti sedia ada boleh dimuat turun di halaman Produktiviti Buruh.', 'Choose topics, indicators, states and years. The report is generated as an editable Word file, in the same style as the original productivity report. The ready-made productivity PDF reports can be downloaded on the Labour Productivity page.'));
-    try { ({ home: homePage, gdp: gdpPage, wage: wagePage, lab: labPage, intg: intgPage, state: statePage, method: methodPage, cmp: comparePage }[page] || (() => { }))(); }
+    try { ({ home: homePage, gdp: gdpPage, wage: wagePage, lab: labPage, intg: intgPage, state: statePage, method: methodPage, cmp: comparePage, explore: k2Page('explore'), build: k2Page('build'), kit: k2Page('kit'), sim: k2Page('sim'), saved: k2Page('saved') }[page] || (() => { }))(); }
     catch (err) { console.error('SITE render', err); const el = $('pg-' + page); if (el) el.innerHTML = `<div class="banner err">${esc(X('Halaman ini tidak dapat dipaparkan.', 'This page could not be displayed.'))}</div>`; }
     try { afterRender(); } catch (err) { console.error('afterRender', err); }
   }
@@ -4599,7 +4648,539 @@ const SITE = (() => {
     });
     let w = 0, raf = 0; new ResizeObserver(() => { const nw = d.clientWidth; if (S.snap && nw && Math.abs(nw - w) > 8) { w = nw; cancelAnimationFrame(raf); raf = requestAnimationFrame(() => { if (page !== 'prod' && page !== 'reports') render(); }); } }).observe(d);
   }
-  return { init, render, chrome, readHash, select, get page() { return page; }, PAGES, MET, INTG };
+  return { init, render, chrome, readHash, select, get page() { return page; }, PAGES, MET, INTG, E, at };
+})();
+
+
+/* ===================================================================================
+   K2 — Kecerdasan Ekonomi Bersepadu 2.0
+   Indicator catalogue, data checks, custom report builder (topic / integrated analysis),
+   productivity simulation, state productivity workshop kit, saved templates,
+   and DOCX / PDF / XLSX / ZIP export. All numbers come from the same series functions.
+   =================================================================================== */
+const K2 = (() => {
+  const IDS = STATES.map(x => x.id), short = id => id === 'national' ? 'Malaysia' : sname(id).replace('W.P. ', '');
+  const en = () => S.lang === 'en', X = (bm, e) => en() ? e : bm;
+  const $k = id => document.getElementById(id);
+  const n0 = v => v.toLocaleString('en-US', { maximumFractionDigits: 0 }), n1 = v => v.toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  const FMT = {
+    rm: v => v == null ? '–' : 'RM' + n0(v), rmm: v => v == null ? '–' : 'RM' + n1(v / 1000) + X(' bilion', ' billion'), p: v => v == null ? '–' : n1(v) + '%',
+    ps: v => v == null ? '–' : (v > 0 ? '+' : v < 0 ? '−' : '') + n1(Math.abs(v)) + '%', pp: v => v == null ? '–' : (v > 0 ? '+' : v < 0 ? '−' : '') + n1(Math.abs(v)) + X(' mp', ' pp'),
+    k: v => v == null ? '–' : v >= 1000 ? n1(v / 1000) + X(' juta', ' million') : n1(v) + X(' ribu', ' thousand'), ix: v => v == null ? '–' : n1(v),
+  };
+
+  /* ---------- statistical functions (deterministic, tested in tests/k2.test.html) ---------- */
+  const ST = {
+    growth: (a, b) => a != null && b != null && a !== 0 ? (b / a - 1) * 100 : null,
+    cagr: (a, b, n) => a != null && b != null && a > 0 && b > 0 && n > 0 ? (Math.pow(b / a, 1 / n) - 1) * 100 : null,
+    index: (v, base) => v != null && base ? v / base * 100 : null,
+    gap: (v, bench) => v != null && bench ? (v / bench - 1) * 100 : null,
+    ppAvg: (a, b, n) => a != null && b != null && n > 0 ? (b - a) / n : null,
+    share: (part, total) => part != null && total ? part / total * 100 : null,
+    // exact identity: (1+gY) = (1+gLP)(1+gE)  ->  interaction = gY - gLP - gE
+    decompose: (gY, gLP, gE) => gY == null || gLP == null || gE == null ? null : { gY, gLP, gE, inter: gY - gLP - gE },
+    pearson(xs, ys) {
+      const p = xs.map((x, i) => [x, ys[i]]).filter(([a, b]) => a != null && b != null); const n = p.length; if (n < 3) return { r: null, n };
+      const mx = p.reduce((s, q) => s + q[0], 0) / n, my = p.reduce((s, q) => s + q[1], 0) / n;
+      let sxy = 0, sxx = 0, syy = 0; p.forEach(([a, b]) => { sxy += (a - mx) * (b - my); sxx += (a - mx) ** 2; syy += (b - my) ** 2; });
+      return { r: sxx && syy ? sxy / Math.sqrt(sxx * syy) : null, n };
+    },
+    project(v0, rate, years) { const out = []; let v = v0; for (let i = 0; i < years; i++) { v = v * (1 + rate / 100); out.push(v); } return out; },
+  };
+
+  /* ---------- indicator catalogue ---------- */
+  const SRC = {
+    prodf: X('Produktiviti Buruh Negeri 2015–2025 (DOSM)', 'State Labour Productivity 2015–2025 (DOSM)'), gdp: 'OpenDOSM: gdp_state_real_supply', wage: 'OpenDOSM: wages_state',
+    formal: 'OpenDOSM: formal_wages_state', lfs: 'OpenDOSM: lfs_state_sex', cpi: 'OpenDOSM: cpi_2d_state',
+  };
+  const cpiOf = (w, y) => { const e = SITE.E(); return SITE.at(e.cpi.v, e.cpi.years, w, y); };
+  const empOf = (w, y) => SITE.MET('emp').get(w, y);
+  function CAT() {
+    const M = SITE.MET, m = k => M(k);
+    const T = [
+      { id: 'gdp', bm: 'KDNK & Struktur Ekonomi', en: 'GDP & Economic Structure' }, { id: 'prod', bm: 'Produktiviti Buruh', en: 'Labour Productivity' },
+      { id: 'wage', bm: 'Gaji & Upah', en: 'Wages & Salaries' }, { id: 'lab', bm: 'Pasaran Buruh', en: 'Labour Market' },
+      { id: 'hc', bm: 'Modal Insan & Tenaga Kerja', en: 'Human Capital & Workforce' }, { id: 'cap', bm: 'Produktiviti Modal', en: 'Capital Productivity' },
+      { id: 'msme', bm: 'Produktiviti PMKS', en: 'MSME Productivity' }, { id: 'trade', bm: 'Perdagangan & Aktiviti Ekonomi', en: 'Trade & Economic Activity' },
+      { id: 'tour', bm: 'Ekonomi Pelancongan', en: 'Tourism Economy' },
+    ];
+    const I = [
+      { id: 'gdp', t: 'gdp', l: X('KDNK benar', 'Real GDP'), d: X('Nilai ditambah pada harga malar 2015.', 'Value added at constant 2015 prices.'), unit: X('RM juta, harga malar 2015', 'RM million, constant 2015 prices'), kind: 'level', price: 'real', freq: X('Tahunan', 'Annual'), src: SRC.gdp, status: 'official', get: m('gdp').get, years: m('gdp').years, fmt: FMT.rmm },
+      { id: 'gdpg', t: 'gdp', l: X('Pertumbuhan KDNK benar', 'Real GDP growth'), d: X('Perubahan tahunan KDNK benar.', 'Annual change in real GDP.'), unit: '%', kind: 'growth', price: 'real', freq: X('Tahunan', 'Annual'), src: SRC.gdp, status: 'derived', get: m('gdpg').get, years: m('gdpg').years, fmt: FMT.ps },
+      { id: 'prod', t: 'prod', l: X('Produktiviti buruh (rasmi)', 'Labour productivity (official)'), d: X('Nilai ditambah per penduduk bekerja, terbitan rasmi DOSM.', 'Value added per employed person, official DOSM series.'), unit: X('RM setiap pekerja', 'RM per worker'), kind: 'level', price: 'unstated', freq: X('Tahunan', 'Annual'), src: SRC.prodf, status: 'official', get: m('prod').get, years: m('prod').years, fmt: FMT.rm },
+      { id: 'lpc', t: 'prod', l: X('Produktiviti buruh (dikira)', 'Labour productivity (calculated)'), d: X('KDNK benar ÷ penduduk bekerja (LFS). Konsisten untuk penguraian KDNK = produktiviti × guna tenaga; bukan siri rasmi.', 'Real GDP ÷ employed persons (LFS). Consistent for GDP = productivity × employment; not an official series.'), unit: X('RM setiap pekerja, harga malar 2015', 'RM per worker, constant 2015 prices'), kind: 'level', price: 'real', freq: X('Tahunan', 'Annual'), src: SRC.gdp + ' ÷ ' + SRC.lfs, status: 'derived', get: (w, y) => { const g = m('gdp').get(w, y), e = empOf(w, y); return g != null && e ? g * 1e6 / (e * 1e3) : null; }, years: m('gdp').years.filter(y => m('emp').years.includes(y)), fmt: FMT.rm },
+      { id: 'median', t: 'wage', l: X('Gaji penengah bulanan', 'Median monthly wage'), d: X('Separuh pekerja bergaji kurang, separuh lebih.', 'Half of employees earn less, half more.'), unit: X('RM sebulan, nominal', 'RM per month, nominal'), kind: 'level', price: 'nominal', freq: X('Tahunan', 'Annual'), src: SRC.wage, status: 'official', get: m('median').get, years: m('median').years, fmt: FMT.rm },
+      { id: 'mean', t: 'wage', l: X('Gaji purata bulanan', 'Mean monthly wage'), d: X('Purata gaji bulanan pekerja.', 'Average monthly wage of employees.'), unit: X('RM sebulan, nominal', 'RM per month, nominal'), kind: 'level', price: 'nominal', freq: X('Tahunan', 'Annual'), src: SRC.wage, status: 'official', get: m('mean').get, years: m('mean').years, fmt: FMT.rm },
+      { id: 'rwage', t: 'wage', l: X('Gaji penengah benar', 'Real median wage'), d: X('Gaji penengah ÷ IHP negeri × 100 (harga 2010). Tiada IHP nasional, jadi tiada nilai Malaysia.', 'Median wage ÷ state CPI × 100 (2010 prices). No national CPI, so no Malaysia value.'), unit: X('RM sebulan, harga 2010', 'RM per month, 2010 prices'), kind: 'level', price: 'real', freq: X('Tahunan', 'Annual'), src: SRC.wage + ', ' + SRC.cpi, status: 'derived', get: (w, y) => { const v = m('median').get(w, y), c = cpiOf(w, y); return v != null && c ? v / c * 100 : null; }, years: m('median').years, fmt: FMT.rm },
+      { id: 'formal', t: 'wage', l: X('Gaji sektor formal (Jun)', 'Formal sector wage (June)'), d: X('Gaji penengah pekerja berdaftar, bulan Jun.', 'Median wage of registered employees, June.'), unit: X('RM sebulan', 'RM per month'), kind: 'level', price: 'nominal', freq: X('Bulanan (Jun setiap tahun)', 'Monthly (June each year)'), src: SRC.formal, status: 'official', get: m('formal').get, years: m('formal').years, fmt: FMT.rm },
+      { id: 'emp', t: 'lab', l: X('Penduduk bekerja', 'Employed persons'), d: X('Bilangan penduduk bekerja (Survei Tenaga Buruh).', 'Employed persons (Labour Force Survey).'), unit: X('ribu orang', 'thousand persons'), kind: 'level', price: 'na', freq: X('Tahunan', 'Annual'), src: SRC.lfs, status: 'official', get: m('emp').get, years: m('emp').years, fmt: FMT.k },
+      { id: 'prate', t: 'lab', l: X('Kadar penyertaan tenaga buruh', 'Labour force participation rate'), d: X('Peratus penduduk umur bekerja dalam tenaga buruh.', 'Share of working-age people in the labour force.'), unit: '%', kind: 'rate', price: 'na', freq: X('Tahunan', 'Annual'), src: SRC.lfs, status: 'official', get: m('prate').get, years: m('prate').years, fmt: FMT.p },
+      { id: 'urate', t: 'lab', l: X('Kadar pengangguran', 'Unemployment rate'), d: X('Peratus tenaga buruh yang menganggur.', 'Share of the labour force unemployed.'), unit: '%', kind: 'rate', price: 'na', freq: X('Tahunan', 'Annual'), src: SRC.lfs, status: 'official', low: true, get: m('urate').get, years: m('urate').years, fmt: FMT.p },
+      { id: 'fprate', t: 'hc', l: X('Penyertaan tenaga buruh wanita', 'Female labour force participation'), d: X('Kadar penyertaan wanita.', 'Female participation rate.'), unit: '%', kind: 'rate', price: 'na', freq: X('Tahunan', 'Annual'), src: SRC.lfs, status: 'official', get: m('fprate').get, years: m('fprate').years, fmt: FMT.p },
+    ];
+    const NA = [
+      ['gdp', X('KDNK per kapita / KDNK nominal', 'GDP per capita / nominal GDP'), X('Fail KDNK nominal dan penduduk negeri belum dimuat naik.', 'Nominal GDP and state population files not uploaded yet.')],
+      ['wage', X('Bahagian pampasan pekerja dalam KDNK', 'Employee compensation share of GDP'), X('Perlu KDNK pendekatan pendapatan.', 'Needs GDP by income approach.')],
+      ['hc', X('Guna tenaga mengikut kemahiran / pekerjaan / umur', 'Employment by skill / occupation / age'), X('Data negeri belum dimuat naik.', 'State data not uploaded yet.')],
+      ['cap', X('Produktiviti modal, intensiti modal, stok modal', 'Capital productivity, capital intensity, capital stock'), X('Perlu Statistik Stok Modal (DOSM).', 'Needs Capital Stock Statistics (DOSM).')],
+      ['msme', X('Nilai ditambah, guna tenaga dan produktiviti PMKS', 'MSME value added, employment and productivity'), X('Perlu Statistik Prestasi PMKS (DOSM).', 'Needs MSME Performance Statistics (DOSM).')],
+      ['trade', X('Perdagangan borong & runcit, indeks aktiviti', 'Wholesale & retail trade, activity indices'), X('Fail belum dimuat naik.', 'Files not uploaded yet.')],
+      ['tour', X('Nilai ditambah & guna tenaga pelancongan', 'Tourism value added & employment'), X('Perlu Akaun Satelit Pelancongan (DOSM).', 'Needs Tourism Satellite Account (DOSM).')],
+      ['prod', X('Produktiviti daerah', 'District productivity'), X('Tiada data KDNK atau produktiviti peringkat daerah.', 'No district-level GDP or productivity data.')],
+    ];
+    return { T, I, NA };
+  }
+  const ind = id => CAT().I.find(i => i.id === id);
+
+  /* ---------- availability and compatibility checks ---------- */
+  function check(cfg) {
+    const geos = cfg.geos, rows = [], warn = [];
+    cfg.inds.forEach(id => {
+      const it = ind(id); if (!it) return;
+      geos.concat(cfg.vsNat && !geos.includes('national') ? ['national'] : []).forEach(g => {
+        const want = []; for (let y = cfg.y0; y <= cfg.y1; y++) want.push(y);
+        const have = want.filter(y => it.years.includes(y) && it.get(g, y) != null), miss = want.filter(y => !have.includes(y));
+        const st = !have.length ? 'none' : miss.length ? 'part' : 'ok';
+        rows.push({ id, g, st, have, miss, note: !have.length && id === 'rwage' && g === 'national' ? X('Tiada IHP nasional.', 'No national CPI.') : miss.length ? X('Tiada data: ', 'Missing: ') + compact(miss) : '' });
+      });
+    });
+    const sel = cfg.inds.map(ind).filter(Boolean);
+    if (sel.some(i => i.price === 'real') && sel.some(i => i.price === 'nominal')) warn.push({ lvl: 'review', t: X('Asas harga berbeza: sebahagian penunjuk pada harga malar (benar), sebahagian nominal. Bandingan pertumbuhan perlu dibaca dengan berhati-hati; pertimbangkan gaji benar.', 'Different price bases: some indicators are at constant (real) prices, some nominal. Read growth comparisons with care; consider the real wage.') });
+    if (sel.some(i => i.id === 'formal') && sel.some(i => i.id !== 'formal' && i.kind === 'level')) warn.push({ lvl: 'review', t: X('Gaji sektor formal ialah data bulan Jun (bulanan), bukan purata tahunan. Ia dibandingkan sebagai nilai Jun setiap tahun.', 'Formal sector wages are June (monthly) values, not annual averages. They are compared as the June value of each year.') });
+    if (sel.some(i => i.id === 'prod') && sel.some(i => i.id === 'gdp' || i.id === 'emp')) warn.push({ lvl: 'review', t: X('Produktiviti rasmi DOSM menggunakan asas nilai ditambah dan guna tenaga yang berbeza daripada fail KDNK dan LFS awam. Penguraian KDNK = produktiviti × guna tenaga menggunakan produktiviti dikira (KDNK benar ÷ LFS), bukan siri rasmi.', 'Official DOSM productivity uses a different value-added and employment basis from the public GDP and LFS files. GDP = productivity × employment uses calculated productivity (real GDP ÷ LFS), not the official series.') });
+    if (sel.some(i => i.id === 'median' || i.id === 'mean')) warn.push({ lvl: 'info', t: X('Gaji penengah/purata ialah gaji pekerja (survei), bukan jumlah pampasan pekerja; ia bukan Kos Buruh Seunit rasmi.', 'Median/mean wages are employee pay (survey), not total compensation; they are not official Unit Labour Cost.') });
+    const lvl = rows.some(r => r.st === 'none') ? 'none' : rows.some(r => r.st === 'part') ? 'part' : warn.some(w => w.lvl === 'review') ? 'review' : 'ok';
+    return { rows, warn, lvl };
+  }
+  const compact = ys => { const o = []; let s = null, p = null; ys.concat([null]).forEach(y => { if (y != null && p != null && y === p + 1) { p = y; return; } if (s != null) o.push(s === p ? String(s) : s + '–' + p); s = p = y; }); return o.join(', '); };
+  const ST_L = () => ({ ok: X('Tersedia', 'Available'), part: X('Separa tersedia', 'Partially available'), none: X('Tidak tersedia', 'Unavailable'), review: X('Perlu semakan metodologi', 'Needs methodological review') });
+  const gname = g => g === 'national' ? 'Malaysia' : sname(g);
+
+  /* ---------- report composition (blocks shared by preview, DOCX, PDF and XLSX) ---------- */
+  const SECTIONS = () => [
+    ['exec', X('Ringkasan eksekutif', 'Executive summary')], ['overview', X('Gambaran keseluruhan', 'Overview')], ['kpi', X('Penunjuk utama', 'Key indicators')],
+    ['trend', X('Trend sejarah & pertumbuhan', 'Historical trends & growth')], ['compare', X('Perbandingan negeri', 'State comparison')], ['cross', X('Analisis bersepadu', 'Integrated analysis')],
+    ['sim', X('Simulasi produktiviti', 'Productivity simulation')], ['findings', X('Dapatan & implikasi', 'Findings & implications')], ['limits', X('Had data', 'Data limitations')],
+    ['method', X('Metodologi', 'Methodology')], ['appendix', X('Lampiran statistik', 'Statistical appendix')], ['sources', X('Rujukan sumber', 'Source references')],
+  ];
+  function series(id, g, y0, y1) { const it = ind(id), ys = []; for (let y = y0; y <= y1; y++) ys.push(y); return { years: ys, vals: ys.map(y => it.years.includes(y) ? it.get(g, y) : null) }; }
+  const firstLast = s => { const i = s.vals.findIndex(v => v != null); let j = s.vals.length - 1; while (j >= 0 && s.vals[j] == null) j--; return i < 0 ? null : { i, j, a: s.vals[i], b: s.vals[j], ya: s.years[i], yb: s.years[j] }; };
+  function rankOf(id, g, y) { const it = ind(id); const r = IDS.map(s => ({ s, v: it.get(s, y) })).filter(x => x.v != null).sort((a, b) => it.low ? a.v - b.v : b.v - a.v); const i = r.findIndex(x => x.s === g); return i < 0 ? null : { r: i + 1, n: r.length }; }
+
+  function indicatorText(it, g, s, nat) {
+    const fl = firstLast(s); if (!fl) return X(`Tiada data ${it.l.toLowerCase()} bagi ${gname(g)} dalam tempoh dipilih.`, `No ${it.l.toLowerCase()} data for ${gname(g)} in the chosen period.`);
+    const n = fl.yb - fl.ya, txt = [];
+    if (it.kind === 'level') {
+      const c = ST.cagr(fl.a, fl.b, n), ch = ST.growth(fl.a, fl.b);
+      txt.push(X(`${it.l} ${gname(g)} ${fl.b >= fl.a ? 'meningkat' : 'menurun'} daripada ${it.fmt(fl.a)} (${fl.ya}) kepada ${it.fmt(fl.b)} (${fl.yb}), perubahan ${FMT.ps(ch)}${n > 1 ? `, iaitu purata ${FMT.ps(c)} setahun` : ''}.`, `${gname(g)}'s ${it.l.toLowerCase()} ${fl.b >= fl.a ? 'rose' : 'fell'} from ${it.fmt(fl.a)} (${fl.ya}) to ${it.fmt(fl.b)} (${fl.yb}), a change of ${FMT.ps(ch)}${n > 1 ? `, or ${FMT.ps(c)} a year on average` : ''}.`));
+    } else if (it.kind === 'rate') {
+      txt.push(X(`${it.l} ${gname(g)} ialah ${it.fmt(fl.b)} pada ${fl.yb}, ${FMT.pp(fl.b - fl.a)} berbanding ${fl.ya}.`, `${gname(g)}'s ${it.l.toLowerCase()} was ${it.fmt(fl.b)} in ${fl.yb}, ${FMT.pp(fl.b - fl.a)} compared with ${fl.ya}.`));
+    } else {
+      const v = s.vals.filter(x => x != null), avg = v.reduce((a, b) => a + b, 0) / v.length;
+      txt.push(X(`${it.l} ${gname(g)} ialah ${it.fmt(fl.b)} pada ${fl.yb}; purata tempoh ${fl.ya}–${fl.yb} ialah ${FMT.ps(avg)}.`, `${gname(g)}'s ${it.l.toLowerCase()} was ${it.fmt(fl.b)} in ${fl.yb}; the ${fl.ya}–${fl.yb} average was ${FMT.ps(avg)}.`));
+    }
+    if (g !== 'national' && nat) { const nf = firstLast(nat); if (nf && nf.yb === fl.yb) {
+      const gp = it.kind === 'level' ? FMT.ps(ST.gap(fl.b, nf.b)) : FMT.pp(fl.b - nf.b), rk = rankOf(it.id, g, fl.yb);
+      if (it.id === 'gdp' || it.id === 'emp') txt.push(X(`Ini ialah ${FMT.p(ST.share(fl.b, nf.b))} daripada jumlah Malaysia (${it.fmt(nf.b)})${rk ? `; kedudukan ${rk.r} daripada ${rk.n}` : ''}.`, `This is ${FMT.p(ST.share(fl.b, nf.b))} of Malaysia's total (${it.fmt(nf.b)})${rk ? `; rank ${rk.r} of ${rk.n}` : ''}.`));
+      else txt.push(X(`Berbanding Malaysia (${it.fmt(nf.b)}), jurangnya ${gp}${rk ? `; kedudukan ${rk.r} daripada ${rk.n}${it.low ? ' (1 = paling rendah)' : ''}` : ''}.`, `Against Malaysia (${it.fmt(nf.b)}), the gap is ${gp}${rk ? `; rank ${rk.r} of ${rk.n}${it.low ? ' (1 = lowest)' : ''}` : ''}.`)); } }
+    return txt.join(' ');
+  }
+
+  function crossBlocks(cfg, g) {
+    const B = [], has = id => cfg.inds.includes(id), y0 = cfg.y0, y1 = cfg.y1, levels = cfg.inds.map(ind).filter(i => i && i.kind === 'level');
+    // 1. index comparison of level indicators (common base year)
+    const idx = levels.map(it => { const s = series(it.id, g, y0, y1), fl = firstLast(s); if (!fl) return null; const base = s.vals[fl.i]; return { label: it.l, vals: s.vals.map(v => ST.index(v, base)), by: fl.ya }; }).filter(Boolean);
+    if (idx.length >= 2) {
+      const by = idx[0].by;
+      B.push({ t: 'h3', text: X(`Perbandingan indeks (${by} = 100)`, `Index comparison (${by} = 100)`) });
+      B.push({ t: 'chart', kind: 'line', fmt: 'n1', title: X(`Indeks penunjuk terpilih, ${gname(g)} (${by} = 100)`, `Index of selected indicators, ${gname(g)} (${by} = 100)`), years: series(levels[0].id, g, y0, y1).years, series: idx.map((s, i) => ({ label: s.label, vals: s.vals, main: i === 0 })), src: X('Sumber: DOSM; pengiraan SPPE Intelligence.', 'Source: DOSM; SPPE Intelligence calculations.') });
+      const last = idx.map(s => { let j = s.vals.length - 1; while (j >= 0 && s.vals[j] == null) j--; return { l: s.label, v: s.vals[j], y: series(levels[0].id, g, y0, y1).years[j] }; }).filter(x => x.v != null).sort((a, b) => b.v - a.v);
+      B.push({ t: 'p', text: X(`Dengan asas ${by} = 100, ${last[0].l.toLowerCase()} mencatat kenaikan terbesar (indeks ${n1(last[0].v)}), manakala ${last[last.length - 1].l.toLowerCase()} terendah (indeks ${n1(last[last.length - 1].v)}). Indeks membolehkan siri berunit berbeza dibandingkan pada asas yang sama; ia tidak menunjukkan sebab-akibat.`, `With ${by} = 100, ${last[0].l.toLowerCase()} rose the most (index ${n1(last[0].v)}), while ${last[last.length - 1].l.toLowerCase()} rose the least (index ${n1(last[last.length - 1].v)}). Indexing puts series with different units on a common base; it does not show cause and effect.`) });
+      B.push({ t: 'table', head: [X('Penunjuk', 'Indicator'), X('Awal', 'Start'), X('Akhir', 'End'), X('Purata setahun', 'Average a year'), X('Indeks akhir', 'End index')], rows: levels.map(it => { const s = series(it.id, g, y0, y1), fl = firstLast(s); return fl ? [it.l, `${it.fmt(fl.a)} (${fl.ya})`, `${it.fmt(fl.b)} (${fl.yb})`, FMT.ps(ST.cagr(fl.a, fl.b, fl.yb - fl.ya)), n1(ST.index(fl.b, fl.a))] : [it.l, '–', '–', '–', '–']; }), align: ['l', 'r', 'r', 'r', 'r'] });
+    }
+    // 2. GDP = productivity x employment (consistent calculated series)
+    if ((has('gdp') || has('gdpg')) && (has('emp') || has('lpc') || has('prod'))) {
+      const Y = series('gdp', g, y0, y1), E = series('emp', g, y0, y1), L = series('lpc', g, y0, y1), fy = firstLast(L);
+      if (fy && Y.vals[fy.i] != null && E.vals[fy.i] != null && Y.vals[fy.j] != null && E.vals[fy.j] != null) {
+        const n = fy.yb - fy.ya, gY = ST.cagr(Y.vals[fy.i], Y.vals[fy.j], n), gE = ST.cagr(E.vals[fy.i], E.vals[fy.j], n), gL = ST.cagr(fy.a, fy.b, n), d = ST.decompose(gY, gL, gE);
+        B.push({ t: 'h3', text: X('KDNK = produktiviti × guna tenaga', 'GDP = productivity × employment') });
+        B.push({ t: 'p', text: X(`Bagi ${fy.ya}–${fy.yb}, KDNK benar ${gname(g)} tumbuh ${FMT.ps(gY)} setahun. Pertumbuhan ini terurai kepada produktiviti (dikira) ${FMT.ps(gL)} setahun dan guna tenaga ${FMT.ps(gE)} setahun; sebutan interaksi ${n1(d.inter)} mata peratusan. ${Math.abs(gL) >= Math.abs(gE) ? X('Peningkatan produktiviti menyumbang lebih banyak kepada pertumbuhan output berbanding pertambahan pekerja.', '') : X('Pertambahan pekerja menyumbang lebih banyak kepada pertumbuhan output berbanding peningkatan produktiviti.', '')}`, `Over ${fy.ya}–${fy.yb}, ${gname(g)}'s real GDP grew ${FMT.ps(gY)} a year. This splits into calculated productivity ${FMT.ps(gL)} a year and employment ${FMT.ps(gE)} a year; the interaction term is ${n1(d.inter)} percentage points. ${Math.abs(gL) >= Math.abs(gE) ? 'Rising productivity contributed more to output growth than additional workers.' : 'Additional workers contributed more to output growth than rising productivity.'}`) });
+        B.push({ t: 'table', head: [X('Komponen', 'Component'), X('Purata setahun', 'Average a year')], rows: [[X('KDNK benar', 'Real GDP'), FMT.ps(gY)], [X('Produktiviti buruh (dikira)', 'Labour productivity (calculated)'), FMT.ps(gL)], [X('Penduduk bekerja (LFS)', 'Employed persons (LFS)'), FMT.ps(gE)], [X('Interaksi', 'Interaction'), n1(d.inter) + X(' mp', ' pp')]], align: ['l', 'r'] });
+        B.push({ t: 'callout', text: X('Identiti tepat: (1 + g KDNK) = (1 + g produktiviti) × (1 + g guna tenaga). Produktiviti dikira = KDNK benar (harga malar 2015) ÷ penduduk bekerja (LFS); ia berbeza daripada siri produktiviti rasmi DOSM yang menggunakan asas lain.', 'Exact identity: (1 + g GDP) = (1 + g productivity) × (1 + g employment). Calculated productivity = real GDP (constant 2015 prices) ÷ employed persons (LFS); it differs from the official DOSM productivity series, which uses another basis.') });
+      }
+    }
+    // 3. wages x productivity
+    if ((has('median') || has('mean') || has('rwage')) && (has('prod') || has('lpc'))) {
+      const wid = has('rwage') && g !== 'national' ? 'rwage' : has('median') ? 'median' : has('mean') ? 'mean' : 'rwage', pid = has('lpc') ? 'lpc' : 'prod';
+      const W = series(wid, g, y0, y1), P = series(pid, g, y0, y1), fw = firstLast(W), fp = firstLast(P);
+      if (fw && fp) {
+        const ys0 = Math.max(fw.ya, fp.ya), ys1 = Math.min(fw.yb, fp.yb);
+        if (ys1 > ys0) {
+          const gw = ST.cagr(W.vals[W.years.indexOf(ys0)], W.vals[W.years.indexOf(ys1)], ys1 - ys0), gp = ST.cagr(P.vals[P.years.indexOf(ys0)], P.vals[P.years.indexOf(ys1)], ys1 - ys0);
+          B.push({ t: 'h3', text: X('Gaji berbanding produktiviti', 'Wages and productivity') });
+          B.push({ t: 'p', text: X(`Bagi ${ys0}–${ys1}, ${ind(wid).l.toLowerCase()} ${gname(g)} tumbuh ${FMT.ps(gw)} setahun berbanding ${ind(pid).l.toLowerCase()} ${FMT.ps(gp)} setahun, jurang ${FMT.pp(gw - gp)}. ${gw > gp ? 'Gaji meningkat lebih pantas daripada produktiviti dalam tempoh ini.' : 'Produktiviti meningkat lebih pantas daripada gaji dalam tempoh ini.'}${ind(wid).price !== ind(pid).price ? ' Nota: kedua-dua siri mempunyai asas harga berbeza.' : ''}`, `Over ${ys0}–${ys1}, ${gname(g)}'s ${ind(wid).l.toLowerCase()} grew ${FMT.ps(gw)} a year against ${ind(pid).l.toLowerCase()} at ${FMT.ps(gp)} a year, a gap of ${FMT.pp(gw - gp)}. ${gw > gp ? 'Wages rose faster than productivity in this period.' : 'Productivity rose faster than wages in this period.'}${ind(wid).price !== ind(pid).price ? ' Note: the two series have different price bases.' : ''}`) });
+          const gr = (s) => s.years.map((y, i) => i && s.vals[i] != null && s.vals[i - 1] != null ? ST.growth(s.vals[i - 1], s.vals[i]) : null);
+          const c = ST.pearson(gr(W).slice(1), gr(P).slice(1));
+          if (c.r != null) B.push({ t: 'p', text: X(`Korelasi pertumbuhan tahunan kedua-dua siri: r = ${c.r.toFixed(2)} (n = ${c.n} tahun). ${c.n < 10 ? 'Sampel kecil; tafsir dengan berhati-hati.' : ''} Korelasi tidak membuktikan sebab-akibat.`, `Correlation of the two series' annual growth: r = ${c.r.toFixed(2)} (n = ${c.n} years). ${c.n < 10 ? 'Small sample; interpret with care.' : ''} Correlation does not prove causation.`) });
+        }
+      }
+    }
+    // 4. GDP x wages
+    if ((has('gdp') || has('gdpg')) && (has('median') || has('mean') || has('rwage'))) {
+      const wid = has('median') ? 'median' : has('mean') ? 'mean' : 'rwage', Wg = series(wid, g, y0, y1), G = series('gdp', g, y0, y1), fw = firstLast(Wg), fg = firstLast(G);
+      if (fw && fg) { const a = Math.max(fw.ya, fg.ya), b = Math.min(fw.yb, fg.yb); if (b > a) {
+        const gw = ST.cagr(Wg.vals[Wg.years.indexOf(a)], Wg.vals[Wg.years.indexOf(b)], b - a), gg = ST.cagr(G.vals[G.years.indexOf(a)], G.vals[G.years.indexOf(b)], b - a);
+        B.push({ t: 'h3', text: X('KDNK berbanding gaji', 'GDP and wages') });
+        B.push({ t: 'p', text: X(`Bagi ${a}–${b}, KDNK benar ${gname(g)} tumbuh ${FMT.ps(gg)} setahun manakala ${ind(wid).l.toLowerCase()} tumbuh ${FMT.ps(gw)} setahun. ${ind(wid).price === 'nominal' ? 'KDNK diukur pada harga malar, gaji pada harga semasa; sebahagian jurang mencerminkan inflasi.' : ''} Perbezaan kadar pertumbuhan tidak menunjukkan sebab-akibat.`, `Over ${a}–${b}, ${gname(g)}'s real GDP grew ${FMT.ps(gg)} a year while ${ind(wid).l.toLowerCase()} grew ${FMT.ps(gw)} a year. ${ind(wid).price === 'nominal' ? 'GDP is at constant prices and wages at current prices; part of the gap reflects inflation.' : ''} Differences in growth rates do not show cause and effect.`) });
+      } }
+    }
+    // 5. unemployment x wages across states
+    if (has('urate') && (has('median') || has('mean'))) {
+      const wid = has('median') ? 'median' : 'mean', y = Math.min(cfg.y1, ...['urate', wid].map(i => Math.max(...ind(i).years)));
+      const xs = IDS.map(s => ind('urate').get(s, y)), ys = IDS.map(s => ind(wid).get(s, y)), c = ST.pearson(xs, ys);
+      if (c.r != null) { B.push({ t: 'h3', text: X(`Pengangguran dan gaji merentas negeri, ${y}`, `Unemployment and wages across states, ${y}`) });
+        B.push({ t: 'p', text: X(`Merentas ${c.n} negeri pada ${y}, korelasi antara kadar pengangguran dan ${ind(wid).l.toLowerCase()} ialah r = ${c.r.toFixed(2)}. Perbezaan saiz tenaga kerja, struktur ekonomi dan kos sara hidup antara negeri tidak dikawal; ini bukan bukti sebab-akibat.`, `Across ${c.n} states in ${y}, the correlation between the unemployment rate and ${ind(wid).l.toLowerCase()} is r = ${c.r.toFixed(2)}. Differences in workforce size, economic structure and living costs are not controlled for; this is not evidence of cause and effect.`) }); }
+    }
+    if (!B.length) B.push({ t: 'callout', text: X('Gabungan penunjuk ini tidak mempunyai kaedah analisis bersepadu yang sah dengan data sedia ada. Analisis setiap penunjuk dipaparkan secara berasingan.', 'This combination of indicators has no valid integrated method with the available data. Each indicator is analysed separately.') });
+    return B;
+  }
+
+  function simulate(g, opt) {
+    const Y = ind('gdp'), Ei = ind('emp'), Li = ind('lpc'), ys = Li.years.filter(y => Li.get(g, y) != null), last = ys[ys.length - 1];
+    const h0 = Math.max(ys[0], opt.h0 || ys[0]), h1 = last, n = h1 - h0;
+    const gL = ST.cagr(Li.get(g, h0), Li.get(g, h1), n), gE = ST.cagr(Ei.get(g, h0), Ei.get(g, h1), n);
+    const end = opt.end || 2035, yrs = []; for (let y = last + 1; y <= end; y++) yrs.push(y);
+    const rate = (sc, kind, y) => { if (sc === 'base') return kind === 'L' ? gL : gE; if (sc === 'up') return kind === 'L' ? gL + (opt.uplift ?? 1) : gE; const c = opt.custom || {}; return y <= 2030 ? (kind === 'L' ? c.L1 ?? gL : c.E1 ?? gE) : (kind === 'L' ? c.L2 ?? gL : c.E2 ?? gE); };
+    const run = sc => { let L = Li.get(g, last), E = Ei.get(g, last); return yrs.map(y => { L *= 1 + rate(sc, 'L', y) / 100; E *= 1 + rate(sc, 'E', y) / 100; return { y, L, E, VA: L * E * 1e3 / 1e6 }; }); };
+    return { g, last, h0, h1, gL, gE, yrs, hist: ys.map(y => ({ y, L: Li.get(g, y), E: Ei.get(g, y), VA: Y.get(g, y) })), sc: { base: run('base'), up: run('up'), custom: run('custom') }, opt };
+  }
+  function simBlocks(sim) {
+    const L = (s, k) => s.map(r => r[k]), allY = sim.hist.map(r => r.y).concat(sim.yrs), pad = a => sim.hist.map(() => null).slice(0, -1).concat([sim.hist[sim.hist.length - 1].L]).concat(a);
+    const lab = { base: X('Asas', 'Baseline'), up: X('Penambahbaikan', 'Improvement'), custom: X('Tersuai', 'Custom') };
+    const B = [{ t: 'p', text: X(`Unjuran dari ${sim.last + 1} hingga ${sim.yrs[sim.yrs.length - 1]} menggunakan produktiviti(t) = produktiviti(t−1) × (1 + g) dan guna tenaga(t) = guna tenaga(t−1) × (1 + g); KDNK benar = produktiviti × guna tenaga. Kadar asas ialah purata setahun sebenar ${sim.h0}–${sim.h1}: produktiviti ${FMT.ps(sim.gL)}, guna tenaga ${FMT.ps(sim.gE)}. Unjuran ini ilustratif, bukan ramalan rasmi DOSM atau sasaran kerajaan.`, `Projection from ${sim.last + 1} to ${sim.yrs[sim.yrs.length - 1]} uses productivity(t) = productivity(t−1) × (1 + g) and employment(t) = employment(t−1) × (1 + g); real GDP = productivity × employment. Baseline rates are the actual ${sim.h0}–${sim.h1} averages: productivity ${FMT.ps(sim.gL)}, employment ${FMT.ps(sim.gE)}. Projections are illustrative, not official DOSM forecasts or government targets.`) }];
+    B.push({ t: 'chart', kind: 'line', fmt: 'rm', title: X(`Produktiviti buruh (dikira): sebenar dan senario, ${gname(sim.g)}`, `Labour productivity (calculated): actual and scenarios, ${gname(sim.g)}`), years: allY, series: [{ label: X('Sebenar', 'Actual'), vals: L(sim.hist, 'L').concat(sim.yrs.map(() => null)), main: true }].concat(['base', 'up', 'custom'].map(k => ({ label: lab[k], vals: pad(L(sim.sc[k], 'L')), dashed: k === 'base' }))), src: X('Sumber: DOSM (KDNK negeri, LFS); unjuran SPPE Intelligence.', 'Source: DOSM (state GDP, LFS); SPPE Intelligence projections.') });
+    const endR = k => sim.sc[k][sim.sc[k].length - 1], at30 = k => sim.sc[k].find(r => r.y === 2030);
+    B.push({ t: 'table', head: [X('Senario', 'Scenario'), X('Produktiviti ', 'Productivity ') + (at30('base') ? 2030 : ''), X('Produktiviti ', 'Productivity ') + endR('base').y, X('KDNK benar ', 'Real GDP ') + endR('base').y, X('Penduduk bekerja ', 'Employed ') + endR('base').y], rows: ['base', 'up', 'custom'].map(k => [lab[k], at30(k) ? FMT.rm(at30(k).L) : '–', FMT.rm(endR(k).L), FMT.rmm(endR(k).VA), FMT.k(endR(k).E)]), align: ['l', 'r', 'r', 'r', 'r'] });
+    return B;
+  }
+
+  function sectorRows(g, y) {
+    const e = SITE.E(), A = AN, keys = [['agri', 'p1', X('Pertanian', 'Agriculture'), 'A'], ['mining', 'p2', X('Perlombongan & pengkuarian', 'Mining & quarrying'), 'B'], ['mfg', 'p3', X('Pembuatan', 'Manufacturing'), 'C'], ['cons', 'p4', X('Pembinaan', 'Construction'), 'F'], ['serv', 'p5', X('Perkhidmatan', 'Services'), 'D, E, G–U']];
+    const tot = SITE.at(e.gdp.v.p0, e.gdp.years, g, y), totN = SITE.at(e.gdp.v.p0, e.gdp.years, 'national', y);
+    return keys.map(([sid, p, l, code]) => {
+      const va = SITE.at(e.gdp.v[p], e.gdp.years, g, y), vaN = SITE.at(e.gdp.v[p], e.gdp.years, 'national', y), lp = A.sectorVal(sid, g, y), lpN = A.sectorVal(sid, 'national', y);
+      const lp0 = A.sectorVal(sid, g, y - 5), gr = ST.cagr(lp0, lp, 5), sh = ST.share(va, tot), li = sh != null && totN ? sh / ST.share(vaN, totN) : null;
+      return { sid, l, code, va, sh, li, lp: A.sectorND(sid, g, y) ? null : lp, lpN, gap: ST.gap(lp, lpN), gr };
+    });
+  }
+  function prioritise(rows, w) {
+    const z = (v, a) => { const ok = a.filter(x => x != null); if (v == null || ok.length < 2) return 0; const m = ok.reduce((s, x) => s + x, 0) / ok.length, sd = Math.sqrt(ok.reduce((s, x) => s + (x - m) ** 2, 0) / ok.length) || 1; return (v - m) / sd; };
+    return rows.map(r => {
+      const sLon = w.gr * z(r.gr, rows.map(x => x.gr)) + w.li * z(r.li, rows.map(x => x.li)) + w.lp * z(r.gap, rows.map(x => x.gap));
+      const sPen = w.sh * z(r.sh, rows.map(x => x.sh)) - w.lp * z(r.gap, rows.map(x => x.gap));
+      return { ...r, sLon, sPen, cls: r.lp == null ? null : r.gap >= 0 && (r.gr ?? 0) > 0 ? 'lon' : r.sh >= 10 || r.gap < 0 ? 'pen' : 'lon' };
+    });
+  }
+
+  function compose(cfg) {
+    const sec = cfg.sections, on = k => sec.includes(k), B = [], g0 = cfg.geos[0], chk = check(cfg), sel = cfg.inds.map(ind).filter(Boolean);
+    const add = (k, blocks) => { if (!blocks.length) return; const nm = (cfg.names && cfg.names[k]) || SECTIONS().find(s => s[0] === k)[1]; B.push({ t: 'h1', text: nm }); blocks.forEach(b => B.push(b)); if (cfg.notes && cfg.notes[k]) B.push({ t: 'callout', text: X('Nota penganalisis: ', 'Analyst note: ') + cfg.notes[k] }); };
+    const period = `${cfg.y0}–${cfg.y1}`, where = cfg.geos.map(gname).join(', ');
+    const narr = (k, def) => cfg.edits && cfg.edits[k] != null ? cfg.edits[k] : def;
+    sec.forEach(k => {
+      if (k === 'exec') { const pts = sel.slice(0, 5).map(it => indicatorText(it, g0, series(it.id, g0, cfg.y0, cfg.y1), series(it.id, 'national', cfg.y0, cfg.y1))); add(k, [{ t: 'p', text: narr('exec', X(`Laporan ini menganalisis ${sel.length} penunjuk bagi ${where} untuk tempoh ${period}, menggunakan data rasmi DOSM.`, `This report analyses ${sel.length} indicators for ${where} over ${period}, using official DOSM data.`)) }, { t: 'bullets', items: pts }]); }
+      if (k === 'overview') add(k, [{ t: 'p', text: narr('overview', X(`Lokasi: ${where}${cfg.vsNat ? ' berbanding Malaysia' : ''}. Tempoh: ${period}. Mod analisis: ${{ topic: 'mengikut topik', intg: 'bersepadu', both: 'mengikut topik dan bersepadu' }[cfg.mode]}. Status data: ${ST_L()[chk.lvl]}.`, `Location: ${where}${cfg.vsNat ? ' against Malaysia' : ''}. Period: ${period}. Analysis mode: ${{ topic: 'by topic', intg: 'integrated', both: 'by topic and integrated' }[cfg.mode]}. Data status: ${ST_L()[chk.lvl]}.`)) }]);
+      if (k === 'kpi') add(k, [{ t: 'table', head: [X('Penunjuk', 'Indicator'), ...cfg.geos.map(gname), ...(cfg.vsNat && !cfg.geos.includes('national') ? ['Malaysia'] : []), X('Tahun', 'Year')], rows: sel.map(it => { const y = Math.min(cfg.y1, Math.max(...it.years)); return [it.l, ...cfg.geos.concat(cfg.vsNat && !cfg.geos.includes('national') ? ['national'] : []).map(g => it.fmt(it.years.includes(y) ? it.get(g, y) : null)), String(y)]; }), align: ['l', ...cfg.geos.map(() => 'r'), 'r', 'r'] }]);
+      if (k === 'trend' && cfg.mode !== 'intg') { const b = []; sel.forEach(it => { const geos = cfg.geos.concat(cfg.vsNat && !cfg.geos.includes('national') ? ['national'] : []); const ss = geos.map(g => ({ g, s: series(it.id, g, cfg.y0, cfg.y1) })).filter(x => x.s.vals.some(v => v != null));
+        b.push({ t: 'h3', text: it.l + ' (' + it.unit + ')' }); if (ss.length && cfg.charts !== false) b.push({ t: 'chart', kind: 'line', fmt: it.fmt === FMT.rm ? 'rm' : it.unit === '%' ? 'p' : 'n1', title: `${it.l}, ${period}`, years: ss[0].s.years, series: ss.map((x, i) => ({ label: gname(x.g), vals: it.id === 'gdp' ? x.s.vals.map(v => v == null ? null : v) : x.s.vals, main: i === 0, dashed: x.g === 'national' })), src: X('Sumber: ', 'Source: ') + it.src });
+        cfg.geos.forEach(g => b.push({ t: 'p', text: indicatorText(it, g, series(it.id, g, cfg.y0, cfg.y1), series(it.id, 'national', cfg.y0, cfg.y1)) })); }); add(k, b); }
+      if (k === 'compare') { const b = []; sel.forEach(it => { const y = Math.min(cfg.y1, Math.max(...it.years)); const items = IDS.map(s => ({ label: short(s), v: it.get(s, y), hi: cfg.geos.includes(s), special: SPECIAL_FT.includes(s) })).filter(x => x.v != null).sort((a, z) => it.low ? a.v - z.v : z.v - a.v); if (!items.length || it.kind === 'growth') return;
+        b.push({ t: 'chart', kind: 'hbar', fmt: it.fmt === FMT.rm ? 'rm' : it.unit === '%' ? 'p' : 'n1', title: `${it.l} ${X('mengikut negeri', 'by state')}, ${y}`, items, ref: it.get('national', y) != null && it.id !== 'emp' && it.id !== 'gdp' ? { label: 'Malaysia', v: it.get('national', y) } : null, src: X('Sumber: ', 'Source: ') + it.src }); }); add(k, b); }
+      if (k === 'cross' && cfg.mode !== 'topic') { const b = []; cfg.geos.forEach(g => { if (cfg.geos.length > 1) b.push({ t: 'h3', text: gname(g) }); crossBlocks(cfg, g).forEach(x => b.push(x)); }); add(k, b); }
+      if (k === 'sim' && cfg.sim) add(k, simBlocks(simulate(g0, cfg.sim)));
+      if (k === 'findings') { const items = []; sel.forEach(it => { const s = series(it.id, g0, cfg.y0, cfg.y1), n = series(it.id, 'national', cfg.y0, cfg.y1), a = firstLast(s), b = firstLast(n); if (!a || !b || g0 === 'national' || it.kind !== 'level') return; const ga = ST.cagr(a.a, a.b, a.yb - a.ya), gb = ST.cagr(b.a, b.b, b.yb - b.ya); if (ga != null && gb != null) items.push(X(`${it.l}: ${gname(g0)} tumbuh ${ga > gb ? 'lebih pantas' : 'lebih perlahan'} daripada Malaysia (${FMT.ps(ga)} berbanding ${FMT.ps(gb)} setahun).`, `${it.l}: ${gname(g0)} grew ${ga > gb ? 'faster' : 'slower'} than Malaysia (${FMT.ps(ga)} vs ${FMT.ps(gb)} a year).`)); });
+        items.push(X('Dapatan ini adalah deskriptif dan tidak menunjukkan sebab-akibat. Perbezaan definisi dan liputan data diterangkan di bahagian Had data.', 'These findings are descriptive and do not show cause and effect. Differences in definitions and coverage are set out under Data limitations.'));
+        add(k, [{ t: 'bullets', items: cfg.edits && cfg.edits.findings ? cfg.edits.findings.split('\n').filter(Boolean) : items }]); }
+      if (k === 'limits') { const items = chk.warn.map(w => w.t).concat(chk.rows.filter(r => r.st !== 'ok').map(r => `${ind(r.id).l} (${gname(r.g)}): ${ST_L()[r.st]}${r.note ? ' — ' + r.note : ''}`)); items.push(X('Nilai yang tiada dalam data rasmi tidak dianggarkan.', 'Values missing from the official data are not estimated.')); add(k, [{ t: 'bullets', items }]); }
+      if (k === 'method') add(k, [{ t: 'bullets', items: [X('Perubahan tahunan = (nilai t ÷ nilai t−1 − 1) × 100.', 'Annual change = (value t ÷ value t−1 − 1) × 100.'), X('Purata setahun (CAGR) = ((akhir ÷ awal)^(1 ÷ bilangan selang tahun) − 1) × 100.', 'Average a year (CAGR) = ((end ÷ start)^(1 ÷ number of year intervals) − 1) × 100.'), X('Indeks(t) = nilai(t) ÷ nilai(tahun asas) × 100.', 'Index(t) = value(t) ÷ value(base year) × 100.'), X('Jurang produktiviti (%) = (negeri ÷ penanda aras − 1) × 100; negatif bermakna di bawah penanda aras.', 'Productivity gap (%) = (state ÷ benchmark − 1) × 100; negative means below the benchmark.'), X('Bagi kadar (%), perubahan dalam mata peratusan (mp).', 'For rates (%), changes are in percentage points (pp).'), X('Produktiviti agregat = jumlah nilai ditambah ÷ jumlah guna tenaga; nisbah sektor tidak dipuratakan.', 'Aggregate productivity = total value added ÷ total employment; sector ratios are never averaged.')] }]);
+      if (k === 'appendix') add(k, sel.map(it => { const geos = cfg.geos.concat(cfg.vsNat && !cfg.geos.includes('national') ? ['national'] : []), ys = series(it.id, geos[0], cfg.y0, cfg.y1).years; return { t: 'table', small: ys.length > 8, cap: `${it.l} (${it.unit})`, head: [X('Lokasi', 'Location'), ...ys.map(String)], rows: geos.map(g => [gname(g), ...ys.map(y => it.years.includes(y) ? it.fmt(it.get(g, y)) : '–')]), align: ['l', ...ys.map(() => 'r')] }; }));
+      if (k === 'sources') add(k, [{ t: 'bullets', items: [...new Set(sel.map(it => `${it.l}: ${it.src}`))].concat([X('Pengiraan: SPPE Intelligence, Perbadanan Produktiviti Malaysia (MPC).', 'Calculations: SPPE Intelligence, Malaysia Productivity Corporation (MPC).')]) }]);
+    });
+    const it0 = sel[0], fl0 = it0 && firstLast(series(it0.id, g0, cfg.y0, cfg.y1));
+    const kpis = sel.slice(0, 3).map(it => { const s = series(it.id, g0, cfg.y0, cfg.y1), f = firstLast(s); return { l: `${it.l} ${f ? f.yb : ''}`, v: f ? it.fmt(f.b) : '–' }; });
+    while (kpis.length < 3) kpis.push({ l: X('Tempoh', 'Period'), v: period });
+    const stem = `MPC_${cfg.mode === 'topic' ? 'Economic' : 'Integrated_Economic'}_Report_${cfg.geos.map(g => gname(g).replace(/[^A-Za-z]/g, '')).join('-')}_${cfg.y1}`;
+    return { lang: S.lang, title: cfg.title || X('Laporan Ekonomi Bersepadu', 'Integrated Economic Report'), subtitle: cfg.subtitle || `${where} · ${period}`, fileStem: stem, kpis, blocks: B, topics: [], multi: cfg.geos.length > 1, year: cfg.y1, eyebrow: X('LAPORAN KECERDASAN EKONOMI BERSEPADU', 'INTEGRATED ECONOMIC INTELLIGENCE REPORT'), sourceLine: X('Data rasmi DOSM', 'Official DOSM data'), _cfg: cfg, _chk: chk };
+  }
+
+  function kitCompose(o) {
+    const g = o.state, y1 = o.y1, y0 = o.y0, B = [], gdp = ind('gdp'), prod = ind('prod'), emp = ind('emp');
+    const h1 = t => B.push({ t: 'h1', text: t }), p = t => B.push({ t: 'p', text: t });
+    h1(X('Kandungan', 'Contents')); B.push({ t: 'bullets', items: [X('1. Gambaran ekonomi & produktiviti negeri', '1. State economic & productivity overview'), X('2. Prestasi produktiviti sejarah', '2. Historical productivity performance'), X('3. Sektor keutamaan negeri', '3. State priority sectors'), X(`4. Simulasi produktiviti hingga ${o.end}`, `4. Productivity simulation to ${o.end}`), X('5. Kerangka penilaian produktiviti', '5. Productivity assessment framework'), X('6. Agenda bengkel', '6. Workshop agenda'), X('7. Kluster & output bengkel', '7. Workshop clusters & outputs'), X('8. Lampiran produktiviti sektor', '8. Sector productivity appendix')] });
+    h1(X('1. Gambaran ekonomi & produktiviti negeri', '1. State economic & productivity overview'));
+    const sh = ST.share(gdp.get(g, y1), gdp.get('national', y1)), esh = ST.share(emp.get(g, y1), emp.get('national', y1)), lp = prod.get(g, y1), lpN = prod.get('national', y1), rk = rankOf('prod', g, y1);
+    B.push({ t: 'table', head: [X('Penunjuk', 'Indicator'), String(y1)], rows: [[X('KDNK benar', 'Real GDP'), gdp.fmt(gdp.get(g, y1))], [X('Pertumbuhan KDNK', 'GDP growth'), FMT.ps(ind('gdpg').get(g, y1))], [X('Bahagian KDNK Malaysia', 'Share of Malaysia GDP'), FMT.p(sh)], [X('Penduduk bekerja', 'Employed persons'), emp.fmt(emp.get(g, y1))], [X('Bahagian guna tenaga Malaysia', 'Share of Malaysia employment'), FMT.p(esh)], [X('Produktiviti buruh (rasmi)', 'Labour productivity (official)'), prod.fmt(lp)], [X('Pertumbuhan produktiviti', 'Productivity growth'), FMT.ps(AN.growth(g, y1))], [X('Berbanding Malaysia', 'vs Malaysia'), FMT.ps(ST.gap(lp, lpN))]], align: ['l', 'r'] });
+    p(indicatorText(prod, g, series('prod', g, y0, y1), series('prod', 'national', y0, y1)) + (rk ? X(` Kedudukan produktiviti: ${rk.r} daripada ${rk.n}.`, ` Productivity rank: ${rk.r} of ${rk.n}.`) : ''));
+    h1(X('2. Prestasi produktiviti sejarah', '2. Historical productivity performance'));
+    crossBlocks({ inds: ['gdp', 'emp', 'lpc', 'prod'], y0, y1, geos: [g] }, g).forEach(b => B.push(b));
+    B.push({ t: 'h3', text: X('Kuadran produktiviti daerah', 'District productivity quadrant') });
+    B.push({ t: 'callout', text: X('Data tidak tersedia: analisis kuadran daerah (Melonjak, Peneraju, Pengukuhan, Hilang Momentum) memerlukan nilai ditambah dan guna tenaga peringkat daerah. Data ini tiada dalam fail DOSM yang dimuat naik, jadi tiada anggaran dibuat. Alternatif: kedudukan negeri dalam matriks prestasi di halaman Produktiviti Buruh.', 'Data not available: the district quadrant (Surging, Leading, Consolidating, Losing Momentum) needs district-level value added and employment. These are not in the uploaded DOSM files, so no estimates are made. Alternative: the state\'s position in the performance matrix on the Labour Productivity page.') });
+    h1(X('3. Sektor keutamaan negeri', '3. State priority sectors'));
+    const rows = prioritise(sectorRows(g, y1), o.w), lon = rows.filter(r => r.cls === 'lon').sort((a, b) => b.sLon - a.sLon), pen = rows.filter(r => r.cls === 'pen').sort((a, b) => b.sPen - a.sPen);
+    p(X(`Cadangan awal berdasarkan kriteria telus: pertumbuhan produktiviti sektor 5 tahun (pemberat ${o.w.gr}), indeks pengkhususan (${o.w.li}), jurang produktiviti berbanding sektor nasional (${o.w.lp}) dan bahagian nilai ditambah (${o.w.sh}). Data DOSM hanya meliputi 5 sektor utama. Cadangan ini perlu disemak penganalisis MPC dan bukan keutamaan rasmi negeri.`, `Preliminary suggestion using transparent criteria: 5-year sector productivity growth (weight ${o.w.gr}), specialisation index (${o.w.li}), productivity gap to the national sector (${o.w.lp}) and value-added share (${o.w.sh}). DOSM data covers only the 5 main sectors. MPC analysts should review these; they are not official state priorities.`));
+    B.push({ t: 'table', head: [X('Kategori', 'Category'), X('Sektor', 'Sectors')], rows: [[X('Sektor Lonjakan Produktiviti', 'Productivity Leap Sectors'), lon.map(r => r.l).join(', ') || '–'], [X('Sektor Pengupayaan Produktiviti', 'Productivity Enablement Sectors'), pen.map(r => r.l).join(', ') || '–']], align: ['l', 'l'] });
+    if (o.sectorNote) B.push({ t: 'callout', text: X('Nota penganalisis: ', 'Analyst note: ') + o.sectorNote });
+    h1(X(`4. Simulasi produktiviti hingga ${o.end}`, `4. Productivity simulation to ${o.end}`));
+    const sim = simulate(g, { end: o.end, uplift: o.uplift, h0: y0, custom: o.custom }); simBlocks(sim).forEach(b => B.push(b));
+    B.push({ t: 'table', head: [X('Tempoh', 'Period'), X('Produktiviti (asas)', 'Productivity (baseline)'), X('Produktiviti (penambahbaikan)', 'Productivity (improvement)'), X('Guna tenaga', 'Employment')], rows: [['2026–2030', FMT.ps(sim.gL), FMT.ps(sim.gL + o.uplift), FMT.ps(sim.gE)], [`2031–${o.end}`, FMT.ps(sim.gL), FMT.ps(sim.gL + o.uplift), FMT.ps(sim.gE)]], align: ['l', 'r', 'r', 'r'] });
+    h1(X('5. Kerangka penilaian produktiviti', '5. Productivity assessment framework'));
+    [['market', X('Peluang Pasaran', 'Market Opportunities')], ['cap', X('Keupayaan Produktif', 'Productive Capability')], ['env', X('Persekitaran Perniagaan', 'Business Environment')]].forEach(([k, l]) => { B.push({ t: 'h3', text: l }); const v = (o.fw && o.fw[k] || '').trim(); B.push(v ? { t: 'bullets', items: v.split('\n').filter(Boolean) } : { t: 'callout', text: X('Untuk diisi oleh penganalisis berdasarkan bukti. Tiada dapatan dijana secara automatik.', 'To be completed by analysts from evidence. No findings are generated automatically.') }); });
+    h1(X('6. Agenda bengkel', '6. Workshop agenda'));
+    if (o.venue || o.date) p(`${o.date ? X('Tarikh: ', 'Date: ') + o.date + '. ' : ''}${o.venue ? X('Tempat: ', 'Venue: ') + o.venue + '.' : ''}`);
+    const ag = (o.agenda || '').split('\n').map(l => l.split('|').map(x => x.trim())).filter(r => r[0]);
+    B.push(ag.length ? { t: 'table', head: [X('Masa', 'Time'), X('Aktiviti', 'Activity'), X('Penceramah / fasilitator', 'Speaker / facilitator')], rows: ag.map(r => [r[0] || '', r[1] || '', r[2] || '']), align: ['l', 'l', 'l'] } : { t: 'callout', text: X('Agenda belum diisi.', 'Agenda not filled in yet.') });
+    h1(X('7. Kluster & output bengkel', '7. Workshop clusters & outputs'));
+    const cl = (o.clusters || '').split('\n').filter(Boolean); B.push(cl.length ? { t: 'bullets', items: cl } : { t: 'callout', text: X('Kluster belum diisi.', 'Clusters not filled in yet.') });
+    B.push({ t: 'bullets', items: [X('Output 1: Sektor fokus negeri yang disahkan.', 'Output 1: Validated state focus sectors.'), X('Output 2: Cadangan strategi sektor dan pemacu produktiviti.', 'Output 2: Proposed sector strategies and productivity drivers.'), X('Output 3: Tindakan susulan keutamaan.', 'Output 3: Priority follow-up actions.')] });
+    h1(X('8. Lampiran produktiviti sektor', '8. Sector productivity appendix'));
+    B.push({ t: 'table', head: [X('Sektor', 'Sector'), 'MSIC', X('Nilai ditambah (RM juta)', 'Value added (RM m)'), X('Bahagian %', 'Share %'), X('Produktiviti', 'Productivity'), X('Nasional', 'National'), X('Jurang', 'Gap')], rows: rows.map(r => [r.l, r.code, r.va == null ? '–' : n0(r.va), FMT.p(r.sh), FMT.rm(r.lp), FMT.rm(r.lpN), FMT.ps(r.gap)]), align: ['l', 'l', 'r', 'r', 'r', 'r', 'r'] });
+    p(X(`Tahun data: ${y1}. Sumber: DOSM (KDNK negeri harga malar 2015; Produktiviti Buruh Negeri). Guna tenaga sektor peringkat negeri tidak diterbitkan, jadi tidak dipaparkan.`, `Data year: ${y1}. Source: DOSM (state GDP at constant 2015 prices; State Labour Productivity). State-level sector employment is not published, so it is not shown.`));
+    const nm = sname(g).replace(/[^A-Za-z]/g, '');
+    return { lang: S.lang, title: X(`Kit Pelaksanaan Bengkel Hala Tuju Produktiviti Negeri ${sname(g)}`, `${sname(g)} State Productivity Direction Workshop Kit`), subtitle: `${y0}–${y1} · ${X('simulasi hingga', 'simulation to')} ${o.end}`, fileStem: `MPC_State_Productivity_Workshop_Kit_${nm}_${y1}`, kpis: [{ l: X('Produktiviti ', 'Productivity ') + y1, v: FMT.rm(lp) }, { l: X('Berbanding Malaysia', 'vs Malaysia'), v: FMT.ps(ST.gap(lp, lpN)) }, { l: X('Bahagian KDNK', 'GDP share'), v: FMT.p(sh) }], blocks: B, topics: [], multi: false, year: y1, eyebrow: X('LAPORAN BENGKEL PRODUKTIVITI NEGERI', 'STATE PRODUCTIVITY WORKSHOP REPORT'), sourceLine: X('Data rasmi DOSM', 'Official DOSM data') };
+  }
+
+  /* ---------- exports ---------- */
+  const safe = s => String(s).replace(/−/g, '-').replace(/[→]/g, '->').replace(/[≈]/g, '~').replace(/[≥]/g, '>=').replace(/[≤]/g, '<=').replace(/[▴▾★☆]/g, '');
+  const meta = () => { const o = { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Kuala_Lumpur' }; return { dateBm: new Intl.DateTimeFormat('ms-MY', o).format(new Date()), dateEn: new Intl.DateTimeFormat('en-GB', o).format(new Date()) }; };
+  async function docx(rep) { return (await M6R.buildDocx(rep, meta(), await logoDataUrl(), () => { })).blob; }
+  async function pdf(rep) {
+    const J = await loadLib('jspdf'), d = new J({ unit: 'mm', format: 'a4' }), PW = 210, PH = 297, M = 18, CW = PW - 2 * M, logo = await logoDataUrl(), E = rep.lang === 'en';
+    let y = 0; const T = s => safe(s);
+    const page = first => { if (!first) d.addPage(); y = 28; if (logo) try { d.addImage(logo, 'PNG', M, 9, 22, 22 * 215 / 1032, 'k2logo', 'FAST'); } catch (e) { } d.setFont('helvetica', 'normal'); d.setFontSize(7.5); d.setTextColor(120); d.text(T(rep.title + ' · ' + rep.subtitle).slice(0, 110), PW - M, 13, { align: 'right' }); d.setDrawColor(220); d.line(M, 20, PW - M, 20); };
+    const need = h => { if (y + h > PH - 20) page(false); };
+    const para = (s, size = 10, bold = false, col = 28) => { d.setFont('helvetica', bold ? 'bold' : 'normal'); d.setFontSize(size); d.setTextColor(col); const lines = d.splitTextToSize(T(s), CW); lines.forEach(l => { need(size * 0.45); d.text(l, M, y); y += size * 0.45; }); y += 2; };
+    page(true);
+    d.setFillColor(28, 25, 23); d.rect(M, y, CW, 34, 'F'); d.setTextColor(248, 113, 113); d.setFont('helvetica', 'bold'); d.setFontSize(8); d.text(T(rep.eyebrow), M + 6, y + 8); d.setTextColor(255); d.setFontSize(16); d.splitTextToSize(T(rep.title), CW - 12).slice(0, 2).forEach((l, i) => d.text(l, M + 6, y + 17 + i * 7)); d.setFont('helvetica', 'normal'); d.setFontSize(9.5); d.setTextColor(214); d.text(T(rep.subtitle), M + 6, y + 31); y += 40;
+    const kw = (CW - 8) / 3; rep.kpis.slice(0, 3).forEach((k, i) => { const x = M + i * (kw + 4); d.setDrawColor(220); d.rect(x, y, kw, 16); d.setFontSize(7.5); d.setTextColor(110); d.text(T(k.l).slice(0, 48), x + 3, y + 5); d.setFont('helvetica', 'bold'); d.setFontSize(12); d.setTextColor(28); d.text(T(k.v), x + 3, y + 12.5); d.setFont('helvetica', 'normal'); }); y += 22;
+    for (const b of rep.blocks) {
+      if (b.t === 'h0' || b.t === 'h1') { need(16); y += 3; d.setFillColor(220, 38, 38); d.rect(M, y - 4.5, 1.6, 6.5, 'F'); d.setFont('helvetica', 'bold'); d.setFontSize(13); d.setTextColor(28); d.text(T(b.text), M + 4, y); y += 7; }
+      else if (b.t === 'h3') { need(10); d.setFont('helvetica', 'bold'); d.setFontSize(10.5); d.setTextColor(28); d.text(T(b.text), M, y); y += 5.5; }
+      else if (b.t === 'p') para(b.text);
+      else if (b.t === 'bullets') (b.items || []).forEach(it => { d.setFont('helvetica', 'normal'); d.setFontSize(10); d.setTextColor(28); const lines = d.splitTextToSize(T(it), CW - 5); need(lines.length * 4.5); d.setFillColor(220, 38, 38); d.circle(M + 1.2, y - 1.2, 0.7, 'F'); lines.forEach(l => { d.text(l, M + 4, y); y += 4.5; }); y += 0.8; });
+      else if (b.t === 'callout') { d.setFontSize(9.5); const lines = d.splitTextToSize(T(b.text), CW - 8); need(lines.length * 4.3 + 6); d.setFillColor(245, 245, 244); d.rect(M, y - 4, CW, lines.length * 4.3 + 4, 'F'); d.setFillColor(220, 38, 38); d.rect(M, y - 4, 1.2, lines.length * 4.3 + 4, 'F'); d.setTextColor(40); lines.forEach(l => { d.text(l, M + 4, y); y += 4.3; }); y += 4; }
+      else if (b.t === 'chart') { try { const png = await M6R.chartPng(b, E), w = Math.min(CW, png.wmm), h = png.hmm * w / png.wmm; need(h + 12); d.setFont('helvetica', 'bold'); d.setFontSize(9); d.setTextColor(28); d.splitTextToSize(T(b.title), CW).forEach(l => { d.text(l, M, y); y += 4.2; }); const u = await new Promise(r => { const fr = new FileReader(); fr.onload = () => r(fr.result); fr.readAsDataURL(new Blob([png.data], { type: 'image/png' })); }); d.addImage(u, 'PNG', M, y, w, h, undefined, 'FAST'); y += h + 2; if (b.src) { d.setFont('helvetica', 'normal'); d.setFontSize(7.5); d.setTextColor(120); d.text(T(b.src), M, y + 2); y += 6; } } catch (e) { para('[' + (b.title || 'chart') + ']', 9); } }
+      else if (b.t === 'table' && b.head) {
+        const cols = b.head.length, fs = cols > 7 ? 7 : 8.5, w0 = Math.min(CW * 0.34, CW / cols * 1.6), wr = (CW - w0) / Math.max(1, cols - 1), wd = i => i ? wr : w0; d.setFontSize(fs);
+        if (b.cap) { need(8); d.setFont('helvetica', 'bold'); d.setFontSize(9); d.text(T(b.cap), M, y); y += 4.5; d.setFontSize(fs); }
+        const row = (cells, head) => { d.setFont('helvetica', head ? 'bold' : 'normal'); const wrapped = cells.map((c, i) => d.splitTextToSize(T(c ?? ''), wd(i) - 2)); const h = Math.max(...wrapped.map(w => w.length)) * fs * 0.42 + 2.4; need(h + 1);
+          if (head) { d.setFillColor(28, 25, 23); d.rect(M, y - 3.6, CW, h, 'F'); d.setTextColor(255); } else { d.setTextColor(28); d.setDrawColor(230); d.line(M, y - 3.6 + h, M + CW, y - 3.6 + h); }
+          let x = M; wrapped.forEach((w, i) => { const al = (b.align || [])[i] === 'r' && !head; w.forEach((l, k) => d.text(l, al ? x + wd(i) - 1 : x + 1, y + k * fs * 0.42, al ? { align: 'right' } : undefined)); x += wd(i); }); y += h; };
+        row(b.head, true); (b.rows || []).forEach(r => row(r, false)); y += 4;
+      }
+    }
+    const n = d.getNumberOfPages(); for (let i = 1; i <= n; i++) { d.setPage(i); d.setDrawColor(220); d.line(M, PH - 13, PW - M, PH - 13); d.setFont('helvetica', 'normal'); d.setFontSize(7.5); d.setTextColor(120); d.text(T(E ? 'Analysis by Malaysia Productivity Corporation (MPC) · Source: Department of Statistics Malaysia (DOSM)' : 'Analisis oleh Perbadanan Produktiviti Malaysia (MPC) · Sumber: Jabatan Perangkaan Malaysia (DOSM)'), M, PH - 8.5); d.text(E ? `Page ${i} of ${n}` : `Halaman ${i} / ${n}`, PW - M, PH - 8.5, { align: 'right' }); }
+    return d.output('blob');
+  }
+  async function xlsx(rep, extra) {
+    const XL = await loadLib('xlsx'), wb = XL.utils.book_new(), cfg = rep._cfg, add = (name, aoa) => { const ws = XL.utils.aoa_to_sheet(aoa); ws['!cols'] = (aoa[0] || []).map((_, i) => ({ wch: i ? 14 : 34 })); XL.utils.book_append_sheet(wb, ws, name.slice(0, 31)); return ws; };
+    add(X('Ringkasan', 'Summary'), [[rep.title], [rep.subtitle], [X('Dijana', 'Generated'), new Date().toISOString().slice(0, 16).replace('T', ' ')], [X('Bahasa', 'Language'), rep.lang === 'en' ? 'English' : 'Bahasa Melayu'], [], ...rep.kpis.map(k => [k.l, k.v]), [], [X('Analisis oleh Perbadanan Produktiviti Malaysia (MPC). Sumber: Jabatan Perangkaan Malaysia (DOSM).', 'Analysis by Malaysia Productivity Corporation (MPC). Source: Department of Statistics Malaysia (DOSM).')]]);
+    if (cfg) {
+      const geos = cfg.geos.concat(cfg.vsNat && !cfg.geos.includes('national') ? ['national'] : []), ys = []; for (let y = cfg.y0; y <= cfg.y1; y++) ys.push(y);
+      const src = [[X('Penunjuk', 'Indicator'), X('Lokasi', 'Location'), X('Unit', 'Unit'), X('Status', 'Status'), ...ys]];
+      cfg.inds.map(ind).filter(Boolean).forEach(it => geos.forEach(g => src.push([it.l, gname(g), it.unit, it.status === 'official' ? X('Rasmi', 'Official') : X('Dikira', 'Derived'), ...ys.map(y => it.years.includes(y) ? (it.get(g, y) ?? '') : '')])));
+      add(X('Data Sumber', 'Source Data'), src);
+      // calculations with live Excel formulas referencing the Source Data sheet
+      const sn = X('Data Sumber', 'Source Data'), last = XL.utils.encode_col(4 + ys.length - 1), first = 'E';
+      const calc = [[X('Penunjuk', 'Indicator'), X('Lokasi', 'Location'), X('Purata setahun (CAGR)', 'Average a year (CAGR)'), X('Perubahan keseluruhan', 'Total change'), X(`Indeks ${ys[ys.length - 1]} (${ys[0]} = 100)`, `Index ${ys[ys.length - 1]} (${ys[0]} = 100)`)]];
+      const ws = add(X('Pengiraan', 'Calculations'), calc);
+      src.slice(1).forEach((r, i) => { const R = i + 2, ref = c => `'${sn}'!${c}${R}`, n = ys.length - 1;
+        XL.utils.sheet_add_aoa(ws, [[{ f: `${ref('A')}` }, { f: `${ref('B')}` }, { f: `IFERROR((${ref(last)}/${ref(first)})^(1/${n})-1,"")`, z: '0.0%' }, { f: `IFERROR(${ref(last)}/${ref(first)}-1,"")`, z: '0.0%' }, { f: `IFERROR(${ref(last)}/${ref(first)}*100,"")`, z: '0.0' }]], { origin: `A${R}` }); });
+      add(X('Analisis Bersepadu', 'Cross-Topic Analysis'), rep.blocks.filter(b => b.t === 'table' || b.t === 'p').flatMap(b => b.t === 'p' ? [[b.text], []] : [b.head, ...b.rows, []]));
+      const chk = rep._chk; add(X('Status Data', 'Data Availability'), [[X('Penunjuk', 'Indicator'), X('Lokasi', 'Location'), X('Status', 'Status'), X('Tahun ada', 'Years available'), X('Nota', 'Note')], ...chk.rows.map(r => [ind(r.id).l, gname(r.g), ST_L()[r.st], compact(r.have), r.note]), [], ...chk.warn.map(w => [w.t])]);
+    }
+    if (extra && extra.sim) { const s = extra.sim, lab = { base: X('Asas', 'Baseline'), up: X('Penambahbaikan', 'Improvement'), custom: X('Tersuai', 'Custom') };
+      add(X('Andaian Senario', 'Scenario Assumptions'), [[X('Lokasi', 'Location'), gname(s.g)], [X('Tempoh asas', 'Base period'), `${s.h0}–${s.h1}`], [X('Pertumbuhan produktiviti asas %', 'Baseline productivity growth %'), s.gL], [X('Pertumbuhan guna tenaga asas %', 'Baseline employment growth %'), s.gE], [X('Tambahan senario penambahbaikan (mp)', 'Improvement uplift (pp)'), s.opt.uplift ?? 1], [X('Tersuai 2026–2030: produktiviti / guna tenaga %', 'Custom 2026–2030: productivity / employment %'), s.opt.custom?.L1 ?? s.gL, s.opt.custom?.E1 ?? s.gE], [X('Tersuai 2031–akhir: produktiviti / guna tenaga %', 'Custom 2031–end: productivity / employment %'), s.opt.custom?.L2 ?? s.gL, s.opt.custom?.E2 ?? s.gE], [X('Unjuran ilustratif, bukan ramalan rasmi DOSM.', 'Illustrative projection, not an official DOSM forecast.')]]);
+      add(X('Keputusan Simulasi', 'Simulation Results'), [[X('Tahun', 'Year'), X('Jenis', 'Type'), X('Produktiviti (RM)', 'Productivity (RM)'), X('Penduduk bekerja (ribu)', 'Employed (thousand)'), X('KDNK benar (RM juta)', 'Real GDP (RM m)')], ...s.hist.map(r => [r.y, X('Sebenar', 'Actual'), r.L, r.E, r.VA]), ...['base', 'up', 'custom'].flatMap(k => s.sc[k].map(r => [r.y, lab[k], r.L, r.E, r.VA]))]); }
+    add(X('Sumber Data', 'Data Sources'), [[X('Sumber', 'Source')], ...[SRC.prodf, SRC.gdp, SRC.wage, SRC.formal, SRC.lfs, SRC.cpi].map(s => [s])]);
+    add(X('Metodologi', 'Methodology'), [[X('Formula', 'Formula')], ['CAGR = (end/start)^(1/n) - 1'], ['Index(t) = value(t)/value(base) * 100'], ['Gap % = (state/benchmark - 1) * 100'], ['(1+gGDP) = (1+gLP)(1+gE)'], [X('Produktiviti dikira = KDNK benar / penduduk bekerja (LFS)', 'Calculated productivity = real GDP / employed persons (LFS)')], ['Productivity(t) = Productivity(t-1) * (1+g); Employment(t) = Employment(t-1) * (1+g); VA = LP * E']]);
+    const out = XL.write(wb, { bookType: 'xlsx', type: 'array' }); return new Blob([out], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+  }
+  async function pack(rep, extra) {
+    const [a, b, c] = await Promise.all([docx(rep), pdf(rep), xlsx(rep, extra)]);
+    const u = async x => new Uint8Array(await x.arrayBuffer()), man = [rep.title, rep.subtitle, '', 'Files:', rep.fileStem + '.docx', rep.fileStem + '.pdf', rep.fileStem + '.xlsx', '', 'Sources: ' + [SRC.prodf, SRC.gdp, SRC.wage, SRC.formal, SRC.lfs, SRC.cpi].join('; '), 'Analysis: Malaysia Productivity Corporation (MPC)', 'Generated: ' + new Date().toISOString()].join('\n');
+    const z = M6R.zip([{ name: rep.fileStem + '.docx', data: await u(a) }, { name: rep.fileStem + '.pdf', data: await u(b) }, { name: rep.fileStem + '.xlsx', data: await u(c) }, { name: 'MANIFEST.txt', data: man }]);
+    return new Blob([z], { type: 'application/zip' });
+  }
+
+  /* ---------- templates (saved on this device) ---------- */
+  const TK = 'sppe-k2-templates', tpls = () => { try { return JSON.parse(store.get(TK) || '[]'); } catch (e) { return []; } }, saveT = a => store.set(TK, JSON.stringify(a));
+
+  /* ---------- UI state ---------- */
+  const U = { b: null, sim: null, kit: null, prev: null, busy: '', msg: '' };
+  function defB() { const it = ind('prod'); return { title: '', subtitle: '', geos: [S.sel], vsNat: true, inds: ['gdp', 'median', 'prod'], y0: 2015, y1: Math.max(...it.years), mode: 'both', sections: ['exec', 'kpi', 'trend', 'cross', 'compare', 'findings', 'limits', 'method', 'sources'], len: 1, charts: true, notes: {}, names: {}, edits: {}, sim: null }; }
+  function defSim() { return { g: S.sel, end: 2035, uplift: 1, h0: 2015, custom: {} }; }
+  function defKit() { return { state: S.sel, y0: 2015, y1: Math.max(...ind('prod').years), end: 2035, uplift: 1, w: { gr: 1, li: 1, lp: 1, sh: 1 }, fw: {}, agenda: '', clusters: '', venue: '', date: '', sectorNote: '' }; }
+  const B = () => U.b || (U.b = defB()), SM = () => U.sim || (U.sim = defSim()), KT = () => U.kit || (U.kit = defKit());
+  const yearsAll = () => { const a = new Set(); B().inds.map(ind).filter(Boolean).forEach(i => i.years.forEach(y => a.add(y))); return [...a].sort((x, y) => x - y); };
+  const geoOpts = sel => `<option value="national"${sel === 'national' ? ' selected' : ''}>Malaysia</option>` + STATES.map(s => `<option value="${s.id}"${s.id === sel ? ' selected' : ''}>${esc(sname(s.id))}</option>`).join('');
+  async function dl(kind, rep, extra) {
+    U.busy = kind; U.msg = X('Menjana fail…', 'Generating the file…'); paint();
+    try {
+      const f = kind === 'docx' ? await docx(rep) : kind === 'pdf' ? await pdf(rep) : kind === 'xlsx' ? await xlsx(rep, extra) : await pack(rep, extra);
+      const name = rep.fileStem.replace(/[\\/:*?"<>|]/g, '-') + '.' + (kind === 'zip' ? 'zip' : kind); await saveFile(name, f); U.msg = X(`Sedia: ${name} (${(f.size / 1024).toFixed(0)} KB)`, `Ready: ${name} (${(f.size / 1024).toFixed(0)} KB)`);
+    } catch (e) { console.error(e); U.msg = X('Gagal menjana fail: ', 'Could not generate the file: ') + (e && e.message || e); }
+    U.busy = ''; paint();
+  }
+  const dlBar = (ctx) => `<div class="k2-dl">${[['docx', 'Word'], ['pdf', 'PDF'], ['xlsx', 'Excel'], ['zip', X('Pakej ZIP', 'ZIP package')]].map(([k, l]) => `<button type="button" class="btn${k === 'docx' ? ' dark' : ''}" data-k2dl="${k}" data-k2ctx="${ctx}"${U.busy ? ' disabled' : ''}>⤓ ${l}</button>`).join('')}</div>${U.msg ? `<p class="k2-msg" role="status">${esc(U.msg)}</p>` : ''}`;
+
+  function previewHtml(rep) {
+    const t = s => esc(s);
+    const body = rep.blocks.map((b, i) => b.t === 'h1' || b.t === 'h0' ? `<h2>${t(b.text)}</h2>` : b.t === 'h3' ? `<h3>${t(b.text)}</h3>` : b.t === 'p' ? `<p>${t(b.text)}</p>` : b.t === 'callout' ? `<p class="pv-call">${t(b.text)}</p>` : b.t === 'bullets' ? `<ul>${b.items.map(x => `<li>${t(x)}</li>`).join('')}</ul>` : b.t === 'chart' ? `<figure class="k2-fig"><figcaption>${t(b.title)}</figcaption><div class="k2-chart" data-k2chart="${i}"></div>${b.src ? `<small>${t(b.src)}</small>` : ''}</figure>` : b.t === 'table' ? `${b.cap ? `<p><b>${t(b.cap)}</b></p>` : ''}<div class="tbl-w"><table><thead><tr>${b.head.map(h => `<th>${t(h)}</th>`).join('')}</tr></thead><tbody>${b.rows.map(r => `<tr>${r.map(c => `<td>${t(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>` : '').join('');
+    return `<div class="pv-body"><div class="pv-cover"><small>${t(rep.eyebrow)}</small><h1>${t(rep.title)}</h1><p>${t(rep.subtitle)}</p></div><div class="pv-kpis">${rep.kpis.map(k => `<div>${t(k.l)}<b>${t(k.v)}</b></div>`).join('')}</div>${body}</div>`;
+  }
+  async function drawPreviewCharts(root, rep) {
+    for (const el of root.querySelectorAll('[data-k2chart]')) { try { const png = await M6R.chartPng(rep.blocks[+el.dataset.k2chart], rep.lang === 'en'); const u = URL.createObjectURL(new Blob([png.data], { type: 'image/png' })); el.innerHTML = `<img alt="" src="${u}">`; } catch (e) { el.textContent = '–'; } }
+  }
+
+  /* ---------- pages ---------- */
+  const STL = (s, txt) => `<span class="k2-st k2-${s}">${esc(txt || ST_L()[s])}</span>`;
+  function explore(el) {
+    const C = CAT();
+    el.innerHTML = `<article class="card"><div class="card-h"><div><h2>${esc(X('Katalog penunjuk', 'Indicator catalogue'))}</h2><p class="sub">${esc(X('Semua penunjuk yang boleh digunakan dalam laporan, dengan unit, kekerapan, tahun dan liputan. Penunjuk tanpa data ditanda dengan jelas.', 'Every indicator usable in reports, with unit, frequency, years and coverage. Indicators without data are clearly marked.'))}</p></div></div>
+      <div class="tbl-w"><table class="tbl k2-cat"><thead><tr><th>${esc(X('Topik', 'Topic'))}</th><th>${esc(X('Penunjuk', 'Indicator'))}</th><th>${esc(X('Unit', 'Unit'))}</th><th>${esc(X('Kekerapan', 'Frequency'))}</th><th>${esc(X('Tahun', 'Years'))}</th><th>${esc(X('Liputan', 'Coverage'))}</th><th>Status</th></tr></thead><tbody>
+      ${C.I.map(i => `<tr><td>${esc((C.T.find(t => t.id === i.t) || {})[en() ? 'en' : 'bm'])}</td><td><b>${esc(i.l)}</b><small>${esc(i.d)}</small></td><td>${esc(i.unit)}</td><td>${esc(i.freq)}</td><td>${i.years[0]}–${i.years[i.years.length - 1]}</td><td>${esc(i.id === 'rwage' ? X('16 negeri (tiada Malaysia)', '16 states (no Malaysia)') : X('16 negeri + Malaysia', '16 states + Malaysia'))}</td><td>${STL('ok', i.status === 'official' ? X('Rasmi', 'Official') : X('Dikira', 'Derived'))}</td></tr>`).join('')}
+      ${C.NA.map(([t, l, why]) => `<tr class="k2-na"><td>${esc((C.T.find(x => x.id === t) || {})[en() ? 'en' : 'bm'])}</td><td><b>${esc(l)}</b><small>${esc(why)}</small></td><td>–</td><td>–</td><td>–</td><td>–</td><td>${STL('none', X('Tiada data', 'No data'))}</td></tr>`).join('')}
+      </tbody></table></div></article>
+      <article class="card"><div class="card-h"><div><h2>${esc(X('Inventori set data', 'Dataset inventory'))}</h2><p class="sub">${esc(X('Set data dalam sistem. Semakan automatik mingguan membandingkannya dengan OpenDOSM.', 'Datasets in the system. A weekly automatic check compares them with OpenDOSM.'))}</p></div></div>
+      <div class="tbl-w"><table class="tbl"><thead><tr><th style="text-align:left">${esc(X('Set data', 'Dataset'))}</th><th style="text-align:left">${esc(X('Penerbit', 'Publisher'))}</th><th>${esc(X('Tempoh', 'Period'))}</th><th>${esc(X('Kekerapan', 'Frequency'))}</th><th style="text-align:left">${esc(X('Asas harga', 'Price basis'))}</th><th>${esc(X('Pengesahan', 'Validation'))}</th></tr></thead><tbody>
+      ${[[SRC.prodf, '2015–2025', X('Tahunan', 'Annual'), X('Tidak dinyatakan dalam fail', 'Not stated in file')], [SRC.gdp, '2015–2025', X('Tahunan', 'Annual'), X('Harga malar 2015', 'Constant 2015 prices')], [SRC.wage, '2010–2025', X('Tahunan', 'Annual'), 'Nominal'], [SRC.formal, X('Jan 2022 – Jun 2026', 'Jan 2022 – Jun 2026'), X('Bulanan', 'Monthly'), 'Nominal'], [SRC.lfs, '1982–2025', X('Tahunan', 'Annual'), '–'], [SRC.cpi, X('Jan 2010 – Sep 2026', 'Jan 2010 – Sep 2026'), X('Bulanan', 'Monthly'), X('Indeks 2010 = 100', 'Index 2010 = 100')]].map(r => `<tr><td style="text-align:left">${esc(r[0])}</td><td style="text-align:left">DOSM</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td style="text-align:left">${esc(r[3])}</td><td>${STL('ok', X('Disemak', 'Checked'))}</td></tr>`).join('')}
+      </tbody></table></div><p class="mean"><b>${esc(X('Muat naik data baharu: ', 'Uploading new data: '))}</b>${esc(X('Letakkan fail DOSM (CSV/XLSX) dalam folder dosm/ di GitHub. Halaman pemetaan dan import dalam laman memerlukan storan pelayan (Cloudflare R2/D1) yang belum disediakan.', 'Put DOSM files (CSV/XLSX) in the dosm/ folder on GitHub. An in-site mapping and import page needs server storage (Cloudflare R2/D1), which is not set up yet.'))}</p></article>`;
+  }
+
+  function builder(el) {
+    const b = B(), C = CAT(), ys = yearsAll(), chk = check(b), rep = U.prev;
+    const sel = (name, opts, cur) => `<select data-k2="${name}">${opts.map(([v, l]) => `<option value="${v}"${String(v) === String(cur) ? ' selected' : ''}>${esc(l)}</option>`).join('')}</select>`;
+    const quick = [['last', X('Tahun terkini', 'Latest year')], ['3', X('3 tahun terakhir', 'Last 3 years')], ['5', X('5 tahun terakhir', 'Last 5 years')], ['10', X('10 tahun terakhir', 'Last 10 years')]];
+    el.innerHTML = `<div class="k2-wrap"><aside class="k2-cfg card">
+      <h2>${esc(X('Konfigurasi laporan', 'Report settings'))}</h2>
+      <div class="k2-f"><label>1 · ${esc(X('Lokasi', 'Location'))}</label>
+        <div class="k2-chips">${b.geos.map(g => `<span class="k2-chip">${esc(gname(g))}${b.geos.length > 1 ? `<button type="button" data-k2rmgeo="${g}" aria-label="×">×</button>` : ''}</span>`).join('')}</div>
+        ${b.geos.length < 6 ? `<select data-k2="addgeo"><option value="">${esc(X('+ Tambah lokasi (maks. 6)', '+ Add a location (max 6)'))}</option>${geoOpts('').replace(' selected', '')}</select>` : ''}
+        <button type="button" class="btn k2-mini" data-k2all>${esc(X('Semua negeri', 'All states'))}</button>
+        <label class="k2-chk"><input type="checkbox" data-k2="vsNat"${b.vsNat ? ' checked' : ''}> ${esc(X('Banding dengan Malaysia', 'Compare with Malaysia'))}</label></div>
+      <div class="k2-f"><label>2–3 · ${esc(X('Topik & penunjuk', 'Topics & indicators'))}</label>
+        ${C.T.map(t => { const its = C.I.filter(i => i.t === t.id), na = C.NA.filter(n => n[0] === t.id); return `<details class="k2-topic"${its.some(i => b.inds.includes(i.id)) ? ' open' : ''}><summary>${esc(en() ? t.en : t.bm)} <small>${its.filter(i => b.inds.includes(i.id)).length}/${its.length}</small></summary>${its.map(i => `<label class="k2-chk"><input type="checkbox" data-k2ind="${i.id}"${b.inds.includes(i.id) ? ' checked' : ''}> <span>${esc(i.l)}<small>${esc(i.unit)} · ${i.years[0]}–${i.years[i.years.length - 1]} · ${esc(i.status === 'official' ? X('rasmi', 'official') : X('dikira', 'derived'))}</small></span></label>`).join('')}${na.map(n => `<div class="k2-chk k2-off"><input type="checkbox" disabled> <span>${esc(n[1])}<small>${esc(X('Tiada data: ', 'No data: ') + n[2])}</small></span></div>`).join('')}</details>`; }).join('')}</div>
+      <div class="k2-f"><label>4 · ${esc(X('Tempoh', 'Period'))}</label><div class="k2-row">${sel('y0', ys.map(y => [y, y]), b.y0)}<span>–</span>${sel('y1', ys.map(y => [y, y]), b.y1)}</div>
+        <div class="k2-chips">${quick.map(([k, l]) => `<button type="button" class="btn k2-mini" data-k2quick="${k}">${esc(l)}</button>`).join('')}</div></div>
+      <div class="k2-f"><label>5 · ${esc(X('Mod analisis', 'Analysis mode'))}</label>${sel('mode', [['topic', X('Mengikut topik', 'By topic')], ['intg', X('Bersepadu', 'Integrated')], ['both', X('Kedua-duanya (disyorkan)', 'Both (recommended)')]], b.mode)}</div>
+      <div class="k2-f"><label>6 · ${esc(X('Bahagian laporan (susun dengan ▲▼)', 'Report sections (reorder with ▲▼)'))}</label>
+        <ol class="k2-secs">${b.sections.map((k, i) => `<li><span>${esc((b.names[k]) || SECTIONS().find(s => s[0] === k)[1])}</span><span><button type="button" data-k2up="${i}" aria-label="▲">▲</button><button type="button" data-k2dn="${i}" aria-label="▼">▼</button><button type="button" data-k2rmsec="${k}" aria-label="×">×</button></span></li>`).join('')}</ol>
+        ${SECTIONS().filter(s => !b.sections.includes(s[0])).length ? `<select data-k2="addsec"><option value="">${esc(X('+ Tambah bahagian', '+ Add a section'))}</option>${SECTIONS().filter(s => !b.sections.includes(s[0])).map(s => `<option value="${s[0]}">${esc(s[1])}</option>`).join('')}</select>` : ''}</div>
+      ${b.sections.includes('sim') ? `<div class="k2-f"><label>7 · ${esc(X('Simulasi', 'Simulation'))}</label><div class="k2-row">${esc(X('Hingga', 'To'))} ${sel('simEnd', [[2030, 2030], [2035, 2035], [2040, 2040]], (b.sim || {}).end || 2035)} ${esc(X('Tambahan (mp)', 'Uplift (pp)'))} <input type="number" step="0.1" data-k2="simUp" value="${(b.sim || {}).uplift ?? 1}" class="k2-num"></div></div>` : ''}
+      <div class="k2-f"><label>${esc(X('Tajuk & nota', 'Title & notes'))}</label><input type="text" data-k2="title" placeholder="${esc(X('Laporan Ekonomi Bersepadu', 'Integrated Economic Report'))}" value="${esc(b.title)}"><input type="text" data-k2="subtitle" placeholder="${esc(X('Sub-tajuk (pilihan)', 'Subtitle (optional)'))}" value="${esc(b.subtitle)}"><textarea data-k2="note" rows="2" placeholder="${esc(X('Nota penganalisis untuk ringkasan eksekutif (pilihan)', 'Analyst note for the executive summary (optional)'))}">${esc(b.notes.exec || '')}</textarea></div>
+      </aside>
+      <section class="k2-main">
+        <div class="k2-bar card"><button type="button" class="btn" data-k2act="check">✓ ${esc(X('Semak data', 'Validate data'))}</button><button type="button" class="btn dark" data-k2act="gen">${esc(X('Jana laporan', 'Generate report'))}</button><button type="button" class="btn" data-k2act="save">☆ ${esc(X('Simpan templat', 'Save template'))}</button>${rep ? dlBar('b') : ''}</div>
+        <article class="card"><div class="card-h"><div><h2>${esc(X('Status data', 'Data availability'))} ${STL(chk.lvl)}</h2><p class="sub">${esc(X('Disemak sebelum laporan dijana. Tiada nilai dianggarkan.', 'Checked before the report is generated. No values are estimated.'))}</p></div></div>
+          ${chk.warn.map(w => `<p class="k2-warn k2-${w.lvl}">${esc(w.t)}</p>`).join('')}
+          <div class="tbl-w"><table class="tbl tight"><thead><tr><th style="text-align:left">${esc(X('Penunjuk', 'Indicator'))}</th><th style="text-align:left">${esc(X('Lokasi', 'Location'))}</th><th>Status</th><th style="text-align:left">${esc(X('Tahun ada', 'Years available'))}</th></tr></thead><tbody>${chk.rows.map(r => `<tr><td style="text-align:left">${esc(ind(r.id).l)}</td><td style="text-align:left">${esc(gname(r.g))}</td><td>${STL(r.st)}</td><td style="text-align:left">${esc(compact(r.have) || '–')}${r.note ? `<small>${esc(r.note)}</small>` : ''}</td></tr>`).join('')}</tbody></table></div></article>
+        ${rep ? `<article class="card k2-prev"><div class="card-h"><div><h2>${esc(X('Pratonton', 'Preview'))}</h2><p class="sub">${esc(X('Sama dengan fail yang dimuat turun. Edit ringkasan atau dapatan di bawah, kemudian klik Jana semula.', 'The same content as the downloaded files. Edit the summary or findings below, then click Generate again.'))}</p></div></div>
+          <div class="k2-edit"><label>${esc(X('Ringkasan eksekutif (perenggan pembuka)', 'Executive summary (opening paragraph)'))}<textarea data-k2="editExec" rows="3">${esc(b.edits.exec ?? (rep.blocks.find(x => x.t === 'p') || {}).text ?? '')}</textarea></label></div>
+          <div class="m6-paper k2-paper">${previewHtml(rep)}</div></article>` : `<article class="card k2-empty"><p>${esc(X('Pilih lokasi, penunjuk dan tempoh di sebelah kiri, kemudian klik "Jana laporan" untuk melihat pratonton dan memuat turun.', 'Choose locations, indicators and a period on the left, then click "Generate report" to preview and download.'))}</p></article>`}
+      </section></div>`;
+    if (rep) drawPreviewCharts(el, rep);
+  }
+
+  function simPage(el) {
+    const s = SM(), r = simulate(s.g, s), c = s.custom || {};
+    const num = (k, v) => `<input type="number" step="0.1" class="k2-num" data-k2sim="${k}" value="${v == null ? '' : (+v).toFixed(2)}">`;
+    el.innerHTML = `<article class="card"><div class="card-h"><div><h2>${esc(X('Simulasi produktiviti', 'Productivity simulation'))}</h2><p class="sub">${esc(X('Unjuran ilustratif berdasarkan pertumbuhan produktiviti dan guna tenaga. Bukan ramalan rasmi DOSM atau sasaran kerajaan.', 'Illustrative projection from productivity and employment growth. Not an official DOSM forecast or government target.'))}</p></div></div>
+      <div class="k2-grid4"><label>${esc(X('Lokasi', 'Location'))}<select data-k2sim="g">${geoOpts(s.g)}</select></label>
+      <label>${esc(X('Tahun asas bermula', 'Base period from'))}<select data-k2sim="h0">${ind('lpc').years.slice(0, -2).map(y => `<option${y === s.h0 ? ' selected' : ''}>${y}</option>`).join('')}</select></label>
+      <label>${esc(X('Unjuran hingga', 'Project to'))}<select data-k2sim="end">${[2030, 2035, 2040].map(y => `<option${y === s.end ? ' selected' : ''}>${y}</option>`).join('')}</select></label>
+      <label>${esc(X('Senario penambahbaikan: tambahan produktiviti (mp)', 'Improvement: productivity uplift (pp)'))}${num('uplift', s.uplift)}</label></div>
+      <p class="mean"><b>${esc(X('Kadar asas (sebenar): ', 'Baseline rates (actual): '))}</b>${esc(X(`produktiviti ${FMT.ps(r.gL)} setahun, guna tenaga ${FMT.ps(r.gE)} setahun (${r.h0}–${r.h1}). Produktiviti dikira = KDNK benar ÷ penduduk bekerja (LFS).`, `productivity ${FMT.ps(r.gL)} a year, employment ${FMT.ps(r.gE)} a year (${r.h0}–${r.h1}). Calculated productivity = real GDP ÷ employed persons (LFS).`))}</p>
+      <h3 class="k2-h3">${esc(X('Senario tersuai (% setahun)', 'Custom scenario (% a year)'))}</h3>
+      <div class="k2-grid4"><label>${esc(X('Produktiviti 2026–2030', 'Productivity 2026–2030'))}${num('L1', c.L1 ?? r.gL)}</label><label>${esc(X('Guna tenaga 2026–2030', 'Employment 2026–2030'))}${num('E1', c.E1 ?? r.gE)}</label><label>${esc(X(`Produktiviti 2031–${s.end}`, `Productivity 2031–${s.end}`))}${num('L2', c.L2 ?? r.gL)}</label><label>${esc(X(`Guna tenaga 2031–${s.end}`, `Employment 2031–${s.end}`))}${num('E2', c.E2 ?? r.gE)}</label></div>
+      <div class="k2-bar">${dlBar('s')}</div>
+      <div class="m6-paper k2-paper">${previewHtml(simRep(r))}</div></article>`;
+    drawPreviewCharts(el, simRep(r));
+  }
+  function simRep(r) { const nm = gname(r.g).replace(/[^A-Za-z]/g, ''); return { lang: S.lang, title: X(`Simulasi Produktiviti ${gname(r.g)}`, `${gname(r.g)} Productivity Simulation`), subtitle: `${r.last + 1}–${r.yrs[r.yrs.length - 1]}`, fileStem: `MPC_Productivity_Simulation_${nm}_${r.yrs[r.yrs.length - 1]}`, kpis: [{ l: X('Produktiviti ', 'Productivity ') + r.last, v: FMT.rm(r.hist[r.hist.length - 1].L) }, { l: X('Asas ', 'Baseline ') + r.yrs[r.yrs.length - 1], v: FMT.rm(r.sc.base[r.sc.base.length - 1].L) }, { l: X('Penambahbaikan ', 'Improvement ') + r.yrs[r.yrs.length - 1], v: FMT.rm(r.sc.up[r.sc.up.length - 1].L) }], blocks: [{ t: 'h1', text: X('Simulasi produktiviti', 'Productivity simulation') }, ...simBlocks(r)], topics: [], multi: false, year: r.last, eyebrow: X('SIMULASI PRODUKTIVITI', 'PRODUCTIVITY SIMULATION'), sourceLine: X('Data rasmi DOSM', 'Official DOSM data'), _sim: r }; }
+
+  function kitPage(el) {
+    const o = KT(), fld = (k, l, rows, ph) => `<label class="k2-ta">${esc(l)}<textarea data-k2kit="${k}" rows="${rows}" placeholder="${esc(ph || '')}">${esc(k.includes('.') ? (o.fw[k.split('.')[1]] || '') : o[k] || '')}</textarea></label>`;
+    el.innerHTML = `<article class="card"><div class="card-h"><div><h2>${esc(X('Laporan Produktiviti Negeri (Kit Bengkel)', 'State Productivity Report (Workshop Kit)'))}</h2><p class="sub">${esc(X('Menjana kit bengkel hala tuju produktiviti untuk mana-mana negeri: 8 bahagian analitik + kandungan. Semua angka dijana daripada data negeri yang dipilih.', 'Generates a productivity direction workshop kit for any state: 8 analytical sections plus contents. All figures come from the chosen state\'s data.'))}</p></div></div>
+      <p class="k2-warn k2-review">${esc(X('Dokumen rujukan "Kit Pelaksanaan Bengkel Hala Tuju Produktiviti Negeri Johor" belum dimuat naik, jadi susunan mengikut spesifikasi 9 bahagian (muka depan + 8 bahagian). Reka letak akan diselaraskan dengan dokumen itu apabila tersedia.', 'The reference "Johor State Productivity Direction Workshop Kit" has not been uploaded, so the layout follows the 9-section specification (cover + 8 sections). It will be aligned with that document once available.'))}</p>
+      <div class="k2-grid4"><label>${esc(X('Negeri', 'State'))}<select data-k2kit="state">${STATES.map(s => `<option value="${s.id}"${s.id === o.state ? ' selected' : ''}>${esc(sname(s.id))}</option>`).join('')}</select></label>
+      <label>${esc(X('Tempoh dari', 'Period from'))}<select data-k2kit="y0">${ind('prod').years.slice(0, -1).map(y => `<option${y === o.y0 ? ' selected' : ''}>${y}</option>`).join('')}</select></label>
+      <label>${esc(X('hingga', 'to'))}<select data-k2kit="y1">${ind('prod').years.slice(1).map(y => `<option${y === o.y1 ? ' selected' : ''}>${y}</option>`).join('')}</select></label>
+      <label>${esc(X('Simulasi hingga', 'Simulate to'))}<select data-k2kit="end">${[2030, 2035].map(y => `<option${y === o.end ? ' selected' : ''}>${y}</option>`).join('')}</select></label></div>
+      <details class="k2-more"><summary>${esc(X('Pemberat pemilihan sektor & senario', 'Sector selection weights & scenario'))}</summary><div class="k2-grid4">${[['gr', X('Pertumbuhan produktiviti', 'Productivity growth')], ['li', X('Indeks pengkhususan', 'Specialisation index')], ['lp', X('Jurang produktiviti', 'Productivity gap')], ['sh', X('Bahagian nilai ditambah', 'Value-added share')]].map(([k, l]) => `<label>${esc(l)}<input type="number" step="0.5" min="0" class="k2-num" data-k2kit="w.${k}" value="${o.w[k]}"></label>`).join('')}<label>${esc(X('Tambahan senario (mp)', 'Scenario uplift (pp)'))}<input type="number" step="0.1" class="k2-num" data-k2kit="uplift" value="${o.uplift}"></label></div>${fld('sectorNote', X('Nota penganalisis tentang sektor', 'Analyst note on sectors'), 2)}</details>
+      <details class="k2-more"><summary>${esc(X('Kerangka penilaian (diisi penganalisis)', 'Assessment framework (analyst input)'))}</summary>${fld('fw.market', X('Peluang Pasaran (satu dapatan setiap baris)', 'Market Opportunities (one finding per line)'), 3)}${fld('fw.cap', X('Keupayaan Produktif', 'Productive Capability'), 3)}${fld('fw.env', X('Persekitaran Perniagaan', 'Business Environment'), 3)}</details>
+      <details class="k2-more"><summary>${esc(X('Agenda & kluster bengkel', 'Workshop agenda & clusters'))}</summary><div class="k2-grid4"><label>${esc(X('Tarikh', 'Date'))}<input type="text" data-k2kit="date" value="${esc(o.date)}"></label><label>${esc(X('Tempat', 'Venue'))}<input type="text" data-k2kit="venue" value="${esc(o.venue)}"></label></div>${fld('agenda', X('Agenda: masa | aktiviti | penceramah (satu sesi setiap baris)', 'Agenda: time | activity | speaker (one session per line)'), 4, '9.00 pagi | Ucapan alu-aluan | Pengarah MPC')}${fld('clusters', X('Kluster bengkel (satu setiap baris)', 'Workshop clusters (one per line)'), 3)}</details>
+      <div class="k2-bar"><button type="button" class="btn" data-k2act="kitprev">👁 ${esc(X('Pratonton', 'Preview'))}</button>${dlBar('k')}</div>
+      ${U.kitPrev ? `<div class="m6-paper k2-paper">${previewHtml(U.kitPrev)}</div>` : ''}</article>`;
+    if (U.kitPrev) drawPreviewCharts(el, U.kitPrev);
+  }
+
+  function savedPage(el) {
+    const a = tpls();
+    el.innerHTML = `<article class="card"><div class="card-h"><div><h2>${esc(X('Laporan & templat tersimpan', 'Saved reports & templates'))}</h2><p class="sub">${esc(X('Templat menyimpan tetapan (lokasi, penunjuk, tempoh, bahagian), bukan angka lama. Membuka templat menjana laporan dengan data terkini. Disimpan dalam pelayar peranti ini; storan dikongsi memerlukan pangkalan data Cloudflare yang belum disediakan.', 'Templates store settings (locations, indicators, period, sections), not old figures. Opening one generates the report with the latest data. Stored in this device\'s browser; shared storage needs a Cloudflare database, not set up yet.'))}</p></div></div>
+      ${a.length ? `<div class="tbl-w"><table class="tbl"><thead><tr><th style="text-align:left">${esc(X('Nama', 'Name'))}</th><th style="text-align:left">${esc(X('Ringkasan', 'Summary'))}</th><th>${esc(X('Disimpan', 'Saved'))}</th><th></th></tr></thead><tbody>${a.map((t, i) => `<tr><td style="text-align:left"><b>${esc(t.name)}</b></td><td style="text-align:left">${esc(t.cfg.geos.map(gname).join(', '))} · ${t.cfg.inds.length} ${esc(X('penunjuk', 'indicators'))} · ${t.cfg.y0}–${t.cfg.y1}</td><td>${esc(t.at.slice(0, 10))}</td><td class="k2-acts"><button type="button" class="btn dark k2-mini" data-k2t="open" data-i="${i}">${esc(X('Buka', 'Open'))}</button><button type="button" class="btn k2-mini" data-k2t="ren" data-i="${i}">${esc(X('Nama semula', 'Rename'))}</button><button type="button" class="btn k2-mini" data-k2t="dup" data-i="${i}">${esc(X('Salin', 'Duplicate'))}</button><button type="button" class="btn k2-mini" data-k2t="del" data-i="${i}">${esc(X('Padam', 'Delete'))}</button></td></tr>`).join('')}</tbody></table></div>` : `<p class="muted">${esc(X('Belum ada templat. Di "Bina Laporan Sendiri", klik "Simpan templat".', 'No templates yet. In "Build Your Own Report", click "Save template".'))}</p>`}</article>`;
+  }
+
+  /* ---------- routing inside the page ---------- */
+  const PAGES2 = { explore, build: builder, sim: simPage, kit: kitPage, saved: savedPage };
+  let cur = null, root = null;
+  function render(pageId, el) { cur = pageId; root = el; paint(); }
+  function paint() { if (!root || !PAGES2[cur]) return; try { PAGES2[cur](root); } catch (e) { console.error('K2', e); root.innerHTML = `<div class="banner err">${esc(X('Bahagian ini tidak dapat dipaparkan.', 'This section could not be displayed.'))} ${esc(e.message)}</div>`; } }
+  function onInput(e) {
+    const t = e.target, b = B();
+    if (t.dataset.k2 === 'title') { b.title = t.value; return; } if (t.dataset.k2 === 'subtitle') { b.subtitle = t.value; return; } if (t.dataset.k2 === 'note') { b.notes.exec = t.value; return; } if (t.dataset.k2 === 'editExec') { b.edits.exec = t.value; return; }
+    if (t.dataset.k2kit != null && (t.tagName === 'TEXTAREA' || t.type === 'text')) { const k = t.dataset.k2kit, o = KT(); if (k.startsWith('fw.')) o.fw[k.slice(3)] = t.value; else o[k] = t.value; U.kitPrev = null; }
+  }
+  function onChange(e) {
+    const t = e.target, b = B(), v = t.value;
+    if (t.dataset.k2ind) { b.inds = t.checked ? [...new Set(b.inds.concat(t.dataset.k2ind))] : b.inds.filter(x => x !== t.dataset.k2ind); U.prev = null; return paint(); }
+    const k = t.dataset.k2;
+    if (k === 'addgeo' && v) { if (!b.geos.includes(v)) b.geos.push(v); U.prev = null; return paint(); }
+    if (k === 'vsNat') { b.vsNat = t.checked; U.prev = null; return paint(); }
+    if (k === 'y0' || k === 'y1') { b[k] = +v; if (b.y0 > b.y1) [b.y0, b.y1] = [b.y1, b.y0]; U.prev = null; return paint(); }
+    if (k === 'mode') { b.mode = v; U.prev = null; return paint(); }
+    if (k === 'addsec' && v) { b.sections.push(v); if (v === 'sim') b.sim = b.sim || { end: 2035, uplift: 1 }; U.prev = null; return paint(); }
+    if (k === 'simEnd' || k === 'simUp') { b.sim = b.sim || { end: 2035, uplift: 1 }; if (k === 'simEnd') b.sim.end = +v; else b.sim.uplift = +v; U.prev = null; return paint(); }
+    if (t.dataset.k2sim) { const s = SM(), f = t.dataset.k2sim; if (f === 'g') s.g = v; else if (f === 'end' || f === 'h0') s[f] = +v; else if (f === 'uplift') s.uplift = +v; else { s.custom = s.custom || {}; s.custom[f] = v === '' ? null : +v; } return paint(); }
+    if (t.dataset.k2kit) { const o = KT(), f = t.dataset.k2kit; if (f.startsWith('w.')) o.w[f.slice(2)] = +v; else if (['y0', 'y1', 'end', 'uplift'].includes(f)) o[f] = +v; else if (f === 'state') o.state = v; else return; U.kitPrev = null; return paint(); }
+  }
+  function onClick(e) {
+    const b = B(), q = s => e.target.closest(s);
+    let el;
+    if ((el = q('[data-k2rmgeo]'))) { b.geos = b.geos.filter(g => g !== el.dataset.k2rmgeo); U.prev = null; return paint(); }
+    if (q('[data-k2all]')) { b.geos = IDS.filter(s => !SPECIAL_FT.includes(s)).slice(0, 6); U.prev = null; return paint(); }
+    if ((el = q('[data-k2quick]'))) { const ys = yearsAll(), mx = Math.min(...b.inds.map(ind).filter(Boolean).map(i => Math.max(...i.years))); b.y1 = mx; b.y0 = el.dataset.k2quick === 'last' ? mx : Math.max(ys[0], mx - (+el.dataset.k2quick) + 1); U.prev = null; return paint(); }
+    if ((el = q('[data-k2up]'))) { const i = +el.dataset.k2up; if (i > 0) [b.sections[i - 1], b.sections[i]] = [b.sections[i], b.sections[i - 1]]; U.prev = null; return paint(); }
+    if ((el = q('[data-k2dn]'))) { const i = +el.dataset.k2dn; if (i < b.sections.length - 1) [b.sections[i + 1], b.sections[i]] = [b.sections[i], b.sections[i + 1]]; U.prev = null; return paint(); }
+    if ((el = q('[data-k2rmsec]'))) { b.sections = b.sections.filter(s => s !== el.dataset.k2rmsec); U.prev = null; return paint(); }
+    if ((el = q('[data-k2act]'))) { const a = el.dataset.k2act;
+      if (a === 'check') { U.prev = null; return paint(); }
+      if (a === 'gen') { if (!b.inds.length) { U.msg = X('Pilih sekurang-kurangnya satu penunjuk.', 'Choose at least one indicator.'); return paint(); } U.prev = compose({ ...b, sim: b.sections.includes('sim') ? (b.sim || { end: 2035, uplift: 1 }) : null }); U.msg = ''; paint(); setTimeout(() => { const p = root.querySelector('.k2-prev'); if (p) p.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50); return; }
+      if (a === 'save') { const name = prompt(X('Nama templat:', 'Template name:'), `${b.geos.map(gname).join(', ')} ${b.y0}–${b.y1}`); if (!name) return; const all = tpls(); all.unshift({ name, at: new Date().toISOString(), cfg: JSON.parse(JSON.stringify(b)) }); saveT(all.slice(0, 50)); U.msg = X('Templat disimpan. Lihat di tab Laporan Tersimpan.', 'Template saved. See the Saved Reports tab.'); return paint(); }
+      if (a === 'kitprev') { U.kitPrev = kitCompose(KT()); return paint(); }
+    }
+    if ((el = q('[data-k2dl]'))) { const ctx = el.dataset.k2ctx, kind = el.dataset.k2dl;
+      if (ctx === 'b' && U.prev) return dl(kind, U.prev, U.prev._cfg && U.prev._cfg.sim ? { sim: simulate(U.prev._cfg.geos[0], U.prev._cfg.sim) } : null);
+      if (ctx === 's') { const r = simulate(SM().g, SM()); return dl(kind, simRep(r), { sim: r }); }
+      if (ctx === 'k') { const rep = U.kitPrev || (U.kitPrev = kitCompose(KT())); return dl(kind, rep, { sim: simulate(KT().state, { end: KT().end, uplift: KT().uplift, h0: KT().y0 }) }); } }
+    if ((el = q('[data-k2t]'))) { const all = tpls(), i = +el.dataset.i, a = el.dataset.k2t;
+      if (a === 'open') { U.b = JSON.parse(JSON.stringify(all[i].cfg)); U.prev = compose({ ...U.b }); location.hash = 'bina-laporan'; return; }
+      if (a === 'ren') { const nm = prompt(X('Nama baharu:', 'New name:'), all[i].name); if (nm) { all[i].name = nm; saveT(all); } return paint(); }
+      if (a === 'dup') { all.splice(i + 1, 0, { ...JSON.parse(JSON.stringify(all[i])), name: all[i].name + X(' (salinan)', ' (copy)'), at: new Date().toISOString() }); saveT(all); return paint(); }
+      if (a === 'del') { if (confirm(X('Padam templat ini?', 'Delete this template?'))) { all.splice(i, 1); saveT(all); } return paint(); } }
+  }
+  let wired = false;
+  function wire(el) { if (wired) return; wired = true; el.addEventListener('click', onClick); el.addEventListener('change', onChange); el.addEventListener('input', onInput); }
+  return { render, wire, ST, compose, kitCompose, simulate, check, CAT, docx, pdf, xlsx, pack };
 })();
 
 
