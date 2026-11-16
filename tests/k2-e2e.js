@@ -32,10 +32,6 @@ for(const k of ['docx','pdf','xlsx','zip']){const [d]=await Promise.all([p.waitF
 await p.goto(B+'/#simulasi');await p.waitForTimeout(1500);await p.selectOption('#pg-sim select[data-k2sim="g"]','johor');await p.waitForTimeout(1200);
 console.log('sim baseline:',(await p.textContent('#pg-sim .mean')).slice(0,160));await p.screenshot({path:'shot-sim.png'});
 const [ds]=await Promise.all([p.waitForEvent('download',{timeout:60000}),p.click('#pg-sim [data-k2dl="xlsx"]')]);await ds.saveAs('s.xlsx');console.log('sim xlsx',ds.suggestedFilename());
-// --- workshop kit
-await p.goto(B+'/#laporan-negeri');await p.waitForTimeout(1500);await p.selectOption('#pg-kit select[data-k2kit="state"]','perak');await p.waitForTimeout(600);await p.click('#pg-kit [data-k2act="kitprev"]');await p.waitForTimeout(2500);
-console.log('kit sections:',await p.$$eval('#pg-kit .pv-body h2',l=>l.map(h=>h.textContent).join(' | ')));await p.screenshot({path:'shot-kit.png'});
-for(const k of ['docx','pdf']){const [d]=await Promise.all([p.waitForEvent('download',{timeout:120000}),p.click(`#pg-kit [data-k2dl="${k}"]`)]);await d.saveAs('k.'+k);console.log('kit',k,d.suggestedFilename());await p.waitForTimeout(800);}
 // --- explore + saved
 await p.goto(B+'/#teroka');await p.waitForTimeout(1200);console.log('catalogue rows',await p.$$eval('#pg-explore .k2-cat tbody tr',l=>l.length),'unavailable',await p.$$eval('#pg-explore tr.k2-na',l=>l.length));await p.screenshot({path:'shot-explore.png'});
 await p.goto(B+'/#bina-laporan');await p.waitForTimeout(800);p.on('dialog',d=>d.accept('Ujian Selangor'));await p.click('#pg-build [data-k2act="save"]');await p.goto(B+'/#tersimpan');await p.waitForTimeout(1000);console.log('saved rows',await p.$$eval('#pg-saved tbody tr',l=>l.map(r=>r.cells[0].textContent).join(',')));

@@ -24,7 +24,7 @@ const ok = (n, c, x = '') => console.log((c ? 'PASS' : 'FAIL') + ' ' + n + (x !=
   ok('fixture: +10% LP, L fixed ≈ RM173.70 billion (scenario)', Math.abs(r.sim.value / 1000 - 173.70) < 0.01 && r.sim.provenance === 'scenario', r.sim.value);
   ok('published state LP labelled published_official', r.lpSel.provenance === 'published_official' && r.lpSel.value > 0);
   ok('HHI labelled proxy', r.hhi.provenance === 'proxy');
-  ok('MSME LP (S2/S4/S5 missing) = unavailable with missing inputs', r.msme.status === 'unavailable' && r.msme.missing.length > 0);
+  ok('MSME LP (S2/S4/S5 missing) = unavailable with missing inputs (engine)', r.msme.status === 'unavailable' && r.msme.missing.length > 0);
   ok('MSME gap / capital intensity / P90-P10 unavailable, not guessed', [r.gap, r.cap, r.p90].every(x => x.status === 'unavailable' && x.value == null));
   ok('shift-share components add up exactly', r.sh.identityHolds === true);
   ok('GDP growth identity holds exactly', r.id11.identityHolds === true);
@@ -35,6 +35,7 @@ const ok = (n, c, x = '') => console.log((c ? 'PASS' : 'FAIL') + ' ' + n + (x !=
   await p.fill('input[data-k3f="q"]', 'CAGR'); await p.waitForTimeout(500);
   ok('BM search finds CAGR', (await p.$$eval('.lab-t tbody tr', l => l.map(t => t.cells[0].textContent))).includes('4'));
   await p.click('#lang-en'); await p.waitForTimeout(700); await p.goto(B + '/#makmal'); await p.waitForTimeout(800); await p.fill('input[data-k3f="q"]', 'employment share'); await p.waitForTimeout(500);
+  ok('Lab lists only calculations that can be made', (await p.$$eval('.lab-t tbody tr', l => l.length)) > 0 && !(await p.$('.lab-t tr.k2-na')));
   ok('EN search finds sector employment share', (await p.$$eval('.lab-t tbody tr', l => l.map(t => t.cells[0].textContent))).includes('37'));
   const enText = await p.evaluate(() => document.querySelector('#pg-labx').innerText);
   ok('EN Lab shows no BM labels', !/Cari pengiraan|Kategori|Boleh dikira/.test(enText));
@@ -53,19 +54,23 @@ const ok = (n, c, x = '') => console.log((c ? 'PASS' : 'FAIL') + ' ' + n + (x !=
   const ev = await p.evaluate(() => { const b = K2 && null; return null; });
   for (const k of ['docx', 'pdf', 'xlsx']) { const [d] = await Promise.all([p.waitForEvent('download', { timeout: 120000 }), p.click(`#pg-build [data-k2dl="${k}"]`)]); await d.saveAs('lab.' + k); console.log('INFO download', d.suggestedFilename()); await p.waitForTimeout(600); }
   // recipe
-  await p.selectOption('#pg-build select[data-k2="recipe"]', 'msme'); await p.waitForTimeout(300); await p.click('.k2-cfg-foot [data-k2act="gen"]'); await p.waitForTimeout(2000);
+  // report types: every related calculation goes in automatically
+  const types = await p.evaluate(() => K3.TYPES().map(t => { const i = K3.typeInfo(t.id), r = i.ok ? K3.buildReport(t.id, { geo: 'national' }) : null; return [t.id, i.ok, i.total, r ? r.count : 0, r ? r.blocks.length : 0]; }));
+  ok('every report type with data builds a report', types.every(([, okk, , n, bl]) => !okk || (n >= okk && bl > 10)), JSON.stringify(types));
+  ok('report types without data are hidden', !(await p.$('[data-k2type="msme"]')) && !(await p.$('[data-k2type="ict"]')) && !!(await p.$('[data-k2type="natlp"]')));
+  await p.click('[data-k2type="sector"]'); await p.waitForTimeout(300); await p.click('.k2-cfg-foot [data-k2act="gen"]'); await p.waitForTimeout(2500);
   const rp = await p.evaluate(() => document.querySelector('#pg-build .pv-body').innerText);
-  ok('MSME recipe explains exclusions (no data)', /PMKS/.test(rp) && /tidak dimasukkan/.test(rp));
+  ok('sector report auto-includes all-sector tables and lists exclusions', /Perlombongan/.test(rp) && /Pembinaan/.test(rp) && !/belum dimasukkan/.test(rp) && /Apa|Berapa/.test(rp));
   // library
   await p.click('#pg-build [data-k2act="save"]'); await p.waitForTimeout(800); console.log('INFO save msg:', await p.$eval('#pg-build .k2-msg', e => e.textContent).catch(() => 'none'), await p.evaluate(() => (localStorage.getItem('sppe-k2-templates') || '').length)); await p.goto(B + '/#tersimpan'); await p.waitForTimeout(1000);
   ok('My Library card saved', (await p.$$('.lib-c')).length >= 1);
   await p.screenshot({ path: 'library.png' });
   await p.click('.lib-c [data-k2t="snap"]'); await p.waitForTimeout(1500); ok('Open copy shows frozen report', (await p.evaluate(() => location.hash)) === '#bina-laporan' && await p.isVisible('#pg-build .pv-body'));
   // state strategic outlook guide, menu names, labour page
-  await p.goto(B + '/#laporan-negeri'); await p.waitForTimeout(1200); ok('Tinjauan guide shown', await p.isVisible('.k2-guide')); await p.screenshot({ path: 'tinjauan.png' });
+  await p.goto(B + '/#laporan-negeri'); await p.waitForTimeout(1200); ok('old Tinjauan link opens the state profile report type', (await p.evaluate(() => location.hash)) === '#bina-laporan' && /negeri/i.test(await p.$eval('.k2-type.on b', e => e.textContent)));
   await p.hover('#nav a[data-mega]'); await p.waitForTimeout(350);
   const mm = await p.evaluate(() => [[...document.querySelectorAll('#mega .mm-gl')].map(x => x.textContent).join('|'), [...document.querySelectorAll('#mega .mm-col:last-child .mm-a span')].map(x => x.textContent).join('|')]);
-  ok('menu group names', mm[0] === 'ANALITIK & PERMODELAN|WAWASAN & PENERBITAN', mm[0]); ok('menu report items renamed', mm[1] === 'Studio Analitik|Koleksi Wawasan|Tinjauan Strategik Negeri|Pustaka Saya', mm[1]);
+  ok('menu group names', mm[0] === 'ANALITIK & PERMODELAN|WAWASAN & PENERBITAN', mm[0]); ok('menu report items renamed', mm[1] === 'Studio Analitik|Koleksi Wawasan|Pustaka Saya', mm[1]);
   await p.screenshot({ path: 'mega.png', clip: { x: 0, y: 0, width: 1440, height: 520 } });
   await p.goto(B + '/#labour'); await p.waitForTimeout(1200); ok('Pasaran Buruh page renders', await p.evaluate(() => document.querySelector('#pg-lab').innerText.length > 500));
   console.log('errors', errs); await br.close();

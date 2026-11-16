@@ -804,6 +804,13 @@ p.k2-warn { margin: 0 0 6px; padding: 8px 12px; border-radius: 8px; font-size: 1
 .lab-t th, .lab-t td { text-align: left; vertical-align: top; } .lab-t td:first-child { color: var(--muted); font-variant-numeric: tabular-nums; } .lab-t code { font-size: 11.5px; white-space: normal; } .lab-t td:last-child { text-align: right; }
 .lab-d { border: 2px solid var(--ink); } .lab-badges { display: flex; flex-wrap: wrap; gap: 6px; } .k2-st.k2-info { background: var(--soft); color: var(--ink); }
 .lab-ctl { display: flex; flex-wrap: wrap; gap: 10px; } .lab-ctl label { display: flex; flex-direction: column; gap: 4px; font-size: 11.5px; font-weight: 700; color: var(--muted); }
+.k2-types .k2-tgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px; }
+.k2-type { text-align: left; background: var(--surface); border: 1.5px solid var(--line); border-radius: 12px; padding: 12px 14px; display: flex; flex-direction: column; gap: 6px; cursor: pointer; font: inherit; color: inherit; min-width: 0; }
+.k2-type:hover { border-color: var(--ink, #1c1917); } .k2-type.on { border-color: var(--red); box-shadow: 0 0 0 2px color-mix(in srgb, var(--red) 25%, transparent); }
+.k2-type b { font-size: 15px; } .k2-type small { color: var(--muted); line-height: 1.4; } .k2-type.na { opacity: .62; }
+.k2-tc { font-size: 12px; font-weight: 700; margin-top: auto; } .k2-tc.full { color: #067647; } .k2-tc.part { color: #b54708; } .k2-tc.none { color: var(--muted); } .k2-custom { border-style: dashed; }
+.k2-planl { margin: 0; padding-left: 18px; columns: 2 280px; column-gap: 28px; } .k2-planl > li { break-inside: avoid; margin-bottom: 12px; } .k2-planl ul { list-style: none; padding: 4px 0 0; margin: 0; } .k2-planl ul li { padding: 2px 0; } .k2-planl li.no { color: var(--muted); } .k2-planl li small { display: block; font-size: 12px; padding-left: 16px; }
+.pv-note { font-size: 12px; color: #78716c; }
 .lab-why { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--red); border-radius: 10px; padding: 12px 14px; margin: 12px 0; } .lab-why p { margin: 0; line-height: 1.55; } .lab-why p + p { margin-top: 8px; } .lab-why b { font-weight: 700; }
 .lab-res { display: grid; grid-template-columns: minmax(180px, 240px) minmax(0, 1fr); gap: 16px; align-items: start; background: var(--soft); border-radius: 12px; padding: 14px 16px; } .lab-res > div:first-child span { font-size: 12px; color: var(--muted); font-weight: 700; } .lab-res > div:first-child b { display: block; font-family: var(--f-display); font-size: 28px; } .lab-res > div:first-child small { color: var(--muted); } .lab-in b { font-weight: 700; }
 .lab-in { margin: 0; padding-left: 18px; font-size: 13px; } .lab-in small { color: var(--muted); display: block; } .lab-conv { grid-column: 1 / -1; margin: 0; font-size: 12px; color: var(--muted); }
@@ -3259,7 +3266,7 @@ const M6R = (() => {
   function fmts(en) {
     const n = (v, d = 0) => v.toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
     const g = (f) => v => v == null ? (en ? 'No data' : 'Tiada data') : f(v);
-    return { rm: g(v => 'RM' + n(v)), p: g(v => v.toFixed(1) + '%'), ps: g(v => (v > 0 ? '+' : '') + v.toFixed(1) + '%'), n1: g(v => n(v, 1)),
+    return { rm: g(v => 'RM' + n(v)), p: g(v => v.toFixed(1) + '%'), ps: g(v => (v > 0 ? '+' : '') + v.toFixed(1) + '%'), n1: g(v => n(v, 1)), n3: g(v => n(v, 3)),
       rmbS: g(v => v >= 1000 ? 'RM' + n(v / 1000, 1) + (en ? 'bn' : ' bil') : 'RM' + n(v) + (en ? 'm' : ' jt')), kS: g(v => v >= 1000 ? n(v / 1000, 2) + (en ? 'm' : ' jt') : n(v, 1) + (en ? 'k' : ' rb')),
       rmk: g(v => Math.abs(v) >= 1e6 ? 'RM' + (v / 1e6).toFixed(1).replace(/\.0$/, '') + (en ? 'm' : 'j') : Math.abs(v) >= 1000 ? 'RM' + Math.round(v / 1000) + 'k' : 'RM' + n(v)) };
   }
@@ -3717,7 +3724,6 @@ const SITE = (() => {
     { id: 'cmp', h: 'banding', bm: 'Banding Negeri', en: 'State Comparison', nav: false, parent: 'intg' },
     { id: 'explore', h: 'teroka', bm: 'Teroka Data', en: 'Data Explorer', nav: false, parent: 'intg' },
     { id: 'build', h: 'bina-laporan', bm: 'Studio Analitik', en: 'Insights Studio', nav: false, parent: 'intg' },
-    { id: 'kit', h: 'laporan-negeri', bm: 'Tinjauan Strategik Negeri', en: 'State Strategic Outlook', nav: false, parent: 'intg' },
     { id: 'sim', h: 'simulasi', bm: 'Simulasi Produktiviti', en: 'Productivity Simulation', nav: false, parent: 'intg' },
     { id: 'labx', h: 'makmal', bm: 'Makmal Produktiviti', en: 'Productivity Lab', nav: false, parent: 'intg' },
     { id: 'saved', h: 'tersimpan', bm: 'Pustaka Saya', en: 'My Library', nav: false, parent: 'intg' },
@@ -4544,17 +4550,17 @@ const SITE = (() => {
 
   function makmalPage() {
     const el = $('pg-labx');
-    el.innerHTML = head(X('Kecerdasan Ekonomi Bersepadu · Analitik & Permodelan', 'Integrated Economic Intelligence · Analytics & Modelling'), pname(BY_PG.labx), X('Katalog 109 pengiraan produktiviti dan ekonomi: cari, pilih lokasi dan tahun, lihat formula, input dan sumber DOSM, kemudian masukkan hasil ke laporan.', 'A catalogue of 109 productivity and economic calculations: search, choose a location and year, see the formula, inputs and DOSM sources, then add the result to a report.')) + '<div class="k3-root"></div>';
+    el.innerHTML = head(X('Kecerdasan Ekonomi Bersepadu · Analitik & Permodelan', 'Integrated Economic Intelligence · Analytics & Modelling'), pname(BY_PG.labx), X('Katalog pengiraan produktiviti dan ekonomi yang boleh dibuat dengan data DOSM semasa: cari, pilih lokasi dan tahun, lihat formula, input dan sumber DOSM, kemudian masukkan hasil ke laporan.', 'A catalogue of the productivity and economic calculations that can be made with current DOSM data: search, choose a location and year, see the formula, inputs and DOSM sources, then add the result to a report.')) + '<div class="k3-root"></div>';
     K3.render(el.querySelector('.k3-root'));
   }
-  const K2H = {
+  const K2H = () => ({
     explore: [X('Teroka data', 'Explore data'), X('Katalog penunjuk, liputan dan status setiap set data DOSM dalam sistem.', 'Indicator catalogue, coverage and status of every DOSM dataset in the system.')],
-    build: [X('Bina laporan sendiri', 'Build your own report'), X('Pilih lokasi, penunjuk dan tempoh; semak data; jana analisis mengikut topik atau bersepadu; pratonton; muat turun Word, PDF, Excel atau pakej ZIP.', 'Choose locations, indicators and a period; check the data; generate topic or integrated analysis; preview; download Word, PDF, Excel or a ZIP package.')],
+    build: [X('Studio Analitik', 'Insights Studio'), X('Pilih jenis laporan dan lokasi. Semua pengiraan Makmal Produktiviti yang berkaitan dimasukkan secara automatik, dengan penerangan ringkas, carta dan jadual. Muat turun Word, PDF atau Excel.', 'Choose a report type and location. Every related Productivity Lab calculation is added automatically, with plain explanations, charts and tables. Download Word, PDF or Excel.')],
     kit: [X('Laporan produktiviti negeri', 'State productivity report'), X('Laporan produktiviti lengkap bagi mana-mana negeri, dijana daripada data negeri yang dipilih.', 'A full productivity report for any state, generated from the chosen state\'s data.')],
     sim: [X('Simulasi produktiviti', 'Productivity simulation'), X('Senario asas, penambahbaikan dan tersuai hingga 2030, 2035 atau 2040.', 'Baseline, improvement and custom scenarios to 2030, 2035 or 2040.')],
     saved: [X('Laporan tersimpan', 'Saved reports'), X('Templat laporan yang anda simpan.', 'Report templates you have saved.')],
-  };
-  const k2Page = id => () => { const el = $('pg-' + id); el.innerHTML = intgTabs(id) + head(X('Kecerdasan Ekonomi Bersepadu · ', 'Integrated Economic Intelligence · ') + (['build', 'kit', 'saved'].includes(id) ? X('Wawasan & Penerbitan', 'Insights & Publications') : X('Analitik & Permodelan', 'Analytics & Modelling')), pname(BY_PG[id]), K2H[id][1]) + '<div class="k2-root"></div>'; K2.wire($('dash')); K2.render(id, el.querySelector('.k2-root')); };
+  });
+  const k2Page = id => () => { const el = $('pg-' + id); el.innerHTML = intgTabs(id) + head(X('Kecerdasan Ekonomi Bersepadu · ', 'Integrated Economic Intelligence · ') + (['build', 'kit', 'saved'].includes(id) ? X('Wawasan & Penerbitan', 'Insights & Publications') : X('Analitik & Permodelan', 'Analytics & Modelling')), pname(BY_PG[id]), K2H()[id][1]) + '<div class="k2-root"></div>'; K2.wire($('dash')); K2.render(id, el.querySelector('.k2-root')); };
   function comparePage() {
     const C = U.cmp; if (!C.ids.length) { const sv = (store.get('sppe-cmp') || '').split(',').filter(x => STATE_BY_ID[x]); C.ids = sv.length ? sv : [S.sel, ...MET('prod').rank(MET('prod').last).map(r => r.id).filter(x => x !== S.sel && !SPECIAL_FT.includes(x)).slice(0, 2)]; }
     C.ids = C.ids.filter(x => STATE_BY_ID[x]).slice(0, 4); store.set('sppe-cmp', C.ids.join(','));
@@ -4638,7 +4644,7 @@ const SITE = (() => {
   }
   function readHash() {
     const h = location.hash.slice(1);
-    if (BY_H[h]) page = BY_H[h].id; else if (STATE_BY_ID[h]) page = 'prod'; else page = 'home';
+    if (BY_H[h]) page = BY_H[h].id; else if (h === 'laporan-negeri') { K2.setType('state'); page = 'build'; try { history.replaceState(null, '', '#bina-laporan'); } catch (e) { } } else if (STATE_BY_ID[h]) page = 'prod'; else page = 'home';
   }
 
   /* ---------- Kecerdasan Ekonomi Bersepadu mega menu ---------- */
@@ -4654,7 +4660,7 @@ const SITE = (() => {
     folder: '<path d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"/>',
   };
   const svgI = k => `<svg class="mm-i" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICO[k]}</svg>`;
-  const MEGA = () => [[X('ANALITIK & PERMODELAN', 'ANALYTICS & MODELLING'), [['explore', 'db'], ['intg', 'combo'], ['cmp', 'map'], ['sim', 'line'], ['labx', 'calc']]], [X('WAWASAN & PENERBITAN', 'INSIGHTS & PUBLICATIONS'), [['build', 'filepen'], ['reports', 'book'], ['kit', 'pin'], ['saved', 'folder']]]];
+  const MEGA = () => [[X('ANALITIK & PERMODELAN', 'ANALYTICS & MODELLING'), [['explore', 'db'], ['intg', 'combo'], ['cmp', 'map'], ['sim', 'line'], ['labx', 'calc']]], [X('WAWASAN & PENERBITAN', 'INSIGHTS & PUBLICATIONS'), [['build', 'filepen'], ['reports', 'book'], ['saved', 'folder']]]];
   const megaItemLabel = id => id === 'intg' ? X('Analisis Bersepadu', 'Integrated Analytics') : pname(BY_PG[id]);
   function megaHtml(cur) {
     return `<p class="mm-h">${esc(pname(BY_PG.intg))}</p><div class="mm-cols">${MEGA().map(([gl, items]) => `<div class="mm-col" role="group" aria-label="${esc(gl)}"><p class="mm-gl">${esc(gl)}</p><ul>${items.map(([id, ic]) => `<li><a href="#${BY_PG[id].h}" class="mm-a" role="menuitem"${id === cur ? ' aria-current="page"' : ''}>${svgI(ic)}<span>${esc(megaItemLabel(id))}</span></a></li>`).join('')}</ul></div>`).join('')}</div>`;
@@ -4801,7 +4807,7 @@ const K3 = (() => {
   const FORMULA_VERSION = '2026.11-1';
   const n0 = v => v.toLocaleString('en-US', { maximumFractionDigits: 0 }), nf = (v, d) => v.toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
   const F = {
-    rm: v => 'RM' + n0(v), rmm: v => 'RM' + nf(v / 1000, 2) + X(' bilion', ' billion'), p: v => nf(v, 2) + '%', pp: v => (v > 0 ? '+' : v < 0 ? '−' : '') + nf(Math.abs(v), 2) + X(' mp', ' pp'),
+    rm: v => (v < 0 ? '−' : '') + 'RM' + n0(Math.abs(v)), rmm: v => (v < 0 ? '−' : '') + 'RM' + nf(Math.abs(v) / 1000, 2) + X(' bilion', ' billion'), p: v => nf(v, 2) + '%', pp: v => (v > 0 ? '+' : v < 0 ? '−' : '') + nf(Math.abs(v), 2) + X(' mp', ' pp'),
     ps: v => (v > 0 ? '+' : v < 0 ? '−' : '') + nf(Math.abs(v), 2) + '%', x: v => nf(v, 2) + X(' kali', 'x'), ix: v => nf(v, 1), k: v => nf(v, 1) + X(' ribu', ' thousand'), n: v => nf(v, 4), yr: v => nf(v, 1) + X(' tahun', ' years'), rank: v => '#' + n0(v),
   };
   // source registry (catalogue S-codes) and the files actually loaded for each
@@ -4895,7 +4901,7 @@ const K3 = (() => {
     41: c => { const lp = lpN(c.sec, c.year), g = nv(c.sec, 'gdp', c.year); need(lp, g); const tg = c.tgdp ?? g * 1.3, tl = c.target ?? lp * 1.2; return { v: tg * 1000 / tl, fmt: F.k, unit: X('ribu pekerja', 'thousand workers'), inputs: [IN(X('KDNK sasaran (andaian)', 'Target GDP (assumption)'), tg, X('RM juta', 'RM million')), IN(X('LP sasaran (andaian)', 'Target LP (assumption)'), tl, 'RM')], prov: 'scenario' }; },
     42: c => { const lp = lpN(c.sec, c.year), e = nv(c.sec, 'emp', c.year); need(lp, e); const n = c.n ?? 10, gl = c.gLP ?? 3, ge = c.gL ?? 1.5, L = lp * Math.pow(1 + gl / 100, n), E = e * Math.pow(1 + ge / 100, n); return { v: L * E / 1000, fmt: F.rmm, unit: X('RM juta', 'RM million'), inputs: [IN(X('LP asas', 'Base LP'), lp, 'RM', pa), IN(X('Pekerja asas', 'Base employment'), e, X('ribu', 'thousand'), pa), IN('g_LP', gl, X('% setahun (andaian)', '% a year (assumption)')), IN('g_L', ge, X('% setahun (andaian)', '% a year (assumption)')), IN('n', n, X('tahun', 'years'))], prov: 'scenario' }; },
     43: c => { const G = y => c.geo === 'national' ? nv(c.sec, 'gdp', y) : sgdpV(c.geo, c.sec, y), a = G(c.year - 1), b = G(c.year); need(a, b); return { v: (b / a - 1) * 100, fmt: F.ps, unit: '%', inputs: [IN(X('KDNK benar ', 'Real GDP ') + (c.year - 1), a, X('RM juta', 'RM million'), c.geo === 'national' ? pa : 'gdp_state_real_supply'), IN(X('KDNK benar ', 'Real GDP ') + c.year, b, X('RM juta', 'RM million'), c.geo === 'national' ? pa : 'gdp_state_real_supply')], prov: 'derived_from_official' }; },
-    46: c => { const G = y => c.geo === 'national' ? nv(c.sec, 'gdp', y) : sgdpV(c.geo, c.sec, y), a = G(c.year - 1), b = G(c.year); need(a, b); return { v: b - a, fmt: v => F.rmm(v), unit: X('RM juta', 'RM million'), inputs: [IN(String(c.year - 1), a, X('RM juta', 'RM million'), c.geo === 'national' ? pa : 'gdp_state_real_supply'), IN(String(c.year), b, X('RM juta', 'RM million'), c.geo === 'national' ? pa : 'gdp_state_real_supply')], prov: 'derived_from_official' }; },
+    46: c => { const G = y => c.geo === 'national' ? nv(c.sec, 'gdp', y) : sgdpV(c.geo, c.sec, y), a = G(c.year - 1), b = G(c.year); need(a, b); return { v: b - a, fmt: F.rmm, unit: X('RM juta', 'RM million'), inputs: [IN(String(c.year - 1), a, X('RM juta', 'RM million'), c.geo === 'national' ? pa : 'gdp_state_real_supply'), IN(String(c.year), b, X('RM juta', 'RM million'), c.geo === 'national' ? pa : 'gdp_state_real_supply')], prov: 'derived_from_official' }; },
     47: c => { const a = nv(c.sec, 'gdp', c.year - 1), b = nv(c.sec, 'gdp', c.year), t = nv('p0', 'gdp', c.year - 1); need(a, b, t); return { v: (b - a) / t * 100, fmt: F.pp, unit: X('mata peratus', 'percentage points'), inputs: [IN(X('KDNK sektor ', 'Sector GDP ') + (c.year - 1), a, X('RM juta', 'RM million'), pa), IN(X('KDNK sektor ', 'Sector GDP ') + c.year, b, X('RM juta', 'RM million'), pa), IN(X('KDNK jumlah ', 'Total GDP ') + (c.year - 1), t, X('RM juta', 'RM million'), pa)], warn: [X('Jumlah sumbangan sektor tidak sama dengan pertumbuhan KDNK kerana duti import tidak diagihkan.', 'Sector contributions do not add up to GDP growth because import duties are not allocated.')], prov: 'derived_from_official' }; },
     48: c => { const sh = SEC5.map(s => shareVA(s, c.year)); need(...sh); return { v: sh.reduce((a, x) => a + x * x, 0), fmt: F.n, unit: X('indeks 0–1', 'index 0–1'), inputs: SEC5.map((s, i) => IN(X('Bahagian ', 'Share ') + secName(s), sh[i] * 100, '%', pa)), warn: [X('Menggunakan bahagian harga malar (benar) kerana KDNK nominal sektor belum dimuat naik.', 'Uses constant-price (real) shares because nominal sector GDP is not uploaded yet.')], prov: 'proxy' }; },
     49: c => { const a = SEC5.map(s => shareVA(s, c.y0)), b = SEC5.map(s => shareVA(s, c.year)); need(...a, ...b); return { v: 0.5 * a.reduce((t, x, i) => t + Math.abs(b[i] - x), 0), fmt: F.n, unit: X('indeks 0–1', 'index 0–1'), inputs: SEC5.map((s, i) => IN(secName(s) + ` ${c.y0} → ${c.year}`, (b[i] - a[i]) * 100, X('mp', 'pp'), pa)), warn: [X('Bahagian harga malar digunakan.', 'Constant-price shares are used.')], prov: 'proxy' }; },
@@ -4952,6 +4958,7 @@ const K3 = (() => {
     if (d.date && !c.date) c.date = dates[dates.length - 1];
     if (d.wsec && !c.wsec) c.wsec = 'manufacturing'; if (d.band && !c.band) c.band = 'below_2000';
     if (d.geo === 'state' && c.geo === 'national') c.geo = S.sel;
+    if (!d.geo) c.geo = 'national';
     return c;
   }
   function calculate(metricId, ctx = {}, scenarioInputs = null) {
@@ -4962,13 +4969,14 @@ const K3 = (() => {
     let out;
     if (!R[metricId]) out = { ...base, status: 'unavailable', provenance: row[5] === 'S' ? 'scenario' : row[5] === 'T' ? 'proxy' : 'derived_from_official', value: null, missing: missingFor(metricId) };
     else {
-      try { const r = R[metricId](c); out = { ...base, status: r.check === false ? 'requires_review' : 'available', provenance: r.prov, value: r.v, display: r.fmt(r.v), unit: r.unit, inputs: r.inputs.map(([label, value, unit, file]) => ({ label, value, unit, file: file ? FILE_LABEL[file] || file : X('andaian pengguna', 'user assumption') })), conversion: r.conv || '', warnings: r.warn || [], identityHolds: r.check }; }
+      try { const r = R[metricId](c); out = { ...base, status: r.check === false ? 'requires_review' : 'available', provenance: r.prov, value: r.v, display: r.fmt(r.v), fk: FKEY(r.fmt), unit: r.unit, inputs: r.inputs.map(([label, value, unit, file]) => ({ label, value, unit, file: file ? FILE_LABEL[file] || file : row[5] === 'S' ? X('andaian pengguna', 'user assumption') : X('dikira daripada input di atas', 'derived from the inputs above') })), conversion: r.conv || '', warnings: r.warn || [], identityHolds: r.check }; }
       catch (e) { out = { ...base, status: e.message === 'assume' ? 'requires_review' : 'unavailable', provenance: row[5] === 'S' ? 'scenario' : 'derived_from_official', value: null, missing: [X('Tiada data untuk lokasi/tahun/sektor ini.', 'No data for this location/year/sector.')] }; }
     }
     out.auditHash = hash(JSON.stringify([metricId, FORMULA_VERSION, D().version, c, out.value, (out.inputs || []).map(i => i.value)]));
     cache.set(key, out); return out;
   }
   const runnable = id => !!R[id];
+  const FKEY = f => f === F.rm ? 'rm' : f === F.p ? 'p' : f === F.ps ? 'ps' : f === F.rmm ? 'rmbS' : f === F.k ? 'kS' : f === F.n ? 'n3' : 'n1';
 
   /* ---------- report recipes (catalogue section 4) ---------- */
   const RECIPES = () => [
@@ -4990,18 +4998,18 @@ const K3 = (() => {
   const yrsLabel = id => { if (!R[id]) return '–'; const d = DIM[id] || {}; if (d.date) { const ds = D().formal.dates; return ds[0] + ' – ' + ds[ds.length - 1]; } const y = yearsFor(id); return y.length ? y[0] + '–' + y[y.length - 1] : '–'; };
   function page(el) {
     const q = U.q.trim().toLowerCase();
-    const rows = CAT.filter(r => (!U.g || grp(r[0]) === +U.g) && (!U.cls || r[5] === U.cls) && (!U.st || (U.st === 'run' ? runnable(r[0]) : !runnable(r[0]))) && (!U.geo || (U.geo === 'state' ? DIM[r[0]] && /both|state/.test(DIM[r[0]].geo || '') : true)) && (!q || [String(r[0]), r[1], r[2], r[3]].some(t => t.toLowerCase().includes(q))));
+    const rows = CAT.filter(r => runnable(r[0]) && (!U.g || grp(r[0]) === +U.g) && (!U.cls || r[5] === U.cls) && (!U.geo || (U.geo === 'state' ? DIM[r[0]] && /both|state/.test(DIM[r[0]].geo || '') : true)) && (!q || [String(r[0]), r[1], r[2], r[3]].some(t => t.toLowerCase().includes(q))));
     const nRun = CAT.filter(r => runnable(r[0])).length;
     const sel = (k, opts, cur, lab) => `<label class="lab-flt">${esc(lab)}<select data-k3f="${k}">${opts.map(([v, l]) => `<option value="${v}"${String(v) === String(cur) ? ' selected' : ''}>${esc(l)}</option>`).join('')}</select></label>`;
+    if (U.open && !R[U.open]) U.open = null;
     el.innerHTML = `${U.open ? detail(U.open) : ''}
       <article class="card lab-cat"><div class="lab-top"><label class="lab-q">${esc(X('Cari pengiraan', 'Search calculations'))}<input type="search" data-k3f="q" value="${esc(U.q)}" placeholder="${esc(X('cth. produktiviti, CAGR, 37', 'e.g. productivity, CAGR, 37'))}"></label>
-        ${sel('g', [['', X('Semua kategori', 'All categories')]].concat(GROUPS().map(([i, l]) => [i, l])), U.g, X('Kategori', 'Category'))}
+        ${sel('g', [['', X('Semua kategori', 'All categories')]].concat(GROUPS().filter(([i]) => CAT.some(r => runnable(r[0]) && grp(r[0]) === i)).map(([i, l]) => [i, l])), U.g, X('Kategori', 'Category'))}
         ${sel('cls', [['', X('Semua kelas', 'All classes')], ['D', CLS('D')], ['T', CLS('T')], ['S', CLS('S')]], U.cls, X('Kelas', 'Class'))}
-        ${sel('st', [['', X('Semua', 'All')], ['run', X('Boleh dikira', 'Can be calculated')], ['na', X('Tidak tersedia', 'Unavailable')]], U.st, X('Ketersediaan', 'Availability'))}
         ${sel('geo', [['', X('Nasional atau negeri', 'National or state')], ['state', X('Ada data negeri', 'Has state data')]], U.geo, X('Lokasi', 'Location'))}</div>
-        <p class="lab-sum">${esc(X(`${rows.length} daripada 109 pengiraan dipaparkan · ${nRun} boleh dikira dengan data yang dimuatkan`, `${rows.length} of 109 calculations shown · ${nRun} can be calculated with the loaded data`))}</p>
+        <p class="lab-sum">${esc(X(`${rows.length} daripada ${nRun} pengiraan dipaparkan`, `${rows.length} of ${nRun} calculations shown`))}</p>
         ${GROUPS().map(([gi, gl]) => { const rs = rows.filter(r => grp(r[0]) === gi); if (!rs.length) return ''; const ok = rs.filter(r => runnable(r[0])).length;
-          return `<details class="lab-g"${q || U.g || U.st || U.cls ? ' open' : gi === 1 ? ' open' : ''}><summary><b>${esc(gl)}</b><span>${ok} / ${rs.length} ${esc(X('boleh dikira', 'can be calculated'))}</span></summary><div class="tbl-w"><table class="tbl lab-t"><thead><tr><th>ID</th><th>${esc(X('Pengiraan', 'Calculation'))}</th><th>${esc(X('Formula', 'Formula'))}</th><th>${esc(X('Tahun', 'Years'))}</th><th>${esc(X('Sumber', 'Source'))}</th><th>${esc(X('Kelas', 'Class'))}</th><th></th></tr></thead><tbody>
+          return `<details class="lab-g"${q || U.g || U.st || U.cls ? ' open' : gi === 1 ? ' open' : ''}><summary><b>${esc(gl)}</b><span>${rs.length} ${esc(X('pengiraan', 'calculations'))}</span></summary><div class="tbl-w"><table class="tbl lab-t"><thead><tr><th>ID</th><th>${esc(X('Pengiraan', 'Calculation'))}</th><th>${esc(X('Formula', 'Formula'))}</th><th>${esc(X('Tahun', 'Years'))}</th><th>${esc(X('Sumber', 'Source'))}</th><th>${esc(X('Kelas', 'Class'))}</th><th></th></tr></thead><tbody>
           ${rs.map(r => `<tr class="${runnable(r[0]) ? '' : 'k2-na'}"><td>${r[0]}</td><td><b>${esc(en() ? r[2] : r[1])}</b></td><td><code>${esc(r[3])}</code></td><td>${esc(yrsLabel(r[0]))}</td><td>${esc(r[4])}</td><td>${r[5]}</td><td><button type="button" class="btn${runnable(r[0]) ? ' dark' : ''} k2-mini" data-k3open="${r[0]}">${esc(runnable(r[0]) ? X('Kira', 'Calculate') : X('Butiran', 'Details'))}</button></td></tr>`).join('')}</tbody></table></div></details>`; }).join('')}
       </article>`;
     if (U.open && R[U.open]) drawChart(el, U.open);
@@ -5146,7 +5154,7 @@ const K3 = (() => {
       5: () => X(`Jika ${y0} dikira sebagai 100, produktiviti ${yr} di ${where} ialah ${d}, iaitu ${v >= 100 ? (v - 100).toFixed(1) + '% lebih tinggi' : (100 - v).toFixed(1) + '% lebih rendah'} daripada ${y0}.`, `With ${y0} set at 100, ${yr} productivity in ${where} is ${d}, i.e. ${v >= 100 ? (v - 100).toFixed(1) + '% higher' : (100 - v).toFixed(1) + '% lower'} than in ${y0}.`),
       6: () => X(`Seorang pekerja sektor ${scl} menghasilkan ${d} bagi setiap 100 yang dihasilkan oleh pekerja purata Malaysia, iaitu ${v >= 100 ? 'lebih' : 'kurang'} produktif daripada purata.`, `A worker in ${scl} produces ${d} for every 100 produced by the average Malaysian worker, i.e. ${v >= 100 ? 'more' : 'less'} productive than average.`),
       7: () => X(`Produktiviti sektor ${scl} adalah ${a} ${up ? 'di atas' : 'di bawah'} purata seluruh ekonomi pada ${yr}.`, `Productivity in ${scl} was ${a} ${up ? 'above' : 'below'} the whole-economy average in ${yr}.`),
-      11: () => X(`KDNK ${where} berubah ${d} pada ${yr}. Pecahan di atas menunjukkan berapa banyak datang daripada pekerja lebih produktif (g_LP) dan berapa banyak daripada pertambahan pekerja (g_L).`, `GDP in ${where} changed ${d} in ${yr}. The breakdown above shows how much came from workers being more productive (g_LP) and how much from more workers (g_L).`),
+      11: () => { const gl = r.inputs[0].value, ge = r.inputs[1].value, f = v => (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(2) + '%'; return X(`KDNK ${where} berubah ${d} pada ${yr}. Daripada itu, ${f(gl)} datang daripada setiap pekerja menjadi lebih produktif dan ${f(ge)} daripada perubahan bilangan pekerja (baki kecil ialah kesan gabungan kedua-duanya).`, `GDP in ${where} changed ${d} in ${yr}. Of this, ${f(gl)} came from each worker becoming more productive and ${f(ge)} from the change in the number of workers (the small remainder is the combined effect of both).`); },
       25: () => X(`Gaji penengah pekerja formal di ${loc} adalah ${a} ${up ? 'lebih tinggi' : 'lebih rendah'} daripada Malaysia (${c.date}).`, `The median formal wage in ${loc} is ${a} ${up ? 'higher' : 'lower'} than Malaysia's (${c.date}).`),
       26: () => X(`Gaji penengah di ${loc} ${up ? 'naik' : 'turun'} ${a} berbanding bulan sebelumnya (${c.date}).`, `The median wage in ${loc} ${up ? 'rose' : 'fell'} ${a} from the previous month (${c.date}).`),
       27: () => X(`Gaji penengah di ${loc} ${up ? 'naik' : 'turun'} ${a} berbanding bulan yang sama tahun lepas (${c.date}).`, `The median wage in ${loc} ${up ? 'rose' : 'fell'} ${a} from the same month last year (${c.date}).`),
@@ -5194,6 +5202,100 @@ const K3 = (() => {
     const w = WHAT[id], ro = r.value != null ? readOut(id, r) : '';
     if (!w && !ro) return '';
     return `<div class="lab-why"><p><b>${esc(X('Apa yang dikira?', 'What does this calculate?'))}</b> ${esc(w ? w[en() ? 1 : 0] : '')}</p>${ro ? `<p><b>${esc(X('Maksud hasil ini:', 'What this result means:'))}</b> ${esc(ro)}</p>` : ''}</div>`;
+  }
+  /* ---------- report types: every related Lab calculation goes into the report automatically ---------- */
+  // section entries: metric id, or 's:<id>' = compare the metric across all states
+  const TYPES = () => [
+    { id: 'natlp', geo: true, name: X('Produktiviti buruh nasional', 'National labour productivity'), desc: X('Tahap, pertumbuhan dan punca produktiviti buruh, serta sumbangan sektor.', 'Level, growth and sources of labour productivity, plus sector contributions.'),
+      secs: [[X('Tahap produktiviti buruh', 'Labour productivity level'), [1, 5]], [X('Pertumbuhan produktiviti', 'Productivity growth'), [3, 4]], [X('Punca pertumbuhan ekonomi', 'Sources of economic growth'), [11]], [X('Produktiviti dan sumbangan sektor', 'Sector productivity and contribution'), [2, 6, 43, 46, 47]], [X('Perubahan struktur', 'Structural change'), [60, 61, 62, 49]]] },
+    { id: 'state', geo: true, stateDefault: true, name: X('Profil produktiviti negeri', 'State productivity profile'), desc: X('Produktiviti, ekonomi sektor dan pasaran buruh sesebuah negeri, dibanding dengan negeri lain dan Malaysia.', 'A state\'s productivity, sector economy and labour market, compared with other states and Malaysia.'),
+      secs: [[X('Produktiviti buruh negeri', 'State labour productivity'), [1, 's:1', 3, 4, 5]], [X('Ekonomi negeri mengikut sektor', 'State economy by sector'), [43, 46]], [X('Pasaran buruh negeri', 'State labour market'), [86, 's:86', 95, 87, 88, 89, 90]]] },
+    { id: 'sector', geo: false, name: X('Analisis sektor dan penanda aras', 'Sector analysis and benchmarking'), desc: X('Bandingan produktiviti, guna tenaga dan pertumbuhan lima sektor utama.', 'Productivity, employment and growth compared across the five main sectors.'),
+      secs: [[X('Produktiviti mengikut sektor', 'Productivity by sector'), [2, 6, 7, 56, 57]], [X('Guna tenaga sektor', 'Sector employment'), [37, 38, 58, 59]], [X('Pertumbuhan dan sumbangan', 'Growth and contribution'), [43, 46, 47, 44, 45]], [X('Jurang dan struktur', 'Gaps and structure'), [63, 48, 49, 60, 61, 62]]] },
+    { id: 'labour', geo: true, name: X('Pasaran buruh', 'Labour market'), desc: X('Penyertaan, pengangguran, guna tenaga sektor serta jawatan dan kekosongan.', 'Participation, unemployment, sector employment, jobs and vacancies.'),
+      secs: [[X('Penyertaan dan pengangguran', 'Participation and unemployment'), [86, 87, 88, 89, 90, 95]], [X('Guna tenaga mengikut sektor', 'Employment by sector'), [37, 38, 58]], [X('Jawatan dan kekosongan', 'Jobs and vacancies'), [34, 35, 36, 96, 97, 98]], [X('Status pekerjaan dan guna tenaga tidak penuh', 'Employment status and underemployment'), [91, 92, 93, 94]]] },
+    { id: 'sim', geo: false, name: X('Simulasi 2030/2035', 'Simulation 2030/2035'), desc: X('Sasaran produktiviti, pertumbuhan diperlukan dan unjuran berdasarkan andaian lalai yang boleh diubah di Makmal.', 'Productivity targets, required growth and projections from default assumptions you can change in the Lab.'),
+      secs: [[X('Sasaran dan jurang', 'Targets and gaps'), [104, 39, 40, 41]], [X('Unjuran', 'Projections'), [105, 106, 107, 108, 109, 42]]] },
+    { id: 'dist', geo: false, name: X('Ekonomi dan agihan pendapatan', 'Economy and income distribution'), desc: X('Struktur ekonomi, pelaburan, perbelanjaan dan agihan pendapatan antara pekerja dan modal.', 'Economic structure, investment, spending and the income split between labour and capital.'),
+      secs: [[X('Struktur ekonomi', 'Economic structure'), [43, 48, 44]], [X('Agihan pendapatan', 'Income distribution'), [30, 31, 32, 33]], [X('Pelaburan dan perbelanjaan', 'Investment and spending'), [50, 51, 52, 53, 54, 55, 103]]] },
+    { id: 'wageprod', geo: true, name: X('Gaji dan produktiviti', 'Wages and productivity'), desc: X('Tahap dan pertumbuhan produktiviti sebagai asas perbandingan gaji. Analisis gaji kini KIV.', 'Productivity level and growth as the basis for wage comparison. Wage analysis is on hold (KIV).'),
+      secs: [[X('Produktiviti', 'Productivity'), [1, 3]], [X('Gaji', 'Wages'), [25, 26, 27, 28, 29, 79, 80, 81, 82, 83, 84, 85]]] },
+    { id: 'cap', geo: false, name: X('Produktiviti modal', 'Capital productivity'), desc: X('Output setiap ringgit modal, intensiti modal dan komposisi aset.', 'Output per ringgit of capital, capital intensity and asset mix.'), secs: [[X('Produktiviti dan intensiti modal', 'Capital productivity and intensity'), [12, 13, 14, 15, 16, 17]], [X('Komposisi aset', 'Asset mix'), [64, 65, 66, 67, 68, 69, 70]]] },
+    { id: 'msme', geo: false, name: X('Produktiviti PMKS', 'MSME productivity'), desc: X('Produktiviti, sumbangan dan eksport perusahaan mikro, kecil dan sederhana.', 'Productivity, contribution and exports of micro, small and medium enterprises.'), secs: [[X('PMKS', 'MSMEs'), [8, 9, 10, 18, 19, 20]]] },
+    { id: 'ict', geo: false, name: X('Ekonomi digital / TMK', 'Digital economy / ICT'), desc: X('Produktiviti industri TMK, perdagangan produk TMK dan e-dagang.', 'ICT industry productivity, ICT product trade and e-commerce.'), secs: [[X('Ekonomi digital', 'Digital economy'), [21, 22, 71, 72, 73, 74, 75, 76]]] },
+    { id: 'tour', geo: false, name: X('Pelancongan', 'Tourism'), desc: X('Produktiviti, sumbangan dan pekerjaan industri pelancongan.', 'Tourism industry productivity, contribution and jobs.'), secs: [[X('Pelancongan', 'Tourism'), [23, 24, 77, 78]]] },
+    { id: 'trade', geo: false, name: X('Perdagangan borong dan runcit', 'Wholesale and retail trade'), desc: X('Jualan dan volum perdagangan pengedaran.', 'Distributive trade sales and volumes.'), secs: [[X('Perdagangan', 'Trade'), [99, 100, 101, 102]]] },
+  ];
+  const typeIds = t => [...new Set(t.secs.flatMap(s => s[1]).map(x => +String(x).replace('s:', '')))];
+  const usable = id => R[id] && !WAGE_IDS.includes(id);
+  function typeInfo(tid) { const t = TYPES().find(x => x.id === tid); if (!t) return null; const ids = typeIds(t); return { ...t, total: ids.length, ok: ids.filter(usable).length, need: [...new Set(ids.filter(id => !R[id]).flatMap(id => CAT.find(x => x[0] === id)[4].split(',')).filter(s => SRC[s] && (!SRC[s][3] || ['S11', 'S14', 'S16'].includes(s))))] }; }
+  const FK = r => r.fk || 'n1';
+  const locName = g => g === 'national' ? 'Malaysia' : sname(g);
+  function buildReport(tid, o) {
+    const t = TYPES().find(x => x.id === tid), geo = t.geo ? (o.geo || 'national') : 'national', ny = natYears();
+    const y1 = o.y1 || ny[ny.length - 1], y0 = Math.min(o.y0 || ny[0], y1 - 1);
+    const B = [], ev = [], exc = [], notes = new Set(), exec = [], kpis = [], used = new Set();
+    const pick = (ys, y) => { const ok = ys.filter(v => v <= y); return ok.length ? ok[ok.length - 1] : ys[ys.length - 1]; };
+    const ctxFor = (id, over = {}) => { const d = DIM[id] || {}, c = {}; if (d.geo === 'both') c.geo = geo; if (d.geo === 'state') c.geo = geo === 'national' ? S.sel : geo; if (d.sec === true) c.sec = 'p0';
+      const ys = yearsFor(id); if (d.year && ys.length) c.year = pick(ys, y1); if (d.y0) c.y0 = Math.max(ny[0], Math.min(y0, (c.year || y1) - 1)); return { ...c, ...over }; };
+    const nmOf = r => r.metricId === 1 ? X('Produktiviti buruh', 'Labour productivity') : r.name;
+    const reason = id => WAGE_IDS.includes(id) ? X('Analisis gaji KIV', 'Wage analysis on hold (KIV)') : missingFor(id).join('; ');
+    const meta = r => { (r.warnings || []).concat(r.limitations || []).forEach(w => notes.add(w)); ev.push(r); (r.inputs || []).forEach(i => used.add(i.file)); };
+    const how = r => ({ t: 'p', note: true, text: X('Cara dikira: ', 'How it is calculated: ') + r.formula + ' · ' + X('Sumber: ', 'Source: ') + ([...new Set((r.inputs || []).map(i => i.file))].join('; ') || '–') + ' · ' + PRV(r.provenance) });
+    function across(id, kind) {
+      const base = ctxFor(id), list = kind === 'sec' ? SEC5.map(s => [secName(s), { ...base, sec: s }, false]) : STATES.map(s => [sname(s.id), { ...base, geo: s.id }, s.id === geo]);
+      const rs = list.map(([l, c, hi]) => ({ l, hi, r: calculate(id, c) })).filter(x => x.r.value != null); if (!rs.length) return null;
+      rs.forEach(x => meta(x.r)); const r0 = rs[0].r, srt = [...rs].sort((a, b) => b.r.value - a.r.value), w = WHAT[id];
+      const ttl = nmOf(r0) + (kind === 'sec' && base.geo && base.geo !== 'national' ? ' · ' + locName(base.geo) : ''), out = [{ t: 'h3', text: ttl + (kind === 'sec' ? X(' — semua sektor', ' — all sectors') : X(' — semua negeri', ' — all states')) + (r0.context.year ? ', ' + r0.context.year : '') }];
+      if (w && kind === 'sec') out.push({ t: 'p', text: w[en() ? 1 : 0] });
+      const top = srt[0], bot = srt[srt.length - 1], me = rs.find(x => x.hi);
+      out.push({ t: 'callout', text: X(`Tertinggi: ${top.l} (${top.r.display}). Terendah: ${bot.l} (${bot.r.display}).`, `Highest: ${top.l} (${top.r.display}). Lowest: ${bot.l} (${bot.r.display}).`) + (me ? X(` ${me.l} di kedudukan ${srt.indexOf(me) + 1} daripada ${srt.length} (${me.r.display}).`, ` ${me.l} ranks ${srt.indexOf(me) + 1} of ${srt.length} (${me.r.display}).`) : '') });
+      const fk = FK(r0), bar = srt.every(x => x.r.value >= 0) && ['rm', 'p', 'n1', 'kS', 'rmbS'].includes(fk);
+      if (bar) out.push({ t: 'chart', kind: 'hbar', fmt: fk, wide: true, title: ttl + (r0.context.year ? ', ' + r0.context.year : ''), items: srt.map(x => ({ label: x.l, v: x.r.value, hi: x.hi })), src: X('Sumber: ', 'Source: ') + [...new Set((r0.inputs || []).map(i => i.file))].join('; ') });
+      out.push({ t: 'table', head: [kind === 'sec' ? X('Sektor', 'Sector') : X('Negeri', 'State'), X('Hasil', 'Result')], rows: srt.map(x => [x.l + (x.hi ? ' ◄' : ''), x.r.display]), align: ['l', 'r'] });
+      out.push(how(r0));
+      if (!exec.some(e => e.id === id)) exec.push({ id, text: X(`${ttl}: tertinggi ${top.l} (${top.r.display}), terendah ${bot.l} (${bot.r.display}).`, `${ttl}: highest ${top.l} (${top.r.display}), lowest ${bot.l} (${bot.r.display}).`) });
+      return out;
+    }
+    function single(id) {
+      const d = DIM[id] || {}, r = calculate(id, ctxFor(id)); if (r.value == null) { exc.push([id, r.name, (r.missing || []).join('; ')]); return null; }
+      meta(r); const w = WHAT[id], ro = readOut(id, r), nm = id === 1 && r.context.geo !== 'national' ? X('Produktiviti buruh ', 'Labour productivity, ') + locName(r.context.geo) : r.name, out = [{ t: 'h3', text: nm + (t.geo && geo !== 'national' && !d.geo ? X(' (Malaysia; data negeri tiada)', ' (Malaysia; no state data)') : '') }];
+      if (w) out.push({ t: 'p', text: w[en() ? 1 : 0] });
+      out.push({ t: 'callout', text: ro || `${r.display}` });
+      if (d.year && !d.scen && !d.date && ![4, 49, 60, 61, 62].includes(id)) { const c = r.context, ys = yearsFor(id).filter(y => y <= c.year && (d.y0 ? y > c.y0 : y >= y0)); if (ys.length >= 2) {
+        const ser = [{ label: locName(c.geo || 'national'), vals: ys.map(y => calculate(id, { ...c, year: y }).value), main: true }];
+        if (d.geo === 'both' && c.geo && c.geo !== 'national') { const nv2 = ys.map(y => calculate(id, { ...c, geo: 'national', year: y }).value); if (nv2.some(v => v != null)) ser.push({ label: 'Malaysia', vals: nv2, dashed: true }); }
+        if (ser[0].vals.filter(v => v != null).length >= 2) out.push({ t: 'chart', kind: 'line', fmt: FK(r), title: `${nmOf(r)}, ${ys[0]}–${ys[ys.length - 1]}`, years: ys, series: ser, src: X('Sumber: ', 'Source: ') + [...new Set((r.inputs || []).map(i => i.file))].join('; ') }); } }
+      if (d.scen) out.push({ t: 'bullets', items: r.inputs.map(i => `${i.label}: ${typeof i.value === 'number' ? i.value.toLocaleString('en-US', { maximumFractionDigits: 2 }) : i.value} ${i.unit || ''}`) });
+      out.push(how(r));
+      if (exec.length < 7 && ro) exec.push({ id, text: ro });
+      if (kpis.length < 3) kpis.push({ l: nm, v: r.display });
+      return out;
+    }
+    const body = [];
+    t.secs.forEach(([title, ids]) => {
+      const blk = [];
+      ids.forEach(x => { const s = String(x).startsWith('s:'), id = +String(x).replace('s:', '');
+        if (!usable(id)) { if (!s && !exc.some(e => e[0] === id)) exc.push([id, CAT.find(c => c[0] === id)[en() ? 2 : 1], reason(id)]); return; }
+        const d = DIM[id] || {}, b = s ? (geo === 'national' && t.id !== 'state' ? null : across(id, 'state')) : d.sec === 'five' ? across(id, 'sec') : d.geo === 'state' && geo === 'national' ? across(id, 'state') : single(id);
+        if (b) b.forEach(z => blk.push(z)); });
+      if (blk.length) { body.push({ t: 'h1', text: title }); blk.forEach(z => body.push(z)); }
+    });
+    (o.extra || []).forEach((it, i) => { const r = calculate(it.id, it.ctx); if (r.value == null) return; if (!i) body.push({ t: 'h1', text: X('Pengiraan tambahan daripada Makmal', 'Additional calculations from the Lab') }); meta(r); body.push({ t: 'h3', text: r.name }); const w = WHAT[it.id]; if (w) body.push({ t: 'p', text: w[en() ? 1 : 0] }); body.push({ t: 'callout', text: readOut(it.id, r) || r.display }); body.push(how(r)); });
+    // assemble
+    B.push({ t: 'h1', text: X('Ringkasan eksekutif', 'Executive summary') });
+    B.push({ t: 'p', text: o.note || X(`Laporan ini mengandungi ${ev.length} pengiraan daripada Makmal Produktiviti bagi ${locName(geo)}, menggunakan data rasmi DOSM sehingga ${y1}. Setiap angka dikira oleh enjin yang sama dengan Makmal, jadi nilainya sepadan.`, `This report contains ${ev.length} Productivity Lab calculations for ${locName(geo)}, using official DOSM data up to ${y1}. Every figure comes from the same engine as the Lab, so the values match.`) });
+    if (exec.length) B.push({ t: 'bullets', items: exec.map(e => e.text) });
+    body.forEach(z => B.push(z));
+    if (!ev.length) B.push({ t: 'callout', text: X('Tiada pengiraan dalam laporan ini boleh dibuat dengan data yang dimuatkan sekarang. Lihat senarai data yang diperlukan di bawah.', 'None of the calculations in this report can be made with the data loaded now. See the data needed below.') });
+    if (false) { B.push({ t: 'h1', text: X('Pengiraan yang belum dimasukkan', 'Calculations not yet included') }); B.push({ t: 'p', text: X('Pengiraan berikut berkaitan dengan laporan ini tetapi tidak dimasukkan. Tiada nilai dianggarkan.', 'These calculations belong to this report but are not included. No values are estimated.') }); B.push({ t: 'bullets', items: exc.map(([id, nm, why]) => `${id}. ${nm}: ${why}`) }); }
+    if (notes.size) { B.push({ t: 'h1', text: X('Nota dan had data', 'Notes and data limits') }); B.push({ t: 'bullets', items: [...notes] }); }
+    B.push({ t: 'h1', text: X('Formula dan jejak audit', 'Formulas and audit trail') });
+    const seen = new Set(); B.push({ t: 'table', small: true, head: ['ID', X('Pengiraan', 'Calculation'), 'Formula', X('Jenis', 'Type'), X('Cincang audit', 'Audit hash')], rows: ev.filter(r => !seen.has(r.metricId) && seen.add(r.metricId)).map(r => [String(r.metricId), r.name, r.formula, PRV(r.provenance), r.auditHash]), align: ['l', 'l', 'l', 'l', 'l'] });
+    B.push({ t: 'p', text: X(`Versi formula ${FORMULA_VERSION} · versi data ${D().version}. Nilai penuh disimpan; hanya paparan dibundarkan.`, `Formula version ${FORMULA_VERSION} · data version ${D().version}. Full precision is kept; only the display is rounded.`) });
+    B.push({ t: 'h1', text: X('Rujukan sumber', 'Source references') }); B.push({ t: 'bullets', items: [...used].filter(f => f && f !== X('andaian pengguna', 'user assumption') && f !== X('dikira daripada input di atas', 'derived from the inputs above')).concat([X('Pengiraan: SPPE Intelligence, Perbadanan Produktiviti Malaysia (MPC).', 'Calculations: SPPE Intelligence, Malaysia Productivity Corporation (MPC).')]) });
+    while (kpis.length < 3) kpis.push({ l: X('Tempoh', 'Period'), v: `${y0}–${y1}` });
+    return { name: t.name, geo, y0, y1, blocks: B, kpis, evidence: ev, excluded: exc, count: ev.length };
   }
   function detail(id) {
     const row = CAT.find(x => x[0] === id), r = calculate(id, U.ctx), c = r.context;
@@ -5249,7 +5351,7 @@ const K3 = (() => {
   let root = null, wired = false;
   function paint() { if (root) page(root); }
   function render(el) { root = el; if (!wired) { wired = true; const host = document.getElementById('dash'), mine = e => e.target.closest && e.target.closest('.k3-root'); host.addEventListener('click', e => { if (mine(e)) onClick(e); }); host.addEventListener('change', e => { if (mine(e)) onChange(e); }); host.addEventListener('input', e => { if (mine(e) && e.target.dataset.k3f === 'q') { clearTimeout(render._t); render._t = setTimeout(() => onChange(e), 250); } }); } paint(); }
-  return { calculate, CAT, RECIPES, recipeCheck, reportBlocks, render, runnable, DIM, version: () => D().version };
+  return { calculate, CAT, RECIPES, recipeCheck, reportBlocks, render, runnable, DIM, TYPES, typeInfo, buildReport, years: () => natYears(), isWage: id => WAGE_IDS.includes(id), explain: (id, r) => ({ what: WHAT[id] ? WHAT[id][en() ? 1 : 0] : '', read: r && r.value != null ? readOut(id, r) : '' }), version: () => D().version };
 })();
 
 const K2 = (() => {
@@ -5458,7 +5560,12 @@ const K2 = (() => {
     });
   }
 
+  function composeType(cfg) {
+    const R = K3.buildReport(cfg.type, { geo: cfg.geos[0], y0: cfg.y0, y1: cfg.y1, extra: cfg.lab, note: (cfg.edits && cfg.edits.exec) || (cfg.notes && cfg.notes.exec) || '' }), loc = gname(R.geo);
+    return { _evidence: R.evidence, lang: S.lang, title: cfg.title || R.name, subtitle: cfg.subtitle || `${loc} · ${R.y0}–${R.y1}`, fileStem: `MPC_${cfg.type}_Report_${loc.replace(/[^A-Za-z]/g, '')}_${R.y1}`, kpis: R.kpis, blocks: R.blocks, topics: [], multi: false, year: R.y1, eyebrow: X('LAPORAN STUDIO ANALITIK · MPC', 'INSIGHTS STUDIO REPORT · MPC'), sourceLine: X('Data rasmi DOSM', 'Official DOSM data'), _cfg: cfg, _chk: { lvl: R.count ? 'ok' : 'none', rows: [], warn: [] }, _count: R.count };
+  }
   function compose(cfg) {
+    if (cfg.type && cfg.type !== 'custom') return composeType(cfg);
     const sec = cfg.sections, on = k => sec.includes(k), B = [], g0 = cfg.geos[0], chk = check(cfg), sel = cfg.inds.map(ind).filter(Boolean);
     const add = (k, blocks) => { if (!blocks.length) return; const nm = (cfg.names && cfg.names[k]) || SECTIONS().find(s => s[0] === k)[1]; B.push({ t: 'h1', text: nm }); blocks.forEach(b => B.push(b)); if (cfg.notes && cfg.notes[k]) B.push({ t: 'callout', text: X('Nota penganalisis: ', 'Analyst note: ') + cfg.notes[k] }); };
     const period = `${cfg.y0}–${cfg.y1}`, where = cfg.geos.map(gname).join(', ');
@@ -5564,7 +5671,10 @@ const K2 = (() => {
   async function xlsx(rep, extra) {
     const XL = await loadLib('xlsx'), wb = XL.utils.book_new(), cfg = rep._cfg, add = (name, aoa) => { const ws = XL.utils.aoa_to_sheet(aoa); ws['!cols'] = (aoa[0] || []).map((_, i) => ({ wch: i ? 14 : 34 })); XL.utils.book_append_sheet(wb, ws, name.slice(0, 31)); return ws; };
     add(X('Ringkasan', 'Summary'), [[rep.title], [rep.subtitle], [X('Dijana', 'Generated'), new Date().toISOString().slice(0, 16).replace('T', ' ')], [X('Bahasa', 'Language'), rep.lang === 'en' ? 'English' : 'Bahasa Melayu'], [], ...rep.kpis.map(k => [k.l, k.v]), [], [X('Analisis oleh Perbadanan Produktiviti Malaysia (MPC). Sumber: Jabatan Perangkaan Malaysia (DOSM).', 'Analysis by Malaysia Productivity Corporation (MPC). Source: Department of Statistics Malaysia (DOSM).')]]);
-    if (cfg) {
+    const typed = cfg && cfg.type && cfg.type !== 'custom';
+    if (typed) { if (rep._evidence && rep._evidence.length) add(X('Pengiraan Makmal', 'Lab Calculations'), [['metric_id', X('Pengiraan', 'Calculation'), X('Nilai (penuh)', 'Value (full precision)'), X('Unit', 'Unit'), X('Status', 'Status'), X('Asal-usul', 'Provenance'), 'formula', 'formula_version', 'data_version', 'audit_hash', X('Konteks', 'Context')], ...rep._evidence.map(r => [r.metricId, r.name, r.value ?? '', r.unit || '', r.status, r.provenance, r.formula, r.formulaVersion, r.dataVersion, r.auditHash, JSON.stringify(r.context)]), [], [X('Input', 'Inputs')], ...rep._evidence.flatMap(r => (r.inputs || []).map(i => [r.metricId, i.label, i.value, i.unit || '', i.file]))]);
+      add(X('Jadual Laporan', 'Report Tables'), rep.blocks.filter(b => b.t === 'table').flatMap(b => [b.head, ...b.rows, []])); }
+    if (cfg && !typed) {
       const geos = cfg.geos.concat(cfg.vsNat && !cfg.geos.includes('national') ? ['national'] : []), ys = []; for (let y = cfg.y0; y <= cfg.y1; y++) ys.push(y);
       const src = [[X('Penunjuk', 'Indicator'), X('Lokasi', 'Location'), X('Unit', 'Unit'), X('Status', 'Status'), ...ys]];
       cfg.inds.map(ind).filter(Boolean).forEach(it => geos.forEach(g => src.push([it.l, gname(g), it.unit, it.status === 'official' ? X('Rasmi', 'Official') : X('Dikira', 'Derived'), ...ys.map(y => it.years.includes(y) ? (it.get(g, y) ?? '') : '')])));
@@ -5599,7 +5709,7 @@ const K2 = (() => {
   /* ---------- UI state ---------- */
   const U = { b: null, sim: null, kit: null, prev: null, busy: '', msg: '' };
   function addLab(item) { const b = B(); b.lab = (b.lab || []).filter(x => !(x.id === item.id && JSON.stringify(x.ctx) === JSON.stringify(item.ctx))).concat([item]); if (!b.sections.includes('lab')) b.sections.splice(Math.max(1, b.sections.indexOf('kpi') + 1), 0, 'lab'); U.prev = null; U.msg = X('Pengiraan ditambah daripada Makmal Produktiviti.', 'Calculation added from the Productivity Lab.'); }
-  function defB() { const it = ind('prod'); return { title: '', subtitle: '', geos: [S.sel], vsNat: true, inds: ['gdp', 'prod', 'emp'], y0: 2015, y1: Math.max(...it.years), mode: 'both', sections: ['exec', 'kpi', 'trend', 'cross', 'compare', 'findings', 'limits', 'method', 'sources'], len: 1, charts: true, notes: {}, names: {}, edits: {}, sim: null }; }
+  function defB() { const it = ind('prod'); return { type: 'natlp', title: '', subtitle: '', geos: ['national'], vsNat: true, inds: ['gdp', 'prod', 'emp'], y0: 2015, y1: Math.max(...it.years), mode: 'both', sections: ['exec', 'kpi', 'trend', 'cross', 'compare', 'findings', 'limits', 'method', 'sources'], len: 1, charts: true, notes: {}, names: {}, edits: {}, sim: null }; }
   function defSim() { return { g: S.sel, end: 2035, uplift: 1, h0: 2015, custom: {} }; }
   function defKit() { return { state: S.sel, y0: 2015, y1: Math.max(...ind('prod').years), end: 2035, uplift: 1, w: { gr: 1, li: 1, lp: 1, sh: 1 }, fw: {}, agenda: '', clusters: '', venue: '', date: '', sectorNote: '' }; }
   const B = () => U.b || (U.b = defB()), SM = () => U.sim || (U.sim = defSim()), KT = () => U.kit || (U.kit = defKit());
@@ -5617,7 +5727,7 @@ const K2 = (() => {
 
   function previewHtml(rep) {
     const t = s => esc(s);
-    const body = rep.blocks.map((b, i) => b.t === 'h1' || b.t === 'h0' ? `<h2>${t(b.text)}</h2>` : b.t === 'h3' ? `<h3>${t(b.text)}</h3>` : b.t === 'p' ? `<p>${t(b.text)}</p>` : b.t === 'callout' ? `<p class="pv-call">${t(b.text)}</p>` : b.t === 'bullets' ? `<ul>${b.items.map(x => `<li>${t(x)}</li>`).join('')}</ul>` : b.t === 'chart' ? `<figure class="k2-fig"><figcaption>${t(b.title)}</figcaption><div class="k2-chart" data-k2chart="${i}"></div>${b.src ? `<small>${t(b.src)}</small>` : ''}</figure>` : b.t === 'table' ? `${b.cap ? `<p><b>${t(b.cap)}</b></p>` : ''}<div class="tbl-w"><table><thead><tr>${b.head.map(h => `<th>${t(h)}</th>`).join('')}</tr></thead><tbody>${b.rows.map(r => `<tr>${r.map(c => `<td>${t(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>` : '').join('');
+    const body = rep.blocks.map((b, i) => b.t === 'h1' || b.t === 'h0' ? `<h2>${t(b.text)}</h2>` : b.t === 'h3' ? `<h3>${t(b.text)}</h3>` : b.t === 'p' ? `<p${b.note ? ' class="pv-note"' : ''}>${t(b.text)}</p>` : b.t === 'callout' ? `<p class="pv-call">${t(b.text)}</p>` : b.t === 'bullets' ? `<ul>${b.items.map(x => `<li>${t(x)}</li>`).join('')}</ul>` : b.t === 'chart' ? `<figure class="k2-fig"><figcaption>${t(b.title)}</figcaption><div class="k2-chart" data-k2chart="${i}"></div>${b.src ? `<small>${t(b.src)}</small>` : ''}</figure>` : b.t === 'table' ? `${b.cap ? `<p><b>${t(b.cap)}</b></p>` : ''}<div class="tbl-w"><table><thead><tr>${b.head.map(h => `<th>${t(h)}</th>`).join('')}</tr></thead><tbody>${b.rows.map(r => `<tr>${r.map(c => `<td>${t(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>` : '').join('');
     return `<div class="pv-body"><div class="pv-cover"><small>${t(rep.eyebrow)}</small><h1>${t(rep.title)}</h1><p>${t(rep.subtitle)}</p></div><div class="pv-kpis">${rep.kpis.map(k => `<div>${t(k.l)}<b>${t(k.v)}</b></div>`).join('')}</div>${body}</div>`;
   }
   async function drawPreviewCharts(root, rep) {
@@ -5639,15 +5749,39 @@ const K2 = (() => {
       </tbody></table></div><p class="mean"><b>${esc(X('Muat naik data baharu: ', 'Uploading new data: '))}</b>${esc(X('Letakkan fail DOSM (CSV/XLSX) dalam folder dosm/ di GitHub. Halaman pemetaan dan import dalam laman memerlukan storan pelayan (Cloudflare R2/D1) yang belum disediakan.', 'Put DOSM files (CSV/XLSX) in the dosm/ folder on GitHub. An in-site mapping and import page needs server storage (Cloudflare R2/D1), which is not set up yet.'))}</p></article>`;
   }
 
+  function typedBuilder(el) {
+    const b = B(); if (!K3.typeInfo(b.type) || !K3.typeInfo(b.type).ok) b.type = 'natlp'; const t = K3.typeInfo(b.type), rep = U.prev, ys = K3.years(), nm = x => x.name;
+    const sel = (name, opts, cur) => `<select data-k2="${name}">${opts.map(([v, l]) => `<option value="${v}"${String(v) === String(cur) ? ' selected' : ''}>${esc(l)}</option>`).join('')}</select>`;
+    const cards = K3.TYPES().filter(x => K3.typeInfo(x.id).ok).map(x => { const i = K3.typeInfo(x.id); return `<button type="button" class="k2-type${x.id === b.type ? ' on' : ''}${i.ok ? '' : ' na'}" data-k2type="${x.id}" aria-pressed="${x.id === b.type}"><b>${esc(x.name)}</b><small>${esc(x.desc)}</small><span class="k2-tc ${i.ok === i.total ? 'full' : i.ok ? 'part' : 'none'}">${esc(X(`${i.ok} pengiraan`, `${i.ok} calculations`))}</span></button>`; }).join('')
+      + `<button type="button" class="k2-type k2-custom" data-k2type="custom"><b>${esc(X('Laporan tersuai', 'Custom report'))}</b><small>${esc(X('Pilih sendiri penunjuk negeri, bahagian dan susunan laporan.', 'Choose your own state indicators, sections and layout.'))}</small><span class="k2-tc">${esc(X('Mod lanjutan', 'Advanced mode'))}</span></button>`;
+    const plan = t.secs.filter(([, ids]) => ids.some(x => { const id = +String(x).replace('s:', ''); return K3.runnable(id) && !K3.isWage(id); })).map(([title, ids]) => `<li><b>${esc(title)}</b><ul>${[...new Set(ids.map(x => +String(x).replace('s:', '')))].filter(id => K3.runnable(id) && !K3.isWage(id)).map(id => { const c = K3.CAT.find(r => r[0] === id), ok = K3.runnable(id) && !K3.isWage(id); return `<li class="${ok ? 'ok' : 'no'}">${ok ? '✓' : '–'} ${esc(en() ? c[2] : c[1])}${ok ? '' : `<small>${esc(K3.isWage(id) ? X('Analisis gaji KIV', 'Wage analysis on hold (KIV)') : X('Belum ada data', 'No data yet'))}</small>`}</li>`; }).join('')}</ul></li>`).join('');
+    el.innerHTML = `<article class="card k2-types"><div class="card-h"><div><h2>1 · ${esc(X('Pilih jenis laporan', 'Choose a report type'))}</h2><p class="sub">${esc(X('Semua pengiraan Makmal Produktiviti yang berkaitan dimasukkan secara automatik, berserta penerangan ringkas, carta dan jadual.', 'Every related Productivity Lab calculation is added automatically, with a plain explanation, charts and tables.'))}</p></div></div><div class="k2-tgrid">${cards}</div></article>
+      <div class="k2-wrap"><aside class="k2-cfg card">
+      <h2>2 · ${esc(X('Tetapan', 'Settings'))}</h2>
+      <div class="k2-f"><label>${esc(X('Lokasi', 'Location'))}</label>${t.geo ? `<select data-k2="geo1">${geoOpts(b.geos[0])}</select><small class="k2-hint">${esc(X('Pengiraan yang tiada data negeri ditunjukkan untuk Malaysia dan ditanda dengan jelas.', 'Calculations without state data are shown for Malaysia and clearly marked.'))}</small>` : `<p class="k2-note">${esc(X('Laporan ini di peringkat Malaysia kerana data sektor DOSM hanya diterbitkan secara nasional.', 'This report is at Malaysia level because DOSM sector data is only published nationally.'))}</p>`}</div>
+      <div class="k2-f"><label>${esc(X('Tempoh', 'Period'))}</label><div class="k2-row">${sel('y0', ys.map(y => [y, y]), b.y0)}<span>–</span>${sel('y1', ys.map(y => [y, y]), b.y1)}</div></div>
+      <div class="k2-f"><label>${esc(X('Tajuk & nota (pilihan)', 'Title & note (optional)'))}</label><input type="text" data-k2="title" placeholder="${esc(t.name)}" value="${esc(b.title)}"><textarea data-k2="note" rows="2" placeholder="${esc(X('Perenggan pembuka anda sendiri (jika kosong, ditulis automatik)', 'Your own opening paragraph (written automatically if empty)'))}">${esc(b.notes.exec || '')}</textarea></div>
+      ${(b.lab || []).length ? `<div class="k2-f"><label>${esc(X('Tambahan daripada Makmal', 'Added from the Lab'))}</label><div class="k2-chips">${b.lab.map((l, i) => `<span class="k2-chip">#${l.id}<button type="button" data-k2rmlab="${i}" aria-label="×">×</button></span>`).join('')}</div></div>` : ''}
+      <div class="k2-cfg-foot"><span>${esc(X(`${t.ok} pengiraan`, `${t.ok} calculations`))}</span><button type="button" class="btn-big alt" data-k2act="gen"${t.ok || (b.lab || []).length ? '' : ' disabled'}>${esc(X('Jana laporan', 'Generate report'))} →</button></div>
+      </aside>
+      <section class="k2-main">
+        <div class="k2-bar card"><button type="button" class="btn dark" data-k2act="gen"${t.ok || (b.lab || []).length ? '' : ' disabled'}>${esc(X('Jana laporan', 'Generate report'))}</button><button type="button" class="btn" data-k2act="save"${t.ok || (b.lab || []).length ? '' : ' disabled'}>☆ ${esc(X('Simpan ke Pustaka', 'Save to My Library'))}</button>${rep ? dlBar('b') : U.msg ? `<p class="k2-msg" role="status">${esc(U.msg)}</p>` : ''}</div>
+        ${rep ? `<article class="card k2-prev"><div class="card-h"><div><h2>${esc(X('Pratonton', 'Preview'))}</h2><p class="sub">${esc(X('Sama dengan fail Word, PDF dan Excel yang dimuat turun.', 'The same content as the Word, PDF and Excel downloads.'))}</p></div></div>
+          <div class="m6-paper k2-paper">${previewHtml(rep)}</div></article>`
+        : `<article class="card k2-plan"><div class="card-h"><div><h2>${esc(X('Kandungan laporan', 'What the report will contain'))}</h2><p class="sub">${esc(X(`${t.ok} pengiraan akan dimasukkan secara automatik, setiap satu dengan penerangan ringkas.`, `${t.ok} calculations will be added automatically, each with a plain explanation.`))}</p></div></div><ol class="k2-planl">${plan}</ol></article>`}
+      </section></div>`;
+    if (rep) drawPreviewCharts(el, rep);
+  }
   function builder(el) {
+    if (U.prev && U.prev.lang !== S.lang && U.prev._cfg) { try { U.prev = compose({ ...B(), sim: (B().sections || []).includes('sim') ? (B().sim || { end: 2035, uplift: 1 }) : null }); } catch (e) { U.prev = null; } }
+    if ((B().type || 'custom') !== 'custom') return typedBuilder(el);
     if (U.b) U.b.inds = U.b.inds.filter(id => { const i = ind(id); return i && MALAR(i); });
     const b = B(), C = CAT(), ys = yearsAll(), chk = check(b), rep = U.prev;
     const sel = (name, opts, cur) => `<select data-k2="${name}">${opts.map(([v, l]) => `<option value="${v}"${String(v) === String(cur) ? ' selected' : ''}>${esc(l)}</option>`).join('')}</select>`;
     const quick = [['last', X('Tahun terkini', 'Latest year')], ['3', X('3 tahun terakhir', 'Last 3 years')], ['5', X('5 tahun terakhir', 'Last 5 years')], ['10', X('10 tahun terakhir', 'Last 10 years')]];
     el.innerHTML = `<div class="k2-wrap"><aside class="k2-cfg card">
       <h2>${esc(X('Konfigurasi laporan', 'Report settings'))}</h2>
-      <div class="k2-f"><label>${esc(X('Resepi laporan (pilihan)', 'Report recipe (optional)'))}</label><select data-k2="recipe"><option value="">${esc(X('Tiada — pilih sendiri', 'None — choose yourself'))}</option>${K3.RECIPES().map(r => `<option value="${r[0]}"${b.recipe === r[0] ? ' selected' : ''}>${esc(r[1])}</option>`).join('')}</select><small class="k2-hint">${esc(X('Resepi memilih pengiraan Makmal yang berkaitan dan menerangkan apa yang dikecualikan.', 'A recipe picks the relevant Lab calculations and explains what is left out.'))}</small>
-        ${(b.lab || []).length ? `<div class="k2-chips">${b.lab.map((l, i) => `<span class="k2-chip">#${l.id}<button type="button" data-k2rmlab="${i}" aria-label="×">×</button></span>`).join('')}</div>` : ''}</div>
+      <div class="k2-f"><button type="button" class="btn k2-mini" data-k2type="natlp">← ${esc(X('Kembali ke jenis laporan', 'Back to report types'))}</button>${(b.lab || []).length ? `<div class="k2-chips">${b.lab.map((l, i) => `<span class="k2-chip">#${l.id}<button type="button" data-k2rmlab="${i}" aria-label="×">×</button></span>`).join('')}</div>` : ''}</div>
       <div class="k2-f"><label>1 · ${esc(X('Lokasi', 'Location'))}</label>
         <div class="k2-chips">${b.geos.map(g => `<span class="k2-chip">${esc(gname(g))}${b.geos.length > 1 ? `<button type="button" data-k2rmgeo="${g}" aria-label="×">×</button>` : ''}</span>`).join('')}</div>
         ${b.geos.length < 6 ? `<select data-k2="addgeo"><option value="">${esc(X('+ Tambah lokasi (maks. 6)', '+ Add a location (max 6)'))}</option>${geoOpts('').replace(' selected', '')}</select>` : ''}
@@ -5717,7 +5851,7 @@ const K2 = (() => {
   function savedPage(el) {
     const a = tpls();
     el.innerHTML = `<article class="card"><div class="card-h"><div><h2>${esc(X('Pustaka Saya', 'My Library'))}</h2><p class="sub">${esc(X('Laporan yang anda simpan dari Studio Analitik. "Buka salinan" menunjukkan angka asal seperti semasa disimpan; "Jana semula" menggunakan data terkini. Disimpan dalam pelayar peranti ini.', 'Reports you saved from Insights Studio. "Open copy" shows the original figures as saved; "Regenerate" uses the latest data. Stored in this device\'s browser.'))}</p></div></div>
-      ${a.length ? `<div class="lib">${a.map((t, i) => `<div class="lib-c"><input class="lib-n" data-k2tname="${i}" value="${esc(t.name)}" aria-label="${esc(X('Nama', 'Name'))}"><p class="lib-s">${esc(t.cfg.geos.map(gname).join(', '))} · ${t.cfg.inds.length} ${esc(X('penunjuk', 'indicators'))}${(t.cfg.lab || []).length ? ' · ' + t.cfg.lab.length + X(' pengiraan Makmal', ' Lab calculations') : ''} · ${t.cfg.y0}–${t.cfg.y1} · ${esc(X('disimpan ', 'saved ') + t.at.slice(0, 10))}${t.dataVersion && t.dataVersion !== K3.version() ? ' · ' + esc(X('data telah dikemas kini sejak itu', 'data has been updated since')) : ''}</p>
+      ${a.length ? `<div class="lib">${a.map((t, i) => `<div class="lib-c"><input class="lib-n" data-k2tname="${i}" value="${esc(t.name)}" aria-label="${esc(X('Nama', 'Name'))}"><p class="lib-s">${esc(t.cfg.geos.map(gname).join(', '))} · ${t.cfg.type && t.cfg.type !== 'custom' && K3.typeInfo(t.cfg.type) ? esc(K3.typeInfo(t.cfg.type).name) : t.cfg.inds.length + ' ' + esc(X('penunjuk', 'indicators'))}${(t.cfg.lab || []).length ? ' · ' + t.cfg.lab.length + X(' pengiraan Makmal', ' Lab calculations') : ''} · ${t.cfg.y0}–${t.cfg.y1} · ${esc(X('disimpan ', 'saved ') + t.at.slice(0, 10))}${t.dataVersion && t.dataVersion !== K3.version() ? ' · ' + esc(X('data telah dikemas kini sejak itu', 'data has been updated since')) : ''}</p>
         <div class="lib-a">${t.snap ? `<button type="button" class="btn dark k2-mini" data-k2t="snap" data-i="${i}">${esc(X('Buka salinan', 'Open copy'))}</button><button type="button" class="btn k2-mini" data-k2t="word" data-i="${i}">⤓ Word</button>` : ''}<button type="button" class="btn k2-mini" data-k2t="open" data-i="${i}">↻ ${esc(X('Jana semula', 'Regenerate'))}</button><button type="button" class="btn k2-mini lib-del" data-k2t="del" data-i="${i}" aria-label="${esc(X('Padam', 'Delete'))}">🗑</button></div></div>`).join('')}</div>`
       : `<div class="lib-empty"><p>${esc(X('Belum ada laporan disimpan.', 'No saved reports yet.'))}</p><a class="btn dark" href="#bina-laporan">${esc(X('Pergi ke Studio Analitik', 'Go to Insights Studio'))}</a></div>`}</article>`;
   }
@@ -5738,6 +5872,7 @@ const K2 = (() => {
     const t = e.target, b = B(), v = t.value;
     if (t.dataset.k2ind) { b.inds = t.checked ? [...new Set(b.inds.concat(t.dataset.k2ind))] : b.inds.filter(x => x !== t.dataset.k2ind); U.prev = null; return paint(); }
     const k = t.dataset.k2;
+    if (k === 'geo1') { b.geos = [v]; U.prev = null; return paint(); }
     if (k === 'addgeo' && v) { if (!b.geos.includes(v)) b.geos.push(v); U.prev = null; return paint(); }
     if (k === 'vsNat') { b.vsNat = t.checked; U.prev = null; return paint(); }
     if (k === 'y0' || k === 'y1') { b[k] = +v; if (b.y0 > b.y1) [b.y0, b.y1] = [b.y1, b.y0]; U.prev = null; return paint(); }
@@ -5751,6 +5886,7 @@ const K2 = (() => {
   function onClick(e) {
     const b = B(), q = s => e.target.closest(s);
     let el;
+    if ((el = q('[data-k2type]'))) { const v = el.dataset.k2type, ti = K3.typeInfo(v); b.type = v; U.prev = null; U.msg = ''; if (ti) { if (!ti.geo) b.geos = ['national']; else if (ti.stateDefault && b.geos[0] === 'national') b.geos = [S.sel]; else b.geos = b.geos.slice(0, 1); const ys = K3.years(); if (!ys.includes(b.y1)) b.y1 = ys[ys.length - 1]; if (!ys.includes(b.y0) || b.y0 >= b.y1) b.y0 = ys[0]; } else { b.inds = b.inds && b.inds.length ? b.inds : ['gdp', 'prod', 'emp']; } return paint(); }
     if ((el = q('[data-k2rmlab]'))) { b.lab.splice(+el.dataset.k2rmlab, 1); U.prev = null; return paint(); }
     if ((el = q('[data-k2rmgeo]'))) { b.geos = b.geos.filter(g => g !== el.dataset.k2rmgeo); U.prev = null; return paint(); }
     if (q('[data-k2all]')) { b.geos = IDS.filter(s => !SPECIAL_FT.includes(s)).slice(0, 6); U.prev = null; return paint(); }
@@ -5760,8 +5896,8 @@ const K2 = (() => {
     if ((el = q('[data-k2rmsec]'))) { b.sections = b.sections.filter(s => s !== el.dataset.k2rmsec); U.prev = null; return paint(); }
     if ((el = q('[data-k2act]'))) { const a = el.dataset.k2act;
       if (a === 'check') { U.prev = null; return paint(); }
-      if (a === 'gen') { if (!b.inds.length) { U.msg = X('Pilih sekurang-kurangnya satu penunjuk.', 'Choose at least one indicator.'); return paint(); } U.prev = compose({ ...b, sim: b.sections.includes('sim') ? (b.sim || { end: 2035, uplift: 1 }) : null }); U.msg = ''; paint(); setTimeout(() => { const p = root.querySelector('.k2-prev'); if (p) p.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50); return; }
-      if (a === 'save') { if (!U.prev) U.prev = compose({ ...b, sim: b.sections.includes('sim') ? (b.sim || { end: 2035, uplift: 1 }) : null }); const snap = JSON.parse(JSON.stringify({ ...U.prev, _cfg: undefined, _chk: undefined })); const all = tpls(); all.unshift({ name: `${b.title || X('Laporan', 'Report')} · ${b.geos.map(gname).join(', ')} · ${b.y0}–${b.y1}`, at: new Date().toISOString(), cfg: JSON.parse(JSON.stringify(b)), snap, dataVersion: K3.version() }); saveT(all.slice(0, 30)); U.msg = X('Disimpan ke Pustaka Saya.', 'Saved to My Library.'); return paint(); }
+      if (a === 'gen') { if ((!b.type || b.type === 'custom') && !b.inds.length) { U.msg = X('Pilih sekurang-kurangnya satu penunjuk.', 'Choose at least one indicator.'); return paint(); } U.prev = compose({ ...b, sim: b.sections.includes('sim') ? (b.sim || { end: 2035, uplift: 1 }) : null }); U.msg = ''; paint(); setTimeout(() => { const p = root.querySelector('.k2-prev'); if (p) p.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50); return; }
+      if (a === 'save') { if (!U.prev) U.prev = compose({ ...b, sim: b.sections.includes('sim') ? (b.sim || { end: 2035, uplift: 1 }) : null }); const snap = JSON.parse(JSON.stringify({ ...U.prev, _cfg: undefined, _chk: undefined })); const all = tpls(); all.unshift({ name: `${b.title || (b.type && b.type !== 'custom' ? K3.typeInfo(b.type).name : X('Laporan tersuai', 'Custom report'))} · ${b.geos.map(gname).join(', ')} · ${b.y0}–${b.y1}`, at: new Date().toISOString(), cfg: JSON.parse(JSON.stringify(b)), snap, dataVersion: K3.version() }); saveT(all.slice(0, 30)); U.msg = X('Disimpan ke Pustaka Saya.', 'Saved to My Library.'); return paint(); }
       if (a === 'kitprev') { U.kitPrev = kitCompose(KT()); return paint(); }
     }
     if ((el = q('[data-k2dl]'))) { const ctx = el.dataset.k2ctx, kind = el.dataset.k2dl;
@@ -5771,14 +5907,15 @@ const K2 = (() => {
     if ((el = q('[data-k2t]'))) { const all = tpls(), i = +el.dataset.i, a = el.dataset.k2t;
       if (a === 'snap') { U.b = JSON.parse(JSON.stringify(all[i].cfg)); U.prev = all[i].snap; U.msg = X('Salinan asal (angka seperti semasa disimpan).', 'Original copy (figures as saved).'); location.hash = 'bina-laporan'; return; }
       if (a === 'word') return dl('docx', all[i].snap);
-      if (a === 'open') { U.b = JSON.parse(JSON.stringify(all[i].cfg)); U.b.inds = U.b.inds.filter(id => { const x = ind(id); return x && MALAR(x); }); U.prev = compose({ ...U.b }); location.hash = 'bina-laporan'; return; }
+      if (a === 'open') { U.b = JSON.parse(JSON.stringify(all[i].cfg)); U.b.inds = (U.b.inds || []).filter(id => { const x = ind(id); return x && MALAR(x); }); U.prev = compose({ ...U.b }); location.hash = 'bina-laporan'; return; }
       if (a === 'ren') { const nm = prompt(X('Nama baharu:', 'New name:'), all[i].name); if (nm) { all[i].name = nm; saveT(all); } return paint(); }
       if (a === 'dup') { all.splice(i + 1, 0, { ...JSON.parse(JSON.stringify(all[i])), name: all[i].name + X(' (salinan)', ' (copy)'), at: new Date().toISOString() }); saveT(all); return paint(); }
       if (a === 'del') { if (confirm(X('Padam templat ini?', 'Delete this template?'))) { all.splice(i, 1); saveT(all); } return paint(); } }
   }
   let wired = false;
   function wire(el) { if (wired) return; wired = true; el.addEventListener('click', onClick); el.addEventListener('change', onChange); el.addEventListener('input', onInput); }
-  return { render, wire, ST, compose, addLab, kitCompose, simulate, check, CAT, docx, pdf, xlsx, pack };
+  function setType(v) { const b = B(); b.type = v; if (v === 'state' && b.geos[0] === 'national') b.geos = [S.sel]; U.prev = null; if (root && cur === 'build') setTimeout(paint, 0); }
+  return { render, wire, setType, ST, compose, addLab, kitCompose, simulate, check, CAT, docx, pdf, xlsx, pack };
 })();
 
 
