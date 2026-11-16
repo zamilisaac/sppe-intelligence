@@ -5608,7 +5608,30 @@ const K3 = (() => {
       return n;
     } catch (e) { console.error('analytics', e); return { find: [], impl: [], score: [], intro: {} }; }
   }
+  const TERMS = () => [
+    [/^CAGR produktiviti$|^Productivity CAGR$/, X('CAGR (purata pertumbuhan setahun) produktiviti', 'Productivity CAGR (average growth a year)')],
+    [/^CAGR produktiviti subsektor$|^Subsector productivity CAGR$/, X('CAGR (purata pertumbuhan setahun) produktiviti subsektor', 'Subsector productivity CAGR (average growth a year)')],
+    [/^Identiti pertumbuhan KDNK$|^GDP growth identity$/, X('Identiti pertumbuhan KDNK (pecahan pertumbuhan kepada pekerja lebih produktif dan tambahan pekerja)', 'GDP growth identity (growth split into more productive workers and more workers)')],
+    [/^Shift-share: kesan dalam sektor$|^Shift-share: within-sector effect$/, X('Shift-share (pecahan kenaikan produktiviti): kesan dalam sektor, iaitu sektor sendiri menjadi lebih cekap', 'Shift-share (productivity gain split): within-sector effect, i.e. sectors themselves becoming more efficient')],
+    [/^Shift-share: pengagihan pekerja$|^Shift-share: reallocation effect$/, X('Shift-share: kesan pengagihan, iaitu pekerja berpindah ke sektor lebih produktif', 'Shift-share: reallocation effect, i.e. workers moving to more productive sectors')],
+    [/^Shift-share: kesan interaksi$|^Shift-share: interaction effect$/, X('Shift-share: kesan interaksi, iaitu sektor yang menjadi lebih cekap sambil berubah saiz pekerja', 'Shift-share: interaction effect, i.e. sectors becoming more efficient while changing in size')],
+    [/KPTB/, X('KPTB (kadar penyertaan tenaga buruh)', 'LFPR (labour force participation rate)')],
+    [/^Indeks kepekatan sektor \(HHI\)$|^Sector concentration index \(HHI\)$/, X('Indeks kepekatan sektor (HHI: sejauh mana ekonomi bergantung pada beberapa sektor; 0 = pelbagai, 1 = satu sektor)', 'Sector concentration index (HHI: how much the economy relies on a few sectors; 0 = diverse, 1 = one sector)')],
+    [/^Indeks perubahan struktur ekonomi$|^Structural change index$/, X('Indeks perubahan struktur ekonomi (berapa banyak bahagian sektor beralih; 0 = tiada perubahan)', 'Structural change index (how much sector shares shifted; 0 = no change)')],
+    [/^Nisbah share VA \/ share pekerja$|^VA share to employment share ratio$/, X('Nisbah bahagian nilai ditambah (VA) kepada bahagian pekerja (lebih 1 = setiap pekerja menghasilkan lebih daripada purata)', 'Value added (VA) share to employment share ratio (above 1 = each worker produces more than average)')],
+    [/^Indeks produktiviti relatif sektor$|^Sector relative productivity index$/, X('Indeks produktiviti relatif sektor (purata ekonomi = 100)', 'Sector relative productivity index (economy average = 100)')],
+    [/^Indeks produktiviti$|^Productivity index$/, X('Indeks produktiviti (tahun asas = 100)', 'Productivity index (base year = 100)')],
+    [/KDNK benar|real GDP/i, X('KDNK benar (harga malar 2015, selepas mengambil kira inflasi)', 'real GDP (constant 2015 prices, after inflation)')],
+    [/Gini/, X('pekali Gini (ukuran ketaksamaan pendapatan; 0 = sama rata)', 'Gini coefficient (income inequality; 0 = equal)')],
+    [/P90\/P10/, X('P90/P10 (pendapatan isi rumah persentil ke-90 berbanding ke-10)', 'P90/P10 (90th versus 10th percentile household income)')],
+    [/\bLP\b/, X('LP (produktiviti buruh)', 'LP (labour productivity)')],
+  ];
+  const termed = new Set();
+  const term = s => { let out = s; TERMS().forEach(([re, rp], i) => { if (!re.test(out)) return; if (termed.has(i)) return; termed.add(i); if (re.source.startsWith('^')) out = rp; else if (/KPTB|LFPR/.test(rp)) out = out.replace(/KPTB/, rp); else if (/Gini/.test(rp)) out = out.replace(/pekali Gini|Gini coefficient|Gini/i, rp); else if (/P90/.test(rp)) out = out.replace(/P90\/P10/, rp); else if (/^LP|^LP \(/.test(rp)) out = out.replace(/\bLP\b/, rp); else out = out.replace(/KDNK benar|real GDP/i, rp); }); return out; };
+  // metrics where a lower value is better (rank 1 = lowest)
+  const LOWB = [86, 95, 35, 98, 121, 123, 125, 126, 127];
   function buildReport(tid, o) {
+    termed.clear();
     const t = TYPES().find(x => x.id === tid), geo = t.geo ? (o.geo || 'national') : 'national', ny = natYears();
     const y1 = o.y1 || ny[ny.length - 1], y0 = Math.min(o.y0 || ny[0], y1 - 1);
     const B = [], ev = [], exc = [], notes = new Set(), exec = [], kpis = [], used = new Set();
@@ -5617,15 +5640,15 @@ const K3 = (() => {
       const ys = yearsFor(id); if (d.year && ys.length) c.year = pick(ys, y1); if (d.y0) c.y0 = Math.max(ny[0], Math.min(y0, (c.year || y1) - 1)); return { ...c, ...over }; };
     const nmOf = r => r.metricId === 1 ? X('Produktiviti buruh', 'Labour productivity') : r.name;
     const reason = id => WAGE_IDS.includes(id) ? X('Analisis gaji KIV', 'Wage analysis on hold (KIV)') : missingFor(id).join('; ');
-    const meta = r => { (r.warnings || []).concat(r.limitations || []).forEach(w => notes.add(w)); ev.push(r); (r.inputs || []).forEach(i => used.add(i.file)); };
+    const meta = r => { (r.warnings || []).forEach(w => notes.add(w)); ev.push(r); (r.inputs || []).forEach(i => used.add(i.file)); };
     const how = r => ({ t: 'p', note: true, text: X('Cara dikira: ', 'How it is calculated: ') + r.formula + ' · ' + X('Sumber: ', 'Source: ') + ([...new Set((r.inputs || []).map(i => i.file))].join('; ') || '–') + ' · ' + PRV(r.provenance) });
     function across(id, kind) {
       const base = ctxFor(id), list = kind === 'sub' ? SUBS().map(([s, n]) => [n, { ...base, sub: s }, false]) : kind === 'sec' ? SEC5.map(s => [secName(s), { ...base, sec: s }, false]) : STATES.map(s => [sname(s.id), { ...base, geo: s.id }, s.id === geo]);
       const rs = list.map(([l, c, hi]) => ({ l, hi, r: calculate(id, c) })).filter(x => x.r.value != null); if (!rs.length) return null;
-      rs.forEach(x => meta(x.r)); const r0 = rs[0].r, srt = [...rs].sort((a, b) => b.r.value - a.r.value), w = WHAT[id];
-      const ttl = nmOf(r0) + (kind === 'sec' && base.geo && base.geo !== 'national' ? ' · ' + locName(base.geo) : ''), out = [{ t: 'h3', text: ttl + (kind === 'sec' ? X(' — semua sektor', ' — all sectors') : kind === 'sub' ? X(' — 16 subsektor', ' — 16 subsectors') : X(' — semua negeri', ' — all states')) + (r0.context.year ? ', ' + r0.context.year : '') }];
+      rs.forEach(x => meta(x.r)); const r0 = rs[0].r, low = LOWB.includes(id), srt = [...rs].sort((a, b) => b.r.value - a.r.value), rk = low ? [...srt].reverse() : srt, w = WHAT[id];
+      const ttl = term(nmOf(r0)) + (kind === 'sec' && base.geo && base.geo !== 'national' ? ' · ' + locName(base.geo) : ''), out = [{ t: 'h3', text: ttl + (kind === 'sec' ? X(' — semua sektor', ' — all sectors') : kind === 'sub' ? X(' — 16 subsektor', ' — 16 subsectors') : X(' — semua negeri', ' — all states')) + (r0.context.year ? ', ' + r0.context.year : '') }];
       const top = srt[0], bot = srt[srt.length - 1], me = rs.find(x => x.hi);
-      out.push({ t: 'callout', text: X(`Tertinggi: ${top.l} (${top.r.display}). Terendah: ${bot.l} (${bot.r.display}).`, `Highest: ${top.l} (${top.r.display}). Lowest: ${bot.l} (${bot.r.display}).`) + (me ? X(` ${me.l} di kedudukan ${srt.indexOf(me) + 1} daripada ${srt.length} (${me.r.display}).`, ` ${me.l} ranks ${srt.indexOf(me) + 1} of ${srt.length} (${me.r.display}).`) : '') });
+      out.push({ t: 'callout', text: X(`Tertinggi: ${top.l} (${top.r.display}). Terendah: ${bot.l} (${bot.r.display}).`, `Highest: ${top.l} (${top.r.display}). Lowest: ${bot.l} (${bot.r.display}).`) + (me ? X(` ${me.l} di kedudukan ${rk.indexOf(me) + 1} daripada ${rk.length} (${me.r.display}; 1 = ${low ? 'paling rendah' : 'paling tinggi'}).`, ` ${me.l} ranks ${rk.indexOf(me) + 1} of ${rk.length} (${me.r.display}; 1 = ${low ? 'lowest' : 'highest'}).`) : '') });
       const fk = FK(r0), bar = srt.every(x => x.r.value >= 0) && ['rm', 'p', 'n1', 'kS', 'rmbS'].includes(fk);
       if (bar) out.push({ t: 'chart', kind: 'hbar', fmt: fk, wide: true, title: ttl + (r0.context.year ? ', ' + r0.context.year : ''), items: srt.map(x => ({ label: x.l, v: x.r.value, hi: x.hi })), src: X('Sumber: ', 'Source: ') + [...new Set((r0.inputs || []).map(i => i.file))].join('; ') });
       out.push({ t: 'table', head: [kind === 'sec' ? X('Sektor', 'Sector') : kind === 'sub' ? X('Subsektor', 'Subsector') : X('Negeri', 'State'), X('Hasil', 'Result')], rows: srt.map(x => [x.l + (x.hi ? ' ◄' : ''), x.r.display]), align: ['l', 'r'] });
@@ -5634,7 +5657,7 @@ const K3 = (() => {
     }
     function single(id) {
       const d = DIM[id] || {}, r = calculate(id, ctxFor(id)); if (r.value == null) { exc.push([id, r.name, (r.missing || []).join('; ')]); return null; }
-      meta(r); const w = WHAT[id], ro = readOut(id, r), nm = id === 1 && r.context.geo !== 'national' ? X('Produktiviti buruh ', 'Labour productivity, ') + locName(r.context.geo) : r.name, out = [{ t: 'h3', text: nm + (t.geo && geo !== 'national' && !d.geo ? X(' (Malaysia; data negeri tiada)', ' (Malaysia; no state data)') : '') }];
+      meta(r); const w = WHAT[id], ro = readOut(id, r), nm = id === 1 && r.context.geo !== 'national' ? X('Produktiviti buruh ', 'Labour productivity, ') + locName(r.context.geo) : r.name, out = [{ t: 'h3', text: term(nm) + (t.geo && geo !== 'national' && !d.geo ? X(' (Malaysia; data negeri tiada)', ' (Malaysia; no state data)') : '') }];
       out.push({ t: 'callout', text: ro || `${r.display}` });
       if (d.year && !d.scen && !d.date && ![4, 49, 60, 61, 62].includes(id)) { const c = r.context, ys = yearsFor(id).filter(y => y <= c.year && (d.y0 ? y > c.y0 : y >= y0)); if (ys.length >= 2) {
         const ser = [{ label: locName(c.geo || 'national'), vals: ys.map(y => calculate(id, { ...c, year: y }).value), main: true }];
