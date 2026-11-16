@@ -16,7 +16,7 @@ const ok = (n, c, x = '') => console.log((c ? 'PASS' : 'FAIL') + ' ' + n + (x !=
       again: c(1, { geo: 'national', year: 2025 }), count: K3.CAT.length, run: K3.CAT.filter(x => K3.runnable(x[0])).length, ids: K3.CAT.map(x => x[0]).join(','),
     };
   });
-  ok('registry has IDs 1..109', r.count === 109 && r.ids === Array.from({ length: 109 }, (_, i) => i + 1).join(','));
+  ok('registry has IDs 1..130 (109 catalogue + 21 new)', r.count === 130 && r.ids === Array.from({ length: 130 }, (_, i) => i + 1).join(','));
   ok('fixture: Malaysia LP 2025 ≈ RM104,554 (derived)', Math.abs(r.lpMy.value - 104554) < 1 && r.lpMy.provenance === 'derived_from_official', r.lpMy.value);
   ok('fixture: manufacturing LP 2025 ≈ RM140,720', Math.abs(r.lpMfg.value - 140720) < 1, r.lpMfg.value);
   ok('fixture: LP growth 2025 ≈ +3.96%', Math.abs(r.g25.value - 3.96) < 0.01, r.g25.value);

@@ -97,6 +97,46 @@ for r in hs:
 pack['hies'] = {'years': hy, 'states': hst}
 pack['files']['hies_state'] = sha('hies_state')
 
+# HIES income percentiles by state: thresholds (maximum of a percentile group) and group means
+hp = rows('hies_state_percentile'); hpy = sorted({int(r['date'][:4]) for r in hp}); hpd = {}
+for r in hp:
+    st = hpd.setdefault(r['state'], {}); yr = st.setdefault(str(int(r['date'][:4])), {'max': {}, 'mean': {}})
+    if r['variable'] in ('maximum', 'mean') and num(r['income']) is not None:
+        yr['max' if r['variable'] == 'maximum' else 'mean'][int(r['percentile'])] = num(r['income'])
+hpo = {}
+for st, ys in hpd.items():
+    o = hpo.setdefault(st, {k: [None] * len(hpy) for k in ('p10', 'p40', 'p50', 'p80', 'p90', 'b40', 't20')})
+    for y, v in ys.items():
+        i = hpy.index(int(y)); mx, mn = v['max'], v['mean']
+        for q in (10, 40, 50, 80, 90):
+            o['p%d' % q][i] = mx.get(q)
+        if all(k in mn for k in range(1, 41)): o['b40'][i] = sum(mn[k] for k in range(1, 41)) / 40
+        if all(k in mn for k in range(81, 101)): o['t20'][i] = sum(mn[k] for k in range(81, 101)) / 20
+pack['hiesp'] = {'years': hpy, 'states': hpo}
+pack['files']['hies_state_percentile'] = sha('hies_state_percentile')
+
+# state CPI: annual average index by division, complete calendar years only
+cp = rows('cpi_2d_state'); acc = {}
+for r in cp:
+    v = num(r['index'])
+    if v is None: continue
+    k = (r['state'], r['division'], int(r['date'][:4])); a0 = acc.setdefault(k, []); a0.append(v)
+cyears = sorted({k[2] for k, v in acc.items() if len(v) == 12}); cst = {}
+for (st, dv, y), v in acc.items():
+    if len(v) != 12 or y not in cyears: continue
+    cst.setdefault(st, {}).setdefault(dv, [None] * len(cyears))[cyears.index(y)] = round(sum(v) / 12, 4)
+pack['cpi'] = {'years': cyears, 'states': cst}
+pack['files']['cpi_2d_state'] = sha('cpi_2d_state')
+
+# survey wages (national): median by education, skill and sector, by sex
+ws_ = {}
+for name, col in (('wages_education', 'education'), ('wages_skill', 'skill'), ('wages_sector', 'sector')):
+    rr = rows(name); yy = sorted({int(r['date'][:4]) for r in rr}); o = {}
+    for r in rr:
+        o.setdefault(r[col], {}).setdefault(r['sex'], [None] * len(yy))[yy.index(int(r['date'][:4]))] = num(r['wages_median'])
+    ws_[col] = {'years': yy, 'v': o}; pack['files'][name] = sha(name)
+pack['wsurv'] = ws_
+
 pack['version'] = hashlib.sha256(json.dumps(pack['files'], sort_keys=True).encode()).hexdigest()[:12]
 blob = '<!--K3DATA--><script type="application/json" id="k3-data">' + json.dumps(pack, separators=(',', ':')) + '</script><!--/K3DATA-->'
 html = open(HTML, encoding='utf-8').read()
