@@ -88,6 +88,15 @@ for r in gs:
 pack['sgdp'] = {'years': gy, 'series': gst}
 pack['files']['gdp_state_real_supply'] = sha('gdp_state_real_supply')
 
+# household income survey by state (HIES): income, expenditure, Gini, poverty
+hs = rows('hies_state'); hy = sorted({int(r['date'][:4]) for r in hs}); hst = {}
+for r in hs:
+    s = hst.setdefault(r['state'], {c: [None] * len(hy) for c in ('income_median', 'income_mean', 'expenditure_mean', 'gini', 'poverty')})
+    i = hy.index(int(r['date'][:4]))
+    for c in s: s[c][i] = num(r[c])
+pack['hies'] = {'years': hy, 'states': hst}
+pack['files']['hies_state'] = sha('hies_state')
+
 pack['version'] = hashlib.sha256(json.dumps(pack['files'], sort_keys=True).encode()).hexdigest()[:12]
 blob = '<!--K3DATA--><script type="application/json" id="k3-data">' + json.dumps(pack, separators=(',', ':')) + '</script><!--/K3DATA-->'
 html = open(HTML, encoding='utf-8').read()
