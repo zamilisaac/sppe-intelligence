@@ -804,6 +804,7 @@ p.k2-warn { margin: 0 0 6px; padding: 8px 12px; border-radius: 8px; font-size: 1
 .lab-t th, .lab-t td { text-align: left; vertical-align: top; } .lab-t td:first-child { color: var(--muted); font-variant-numeric: tabular-nums; } .lab-t code { font-size: 11.5px; white-space: normal; } .lab-t td:last-child { text-align: right; }
 .lab-d { border: 2px solid var(--ink); } .lab-badges { display: flex; flex-wrap: wrap; gap: 6px; } .k2-st.k2-info { background: var(--soft); color: var(--ink); }
 .lab-ctl { display: flex; flex-wrap: wrap; gap: 10px; } .lab-ctl label { display: flex; flex-direction: column; gap: 4px; font-size: 11.5px; font-weight: 700; color: var(--muted); }
+.lab-why { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--red); border-radius: 10px; padding: 12px 14px; margin: 12px 0; } .lab-why p { margin: 0; line-height: 1.55; } .lab-why p + p { margin-top: 8px; } .lab-why b { font-weight: 700; }
 .lab-res { display: grid; grid-template-columns: minmax(180px, 240px) minmax(0, 1fr); gap: 16px; align-items: start; background: var(--soft); border-radius: 12px; padding: 14px 16px; } .lab-res > div:first-child span { font-size: 12px; color: var(--muted); font-weight: 700; } .lab-res > div:first-child b { display: block; font-family: var(--f-display); font-size: 28px; } .lab-res > div:first-child small { color: var(--muted); } .lab-in b { font-weight: 700; }
 .lab-in { margin: 0; padding-left: 18px; font-size: 13px; } .lab-in small { color: var(--muted); display: block; } .lab-conv { grid-column: 1 / -1; margin: 0; font-size: 12px; color: var(--muted); }
 .lab-miss { background: #fee2e2; color: #7f1d1d; border-radius: 10px; padding: 10px 14px; font-size: 13px; } .lab-miss ul { margin: 6px 0 0; padding-left: 18px; }
@@ -5020,12 +5021,187 @@ const K3 = (() => {
       if ([42, 106, 108, 109].includes(id)) num('gLP', c.gLP, X('g_LP (% setahun)', 'g_LP (% a year)')); if ([42, 107].includes(id)) num('gL', c.gL, X('g_L (% setahun)', 'g_L (% a year)')); if ([40, 42, 107, 108, 109].includes(id)) num('n', c.n, X('Bilangan tahun', 'Number of years')); if (id === 105) num('uplift', c.uplift, X('Peningkatan LP (%)', 'LP uplift (%)')); }
     return o.join('');
   }
+  /* ---------- plain-language explanations (what it measures + how to read the result) ---------- */
+  const WHAT = {
+    1: ['Berapa banyak nilai ekonomi yang dihasilkan oleh seorang pekerja dalam setahun, secara purata. Ia dikira dengan membahagikan jumlah KDNK dengan bilangan pekerja.', 'How much economic value one worker produces in a year, on average. It divides total GDP by the number of workers.'],
+    2: ['Sama seperti produktiviti buruh, tetapi untuk satu sektor sahaja: nilai yang dihasilkan sektor itu dibahagi dengan bilangan pekerjanya.', 'Like labour productivity, but for one sector only: the value the sector produces divided by its workers.'],
+    3: ['Berapa peratus produktiviti seorang pekerja naik atau turun berbanding tahun sebelumnya.', 'By what percentage output per worker rose or fell compared with the previous year.'],
+    4: ['Kadar pertumbuhan purata setahun bagi satu tempoh. Ia melicinkan naik turun tahunan supaya trend jangka panjang lebih jelas.', 'The average yearly growth rate over a period. It smooths out year-to-year swings so the long-term trend is clearer.'],
+    5: ['Membandingkan produktiviti sesuatu tahun dengan tahun asas yang ditetapkan sebagai 100. Contohnya, 120 bermaksud 20% lebih tinggi daripada tahun asas.', 'Compares productivity in a year with a base year set to 100. For example, 120 means 20% higher than the base year.'],
+    6: ['Membandingkan produktiviti sesuatu sektor dengan purata seluruh ekonomi (= 100). Lebih daripada 100 bermaksud sektor itu lebih produktif daripada purata.', 'Compares a sector\'s productivity with the whole-economy average (= 100). Above 100 means the sector is more productive than average.'],
+    7: ['Berapa peratus produktiviti sesuatu sektor di atas atau di bawah purata seluruh ekonomi.', 'How far, in per cent, a sector\'s productivity is above or below the whole-economy average.'],
+    8: ['Nilai yang dihasilkan oleh seorang pekerja dalam perusahaan mikro, kecil dan sederhana (PMKS).', 'The value produced by one worker in micro, small and medium enterprises (MSMEs).'],
+    9: ['Nilai yang dihasilkan oleh seorang pekerja dalam syarikat besar (bukan PMKS).', 'The value produced by one worker in large firms (non-MSMEs).'],
+    10: ['Berapa jauh produktiviti PMKS ketinggalan atau mendahului syarikat besar.', 'How far MSME productivity is behind or ahead of large firms.'],
+    11: ['Memecahkan pertumbuhan ekonomi kepada dua punca: pekerja menjadi lebih produktif, atau bilangan pekerja bertambah.', 'Splits economic growth into two sources: workers becoming more productive, or more people working.'],
+    12: ['Berapa banyak output dihasilkan bagi setiap ringgit modal (mesin, bangunan, peralatan) yang digunakan.', 'How much output is produced for each ringgit of capital (machines, buildings, equipment) in use.'],
+    13: ['Berapa banyak modal (mesin, bangunan, peralatan) yang ada untuk setiap pekerja.', 'How much capital (machines, buildings, equipment) there is for each worker.'],
+    14: ['Berapa cepat modal setiap pekerja bertambah. Pekerja yang dibekalkan lebih banyak peralatan biasanya lebih produktif.', 'How fast capital per worker is growing. Workers with more equipment are usually more productive.'],
+    15: ['Berapa ringgit modal diperlukan untuk menghasilkan seringgit output.', 'How many ringgit of capital are needed to produce one ringgit of output.'],
+    16: ['Berapa peratus jumlah modal ekonomi bertambah dalam setahun.', 'By what percentage the economy\'s capital stock grew in a year.'],
+    17: ['Berapa peratus modal yang "haus" atau susut nilai setiap tahun.', 'What percentage of capital wears out (depreciates) each year.'],
+    18: ['Berapa bahagian ekonomi negara yang dihasilkan oleh PMKS.', 'What share of the national economy MSMEs produce.'],
+    19: ['Berapa bahagian pekerja negara yang bekerja di PMKS.', 'What share of the country\'s workers are employed by MSMEs.'],
+    20: ['Nilai eksport PMKS bagi setiap pekerja PMKS.', 'MSME export value for each MSME worker.'],
+    21: ['Nilai yang dihasilkan oleh seorang pekerja dalam industri teknologi maklumat dan komunikasi (TMK).', 'The value produced by one worker in the information and communication technology (ICT) industry.'],
+    22: ['Membandingkan produktiviti satu subsektor TMK dengan purata industri TMK (= 100).', 'Compares one ICT subsector\'s productivity with the ICT industry average (= 100).'],
+    23: ['Nilai yang dihasilkan oleh seorang pekerja dalam industri pelancongan.', 'The value produced by one worker in tourism industries.'],
+    24: ['Berapa bahagian ekonomi yang datang daripada industri pelancongan.', 'What share of the economy comes from tourism industries.'],
+    25: ['Berapa peratus gaji penengah (median) pekerja formal di sesuatu negeri lebih tinggi atau rendah daripada Malaysia.', 'How much higher or lower, in per cent, the median formal wage in a state is than in Malaysia.'],
+    26: ['Berapa peratus gaji penengah berubah berbanding bulan sebelumnya.', 'By what percentage the median wage changed from the previous month.'],
+    27: ['Berapa peratus gaji penengah berubah berbanding bulan yang sama tahun lepas.', 'By what percentage the median wage changed from the same month last year.'],
+    28: ['Berapa peratus gaji penengah dalam sesuatu sektor lebih tinggi atau rendah daripada gaji penengah semua pekerja formal.', 'How much higher or lower, in per cent, the median wage in a sector is than for all formal employees.'],
+    29: ['Berapa kali ganda gaji golongan berpendapatan tinggi (P90) berbanding golongan berpendapatan rendah (P10). Lebih besar bermaksud jurang lebih luas.', 'How many times the pay of high earners (P90) is compared with low earners (P10). Larger means a wider gap.'],
+    30: ['Berapa bahagian ekonomi yang dibayar kepada pekerja sebagai gaji dan faedah.', 'What share of the economy is paid to workers as wages and benefits.'],
+    31: ['Berapa bahagian ekonomi yang menjadi keuntungan kasar perniagaan.', 'What share of the economy goes to business gross profits.'],
+    32: ['Membandingkan bayaran kepada pekerja dengan keuntungan perniagaan.', 'Compares what workers are paid with what businesses earn as profit.'],
+    33: ['Berapa peratus jumlah bayaran kepada pekerja dalam sesuatu sektor bertambah dalam setahun.', 'By what percentage total pay to workers in a sector grew in a year.'],
+    34: ['Berapa peratus jawatan yang ada telah diisi oleh pekerja.', 'What percentage of available jobs have been filled.'],
+    35: ['Berapa peratus jawatan yang masih kosong dan sedang dicari pekerja.', 'What percentage of jobs are still vacant and being recruited for.'],
+    36: ['Berapa bahagian jawatan yang diisi adalah jawatan mahir.', 'What share of filled jobs are skilled jobs.'],
+    37: ['Berapa bahagian pekerja negara yang bekerja dalam sesuatu sektor.', 'What share of the country\'s workers are in a sector.'],
+    38: ['Berapa peratus bilangan pekerja dalam sesuatu sektor bertambah atau berkurang dalam setahun.', 'By what percentage the number of workers in a sector grew or fell in a year.'],
+    39: ['Jika produktiviti naik ke tahap sasaran dengan bilangan pekerja yang sama, berapa banyak nilai tambahan yang boleh dihasilkan.', 'If productivity rose to a target level with the same number of workers, how much extra value could be produced.'],
+    40: ['Berapa peratus produktiviti perlu naik setiap tahun untuk mencapai sasaran dalam tempoh yang ditetapkan.', 'By what percentage productivity must grow each year to reach a target within a set number of years.'],
+    41: ['Berapa ramai pekerja diperlukan untuk mencapai KDNK sasaran, jika produktiviti berada pada tahap sasaran.', 'How many workers are needed to reach a target GDP if productivity is at its target level.'],
+    42: ['Anggaran saiz ekonomi pada masa depan berdasarkan andaian pertumbuhan produktiviti dan pekerja yang anda tetapkan.', 'An estimate of the future size of the economy based on the productivity and employment growth you assume.'],
+    43: ['Berapa peratus output sebenar (selepas mengambil kira inflasi) sesuatu sektor bertambah dalam setahun.', 'By what percentage a sector\'s real output (after inflation) grew in a year.'],
+    44: ['Berapa bahagian ekonomi yang dihasilkan oleh sesuatu sektor, pada harga semasa.', 'What share of the economy a sector produces, at current prices.'],
+    45: ['Berapa mata peratus bahagian sesuatu sektor dalam ekonomi berubah dalam setahun.', 'By how many percentage points a sector\'s share of the economy changed in a year.'],
+    46: ['Berapa ringgit output sebenar sesuatu sektor bertambah atau berkurang berbanding tahun sebelumnya.', 'By how many ringgit a sector\'s real output rose or fell compared with the previous year.'],
+    47: ['Berapa banyak daripada pertumbuhan ekonomi negara datang daripada sesuatu sektor.', 'How much of the country\'s economic growth came from one sector.'],
+    48: ['Mengukur sama ada ekonomi bergantung pada beberapa sektor sahaja atau tersebar luas. Nilai rendah (hampir 0) bermaksud lebih pelbagai; nilai tinggi (hampir 1) bermaksud bergantung pada satu sektor.', 'Measures whether the economy depends on a few sectors or is spread widely. A low value (near 0) means more diverse; a high value (near 1) means reliant on one sector.'],
+    49: ['Mengukur berapa banyak struktur ekonomi (bahagian setiap sektor) telah berubah antara dua tahun. 0 bermaksud tiada perubahan.', 'Measures how much the economy\'s structure (each sector\'s share) changed between two years. 0 means no change.'],
+    50: ['Berapa bahagian ekonomi dibelanjakan untuk pelaburan dalam bangunan, mesin dan peralatan baharu.', 'What share of the economy is spent on investment in new buildings, machines and equipment.'],
+    51: ['Berapa peratus pelaburan sebenar dalam aset tetap bertambah dalam setahun.', 'By what percentage real investment in fixed assets grew in a year.'],
+    52: ['Berapa bahagian ekonomi dibelanjakan oleh isi rumah.', 'What share of the economy is spent by households.'],
+    53: ['Berapa bahagian ekonomi dibelanjakan oleh kerajaan.', 'What share of the economy is spent by the government.'],
+    54: ['Beza antara nilai eksport dan import. Positif bermaksud negara mengeksport lebih daripada mengimport.', 'The difference between exports and imports. Positive means the country exports more than it imports.'],
+    55: ['Nilai eksport bagi setiap RM100 import.', 'Export value for every RM100 of imports.'],
+    56: ['Kedudukan produktiviti sesuatu sektor berbanding sektor utama lain. #1 bermaksud paling produktif.', 'Where a sector ranks on productivity among the main sectors. #1 means the most productive.'],
+    57: ['Berapa peratus produktiviti sesuatu sektor ketinggalan berbanding sektor paling produktif.', 'How far, in per cent, a sector\'s productivity is behind the most productive sector.'],
+    58: ['Berapa mata peratus bahagian pekerja dalam sesuatu sektor berubah dalam setahun.', 'By how many percentage points a sector\'s share of workers changed in a year.'],
+    59: ['Membandingkan bahagian output sektor dengan bahagian pekerjanya. Lebih daripada 1 bermaksud setiap pekerja di sektor itu menghasilkan lebih daripada purata.', 'Compares a sector\'s share of output with its share of workers. Above 1 means each worker there produces more than average.'],
+    60: ['Bahagian kenaikan produktiviti negara yang datang daripada setiap sektor menjadi lebih produktif.', 'The part of national productivity growth that came from each sector becoming more productive.'],
+    61: ['Bahagian kenaikan produktiviti negara yang datang daripada pekerja berpindah ke sektor yang lebih produktif.', 'The part of national productivity growth that came from workers moving into more productive sectors.'],
+    62: ['Kesan gabungan: sektor yang menjadi lebih produktif dan pada masa sama menambah (atau mengurangkan) pekerja.', 'The combined effect of sectors that became more productive while also gaining (or losing) workers.'],
+    63: ['Sama ada jurang produktiviti sesuatu sektor berbanding purata negara semakin kecil atau semakin besar.', 'Whether a sector\'s productivity gap to the national average is narrowing or widening.'],
+    64: ['Berapa bahagian modal negara dalam bentuk mesin dan peralatan.', 'What share of the country\'s capital is machinery and equipment.'],
+    65: ['Berapa bahagian modal negara dalam bentuk harta intelek seperti perisian dan R&D.', 'What share of the country\'s capital is intellectual property such as software and R&D.'],
+    66: ['Berapa mata peratus bahagian sesuatu jenis aset dalam modal berubah.', 'By how many percentage points an asset type\'s share of capital changed.'],
+    67: ['Berapa peratus nilai modal yang masih tinggal selepas ditolak susut nilai. Lebih rendah bermaksud aset semakin lama.', 'What percentage of capital value remains after depreciation. Lower means older assets.'],
+    68: ['Berapa banyak modal produktif bagi setiap pekerja dalam sesuatu sektor.', 'How much productive capital there is for each worker in a sector.'],
+    69: ['Berapa bahagian nilai ditambah yang "dihabiskan" untuk menggantikan aset yang haus.', 'What share of value added goes to replacing worn-out assets.'],
+    70: ['Berapa banyak modal mesin bagi setiap pekerja.', 'How much machinery capital there is for each worker.'],
+    71: ['Beza antara eksport dan import produk TMK.', 'The difference between ICT product exports and imports.'],
+    72: ['Nilai eksport TMK bagi setiap RM100 import TMK.', 'ICT export value for every RM100 of ICT imports.'],
+    73: ['Berapa peratus eksport produk TMK bertambah dalam setahun.', 'By what percentage ICT product exports grew in a year.'],
+    74: ['Berapa bahagian eksport TMK datang daripada sesuatu produk.', 'What share of ICT exports comes from one product.'],
+    75: ['Berapa bahagian nilai e-dagang datang daripada sesuatu sektor.', 'What share of e-commerce value comes from one sector.'],
+    76: ['Berapa peratus nilai e-dagang bertambah dalam setahun.', 'By what percentage e-commerce value grew in a year.'],
+    77: ['Berapa peratus bilangan pekerja dalam industri pelancongan bertambah dalam setahun.', 'By what percentage the number of tourism workers grew in a year.'],
+    78: ['Membandingkan produktiviti satu subsektor pelancongan dengan purata industri pelancongan (= 100).', 'Compares one tourism subsector\'s productivity with the tourism average (= 100).'],
+    79: ['Berapa kali ganda gaji golongan berpendapatan tinggi (P90) berbanding pekerja di tengah-tengah (P50).', 'How many times the pay of high earners (P90) is compared with the middle earner (P50).'],
+    80: ['Berapa kali ganda gaji pekerja di tengah-tengah (P50) berbanding golongan berpendapatan rendah (P10).', 'How many times the pay of the middle earner (P50) is compared with low earners (P10).'],
+    81: ['Berapa peratus gaji penengah wanita lebih rendah (atau tinggi) daripada lelaki.', 'How much lower (or higher), in per cent, women\'s median pay is than men\'s.'],
+    82: ['Berapa bahagian pekerja formal yang menerima gaji dalam julat tertentu.', 'What share of formal employees earn within a given pay band.'],
+    83: ['Beza gaji penengah antara negeri yang paling tinggi dan paling rendah.', 'The difference in median wage between the highest- and lowest-paying states.'],
+    84: ['Membandingkan gaji penengah sesuatu negeri dengan Malaysia (= 100).', 'Compares a state\'s median wage with Malaysia (= 100).'],
+    85: ['Berapa bahagian pekerja formal yang bekerja dalam sesuatu sektor.', 'What share of formal employees work in a sector.'],
+    86: ['Daripada semua orang yang bekerja atau sedang mencari kerja, berapa peratus yang menganggur.', 'Of everyone working or looking for work, what percentage are unemployed.'],
+    87: ['Berapa peratus penduduk umur bekerja (15–64) yang sedang bekerja atau mencari kerja.', 'What percentage of working-age people (15–64) are working or looking for work.'],
+    88: ['Berapa peratus penduduk umur bekerja yang benar-benar bekerja.', 'What percentage of working-age people actually have a job.'],
+    89: ['Beza kadar penyertaan tenaga buruh antara lelaki dan wanita.', 'The difference in labour force participation between men and women.'],
+    90: ['Berapa mata peratus kadar penyertaan tenaga buruh berubah berbanding tahun sebelumnya.', 'By how many percentage points labour force participation changed from the previous year.'],
+    91: ['Berapa bahagian pekerja yang bekerja sendiri tanpa pekerja.', 'What share of workers are self-employed with no employees.'],
+    92: ['Berapa bahagian pekerja dalam sesuatu kategori (contohnya majikan, pekerja bergaji).', 'What share of workers fall into a category (for example employers, employees).'],
+    93: ['Berapa peratus pekerja yang bekerja kurang jam daripada yang mereka mahu.', 'What percentage of workers work fewer hours than they want.'],
+    94: ['Berapa peratus pekerja berkelulusan tinggi yang bekerja dalam jawatan separuh mahir atau kurang mahir.', 'What percentage of highly qualified workers are in semi- or low-skilled jobs.'],
+    95: ['Berapa mata peratus kadar pengangguran sesuatu negeri lebih tinggi atau rendah daripada Malaysia.', 'By how many percentage points a state\'s unemployment rate is above or below Malaysia\'s.'],
+    96: ['Berapa peratus jawatan adalah jawatan yang baru diwujudkan.', 'What percentage of jobs are newly created.'],
+    97: ['Berapa bahagian kekosongan jawatan adalah untuk jawatan mahir.', 'What share of job vacancies are for skilled jobs.'],
+    98: ['Bilangan kekosongan bagi setiap 100 jawatan yang telah diisi.', 'The number of vacancies for every 100 filled jobs.'],
+    99: ['Berapa peratus jualan runcit naik berbanding bulan yang sama tahun lepas.', 'By what percentage retail sales rose compared with the same month last year.'],
+    100: ['Berapa peratus jumlah barangan yang dijual (bukan harga) naik berbanding tahun lepas.', 'By what percentage the quantity of goods sold (not prices) rose compared with last year.'],
+    101: ['Berapa bahagian jualan perdagangan datang daripada sesuatu subsektor.', 'What share of trade sales comes from one subsector.'],
+    102: ['Membandingkan indeks volum satu subsektor dengan keseluruhan perdagangan (= 100).', 'Compares one subsector\'s volume index with overall trade (= 100).'],
+    103: ['Berapa ringgit pelaburan diperlukan untuk menambah seringgit output. Lebih rendah bermaksud pelaburan lebih cekap.', 'How many ringgit of investment are needed to add one ringgit of output. Lower means more efficient investment.'],
+    104: ['Tahap produktiviti yang diperlukan untuk mencapai KDNK sasaran dengan bilangan pekerja sasaran.', 'The productivity level needed to reach a target GDP with a target number of workers.'],
+    105: ['Jika setiap pekerja menjadi lebih produktif sebanyak peratus yang anda pilih, dengan bilangan pekerja yang sama, berapa banyak KDNK tambahan yang terhasil.', 'If every worker became more productive by the percentage you choose, with the same number of workers, how much extra GDP would result.'],
+    106: ['Berapa tahun diperlukan untuk mencapai produktiviti sasaran pada kadar pertumbuhan yang anda andaikan.', 'How many years it takes to reach target productivity at the growth rate you assume.'],
+    107: ['Anggaran bilangan pekerja selepas beberapa tahun pada kadar pertumbuhan yang anda andaikan.', 'Estimated number of workers after some years at the growth rate you assume.'],
+    108: ['Anggaran produktiviti selepas beberapa tahun pada kadar pertumbuhan yang anda andaikan.', 'Estimated productivity after some years at the growth rate you assume.'],
+    109: ['Sejauh mana senario anda mencapai sasaran produktiviti. 100 bermaksud sasaran dicapai tepat.', 'How close your scenario gets to the productivity target. 100 means the target is met exactly.'],
+  };
+  // sentence that reads the actual result in everyday words (only for metrics that can be calculated)
+  function readOut(id, r) {
+    const c = r.context, v = r.value, d = r.display.replace(/ mp$/, ' mata peratus'), a = d.replace(/^[+−-]/, ''), up = v >= 0;
+    const loc = c.geo ? (c.geo === 'national' ? 'Malaysia' : sname(c.geo)) : 'Malaysia', sc = c.sec ? secName(c.sec) : '', scl = sc.toLowerCase(), yr = c.year, py = yr - 1, y0 = c.y0;
+    const where = sc && c.sec !== 'p0' ? X(`sektor ${scl}`, `the ${scl} sector`) : loc;
+    const L = {
+      1: () => X(`Pada ${yr}, seorang pekerja di ${loc} menghasilkan purata ${d} nilai ekonomi setahun (pada harga 2015, iaitu selepas mengambil kira inflasi).`, `In ${yr}, one worker in ${loc} produced on average ${d} of economic value a year (at 2015 prices, i.e. after inflation).`),
+      2: () => X(`Pada ${yr}, seorang pekerja dalam sektor ${scl} menghasilkan purata ${d} nilai setahun.`, `In ${yr}, one worker in the ${scl} sector produced on average ${d} of value a year.`),
+      3: () => X(`Produktiviti setiap pekerja di ${where} ${up ? 'naik' : 'turun'} ${a} pada ${yr} berbanding ${py}.`, `Output per worker in ${where} ${up ? 'rose' : 'fell'} ${a} in ${yr} compared with ${py}.`),
+      4: () => X(`Dari ${y0} hingga ${yr}, produktiviti di ${where} ${up ? 'naik' : 'turun'} secara purata ${a} setiap tahun.`, `From ${y0} to ${yr}, productivity in ${where} ${up ? 'grew' : 'fell'} on average ${a} a year.`),
+      5: () => X(`Jika ${y0} dikira sebagai 100, produktiviti ${yr} di ${where} ialah ${d}, iaitu ${v >= 100 ? (v - 100).toFixed(1) + '% lebih tinggi' : (100 - v).toFixed(1) + '% lebih rendah'} daripada ${y0}.`, `With ${y0} set at 100, ${yr} productivity in ${where} is ${d}, i.e. ${v >= 100 ? (v - 100).toFixed(1) + '% higher' : (100 - v).toFixed(1) + '% lower'} than in ${y0}.`),
+      6: () => X(`Seorang pekerja sektor ${scl} menghasilkan ${d} bagi setiap 100 yang dihasilkan oleh pekerja purata Malaysia, iaitu ${v >= 100 ? 'lebih' : 'kurang'} produktif daripada purata.`, `A worker in ${scl} produces ${d} for every 100 produced by the average Malaysian worker, i.e. ${v >= 100 ? 'more' : 'less'} productive than average.`),
+      7: () => X(`Produktiviti sektor ${scl} adalah ${a} ${up ? 'di atas' : 'di bawah'} purata seluruh ekonomi pada ${yr}.`, `Productivity in ${scl} was ${a} ${up ? 'above' : 'below'} the whole-economy average in ${yr}.`),
+      11: () => X(`KDNK ${where} berubah ${d} pada ${yr}. Pecahan di atas menunjukkan berapa banyak datang daripada pekerja lebih produktif (g_LP) dan berapa banyak daripada pertambahan pekerja (g_L).`, `GDP in ${where} changed ${d} in ${yr}. The breakdown above shows how much came from workers being more productive (g_LP) and how much from more workers (g_L).`),
+      25: () => X(`Gaji penengah pekerja formal di ${loc} adalah ${a} ${up ? 'lebih tinggi' : 'lebih rendah'} daripada Malaysia (${c.date}).`, `The median formal wage in ${loc} is ${a} ${up ? 'higher' : 'lower'} than Malaysia's (${c.date}).`),
+      26: () => X(`Gaji penengah di ${loc} ${up ? 'naik' : 'turun'} ${a} berbanding bulan sebelumnya (${c.date}).`, `The median wage in ${loc} ${up ? 'rose' : 'fell'} ${a} from the previous month (${c.date}).`),
+      27: () => X(`Gaji penengah di ${loc} ${up ? 'naik' : 'turun'} ${a} berbanding bulan yang sama tahun lepas (${c.date}).`, `The median wage in ${loc} ${up ? 'rose' : 'fell'} ${a} from the same month last year (${c.date}).`),
+      28: () => X(`Pekerja formal dalam sektor ini menerima gaji penengah ${a} ${up ? 'lebih tinggi' : 'lebih rendah'} daripada semua pekerja formal (${c.date}).`, `Formal employees in this sector earn a median wage ${a} ${up ? 'higher' : 'lower'} than all formal employees (${c.date}).`),
+      37: () => X(`Kira-kira ${d} daripada semua pekerja di Malaysia bekerja dalam sektor ${scl} pada ${yr}.`, `About ${d} of all workers in Malaysia were in ${scl} in ${yr}.`),
+      38: () => X(`Bilangan pekerja dalam sektor ${scl} ${up ? 'bertambah' : 'berkurang'} ${a} pada ${yr} berbanding ${py}.`, `The number of workers in ${scl} ${up ? 'grew' : 'fell'} ${a} in ${yr} compared with ${py}.`),
+      39: () => X(`Jika produktiviti ${where} naik ke tahap sasaran tanpa menambah pekerja, ekonomi boleh menghasilkan tambahan kira-kira ${d} setahun. Ini senario, bukan unjuran rasmi.`, `If productivity in ${where} rose to the target without adding workers, the economy could produce about ${d} more a year. This is a scenario, not an official projection.`),
+      40: () => X(`Untuk mencapai sasaran, produktiviti ${where} perlu naik kira-kira ${a} setiap tahun.`, `To hit the target, productivity in ${where} needs to grow about ${a} every year.`),
+      41: () => X(`Dengan andaian anda, kira-kira ${d} pekerja diperlukan untuk mencapai KDNK sasaran.`, `Under your assumptions, about ${d} workers are needed to reach the target GDP.`),
+      42: () => X(`Dengan andaian pertumbuhan anda, saiz ekonomi ${where} dianggarkan kira-kira ${d}. Ini senario, bukan unjuran rasmi.`, `Under your growth assumptions, the size of the economy in ${where} would be about ${d}. This is a scenario, not an official projection.`),
+      43: () => X(`Output sebenar ${where}${c.geo && c.geo !== 'national' ? ' di ' + loc : ''} ${up ? 'tumbuh' : 'menguncup'} ${a} pada ${yr}, selepas mengambil kira inflasi.`, `Real output of ${where}${c.geo && c.geo !== 'national' ? ' in ' + loc : ''} ${up ? 'grew' : 'shrank'} ${a} in ${yr}, after inflation.`),
+      46: () => X(`Output sebenar ${where}${c.geo && c.geo !== 'national' ? ' di ' + loc : ''} ${up ? 'bertambah' : 'berkurang'} ${a} pada ${yr} berbanding ${py}.`, `Real output of ${where}${c.geo && c.geo !== 'national' ? ' in ' + loc : ''} ${up ? 'rose' : 'fell'} by ${a} in ${yr} compared with ${py}.`),
+      47: () => X(`Sektor ${scl} menyumbang ${a} ${up ? 'kepada' : 'tolak daripada'} pertumbuhan ekonomi Malaysia pada ${yr}.`, `The ${scl} sector ${up ? 'added' : 'took away'} ${a} ${up ? 'to' : 'from'} Malaysia's economic growth in ${yr}.`),
+      48: () => X(`Nilai ${d} bermaksud ekonomi ${v < 0.25 ? 'agak pelbagai, tidak bergantung pada satu sektor sahaja' : 'agak tertumpu pada beberapa sektor besar'} (0 = sangat pelbagai, 1 = satu sektor sahaja).`, `A value of ${d} means the economy is ${v < 0.25 ? 'fairly diverse, not reliant on one sector' : 'fairly concentrated in a few large sectors'} (0 = very diverse, 1 = a single sector).`),
+      49: () => X(`Kira-kira ${(v * 100).toFixed(1)}% daripada ekonomi telah "beralih" antara sektor dari ${y0} hingga ${yr}. Nilai kecil bermaksud struktur ekonomi tidak banyak berubah.`, `About ${(v * 100).toFixed(1)}% of the economy shifted between sectors from ${y0} to ${yr}. A small value means the structure barely changed.`),
+      56: () => X(`Sektor ${scl} berada di kedudukan ${d} ${r.unit} dari segi produktiviti pada ${yr}.`, `The ${scl} sector ranks ${d} ${r.unit} on productivity in ${yr}.`),
+      57: () => v >= 0 ? X(`Sektor ${scl} ialah sektor paling produktif pada ${yr}.`, `The ${scl} sector was the most productive sector in ${yr}.`) : X(`Produktiviti sektor ${scl} ialah ${a} di bawah sektor paling produktif pada ${yr}.`, `Productivity in ${scl} was ${a} below the most productive sector in ${yr}.`),
+      58: () => X(`Bahagian pekerja dalam sektor ${scl} ${up ? 'naik' : 'turun'} ${a} pada ${yr}.`, `The ${scl} sector's share of workers ${up ? 'rose' : 'fell'} ${a} in ${yr}.`),
+      59: () => X(`Sektor ${scl} menghasilkan ${d} bahagian output berbanding bahagian pekerjanya. ${v >= 1 ? 'Setiap pekerja di sini menghasilkan lebih daripada purata.' : 'Setiap pekerja di sini menghasilkan kurang daripada purata.'}`, `The ${scl} sector's share of output is ${d} its share of workers. ${v >= 1 ? 'Each worker here produces more than average.' : 'Each worker here produces less than average.'}`),
+      60: () => X(`Dari ${y0} hingga ${yr}, sebanyak ${d} setiap pekerja daripada perubahan produktiviti negara datang daripada sektor-sektor itu sendiri menjadi lebih produktif.`, `From ${y0} to ${yr}, ${d} per worker of the change in national productivity came from sectors themselves becoming more productive.`),
+      61: () => X(`Dari ${y0} hingga ${yr}, sebanyak ${d} setiap pekerja daripada perubahan produktiviti negara datang daripada pekerja berpindah antara sektor.`, `From ${y0} to ${yr}, ${d} per worker of the change in national productivity came from workers moving between sectors.`),
+      62: () => X(`Dari ${y0} hingga ${yr}, kesan gabungan (sektor lebih produktif yang juga berubah saiz pekerja) ialah ${d} setiap pekerja.`, `From ${y0} to ${yr}, the combined effect (sectors becoming more productive while changing in size) was ${d} per worker.`),
+      63: () => X(`Jurang produktiviti sektor ${scl} berbanding purata negara berubah ${d} pada ${yr}, iaitu ${up ? 'bergerak ke atas' : 'bergerak ke bawah'} berbanding purata.`, `The ${scl} sector's productivity gap to the national average moved ${d} in ${yr}, i.e. ${up ? 'upward' : 'downward'} relative to the average.`),
+      81: () => X(`Di ${loc}, gaji penengah wanita adalah ${a} ${up ? 'lebih tinggi' : 'lebih rendah'} daripada lelaki pada ${yr}.`, `In ${loc}, women's median pay was ${a} ${up ? 'higher' : 'lower'} than men's in ${yr}.`),
+      82: () => X(`${d} pekerja formal menerima gaji dalam julat ini (${c.date}).`, `${d} of formal employees earn within this pay band (${c.date}).`),
+      83: () => X(`Gaji penengah di negeri tertinggi adalah ${d} sebulan lebih tinggi daripada negeri terendah (${c.date}).`, `The median wage in the top state is ${d} a month higher than in the lowest state (${c.date}).`),
+      84: () => X(`Jika gaji penengah Malaysia = 100, ${loc} berada pada ${d}.`, `If Malaysia's median wage = 100, ${loc} stands at ${d}.`),
+      85: () => X(`${d} pekerja formal bekerja dalam sektor ini (${c.date}).`, `${d} of formal employees work in this sector (${c.date}).`),
+      86: () => X(`Pada ${yr}, kira-kira ${d} orang dalam tenaga buruh di ${loc} tidak mempunyai pekerjaan, iaitu lebih kurang ${Math.round(v)} daripada setiap 100 orang.`, `In ${yr}, about ${d} of the labour force in ${loc} had no job, roughly ${Math.round(v)} in every 100 people.`),
+      87: () => X(`Pada ${yr}, ${d} penduduk umur bekerja di ${loc} sedang bekerja atau mencari kerja.`, `In ${yr}, ${d} of working-age people in ${loc} were working or looking for work.`),
+      88: () => X(`Pada ${yr}, ${d} penduduk umur bekerja di ${loc} mempunyai pekerjaan.`, `In ${yr}, ${d} of working-age people in ${loc} had a job.`),
+      89: () => X(`Di ${loc}, kadar penyertaan lelaki adalah ${a} ${up ? 'lebih tinggi' : 'lebih rendah'} daripada wanita pada ${yr}.`, `In ${loc}, men's participation was ${a} ${up ? 'higher' : 'lower'} than women's in ${yr}.`),
+      90: () => X(`Kadar penyertaan tenaga buruh di ${loc} ${up ? 'naik' : 'turun'} ${a} pada ${yr} berbanding ${py}.`, `Labour force participation in ${loc} ${up ? 'rose' : 'fell'} ${a} in ${yr} compared with ${py}.`),
+      95: () => X(`Kadar pengangguran ${loc} adalah ${a} ${up ? 'lebih tinggi' : 'lebih rendah'} daripada Malaysia pada ${yr}.`, `Unemployment in ${loc} was ${a} ${up ? 'higher' : 'lower'} than Malaysia's in ${yr}.`),
+      104: () => X(`Untuk mencapai KDNK sasaran dengan bilangan pekerja sasaran, setiap pekerja perlu menghasilkan kira-kira ${d} setahun.`, `To reach the target GDP with the target number of workers, each worker would need to produce about ${d} a year.`),
+      105: () => X(`Jika setiap pekerja di ${where} menjadi lebih produktif seperti yang diandaikan, ekonomi boleh bertambah kira-kira ${d} setahun tanpa menambah pekerja. Ini senario, bukan unjuran rasmi.`, `If every worker in ${where} became more productive as assumed, the economy could grow by about ${d} a year without adding workers. This is a scenario, not an official projection.`),
+      106: () => X(`Pada kadar pertumbuhan yang diandaikan, sasaran produktiviti ${where} akan dicapai dalam kira-kira ${d}.`, `At the assumed growth rate, the productivity target for ${where} would be reached in about ${d}.`),
+      107: () => X(`Pada kadar yang diandaikan, bilangan pekerja ${where} dianggarkan kira-kira ${d}.`, `At the assumed rate, the number of workers in ${where} would be about ${d}.`),
+      108: () => X(`Pada kadar yang diandaikan, setiap pekerja di ${where} dianggarkan menghasilkan kira-kira ${d} setahun.`, `At the assumed rate, each worker in ${where} would produce about ${d} a year.`),
+      109: () => X(`Senario anda mencapai kira-kira ${d}% daripada sasaran. ${v >= 100 ? 'Sasaran tercapai.' : 'Sasaran belum tercapai.'}`, `Your scenario reaches about ${d}% of the target. ${v >= 100 ? 'Target met.' : 'Target not yet met.'}`),
+    };
+    try { return L[id] ? L[id]() : ''; } catch (e) { return ''; }
+  }
+  function explainBox(id, r) {
+    const w = WHAT[id], ro = r.value != null ? readOut(id, r) : '';
+    if (!w && !ro) return '';
+    return `<div class="lab-why"><p><b>${esc(X('Apa yang dikira?', 'What does this calculate?'))}</b> ${esc(w ? w[en() ? 1 : 0] : '')}</p>${ro ? `<p><b>${esc(X('Maksud hasil ini:', 'What this result means:'))}</b> ${esc(ro)}</p>` : ''}</div>`;
+  }
   function detail(id) {
     const row = CAT.find(x => x[0] === id), r = calculate(id, U.ctx), c = r.context;
     const srcRows = row[4].split(',').map(s => SRC[s] ? `<li><b>${s}</b> · ${esc(SRC[s][en() ? 1 : 0])} · <span>${esc(SRC[s][2])}</span>${SRC[s][3] ? ` · ${esc(X('dimuatkan sebagai ', 'loaded as '))}<code>${esc(FILE_LABEL[SRC[s][3]])}</code>` : ` · <em>${esc(X('belum dimuat naik', 'not uploaded yet'))}</em>`}</li>` : '').join('');
     const kiv = WAGE_IDS.includes(id);
     return `<article class="card lab-d" id="lab-d"><div class="card-h"><div><p class="ph-k">ID ${id} · ${esc(GROUPS().find(g => g[0] === grp(id))[1])}</p><h2>${esc(r.name)}</h2><p class="sub"><code>${esc(r.formula)}</code></p></div><button type="button" class="btn k2-mini" data-k3close>✕ ${esc(X('Tutup', 'Close'))}</button></div>
       <div class="lab-badges"><span class="k2-st ${stCls[r.status]}">${esc(STL(r.status))}</span><span class="k2-st k2-info">${esc(PRV(r.provenance))}</span><span class="k2-st k2-info">${esc(CLS(row[5]))}</span>${row[5] === 'S' ? `<span class="k2-st k2-review">${esc(X('Mod senario: andaian anda, bukan unjuran rasmi DOSM', 'Scenario mode: your assumptions, not an official DOSM projection'))}</span>` : ''}</div>
+      ${explainBox(id, r)}
       ${R[id] ? `<div class="lab-ctl">${controls(id, c)}</div>` : ''}
       ${r.status === 'available' || r.status === 'requires_review' && r.value != null ? `<div class="lab-res"><div><span>${esc(X('Hasil', 'Result'))}</span><b>${esc(r.display)}</b><small>${esc(r.unit)}${c.year ? ' · ' + c.year : ''}${c.date ? ' · ' + c.date : ''}</small></div>
         <ol class="lab-in">${r.inputs.map(i => `<li>${esc(i.label)} = <b>${esc(typeof i.value === 'number' ? i.value.toLocaleString('en-US', { maximumFractionDigits: 3 }) : i.value)}</b> ${esc(i.unit || '')} <small>${esc(i.file)}</small></li>`).join('')}</ol>
