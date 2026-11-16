@@ -11,7 +11,7 @@ const ok = (n, c, x = '') => console.log((c ? 'PASS' : 'FAIL') + ' ' + n + (x ? 
   const st = await p.evaluate(() => { const m = document.getElementById('mega'); return { h: m.querySelector('.mm-h').textContent, g: [...m.querySelectorAll('.mm-gl')].map(x => x.textContent), c: [...m.querySelectorAll('.mm-col')].map(c => [...c.querySelectorAll('.mm-a span')].map(s => s.textContent)), icons: new Set([...m.querySelectorAll('.mm-i')].map(i => i.innerHTML)).size }; });
   ok('heading', st.h === 'Kecerdasan Ekonomi Bersepadu', st.h); ok('two groups ANALITIK & PERMODELAN / WAWASAN & PENERBITAN', st.g.join('|') === 'ANALITIK & PERMODELAN|WAWASAN & PENERBITAN');
   ok('left 5 in order', st.c[0].join('|') === 'Teroka Data|Analisis Bersepadu|Banding Negeri|Simulasi Produktiviti|Makmal Produktiviti', st.c[0].join('|'));
-  ok('right 3 in order', st.c[1].join('|') === 'Studio Analitik|Koleksi Wawasan|Pustaka Saya', st.c[1].join('|')); ok('8 different icons', st.icons === 8, st.icons);
+  ok('right 4 in order', st.c[1].join('|') === 'Studio Analitik|Profil Strategik Negeri|Koleksi Wawasan|Pustaka Saya', st.c[1].join('|')); ok('9 different icons', st.icons === 9, st.icons);
   const hb = await p.evaluate(() => { const a = document.querySelector('#mega .mm-col:first-child'), b = document.querySelector('#mega .mm-col:last-child'); return [a.querySelector('.mm-gl').getBoundingClientRect().top, b.querySelector('.mm-gl').getBoundingClientRect().top, a.querySelectorAll('.mm-a')[1].getBoundingClientRect().top, b.querySelectorAll('.mm-a')[1].getBoundingClientRect().top]; });
   ok('headers & rows aligned', Math.abs(hb[0] - hb[1]) < 1 && Math.abs(hb[2] - hb[3]) < 1);
   await p.screenshot({ path: 'mega-bm.png', clip: { x: 0, y: 0, width: 1366, height: 560 } });
@@ -34,7 +34,7 @@ const ok = (n, c, x = '') => console.log((c ? 'PASS' : 'FAIL') + ' ' + n + (x ? 
   await p.click('#lang-en'); await p.waitForTimeout(800); await trig.hover(); await p.waitForTimeout(300);
   const en = await p.evaluate(() => { const m = document.getElementById('mega'); return [m.querySelector('.mm-h').textContent, [...m.querySelectorAll('.mm-gl')].map(x => x.textContent).join('|'), [...m.querySelectorAll('.mm-a span')].map(s => s.textContent).join('|')]; });
   ok('14 EN switch updates menu immediately', en[0] === 'Integrated Economic Intelligence' && en[1] === 'ANALYTICS & MODELLING|INSIGHTS & PUBLICATIONS', en.slice(0, 2).join(' # '));
-  ok('13 EN items', en[2] === 'Data Explorer|Integrated Analytics|State Comparison|Productivity Simulation|Productivity Lab|Insights Studio|Insights Collection|My Library', en[2]);
+  ok('13 EN items', en[2] === 'Data Explorer|Integrated Analytics|State Comparison|Productivity Simulation|Productivity Lab|Insights Studio|State Strategic Profile|Insights Collection|My Library', en[2]);
   ok('EN main menu', (await p.$$eval('#nav a .nl', l => l.map(a => a.textContent.trim()))).join('|') === 'Home|States|Labour Productivity|GDP & Economic Structure|Wages & Salaries|Labour Market|Integrated Economic Intelligence');
   await p.screenshot({ path: 'mega-en.png', clip: { x: 0, y: 0, width: 1366, height: 560 } });
   await p.reload(); await p.waitForTimeout(1500); ok('language kept after reload', (await p.$eval('#nav a[data-mega] .nl', a => a.textContent.trim())) === 'Integrated Economic Intelligence');
@@ -47,7 +47,7 @@ const ok = (n, c, x = '') => console.log((c ? 'PASS' : 'FAIL') + ' ' + n + (x ? 
   const m = await (await br.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true })).newPage(); m.on('pageerror', e => errs.push(e.message));
   await m.goto(B + '/#home'); await m.waitForTimeout(1500); await m.tap('#nav a[data-mega]'); await m.waitForTimeout(400);
   const ms = await m.evaluate(() => { const k = document.getElementById('kei-sheet'); const cols = [...k.querySelectorAll('.mm-col')].map(c => c.getBoundingClientRect()); return { open: !k.hidden, hash: location.hash, stacked: cols[1].top >= cols[0].bottom - 1, items: k.querySelectorAll('.mm-a').length, overflow: document.documentElement.scrollWidth > innerWidth }; });
-  ok('9 mobile tap opens stacked menu', ms.open && ms.hash === '#home' && ms.stacked && ms.items === 8 && !ms.overflow, JSON.stringify(ms)); await m.screenshot({ path: 'mega-phone.png' });
+  ok('9 mobile tap opens stacked menu', ms.open && ms.hash === '#home' && ms.stacked && ms.items === 9 && !ms.overflow, JSON.stringify(ms)); await m.screenshot({ path: 'mega-phone.png' });
   await m.tap('#kei-sheet .mm-a >> text=Koleksi Wawasan'); await m.waitForTimeout(1200); ok('mobile item navigates & closes', (await m.evaluate(() => location.hash)) === '#reports' && await m.evaluate(() => document.getElementById('kei-sheet').hidden));
   const t = await (await br.newContext({ viewport: { width: 820, height: 1100 } })).newPage(); await t.goto(B + '/#home'); await t.waitForTimeout(1200); await t.hover('#nav a[data-mega]'); await t.waitForTimeout(300);
   ok('tablet menu inside viewport', await t.evaluate(() => { const g = document.getElementById('mega'), b = g.getBoundingClientRect(); return !g.hidden && b.left >= 0 && b.right <= innerWidth; }));

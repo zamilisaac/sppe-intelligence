@@ -70,7 +70,7 @@ const ok = (n, c, x = '') => console.log((c ? 'PASS' : 'FAIL') + ' ' + n + (x !=
   await p.goto(B + '/#laporan-negeri'); await p.waitForTimeout(1200); ok('old Tinjauan link opens the state profile report type', (await p.evaluate(() => location.hash)) === '#bina-laporan' && /negeri/i.test(await p.$eval('.k2-type.on b', e => e.textContent)));
   await p.hover('#nav a[data-mega]'); await p.waitForTimeout(350);
   const mm = await p.evaluate(() => [[...document.querySelectorAll('#mega .mm-gl')].map(x => x.textContent).join('|'), [...document.querySelectorAll('#mega .mm-col:last-child .mm-a span')].map(x => x.textContent).join('|')]);
-  ok('menu group names', mm[0] === 'ANALITIK & PERMODELAN|WAWASAN & PENERBITAN', mm[0]); ok('menu report items renamed', mm[1] === 'Studio Analitik|Koleksi Wawasan|Pustaka Saya', mm[1]);
+  ok('menu group names', mm[0] === 'ANALITIK & PERMODELAN|WAWASAN & PENERBITAN', mm[0]); ok('menu report items renamed', mm[1] === 'Studio Analitik|Profil Strategik Negeri|Koleksi Wawasan|Pustaka Saya', mm[1]);
   await p.screenshot({ path: 'mega.png', clip: { x: 0, y: 0, width: 1440, height: 520 } });
   await p.goto(B + '/#labour'); await p.waitForTimeout(1200); ok('Pasaran Buruh page renders', await p.evaluate(() => document.querySelector('#pg-lab').innerText.length > 500));
   console.log('errors', errs); await br.close();
