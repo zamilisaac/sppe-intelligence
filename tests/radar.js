@@ -18,9 +18,7 @@ const ok = (n, c, x = '') => console.log((c ? 'PASS' : 'FAIL') + ' ' + n + (x !=
   ok('no notification feed on the page (bell only)', !(await p.$('.rd-feed')) && d.notes.every(n => ['log', 'github', 'arc'].includes(n.src)));
   ok('D. dataset status table (16 datasets incl. manual workbook)', (await p.$$('#rd-ds tbody tr:not(.rd-grp)')).length === d.datasets.length && d.datasets.length === 16);
   await p.click('[data-rd="row"][data-v="lfs_state_sex"]'); await p.waitForTimeout(200); ok('D. View shows details and affected modules', /Pasaran Buruh/.test(await p.$eval('.rd-det', e => e.innerText)));
-  ok('E. test pull requests never drive the update status', !d.latest || !d.latest.test);
-  ok('E. 7 steps for a real PR, otherwise a clear empty state', d.latest ? (await p.$$('.rd-step')).length === 7 : (await p.$$('.rd-step')).length === 0 && /Belum ada Pull Request/.test(await p.$eval('#rd-gh', e => e.innerText)));
-  ok('E. no [TEST] items in notifications', !d.notes.some(n => /\[(TEST|UJIAN)/.test(n.bm + n.en)));
+  ok('GitHub update status card removed', !(await p.$('#rd-gh')) && !(await p.$('.rd-step')));
   await p.click('[data-rd="scope"][data-v="all"]'); await p.waitForTimeout(200); const nAll = (await p.$$('#rd-up > .tbl-w tbody tr')).length; ok('B. SPPE / all DOSM toggle works', nAll === d.arc.filter(a => !a.released).length, nAll);
   await p.goto(B + '/#home'); await p.waitForTimeout(800); await p.goto(B + '/#radar-data'); await p.waitForTimeout(1500); await p.click('[data-rd="view"][data-v="cal"]'); await p.waitForTimeout(300); ok('B. toggles still work after leaving and returning to the page', (await p.$$('.rd-cal-c')).length >= 28); await p.click('[data-rd="view"][data-v="list"]');
   await p.click('.rd-bell-btn'); await p.waitForTimeout(200); ok('bell panel lists notifications', (await p.$$('#rd-bell a[data-rdn]')).length > 0);
