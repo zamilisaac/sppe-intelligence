@@ -14,13 +14,13 @@ const ok = (n, c, x = '') => console.log((c ? 'PASS' : 'FAIL') + ' ' + n + (x !=
   ok('API reads every real source', ['arc', 'log', 'live', 'manifest'].every(k => d.sources[k] && d.sources[k].ok), JSON.stringify(d.sources));
   { const h0 = await p.evaluate(() => location.hash); await p.click('.rd-kpi:nth-child(2)'); await p.waitForTimeout(600); ok('A. clicking a KPI card stays on Radar Data', (await p.evaluate(() => location.hash)) === '#radar-data' && h0 === '#radar-data'); }
   ok('A. four KPI cards from monitoring records', (await p.$$('.rd-kpi')).length === 4 && (await p.$eval('.rd-kpi b', e => e.textContent)) === String(d.kpi.upcomingSppe));
-  ok('B. upcoming DOSM releases from the ARC calendar', (await p.$$('#rd-up > .tbl-w tbody tr')).length === d.arc.filter(a => a.sppe && !a.released).length && d.arc.length > 100);
+  ok('B. upcoming DOSM releases from the ARC calendar', (await p.$$('#rd-up .rd-tl-i')).length === d.arc.filter(a => a.sppe && !a.released).length && d.arc.length > 100);
   await p.click('[data-rd="view"][data-v="cal"]'); await p.waitForTimeout(300); ok('B. calendar view', (await p.$$('.rd-cal-c')).length >= 28); await p.click('[data-rd="view"][data-v="list"]');
   ok('no notification feed on the page (bell only)', !(await p.$('.rd-feed')) && d.notes.every(n => ['log', 'github', 'arc'].includes(n.src)));
   ok('D. dataset status table (16 datasets incl. manual workbook)', (await p.$$('#rd-ds tbody tr:not(.rd-grp)')).length === d.datasets.length && d.datasets.length === 16);
   await p.click('[data-rd="row"][data-v="lfs_state_sex"]'); await p.waitForTimeout(200); ok('D. View shows details and affected modules', /Pasaran Buruh/.test(await p.$eval('.rd-det', e => e.innerText)));
   ok('GitHub update status card removed', !(await p.$('#rd-gh')) && !(await p.$('.rd-step')));
-  await p.click('[data-rd="scope"][data-v="all"]'); await p.waitForTimeout(200); const nAll = (await p.$$('#rd-up > .tbl-w tbody tr')).length; ok('B. SPPE / all DOSM toggle works', nAll === d.arc.filter(a => !a.released).length, nAll);
+  await p.click('[data-rd="scope"][data-v="all"]'); await p.waitForTimeout(200); const nAll = (await p.$$('#rd-up .rd-tl-i')).length; ok('B. SPPE / all DOSM toggle works', nAll === d.arc.filter(a => !a.released).length, nAll);
   await p.goto(B + '/#home'); await p.waitForTimeout(800); await p.goto(B + '/#radar-data'); await p.waitForTimeout(1500); await p.click('[data-rd="view"][data-v="cal"]'); await p.waitForTimeout(300); ok('B. toggles still work after leaving and returning to the page', (await p.$$('.rd-cal-c')).length >= 28); await p.click('[data-rd="view"][data-v="list"]');
   await p.click('.rd-bell-btn'); await p.waitForTimeout(200); ok('bell panel lists notifications', (await p.$$('#rd-bell a[data-rdn]')).length > 0);
   await p.click('#rd-bell [data-rdb="all"]').catch(() => { }); await p.waitForTimeout(200); ok('mark all read clears the badge', !(await p.$('.rd-badge')));
