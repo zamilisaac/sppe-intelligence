@@ -102,7 +102,7 @@ export async function build(context) {
   const prs = (pulls || []).filter(p => (p.head && p.head.ref || '').startsWith('dosm-update/')).map(p => ({ number: p.number, title: p.title, url: p.html_url, state: p.state,
     merged: !!p.merged_at, mergedAt: p.merged_at, createdAt: p.created_at, closedAt: p.closed_at, branch: p.head.ref, base: p.base && p.base.ref, sha: p.merge_commit_sha,
     test: /\[TEST/i.test(p.title) || /simulated/.test(p.head.ref), draft: !!p.draft }));
-  const latest = prs[0] || null;
+  const latest = prs.find(p => !p.test) || null;   // controlled test runs ([TEST] / *-simulated) are never shown as the update status
   let cf = null;
   if (latest && latest.merged && latest.sha) cf = await safe('cloudflare', () => cloudflareState(gh, latest.sha));
   const runList = (runs && runs.workflow_runs || []).filter(r => /DOSM/i.test(r.name)).map(r => ({ id: r.id, name: r.name, event: r.event, status: r.status, conclusion: r.conclusion,
@@ -127,15 +127,15 @@ export async function build(context) {
 
   // ---- notifications (newest first) ----
   const notes = [];
-  evs.filter(e => e.type !== 'check' || e.level === 'error').forEach(e => notes.push({ id: 'log-' + e.id, at: e.at, kind: e.type, level: e.level, bm: e.bm, en: e.en, url: e.url || e.run || null, src: 'log', test: !!e.simulated }));
+  evs.filter(e => !e.simulated && (e.type !== 'check' || e.level === 'error')).forEach(e => notes.push({ id: 'log-' + e.id, at: e.at, kind: e.type, level: e.level, bm: e.bm, en: e.en, url: e.url || e.run || null, src: 'log', test: !!e.simulated }));
   const seenUrl = new Set(notes.map(n => n.url).filter(Boolean));
-  prs.forEach(p => {
+  prs.filter(p => !p.test).forEach(p => {
     if (!seenUrl.has(p.url)) notes.push({ id: 'pr-' + p.number, at: p.createdAt, kind: 'pr', level: p.test ? 'test' : 'pending', bm: `${p.test ? '[UJIAN] ' : ''}Pull Request #${p.number} dijana: ${p.title}`, en: `${p.test ? '[TEST] ' : ''}Pull request #${p.number} opened: ${p.title}`, url: p.url, src: 'github', test: p.test });
     if (p.merged) notes.push({ id: 'pm-' + p.number, at: p.mergedAt, kind: 'merged', level: p.test ? 'test' : 'ok', bm: `${p.test ? '[UJIAN] ' : ''}Pull Request #${p.number} telah digabungkan (${p.base}).`, en: `${p.test ? '[TEST] ' : ''}Pull request #${p.number} merged (${p.base}).`, url: p.url, src: 'github', test: p.test });
     else if (p.state === 'closed') notes.push({ id: 'pc-' + p.number, at: p.closedAt, kind: 'closed', level: 'info', bm: `${p.test ? '[UJIAN] ' : ''}Pull Request #${p.number} ditutup tanpa digabungkan.`, en: `${p.test ? '[TEST] ' : ''}Pull request #${p.number} closed without merging.`, url: p.url, src: 'github', test: p.test });
   });
-  (issues || []).filter(i => !i.pull_request).forEach(i => { const t = /\[TEST/i.test(i.title); notes.push({ id: 'is-' + i.number, at: i.created_at, kind: 'detected', level: t ? 'test' : i.state === 'open' ? 'new' : 'info', bm: `${t ? '[UJIAN] ' : ''}Data DOSM baharu dikesan (isu #${i.number}${i.state === 'closed' ? ', ditutup' : ''}).`, en: `${t ? '[TEST] ' : ''}New DOSM data detected (issue #${i.number}${i.state === 'closed' ? ', closed' : ''}).`, url: i.html_url, src: 'github', test: t }); });
-  runList.filter(r => r.conclusion === 'failure').forEach(r => notes.push({ id: 'run-' + r.id, at: r.at, kind: 'error', level: 'error', bm: `Aliran kerja "${r.name}" gagal (${r.branch}).`, en: `Workflow "${r.name}" failed (${r.branch}).`, url: r.url, src: 'github' }));
+  (issues || []).filter(i => !i.pull_request && !/\[TEST/i.test(i.title)).forEach(i => { const t = false; notes.push({ id: 'is-' + i.number, at: i.created_at, kind: 'detected', level: t ? 'test' : i.state === 'open' ? 'new' : 'info', bm: `${t ? '[UJIAN] ' : ''}Data DOSM baharu dikesan (isu #${i.number}${i.state === 'closed' ? ', ditutup' : ''}).`, en: `${t ? '[TEST] ' : ''}New DOSM data detected (issue #${i.number}${i.state === 'closed' ? ', closed' : ''}).`, url: i.html_url, src: 'github', test: t }); });
+  runList.filter(r => r.conclusion === 'failure' && r.branch === 'main').forEach(r => notes.push({ id: 'run-' + r.id, at: r.at, kind: 'error', level: 'error', bm: `Aliran kerja "${r.name}" gagal (${r.branch}).`, en: `Workflow "${r.name}" failed (${r.branch}).`, url: r.url, src: 'github' }));
   const today = now.toISOString().slice(0, 10), in7 = new Date(now.getTime() + 7 * 864e5).toISOString().slice(0, 10), ago7 = new Date(now.getTime() - 7 * 864e5).toISOString().slice(0, 10);
   arc.filter(a => a.sppe && a.date.slice(0, 10) >= ago7 && a.date.slice(0, 10) <= in7).forEach(a => notes.push({ id: 'arc-' + a.id, at: a.released ? a.date.replace(' ', 'T') + '+08:00' : now.toISOString(), kind: a.released ? 'released' : 'upcoming', level: a.released ? 'new' : 'info',
     bm: a.released ? `${a.title_bm} telah diterbitkan oleh DOSM.` : `Keluaran DOSM akan datang: ${a.title_bm} pada ${a.date.slice(0, 10)}.`, en: a.released ? `${a.title_en} has been published by DOSM.` : `Upcoming DOSM release: ${a.title_en} on ${a.date.slice(0, 10)}.`, url: a.url_bm, url_en: a.url_en, src: 'arc' }));

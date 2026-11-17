@@ -15,11 +15,14 @@ const ok = (n, c, x = '') => console.log((c ? 'PASS' : 'FAIL') + ' ' + n + (x !=
   ok('A. four KPI cards from monitoring records', (await p.$$('.rd-kpi')).length === 4 && (await p.$eval('.rd-kpi b', e => e.textContent)) === String(d.kpi.upcomingSppe));
   ok('B. upcoming DOSM releases from the ARC calendar', (await p.$$('#rd-up > .tbl-w tbody tr')).length === d.arc.filter(a => a.sppe && !a.released).length && d.arc.length > 100);
   await p.click('[data-rd="view"][data-v="cal"]'); await p.waitForTimeout(300); ok('B. calendar view', (await p.$$('.rd-cal-c')).length >= 28); await p.click('[data-rd="view"][data-v="list"]');
-  ok('C. notification feed from real records', (await p.$$('.rd-list li[data-nid]')).length > 0 && d.notes.every(n => ['log', 'github', 'arc'].includes(n.src)));
+  ok('no notification feed on the page (bell only)', !(await p.$('.rd-feed')) && d.notes.every(n => ['log', 'github', 'arc'].includes(n.src)));
   ok('D. dataset status table (16 datasets incl. manual workbook)', (await p.$$('#rd-ds tbody tr:not(.rd-grp)')).length === d.datasets.length && d.datasets.length === 16);
   await p.click('[data-rd="row"][data-v="lfs_state_sex"]'); await p.waitForTimeout(200); ok('D. View shows details and affected modules', /Pasaran Buruh/.test(await p.$eval('.rd-det', e => e.innerText)));
-  ok('E. GitHub pipeline shows 7 steps linked to the real PR', (await p.$$('.rd-step')).length === 7 && (await p.$eval('.rd-prt a', e => e.href)).includes('/pull/'));
-  ok('E. test pull requests are labelled as tests', !d.latest || !d.latest.test || /UJIAN|TEST/.test(await p.$eval('#rd-gh .sub', e => e.textContent)));
+  ok('E. test pull requests never drive the update status', !d.latest || !d.latest.test);
+  ok('E. 7 steps for a real PR, otherwise a clear empty state', d.latest ? (await p.$$('.rd-step')).length === 7 : (await p.$$('.rd-step')).length === 0 && /Belum ada Pull Request/.test(await p.$eval('#rd-gh', e => e.innerText)));
+  ok('E. no [TEST] items in notifications', !d.notes.some(n => /\[(TEST|UJIAN)/.test(n.bm + n.en)));
+  await p.click('[data-rd="scope"][data-v="all"]'); await p.waitForTimeout(200); const nAll = (await p.$$('#rd-up > .tbl-w tbody tr')).length; ok('B. SPPE / all DOSM toggle works', nAll === d.arc.filter(a => !a.released).length, nAll);
+  await p.goto(B + '/#home'); await p.waitForTimeout(800); await p.goto(B + '/#radar-data'); await p.waitForTimeout(1500); await p.click('[data-rd="view"][data-v="cal"]'); await p.waitForTimeout(300); ok('B. toggles still work after leaving and returning to the page', (await p.$$('.rd-cal-c')).length >= 28); await p.click('[data-rd="view"][data-v="list"]');
   await p.click('.rd-bell-btn'); await p.waitForTimeout(200); ok('bell panel lists notifications', (await p.$$('#rd-bell a[data-rdn]')).length > 0);
   await p.click('#rd-bell [data-rdb="all"]').catch(() => { }); await p.waitForTimeout(200); ok('mark all read clears the badge', !(await p.$('.rd-badge')));
   await p.click('#lang-en'); await p.waitForTimeout(600); const t = await p.evaluate(() => document.querySelector('#pg-radar').innerText); ok('EN shows English only', !/Keluaran Data Akan|Notifikasi Data|Status Data Website/.test(t) && /Upcoming Data Releases/.test(t)); await p.click('#lang-bm');
