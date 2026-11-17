@@ -1,0 +1,169 @@
+{
+ "schema": 1,
+ "about": "Radar Data monitoring log written by scripts/radar_record.py (do not edit by hand).",
+ "updated": "2026-11-17T00:52:50Z",
+ "lastCheck": {
+  "at": "2026-11-17T00:52:43Z",
+  "run": null,
+  "changed": [],
+  "failed": [],
+  "simulated": false,
+  "validation": null,
+  "pr": null
+ },
+ "datasets": {
+  "gdp_state_real_supply": {
+   "group": "gdp",
+   "used": "2025",
+   "dosm": "2025",
+   "checkedAt": "2026-11-17T00:52:43Z",
+   "status": "current"
+  },
+  "cpi_2d_state": {
+   "group": "cpi",
+   "used": "2026-09",
+   "dosm": "2026-09",
+   "checkedAt": "2026-11-17T00:52:43Z",
+   "status": "current"
+  },
+  "cpi_2d_state_inflation": {
+   "group": "cpi",
+   "used": "2026-09",
+   "dosm": "2026-09",
+   "checkedAt": "2026-11-17T00:52:43Z",
+   "status": "current"
+  },
+  "lfs_state_sex": {
+   "group": "lab",
+   "used": "2025",
+   "dosm": "2025",
+   "checkedAt": "2026-11-17T00:52:43Z",
+   "status": "current"
+  },
+  "wages_state": {
+   "group": "wage",
+   "used": "2025",
+   "dosm": "2025",
+   "checkedAt": "2026-11-17T00:52:43Z",
+   "status": "current"
+  },
+  "wages_sector": {
+   "group": "wage",
+   "used": "2025",
+   "dosm": "2025",
+   "checkedAt": "2026-11-17T00:52:43Z",
+   "status": "current"
+  },
+  "wages_industry": {
+   "group": "wage",
+   "used": "2025",
+   "dosm": "2025",
+   "checkedAt": "2026-11-17T00:52:43Z",
+   "status": "current"
+  },
+  "wages_skill": {
+   "group": "wage",
+   "used": "2025",
+   "dosm": "2025",
+   "checkedAt": "2026-11-17T00:52:43Z",
+   "status": "current"
+  },
+  "wages_education": {
+   "group": "wage",
+   "used": "2025",
+   "dosm": "2025",
+   "checkedAt": "2026-11-17T00:52:43Z",
+   "status": "current"
+  },
+  "formal_wages_state": {
+   "group": "wage",
+   "used": "2026-06",
+   "dosm": "2026-06",
+   "checkedAt": "2026-11-17T00:52:43Z",
+   "status": "current"
+  },
+  "formal_wages_msic": {
+   "group": "wage",
+   "used": "2026-06",
+   "dosm": "2026-06",
+   "checkedAt": "2026-11-17T00:52:43Z",
+   "status": "current"
+  },
+  "formal_wages_band": {
+   "group": "wage",
+   "used": "2026-06",
+   "dosm": "2026-06",
+   "checkedAt": "2026-11-17T00:52:43Z",
+   "status": "current"
+  },
+  "productivity_annual": {
+   "group": "prod",
+   "used": "2025",
+   "dosm": "2025",
+   "checkedAt": "2026-11-17T00:52:43Z",
+   "status": "current"
+  },
+  "hies_state": {
+   "group": "hies",
+   "used": "2024",
+   "dosm": "2024",
+   "checkedAt": "2026-11-17T00:52:43Z",
+   "status": "current"
+  },
+  "hies_state_percentile": {
+   "group": "hies",
+   "used": "2024",
+   "dosm": "2024",
+   "checkedAt": "2026-11-17T00:52:43Z",
+   "status": "current"
+  }
+ },
+ "watch": [
+  {
+   "id": "productivity_p14",
+   "name": "National labour productivity, 14 sub-sectors (CSV; codes special.01-14 have no names, so not used on the site yet)",
+   "url": "https://storage.dosm.gov.my/labour/productivity_annual_p14.csv",
+   "status": "ok",
+   "detail": "same as dosm/productivity_annual_p14.csv"
+  },
+  {
+   "id": "state_productivity",
+   "name": "Produktiviti Buruh Negeri / State labour productivity workbook (Excel, source of website/data/snapshot.json and the PDF reports)",
+   "url": null,
+   "status": "not set up",
+   "detail": "no url in scripts/watchlist.json"
+  },
+  {
+   "id": "stb",
+   "name": "Statistik Tenaga Buruh / Labour force statistics release (Excel/PDF)",
+   "url": null,
+   "status": "not set up",
+   "detail": "no url in scripts/watchlist.json"
+  },
+  {
+   "id": "gdp_flash",
+   "name": "Anggaran awal KDNK / GDP advance (flash) estimate (PDF)",
+   "url": null,
+   "status": "not set up",
+   "detail": "no url in scripts/watchlist.json"
+  },
+  {
+   "id": "wages_report",
+   "name": "Laporan Survei Gaji & Upah / Salaries & Wages Survey report (Excel/PDF)",
+   "url": null,
+   "status": "not set up",
+   "detail": "no url in scripts/watchlist.json"
+  }
+ ],
+ "events": [
+  {
+   "id": "c6a0f3759634",
+   "at": "2026-11-17T00:52:43Z",
+   "type": "check",
+   "level": "info",
+   "bm": "Semakan DOSM awal (dijalankan semasa pemasangan Radar Data): 0 data baharu, 0 gagal dicapai.",
+   "en": "Initial DOSM check (run while installing Radar Data): 0 new, 0 unreachable.",
+   "run": null
+  }
+ ]
+}
