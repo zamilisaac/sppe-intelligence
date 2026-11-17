@@ -1054,7 +1054,8 @@ i.lv-new { background: #fef3f2; color: #b42318; } i.lv-pending { background: #ff
 
       <aside class="side">
         <article class="card dl-card">
-          <h2 data-i="dlTitle">Laporan &amp; data</h2>
+          <h2 data-i="dlTitle">Muat turun data</h2>
+          <div class="dl-rep-old" hidden>
           <label class="field"><span data-i="dlReportFor">Laporan untuk</span>
             <select id="report-pick"></select>
           </label>
@@ -1065,6 +1066,7 @@ i.lv-new { background: #fef3f2; color: #b42318; } i.lv-pending { background: #ff
             <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 19h16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
             <span><span data-i="dlReport">Muat turun laporan</span><small id="report-sub">PDF</small></span>
           </button>
+          </div>
           <button type="button" class="btn-big alt" id="btn-data">
             <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 4h16v16H4zM4 10h16M10 4v16" stroke="currentColor" stroke-width="2" fill="none"/></svg>
             <span><span data-i="dlData">Muat turun data</span><small data-i="dlDataSub">Excel, semua jadual</small></span>
@@ -2098,11 +2100,9 @@ function renderProfile() {
     <div class="pf-act">
       <button type="button" class="btn" id="pf-sectors">${esc(mt('seeSectors'))}</button>
       <button type="button" class="btn" id="pf-trend" ${inTrend || S.trend.length >= MAX_TREND ? 'disabled' : ''}>${esc(inTrend ? mt('inTrend') : mt('addTrend'))}</button>
-      <button type="button" class="btn dark" id="pf-report" ${rep ? '' : 'disabled'}>${esc(mt('getReport'))} (${S.repLang === 'en' ? 'EN' : 'BM'})</button>
     </div>`;
   $('pf-sectors').onclick = () => $('sec-card').scrollIntoView({ behavior: reduceMotion() ? 'auto' : 'smooth', block: 'start' });
   $('pf-trend').onclick = () => { if (!S.trend.includes(id) && S.trend.length < MAX_TREND) { S.trend.push(id); renderTrend(); renderProfile(); } };
-  $('pf-report').onclick = () => { S.report = id; $('report-pick').value = id; renderReportBtn(); downloadReport(); };
 }
 
 /* ===== INSIGHTS: animated performance matrix + revisions tracker ===== */
@@ -2264,7 +2264,7 @@ const I18N = {
     rankTitle: 'Kedudukan negeri', rankSub: 'Nilai ditambah per penduduk bekerja (RM setiap pekerja setahun). Klik negeri untuk melihat sektornya.',
     exclFt: 'Tanpa W.P. Putrajaya & Labuan', national: 'Nasional', play: 'Main', pause: 'Jeda', year: 'Tahun',
     rankNote: 'Supra (aktiviti luar pesisir, terutamanya minyak dan gas) bukan negeri dan tidak dimasukkan. Bar kelabu: di bawah paras nasional. * Tenaga kerja kecil dan ekonomi khusus.',
-    dlTitle: 'Laporan & data', dlReportFor: 'Laporan untuk', dlReport: 'Muat turun laporan', dlData: 'Muat turun data', dlDataSub: 'Excel, semua jadual',
+    dlTitle: 'Muat turun data', dlReportFor: 'Laporan untuk', dlReport: 'Muat turun laporan', dlData: 'Muat turun data', dlDataSub: 'Excel, semua jadual',
     nationalReport: 'Nasional (Malaysia)', reportNotReady: 'Laporan belum dijana', enNotReady: 'Versi Inggeris belum dijana. Pemilik perlu membuka laman.', repLang: 'Bahasa laporan', preparing: 'Menyediakan fail…', saved: 'Fail dihantar untuk dimuat turun.',
     declined: 'Muat turun dibatalkan.', dlUnavailable: 'Muat turun tidak tersedia dalam paparan ini. Buka laman di Claude.',
     dlFailed: m => `Muat turun gagal: ${m}`, assetMissing: 'Fail laporan tidak dapat dibaca. Pemilik perlu menjana semula laporan.',
@@ -2320,7 +2320,7 @@ const I18N = {
     rankTitle: 'State ranking', rankSub: 'Value added per employed person (RM per worker per year). Click a state to see its sectors.',
     exclFt: 'Exclude Putrajaya & Labuan', national: 'National', play: 'Play', pause: 'Pause', year: 'Year',
     rankNote: 'Supra (offshore activity, mainly oil and gas) is not a state and is left out. Grey bars: below national level. * Small workforce and specialised economy.',
-    dlTitle: 'Reports & data', dlReportFor: 'Report for', dlReport: 'Download report', dlData: 'Download data', dlDataSub: 'Excel, all tables',
+    dlTitle: 'Download data', dlReportFor: 'Report for', dlReport: 'Download report', dlData: 'Download data', dlDataSub: 'Excel, all tables',
     nationalReport: 'National (Malaysia)', reportNotReady: 'Report not generated yet', enNotReady: 'English version not generated yet. The owner needs to open the site.', repLang: 'Report language', preparing: 'Preparing file…', saved: 'File sent for download.',
     declined: 'Download cancelled.', dlUnavailable: 'Downloads are not available in this view. Open the site in Claude.',
     dlFailed: m => `Download failed: ${m}`, assetMissing: 'The report file could not be read. The owner needs to regenerate the reports.',
