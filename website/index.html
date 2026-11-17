@@ -838,6 +838,40 @@ p.k2-warn { margin: 0 0 6px; padding: 8px 12px; border-radius: 8px; font-size: 1
 .sp-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin: 6px 0 14px; } .sp-form label { display: flex; flex-direction: column; gap: 6px; font-size: 12px; font-weight: 700; color: var(--muted); } .sp-form select, .sp-form input { font: inherit; font-size: 14px; padding: 9px 10px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); color: var(--ink, inherit); }
 .sp-act { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; } .sp-qc { margin-top: 14px; font-size: 13px; } .sp-qc summary { cursor: pointer; font-weight: 700; } .sp-qc ul { list-style: none; padding: 6px 0 0; margin: 0; } .sp-qc li { padding: 3px 0; } .sp-qc li.ok { color: #067647; } .sp-qc li.no { color: #b42318; } .sp-qc small { color: var(--muted); margin-left: 6px; }
 .sp-prev iframe { width: 100%; height: 80vh; min-height: 560px; border: 0; border-radius: 10px; background: #525659; }
+/* ---------- Radar Data ---------- */
+.rd-bar { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; margin: 0 0 12px; font-size: 12.5px; color: var(--muted); }
+.rd-srcs { display: flex; flex-wrap: wrap; gap: 6px; } .rd-src { border: 1px solid var(--line); border-radius: 999px; padding: 3px 9px; background: var(--surface); } .rd-src.ok { color: #067647; } .rd-src.err { color: #b42318; } .rd-upd { flex: 1 1 260px; }
+.rd-kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; }
+.rd-kpi { display: flex; flex-direction: column; gap: 3px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; text-decoration: none; color: inherit; border-top: 3px solid var(--line); }
+.rd-kpi b { font-family: var(--f-display); font-size: 30px; line-height: 1.1; } .rd-kpi span { font-weight: 700; } .rd-kpi small { color: var(--muted); font-size: 12px; }
+.rd-kpi.new { border-top-color: var(--red); } .rd-kpi.pend { border-top-color: #b54708; } .rd-kpi.ok { border-top-color: #067647; } .rd-kpi:hover { box-shadow: 0 2px 10px rgba(0,0,0,.06); }
+.rd-chips { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; } .rd-chips .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 3px; background: var(--surface); }
+.rd-chips .seg button { font: inherit; font-size: 12.5px; border: 0; background: none; padding: 5px 11px; border-radius: 999px; cursor: pointer; color: inherit; } .rd-chips .seg button[aria-pressed="true"] { background: var(--ink, #1c1917); color: #fff; }
+.rd-t td, .rd-t th { text-align: left; vertical-align: top; } .rd-t small { display: block; color: var(--muted); font-size: 11.5px; } .rd-cd { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.rd-pill { display: inline-block; font-size: 11.5px; font-weight: 700; padding: 2px 9px; border-radius: 999px; white-space: nowrap; background: #f2f4f7; color: #475467; }
+.rd-pill.ok { background: #ecfdf3; color: #067647; } .rd-pill.new { background: #fef3f2; color: #b42318; } .rd-pill.pend { background: #fffaeb; color: #b54708; } .rd-pill.err { background: #fef3f2; color: #b42318; border: 1px solid #fda29b; } .rd-pill.mute { background: #f2f4f7; color: #667085; }
+.rd-two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; align-items: start; } .rd-two > .card { margin: 0 0 16px; }
+.rd-list { list-style: none; padding: 0; margin: 10px 0 0; max-height: 560px; overflow: auto; } .rd-list li { display: flex; gap: 10px; padding: 9px 4px; border-bottom: 1px solid var(--line); } .rd-list li.un p { font-weight: 700; } .rd-list p { margin: 0 0 2px; } .rd-list small { color: var(--muted); font-size: 12px; } .rd-list .rd-e { color: var(--muted); }
+.rd-list i, .rd-steps i, .rd-bp-i i { flex: 0 0 22px; width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-style: normal; font-size: 12px; font-weight: 700; background: #f2f4f7; color: #475467; }
+i.lv-new { background: #fef3f2; color: #b42318; } i.lv-pending { background: #fffaeb; color: #b54708; } i.lv-ok { background: #ecfdf3; color: #067647; } i.lv-error { background: #b42318; color: #fff; } i.lv-test { background: #eef4ff; color: #3538cd; }
+.rd-flash { animation: rdflash 2.4s ease; } @keyframes rdflash { 0%, 40% { background: #fff4d6; } 100% { background: transparent; } }
+.rd-prt { margin: 6px 0 8px; font-weight: 700; } .rd-steps { list-style: none; padding: 0; margin: 0; } .rd-step { display: flex; gap: 10px; padding: 7px 0; position: relative; } .rd-step small { display: block; color: var(--muted); font-size: 12px; }
+.rd-step.done i { background: #ecfdf3; color: #067647; } .rd-step.current i { background: #fffaeb; color: #b54708; } .rd-step.error i { background: #b42318; color: #fff; } .rd-step.closed i, .rd-step.pending i { background: #f2f4f7; color: #98a2b3; } .rd-step.pending b, .rd-step.closed b { color: var(--muted); }
+.rd-admin { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 12px 0 4px; padding: 10px 12px; border: 1px dashed var(--red); border-radius: 10px; } .rd-admin b { width: 100%; font-size: 12.5px; color: var(--red); }
+.rd-note { font-size: 12.5px; color: var(--muted); margin: 10px 0 0; } .rd-h3 { font-size: 14px; margin: 16px 0 6px; } .rd-runs { list-style: none; padding: 0; margin: 0; } .rd-runs li { display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: baseline; padding: 5px 0; border-bottom: 1px solid var(--line); font-size: 13px; } .rd-runs small { color: var(--muted); width: 100%; } .rd-e { color: var(--muted); font-size: 13px; }
+.rd-ds .rd-grp td { background: var(--soft); font-weight: 700; font-size: 12.5px; } .rd-det td { background: color-mix(in srgb, var(--soft) 60%, transparent); } .rd-detg { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px 18px; font-size: 13px; } .rd-detg b { display: block; font-size: 12px; color: var(--muted); }
+.rd-cal-h { display: flex; gap: 10px; align-items: center; justify-content: center; margin: 4px 0 10px; } .rd-cal { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; } .rd-cal-w { font-size: 11.5px; font-weight: 700; color: var(--muted); text-align: center; }
+.rd-cal-c { min-height: 78px; border: 1px solid var(--line); border-radius: 8px; padding: 4px 5px; font-size: 11px; overflow: hidden; background: var(--surface); } .rd-cal-c.e { border: 0; background: none; } .rd-cal-c.today { border-color: var(--red); box-shadow: inset 0 0 0 1px var(--red); } .rd-cal-c > span { font-weight: 700; display: block; }
+.rd-cal-c a { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--red); text-decoration: none; border-left: 2px solid var(--red); padding-left: 3px; margin-top: 2px; } .rd-cal-c a.r { color: var(--muted); border-left-color: var(--line); }
+.rd-more { margin-top: 10px; font-size: 13px; } .rd-more summary { cursor: pointer; font-weight: 700; } .rd-foot { font-size: 12px; color: var(--muted); }
+.rd-bell { position: relative; } .rd-bell-btn { position: relative; width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--ink, inherit); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; }
+.rd-badge { position: absolute; top: -4px; right: -4px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px; background: var(--red); color: #fff; font-size: 10.5px; font-weight: 700; line-height: 18px; text-align: center; }
+.rd-bell-panel { position: absolute; right: 0; top: 46px; width: min(360px, calc(100vw - 32px)); background: var(--surface); border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 12px 30px rgba(0,0,0,.14); z-index: 60; padding: 8px; }
+.rd-bp-h { display: flex; justify-content: space-between; align-items: center; padding: 4px 6px 8px; } .rd-bp-h button { font: inherit; font-size: 12px; border: 0; background: none; color: var(--red); cursor: pointer; }
+.rd-bp-i { display: flex; gap: 9px; padding: 8px 6px; border-radius: 8px; text-decoration: none; color: inherit; font-size: 13px; } .rd-bp-i:hover { background: var(--soft); } .rd-bp-i.un span { font-weight: 700; } .rd-bp-i small { display: block; font-weight: 400; color: var(--muted); font-size: 11.5px; }
+.rd-bp-all { display: block; text-align: center; padding: 8px; font-weight: 700; color: var(--red); text-decoration: none; border-top: 1px solid var(--line); margin-top: 4px; } .rd-bp-e { color: var(--muted); font-size: 13px; padding: 6px; }
+@media (max-width: 980px) { .rd-two { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 640px) { .rd-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; } .rd-kpi { padding: 10px 12px; } .rd-kpi b { font-size: 24px; } .rd-cal-c { min-height: 54px; font-size: 9.5px; } .rd-cal-c a { border-left-width: 2px; } .rd-bell-btn { width: 34px; height: 34px; } }
 .lab-why { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--red); border-radius: 10px; padding: 12px 14px; margin: 12px 0; } .lab-why p { margin: 0; line-height: 1.55; } .lab-why p + p { margin-top: 8px; } .lab-why b { font-weight: 700; }
 .lab-res { display: grid; grid-template-columns: minmax(180px, 240px) minmax(0, 1fr); gap: 16px; align-items: start; background: var(--soft); border-radius: 12px; padding: 14px 16px; } .lab-res > div:first-child span { font-size: 12px; color: var(--muted); font-weight: 700; } .lab-res > div:first-child b { display: block; font-family: var(--f-display); font-size: 28px; } .lab-res > div:first-child small { color: var(--muted); } .lab-in b { font-weight: 700; }
 .lab-in { margin: 0; padding-left: 18px; font-size: 13px; } .lab-in small { color: var(--muted); display: block; } .lab-conv { grid-column: 1 / -1; margin: 0; font-size: 12px; color: var(--muted); }
@@ -1085,6 +1119,7 @@ p.k2-warn { margin: 0 0 6px; padding: 8px 12px; border-radius: 8px; font-size: 1
     <div class="pg" id="pg-explore" data-site hidden></div>
     <div class="pg" id="pg-build" data-site hidden></div>
     <div class="pg" id="pg-sprof" data-site hidden></div>
+    <div class="pg" id="pg-radar" data-site hidden></div>
     <div class="pg" id="pg-sim" data-site hidden></div>
     <div class="pg" id="pg-labx" data-site hidden></div>
     <div class="pg" id="pg-saved" data-site hidden></div>
@@ -3884,6 +3919,7 @@ const SITE = (() => {
     { id: 'wage', h: 'wages', bm: 'Gaji & Upah', en: 'Wages & Salaries' },
     { id: 'lab', h: 'labour', bm: 'Pasaran Buruh', en: 'Labour Market' },
     { id: 'intg', h: 'integrated', bm: 'Kecerdasan Ekonomi Bersepadu', en: 'Integrated Economic Intelligence' },
+    { id: 'radar', h: 'radar-data', bm: 'Radar Data', en: 'Radar Data' },
     { id: 'cmp', h: 'banding', bm: 'Banding Negeri', en: 'State Comparison', nav: false, parent: 'intg' },
     { id: 'explore', h: 'teroka', bm: 'Teroka Data', en: 'Data Explorer', nav: false, parent: 'intg' },
     { id: 'build', h: 'bina-laporan', bm: 'Studio Analitik', en: 'Insights Studio', nav: false, parent: 'intg' },
@@ -4712,6 +4748,10 @@ const SITE = (() => {
   const intgTabs = () => '';   // section navigation lives in the Kecerdasan mega menu
   const repTabs = intgTabs;
 
+  function radarPage() {
+    const el = $('pg-radar'); el.innerHTML = head(X('Radar Data · Pemantauan DOSM', 'Radar Data · DOSM monitoring'), pname(BY_PG.radar), X('Keluaran data DOSM akan datang, data baharu yang dikesan, kesegaran data laman, kemajuan kemas kini automatik GitHub dan status penerbitan Cloudflare, daripada rekod pemantauan sebenar.', 'Upcoming DOSM data releases, newly detected data, website data freshness, automated GitHub update progress and Cloudflare deployment status, from real monitoring records.')) + '<div class="rd-root"></div>';
+    if (typeof RADAR !== 'undefined') RADAR.mount(el.querySelector('.rd-root')); else el.querySelector('.rd-root').innerHTML = '<p>Memuatkan...</p>';
+  }
   function sprofPage() {
     const el = $('pg-sprof'); el.innerHTML = head(X('Kecerdasan Ekonomi Bersepadu · Wawasan & Penerbitan', 'Integrated Economic Intelligence · Insights & Publications'), pname(BY_PG.sprof), X('Jana laporan PDF Profil Strategik Produktiviti Negeri bagi mana-mana negeri, lengkap dengan carta, infografik, analisis dan cadangan.', 'Generate a State Productivity Strategic Profile PDF for any state, with charts, infographics, analysis and proposals.')) + '<div class="sp-root"></div>';
     if (typeof SP !== 'undefined') SP.mount(el.querySelector('.sp-root')); else el.querySelector('.sp-root').innerHTML = '<p>Memuatkan...</p>';
@@ -4811,6 +4851,7 @@ const SITE = (() => {
   }
   function readHash() {
     const h = location.hash.slice(1);
+    if (!h && location.pathname.replace(/\/$/, '') === '/radar-data') { page = 'radar'; try { history.replaceState(null, '', '/#radar-data'); } catch (e) { } return; }
     if (BY_H[h]) page = BY_H[h].id; else if (h === 'laporan-negeri') { K2.setType('state'); page = 'build'; try { history.replaceState(null, '', '#bina-laporan'); } catch (e) { } } else if (STATE_BY_ID[h]) page = 'prod'; else page = 'home';
   }
 
@@ -4870,10 +4911,11 @@ const SITE = (() => {
   function navCue() { const n = $('nav'); if (n) n.classList.toggle('more', n.scrollWidth - n.clientWidth - n.scrollLeft > 4); }
   function chrome() {
     const curNav = (BY_PG[page] && BY_PG[page].parent) || page;
-    const TOPICS = ['prod', 'gdp', 'wage', 'lab'], SHORT = { home: ['Utama', 'Home'], state: ['Negeri', 'State'], intg: ['Kecerdasan', 'Insights'], reports: ['Laporan', 'Reports'] };
+    const TOPICS = ['prod', 'gdp', 'wage', 'lab'], SHORT = { home: ['Utama', 'Home'], state: ['Negeri', 'State'], intg: ['Kecerdasan', 'Insights'], radar: ['Radar', 'Radar'], reports: ['Laporan', 'Reports'] };
     const navA = p => `<a href="#${p.h}"${TOPICS.includes(p.id) ? ' data-topic' : ''}${p.id === curNav ? ' aria-current="page"' : ''}${p.id === 'intg' ? ' data-mega aria-haspopup="true" aria-expanded="false" aria-controls="mega"' : ''}><span class="nl">${esc(pname(p))}${p.id === 'intg' ? '<svg class="mm-chev" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>' : ''}</span>${SHORT[p.id] ? `<span class="ns">${esc(X(...SHORT[p.id]))}</span>` : ''}</a>`;
     const navP = PAGES.filter(p => p.nav !== false), onTopic = TOPICS.includes(curNav);
     $('nav').innerHTML = navP.map((p, i) => navA(p) + (p.id === 'state' ? `<button type="button" class="nav-topic${onTopic ? ' on' : ''}" aria-expanded="false" aria-controls="nav-sheet">${esc(X('Topik', 'Topics'))} ▴</button>` : '')).join('');
+    if (typeof RADAR !== 'undefined') RADAR.bell();
     megaWire(); const mg = $('mega'); if (mg) { mg.innerHTML = megaHtml(page); mg.hidden = true; MM.open = false; }
     let ks = $('kei-sheet'); if (!ks) { ks = document.createElement('div'); ks.id = 'kei-sheet'; ks.className = 'nav-sheet kei-sheet'; ks.hidden = true; $('nav').after(ks); }
     ks.innerHTML = megaHtml(page); ks.hidden = true;
@@ -4897,7 +4939,7 @@ const SITE = (() => {
     if (!S.snap || !AN) { const el = $('pg-' + page); if (el && el.hasAttribute('data-site') && !S.snapLoaded) el.innerHTML = `<div class="skel-row"><div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div></div><div class="skel big"></div>`; return; }
     $('ph-prod').innerHTML = head(X('Topik 1', 'Topic 1'), pname(BY_PG.prod), X('Nilai yang dihasilkan oleh setiap pekerja dalam setahun, mengikut negeri dan sektor. Lebih tinggi bermakna setiap pekerja menghasilkan lebih banyak.', 'The value each worker produces in a year, by state and sector. Higher means each worker is producing more.'));
     $('ph-reports').innerHTML = repTabs('reports') + head(X('Kecerdasan Ekonomi Bersepadu · Wawasan & Penerbitan', 'Integrated Economic Intelligence · Insights & Publications'), pname(BY_PG.reports), X('Pilih topik, penunjuk, negeri dan tahun. Laporan dijana sebagai fail Word yang boleh disunting, dalam gaya yang sama dengan laporan produktiviti asal. Laporan PDF produktiviti sedia ada boleh dimuat turun di halaman Produktiviti Buruh.', 'Choose topics, indicators, states and years. The report is generated as an editable Word file, in the same style as the original productivity report. The ready-made productivity PDF reports can be downloaded on the Labour Productivity page.'));
-    try { ({ home: homePage, gdp: gdpPage, wage: wagePage, lab: labPage, intg: intgPage, state: statePage, method: methodPage, cmp: comparePage, explore: k2Page('explore'), labx: makmalPage, build: k2Page('build'), sprof: sprofPage, sim: k2Page('sim'), saved: k2Page('saved') }[page] || (() => { }))(); }
+    try { ({ home: homePage, gdp: gdpPage, wage: wagePage, lab: labPage, intg: intgPage, state: statePage, method: methodPage, cmp: comparePage, explore: k2Page('explore'), labx: makmalPage, build: k2Page('build'), sprof: sprofPage, radar: radarPage, sim: k2Page('sim'), saved: k2Page('saved') }[page] || (() => { }))(); }
     catch (err) { console.error('SITE render', err); const el = $('pg-' + page); if (el) el.innerHTML = `<div class="banner err">${esc(X('Halaman ini tidak dapat dipaparkan.', 'This page could not be displayed.'))}</div>`; }
     try { afterRender(); } catch (err) { console.error('afterRender', err); }
   }
@@ -6266,4 +6308,5 @@ boot();
 </script>
 
 <script src="profil.js"></script>
+<script src="radar.js"></script>
 </body></html>

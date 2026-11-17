@@ -61,6 +61,13 @@ jobs:
         id: cf
         run: python scripts/dosm_github.py wait-cloudflare --sha "$SHA" --timeout 1200 --interval 30
 
+      - name: "Radar Data: record the deploy for the website"
+        if: always() && steps.cf.outputs.cf_state != ''
+        continue-on-error: true
+        run: |
+          python scripts/radar_record.py deploy --sha "$SHA" --ref "$GITHUB_REF_NAME" --pr "${{ steps.pr.outputs.pr_number }}" \
+            --cf-state "${{ steps.cf.outputs.cf_state }}" --cf-detail "${{ steps.cf.outputs.cf_detail }}" --cf-url "${{ steps.cf.outputs.cf_url }}"
+
       - name: Record the deployment in website/data/data-manifest.json
         id: rec
         run: |

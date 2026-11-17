@@ -264,5 +264,40 @@ class EndToEndOffline(unittest.TestCase):
             shutil.rmtree(t)
 
 
+class RadarRecordTest(unittest.TestCase):
+    """radar_record.py turns workflow results into the Radar Data log (no network in --dry-run)."""
+
+    def run_check(self, payload, *extra):
+        import io, contextlib, tempfile
+        import radar_record
+        with tempfile.NamedTemporaryFile('w', suffix='.json', delete=False) as f:
+            json.dump(payload, f)
+        buf = io.StringIO()
+        os.environ.setdefault('GITHUB_REPOSITORY', 'zamilisaac/sppe-intelligence')
+        with contextlib.redirect_stdout(buf):
+            radar_record.main(['check', '--check-json', f.name, '--dry-run', *extra])
+        return json.loads(buf.getvalue())
+
+    def test_real_new_data_is_pending_after_pr(self):
+        log = self.run_check({'changed': ['lfs_state_sex'], 'failed': [], 'simulated': False, 'watch': [], 'datasets': {'lfs_state_sex': {'old': '2025', 'new': '2026'}}},
+                             '--validation', 'PASS', '--pr-url', 'https://github.com/x/y/pull/9')
+        d = log['datasets']['lfs_state_sex']
+        self.assertEqual((d['dosm'], d['status']), ('2026', 'pending'))
+        self.assertEqual([e['type'] for e in log['events']], ['detected', 'validated', 'pr', 'check'])
+
+    def test_simulated_run_never_marks_real_data(self):
+        log = self.run_check({'changed': ['formal_wages_state'], 'failed': [], 'simulated': True, 'watch': [], 'datasets': {'formal_wages_state': {'old': '2026-06', 'new': '2026-07'}}},
+                             '--validation', 'PASS', '--pr-url', 'https://github.com/x/y/pull/5')
+        d = log['datasets']['formal_wages_state']
+        self.assertEqual((d['dosm'], d['status'], d['simulated']), ('2026-06', 'current', True))
+        self.assertTrue(all(e.get('simulated') for e in log['events'] if e['type'] != 'check') and log['events'][0]['bm'].startswith('[UJIAN]'))
+
+    def test_failed_validation_is_an_error(self):
+        log = self.run_check({'changed': ['wages_state'], 'failed': ['hies_state'], 'simulated': False, 'watch': [], 'datasets': {'wages_state': {'old': '2024', 'new': '2025'}}},
+                             '--validation', 'FAIL')
+        self.assertEqual(log['datasets']['hies_state']['status'], 'error')
+        self.assertIn('error', [e['level'] for e in log['events']])
+
+
 if __name__ == '__main__':
     unittest.main()

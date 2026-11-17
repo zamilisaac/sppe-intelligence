@@ -6,7 +6,7 @@ const ok = (n, c, x = '') => console.log((c ? 'PASS' : 'FAIL') + ' ' + n + (x ? 
   const p = await (await br.newContext({ viewport: { width: 1366, height: 900 } })).newPage(); p.on('pageerror', e => errs.push(e.message));
   await p.goto(B + '/#home'); await p.waitForTimeout(1500);
   const trig = p.locator('#nav a[data-mega]'); const vis = () => p.evaluate(() => !document.getElementById('mega').hidden);
-  ok('main menu = 7 items', (await p.$$eval('#nav a .nl', l => l.map(a => a.textContent.trim()))).join('|') === 'Utama|Negeri|Produktiviti Buruh|KDNK & Struktur Ekonomi|Gaji & Upah|Pasaran Buruh|Kecerdasan Ekonomi Bersepadu');
+  ok('main menu = 8 items (Radar Data right of Kecerdasan)', (await p.$$eval('#nav a .nl', l => l.map(a => a.textContent.trim()))).join('|') === 'Utama|Negeri|Produktiviti Buruh|KDNK & Struktur Ekonomi|Gaji & Upah|Pasaran Buruh|Kecerdasan Ekonomi Bersepadu|Radar Data');
   await trig.hover(); await p.waitForTimeout(60); const early = await vis(); await p.waitForTimeout(150); ok('1 hover opens after ~120ms delay', !early && await vis());
   const st = await p.evaluate(() => { const m = document.getElementById('mega'); return { h: m.querySelector('.mm-h').textContent, g: [...m.querySelectorAll('.mm-gl')].map(x => x.textContent), c: [...m.querySelectorAll('.mm-col')].map(c => [...c.querySelectorAll('.mm-a span')].map(s => s.textContent)), icons: new Set([...m.querySelectorAll('.mm-i')].map(i => i.innerHTML)).size }; });
   ok('heading', st.h === 'Kecerdasan Ekonomi Bersepadu', st.h); ok('two groups ANALITIK & PERMODELAN / WAWASAN & PENERBITAN', st.g.join('|') === 'ANALITIK & PERMODELAN|WAWASAN & PENERBITAN');
@@ -35,7 +35,7 @@ const ok = (n, c, x = '') => console.log((c ? 'PASS' : 'FAIL') + ' ' + n + (x ? 
   const en = await p.evaluate(() => { const m = document.getElementById('mega'); return [m.querySelector('.mm-h').textContent, [...m.querySelectorAll('.mm-gl')].map(x => x.textContent).join('|'), [...m.querySelectorAll('.mm-a span')].map(s => s.textContent).join('|')]; });
   ok('14 EN switch updates menu immediately', en[0] === 'Integrated Economic Intelligence' && en[1] === 'ANALYTICS & MODELLING|INSIGHTS & PUBLICATIONS', en.slice(0, 2).join(' # '));
   ok('13 EN items', en[2] === 'Data Explorer|Integrated Analytics|State Comparison|Productivity Simulation|Productivity Lab|Insights Studio|State Strategic Profile|Insights Collection|My Library', en[2]);
-  ok('EN main menu', (await p.$$eval('#nav a .nl', l => l.map(a => a.textContent.trim()))).join('|') === 'Home|States|Labour Productivity|GDP & Economic Structure|Wages & Salaries|Labour Market|Integrated Economic Intelligence');
+  ok('EN main menu', (await p.$$eval('#nav a .nl', l => l.map(a => a.textContent.trim()))).join('|') === 'Home|States|Labour Productivity|GDP & Economic Structure|Wages & Salaries|Labour Market|Integrated Economic Intelligence|Radar Data');
   await p.screenshot({ path: 'mega-en.png', clip: { x: 0, y: 0, width: 1366, height: 560 } });
   await p.reload(); await p.waitForTimeout(1500); ok('language kept after reload', (await p.$eval('#nav a[data-mega] .nl', a => a.textContent.trim())) === 'Integrated Economic Intelligence');
   await p.click('#lang-bm'); await p.waitForTimeout(500); let leak = [];

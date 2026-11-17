@@ -4,7 +4,7 @@ This guide is for the site owner. No programming is needed to use it.
 
 ## Ringkasan / Overview
 
-Every Monday at 09:17 (Malaysia time), GitHub checks whether DOSM has published newer data. If it has, GitHub:
+Every day at 09:17 (Malaysia time), GitHub checks whether DOSM has published newer data. If it has, GitHub:
 
 1. **tells you** with a GitHub issue labelled `dosm-update` (plus Teams / e-mail if those are set up) (Stage 1);
 2. **downloads and checks** the new files, rebuilds the site's numbers, and opens a **pull request** for you to review (Stage 2);
@@ -13,7 +13,7 @@ Every Monday at 09:17 (Malaysia time), GitHub checks whether DOSM has published 
 Nothing reaches the live site until **you** approve and merge the pull request.
 
 ```
- Monday 09:17 ──► Stage 1: check OpenDOSM + watchlist ──► issue "Data DOSM baharu / New DOSM data"
+  Daily 09:17 ──► Stage 1: check OpenDOSM + watchlist ──► issue "Data DOSM baharu / New DOSM data"
                         │ newer CSV data?
                         ▼
                   Stage 2: download → validate ──FAIL──► issue with the report, no pull request
@@ -131,6 +131,25 @@ The scripts have their own tests: `python3 scripts/test_dosm_pipeline.py -v`.
 3. **Optional secrets** (Settings → Secrets and variables → Actions): `TEAMS_WEBHOOK_URL` (a Teams incoming webhook / Workflows URL), and `SMTP_HOST`, `SMTP_USER`, `SMTP_PASS`, `MAIL_TO` (optional `SMTP_PORT`, default 587; use 465 for SSL). If they are missing, the run skips them and says so in its summary.
 4. **GitHub notifications**: github.com → Settings → Notifications → Email on for "Participating, @mentions" and "Actions" (failed workflows). The issue mentions @zamilisaac and the pull request requests your review.
 
+## Radar Data (halaman laman web / website page)
+
+The **Radar Data** menu (right of "Kecerdasan Ekonomi Bersepadu", also at `/radar-data`) shows this automation inside the website, together with a notification bell in the header. Everything on it comes from real records:
+
+| Section | Source |
+|---|---|
+| Upcoming DOSM releases (list + calendar) | DOSM Advance Release Calendar `https://storage.dosm.gov.my/meta/arc.csv`, read live |
+| New-data notifications | the monitoring log (below), GitHub issues and pull requests labelled `dosm-update`, failed workflow runs, and DOSM releases from the last / next 7 days |
+| Website data status | `website/data/data-manifest.json` ("data used") against the latest period found by the daily check ("latest DOSM"), plus each OpenDOSM file's Last-Modified |
+| GitHub update status (7 steps) | the newest `dosm-update/*` pull request, the monitoring log, and the Cloudflare Pages check on the merged commit |
+
+**Monitoring log.** `scripts/radar_record.py` runs at the end of every check (Stage 1/2) and every deploy report (Stage 3) and appends what happened to `radar/log.json` on the **`radar-log`** branch (commits carry `[skip ci]`; the branch history is the audit trail). Test runs are recorded as **[UJIAN] / [TEST]** and never mark real data as new.
+
+**API.** `functions/api/radar.js` (Cloudflare Pages Function, behind the Microsoft login) combines these sources into `/api/radar`, cached for 5 minutes.
+
+Optional Cloudflare settings (Pages → Settings → Variables and Secrets):
+- `RADAR_ADMINS`: comma-separated MPC e-mail addresses that see the administrator controls (review/approve the pull request, run a check, audit trail). Without it, nobody sees those controls; approval itself always happens on GitHub.
+- `GITHUB_TOKEN`: a read-only GitHub token, only if the page reports a GitHub rate limit.
+
 ## Had / Limits
 
 - Excel/PDF releases are notify-only. They are never ingested automatically.
@@ -152,3 +171,6 @@ The scripts have their own tests: `python3 scripts/test_dosm_pipeline.py -v`.
 | `scripts/dosm_github.py` | issues, pull requests, Teams / e-mail, Cloudflare check |
 | `scripts/test_dosm_pipeline.py` | tests |
 | `website/data/data-manifest.json` | data as of, file fingerprints, deployments |
+| `scripts/radar_record.py` | monitoring log for the Radar Data page (branch `radar-log`) |
+| `functions/api/radar.js` | `/api/radar` for the Radar Data page and the notification bell |
+| `website/radar.js` | the Radar Data page and the notification bell |

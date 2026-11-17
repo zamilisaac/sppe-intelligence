@@ -6,7 +6,7 @@ name: Weekly DOSM data check
 
 on:
   schedule:
-    - cron: "17 1 * * 1"   # every Monday 09:17 Malaysia time (01:17 UTC)
+    - cron: "17 1 * * *"   # every day 09:17 Malaysia time (01:17 UTC); Radar Data shows each result
   workflow_dispatch:
     inputs:
       simulate_new_data:
@@ -177,6 +177,13 @@ jobs:
             --comment "New DOSM check result ($DATE): validation ${VSTATUS:-n/a}. ${PRURL:-No pull request.}"
           python scripts/dosm_github.py notify-extra --subject "$TITLE" --body-file "$RUNNER_TEMP/issue.md" \
             --link "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/issues?q=label%3Adosm-update"
+
+      - name: "Radar Data: record this check for the website"
+        if: always()
+        continue-on-error: true
+        run: |
+          python scripts/radar_record.py check --check-json "$RUNNER_TEMP/dosm_check.json" \
+            --validation "${{ steps.validate.outputs.status }}" --pr-url "${{ steps.pr.outputs.pr_url }}"
 
       - name: Keep downloaded files and reports
         if: steps.check.outputs.changed == 'true'

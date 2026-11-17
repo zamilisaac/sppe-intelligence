@@ -10,6 +10,7 @@
 //   SESSION_SECRET       Any long random string (signs the login cookie)
 //   AZURE_TENANT_ID      Optional. Defaults to MPC's directory (mpc.gov.my)
 //   SESSION_HOURS        Optional. How long a login lasts. Default 8
+//   RADAR_ADMINS         Optional. Comma-separated e-mails that see Radar Data approval controls
 
 const MPC_TENANT_ID = "704bb254-aa81-4863-9455-39c9fbc01cac"; // mpc.gov.my (public)
 const SESSION_COOKIE = "sppe_session";
@@ -45,6 +46,9 @@ export async function onRequest(context) {
     return new Response("Login required", { status: 401, headers: { "Cache-Control": "no-store" } });
   }
 
+  context.data.user = user; // read by functions/api/radar.js
+  const admins = String(env.RADAR_ADMINS || "").toLowerCase().split(/[\s,;]+/).filter(Boolean);
+  const isAdmin = !!(user.email && admins.includes(String(user.email).toLowerCase()));
   const res = await next();
   const type = res.headers.get("Content-Type") || "";
   const headers = new Headers(res.headers);
@@ -52,7 +56,7 @@ export async function onRequest(context) {
   const out = new Response(res.body, { status: res.status, statusText: res.statusText, headers });
   if (!type.includes("text/html")) return out;
   return new HTMLRewriter()
-    .on("head", { element: (el) => el.append(userScript(user), { html: true }) })
+    .on("head", { element: (el) => el.append(userScript(user, isAdmin), { html: true }) })
     .transform(out);
 }
 
@@ -309,7 +313,7 @@ Add these in Cloudflare Pages → Settings → Variables and Secrets, then redep
 }
 
 // Tells the site who is signed in; the site shows "Welcome, <name> · Log out" in its header.
-function userScript(user) {
-  const data = JSON.stringify({ name: user.name, email: user.email }).replace(/</g, "\\u003c");
+function userScript(user, admin) {
+  const data = JSON.stringify({ name: user.name, email: user.email, admin: !!admin }).replace(/</g, "\\u003c");
   return `<script>window.SPPE_USER=${data};</script>`;
 }
