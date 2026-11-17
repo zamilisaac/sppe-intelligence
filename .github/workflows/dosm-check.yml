@@ -1,37 +1,197 @@
+# Stage 1 + 2 of the DOSM automation (see docs/dosm-automation.md)
+#   1. Monitor OpenDOSM + the watchlist, notify (GitHub issue, optional Teams / e-mail)
+#   2. Download changed datasets to a dosm-update/YYYY-MM-DD branch, validate them, rebuild the
+#      site data, and open a pull request for human review. Never commits to main, never merges.
 name: Weekly DOSM data check
 
 on:
   schedule:
-    - cron: "17 1 * * 1"   # every Monday 09:17 Malaysia time
-  workflow_dispatch: {}     # "Run workflow" button for a manual check
+    - cron: "17 1 * * 1"   # every Monday 09:17 Malaysia time (01:17 UTC)
+  workflow_dispatch:
+    inputs:
+      simulate_new_data:
+        description: "TEST: fake one newer month for formal_wages_state so the whole pipeline runs"
+        type: boolean
+        default: false
+      simulate_bad_data:
+        description: "TEST: like simulate_new_data but also drop a column (validation must FAIL, no PR)"
+        type: boolean
+        default: false
+      base_branch:
+        description: "Branch to compare with and open the pull request against"
+        type: string
+        default: main
 
 permissions:
-  contents: write
-  issues: write
+  contents: write        # push the dosm-update/* branch (never main)
+  issues: write          # open/update the dosm-update issue
+  pull-requests: write   # open the pull request and request review
+
+concurrency:
+  group: dosm-check
+  cancel-in-progress: false
 
 jobs:
   check:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+      BASE_BRANCH: ${{ inputs.base_branch || 'main' }}
+      SIMULATE: ${{ inputs.simulate_new_data && 'true' || 'false' }}
+      SIMULATE_BAD: ${{ inputs.simulate_bad_data && 'true' || 'false' }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          ref: ${{ inputs.base_branch || 'main' }}
+
+      - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6.0.0
         with:
           python-version: "3.12"
-      - id: check
-        run: python scripts/check_dosm.py
-      - name: Save new files to a branch and open an issue
-        if: steps.check.outputs.changed == 'true'
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          BR="dosm-update-$(date +%Y-%m-%d)"
-          git config user.name "dosm-check"
-          git config user.email "dosm-check@users.noreply.github.com"
-          git checkout -b "$BR"
-          git add dosm/
-          git commit -m "New DOSM data ($(date +%Y-%m-%d))"
-          git push origin "$BR"
-          gh issue create --title "Data DOSM baharu tersedia / New DOSM data available ($(date +%Y-%m-%d))" \
-            --body "$(cat dosm_check.md)
 
-          The new files are on branch \`$BR\`. The website still shows the old figures until the site data is rebuilt from these files."
+      - name: "Stage 1: check OpenDOSM and the watchlist"
+        id: check
+        env:
+          DOSM_OUT: ${{ runner.temp }}
+        run: |
+          cp -r dosm "$RUNNER_TEMP/dosm-old"
+          FLAGS=""
+          [ "$SIMULATE" = "true" ] && FLAGS="--simulate"
+          [ "$SIMULATE_BAD" = "true" ] && FLAGS="--simulate-bad"
+          python scripts/check_dosm.py $FLAGS
+          cat "$RUNNER_TEMP/dosm_check.md" >> "$GITHUB_STEP_SUMMARY"
+          echo "date=$(TZ=Asia/Kuala_Lumpur date +%F)" >> "$GITHUB_OUTPUT"
+
+      - name: "Stage 2: validate changed datasets"
+        id: validate
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          python scripts/validate_dosm.py --old-dir "$RUNNER_TEMP/dosm-old" --new-dir dosm \
+            --datasets "${{ steps.check.outputs.changed_list }}" --out "$RUNNER_TEMP/validation.md" || true
+          cat "$RUNNER_TEMP/validation.md" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: "Stage 2: rebuild site data (data packs only)"
+        id: build
+        if: steps.check.outputs.changed == 'true' && steps.validate.outputs.status != 'FAIL'
+        run: |
+          python scripts/build_site_data.py | tee "$RUNNER_TEMP/build.txt"
+          if python scripts/check_page_code.py --base HEAD > "$RUNNER_TEMP/pagecode.txt"; then
+            echo "pagecode=ok" >> "$GITHUB_OUTPUT"
+          else
+            echo "pagecode=changed" >> "$GITHUB_OUTPUT"
+          fi
+          cat "$RUNNER_TEMP/pagecode.txt"
+
+      - name: "Stage 2: commit to dosm-update branch and open pull request"
+        id: pr
+        if: steps.build.outputs.pagecode == 'ok'
+        env:
+          DATE: ${{ steps.check.outputs.date }}
+        run: |
+          BR="dosm-update/$DATE"
+          TITLE="New DOSM data $DATE"
+          if [ "${{ steps.check.outputs.simulated }}" = "true" ]; then
+            BR="dosm-update/$DATE-simulated"; TITLE="[TEST - do not merge into main] $TITLE"
+          fi
+          git config user.name "dosm-automation"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B "$BR"
+          git add dosm/ website/index.html website/data/
+          git commit -m "$TITLE" -m "Changed datasets: ${{ steps.check.outputs.changed_list }}. Built by scripts/build_site_data.py in workflow run $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID."
+          git push --force origin "$BR"
+          {
+            [ "${{ steps.check.outputs.simulated }}" = "true" ] && printf '> **TEST RUN**: formal_wages_state was given a fake extra month (simulate_new_data). Close this pull request instead of merging it into main.\n\n'
+            echo "Automated pull request from the weekly DOSM check. **Nothing is published until a reviewer approves and merges it.**"
+            echo
+            cat "$RUNNER_TEMP/validation.md"
+            echo
+            echo "## Changed files"
+            echo
+            echo '```'
+            git diff --stat HEAD~1 HEAD
+            echo '```'
+            echo
+            echo "## Site data rebuild"
+            echo
+            echo '```'
+            cat "$RUNNER_TEMP/build.txt"
+            cat "$RUNNER_TEMP/pagecode.txt"
+            echo '```'
+            echo
+            echo "## Reviewer approval"
+            echo
+            echo "- [ ] Reviewer approval: I have read the validation report above (all datasets PASS or WARN, warnings understood)"
+            echo "- [ ] The biggest value changes look plausible against the DOSM release"
+            echo "- [ ] The \"data as of\" dates in website/data/data-manifest.json are the expected periods"
+            echo "- [ ] If website/data/snapshot.json changed: the static PDF reports in website/reports/ may need regenerating (see docs/dosm-automation.md)"
+            echo
+            echo "Merging is a human action. After merge, the **DOSM deploy report** workflow waits for Cloudflare Pages and comments here."
+            echo "Rollback: revert the merge commit (docs/dosm-automation.md, section Rollback)."
+          } > "$RUNNER_TEMP/pr.md"
+          echo "branch=$BR" >> "$GITHUB_OUTPUT"
+          echo "title=$TITLE" >> "$GITHUB_OUTPUT"
+          set +e
+          python scripts/dosm_github.py pr --head "$BR" --base "$BASE_BRANCH" --title "$TITLE" --body-file "$RUNNER_TEMP/pr.md" --reviewer zamilisaac
+          echo "pr_rc=$?" >> "$GITHUB_OUTPUT"
+
+      - name: "Stage 1: notify (issue, Teams, e-mail)"
+        if: steps.check.outputs.changed == 'true' || steps.check.outputs.watch_alert == 'true'
+        env:
+          DATE: ${{ steps.check.outputs.date }}
+          TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+        run: |
+          VSTATUS="${{ steps.validate.outputs.status }}"
+          PRURL="${{ steps.pr.outputs.pr_url }}"
+          PREFIX=""; [ "${{ steps.check.outputs.simulated }}" = "true" ] && PREFIX="[TEST] "
+          {
+            cat "$RUNNER_TEMP/dosm_check.md"
+            echo
+            if [ "${{ steps.check.outputs.changed }}" != "true" ]; then
+              echo "**Watchlist only (notify-only).** Download the new release by hand into dosm/ if it is needed; nothing was ingested."
+            elif [ "$VSTATUS" = "FAIL" ]; then
+              echo "## Result: validation FAILED, no pull request was opened"
+              echo
+              echo "The new files were **not** committed. The downloaded files and the report are attached to the workflow run as an artifact."
+              echo
+              cat "$RUNNER_TEMP/validation.md"
+            elif [ "${{ steps.build.outputs.pagecode }}" = "changed" ]; then
+              echo "## Result: stopped, the rebuild would have changed page code outside the data packs"
+              echo; echo '```'; cat "$RUNNER_TEMP/pagecode.txt"; echo '```'
+            elif [ -n "$PRURL" ]; then
+              echo "## Result: pull request ready for review"
+              echo
+              echo "$PRURL (validation: $VSTATUS). Review and merge it to publish; nothing is published before that."
+            else
+              echo "## Result: data validated ($VSTATUS) but the pull request could not be opened"
+              echo
+              echo "Branch \`${{ steps.pr.outputs.branch }}\` was pushed. Check Settings > Actions > General > Workflow permissions (see the run log), or open the pull request by hand: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/compare/$BASE_BRANCH...${{ steps.pr.outputs.branch }}"
+            fi
+          } > "$RUNNER_TEMP/issue.md"
+          TITLE="${PREFIX}Data DOSM baharu / New DOSM data ($DATE)"
+          python scripts/dosm_github.py issue --title "$TITLE" --body-file "$RUNNER_TEMP/issue.md" \
+            --comment "New DOSM check result ($DATE): validation ${VSTATUS:-n/a}. ${PRURL:-No pull request.}"
+          python scripts/dosm_github.py notify-extra --subject "$TITLE" --body-file "$RUNNER_TEMP/issue.md" \
+            --link "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/issues?q=label%3Adosm-update"
+
+      - name: Keep downloaded files and reports
+        if: steps.check.outputs.changed == 'true'
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: dosm-check-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/*.md
+            ${{ runner.temp }}/*.txt
+            ${{ runner.temp }}/dosm_check.json
+            dosm/*.csv
+          retention-days: 30
+
+      - name: Mark the run as failed when validation failed or no pull request could be opened
+        if: steps.validate.outputs.status == 'FAIL' || steps.build.outputs.pagecode == 'changed' || (steps.pr.outputs.pr_rc != '' && steps.pr.outputs.pr_rc != '0')
+        run: |
+          echo "Validation: ${{ steps.validate.outputs.status }}; page code: ${{ steps.build.outputs.pagecode }}; pull request exit code: ${{ steps.pr.outputs.pr_rc }}. See the dosm-update issue."
+          exit 1

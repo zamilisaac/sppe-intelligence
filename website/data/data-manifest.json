@@ -1,0 +1,114 @@
+{
+  "schema": 1,
+  "about": "Data as of (latest period per dataset) for the SPPE Intelligence site. Written by scripts/build_site_data.py; deployments are appended by .github/workflows/dosm-deploy.yml.",
+  "asOf": {
+    "gdp_state_real_supply": "2025",
+    "productivity_annual": "2025",
+    "wages_state": "2025",
+    "wages_sector": "2025",
+    "wages_industry": "2025",
+    "wages_education": "2025",
+    "wages_skill": "2025",
+    "formal_wages_state": "2026-06",
+    "formal_wages_msic": "2026-06",
+    "formal_wages_band": "2026-06",
+    "lfs_state_sex": "2025",
+    "cpi_2d_state": "2026-09",
+    "cpi_2d_state_inflation": "2026-09",
+    "hies_state": "2024",
+    "hies_state_percentile": "2024",
+    "state_productivity_workbook": "2025"
+  },
+  "datasets": {
+    "gdp_state_real_supply": {
+      "latest": "2025",
+      "rows": 2163,
+      "sha256": "0478e221408f506167d2cbbd1b0e9a73881ccc7509fe59ff6b7b81cbffaf63cb"
+    },
+    "productivity_annual": {
+      "latest": "2025",
+      "rows": 462,
+      "sha256": "22dc24a99feeec36e688d81da37532f1ad1c6bda4127d294bf26b32b2ea041ea"
+    },
+    "wages_state": {
+      "latest": "2025",
+      "rows": 816,
+      "sha256": "5cbb63c087f077ba1030cfc46d27134b7651ed79ac87621c2def45866f017dea"
+    },
+    "wages_sector": {
+      "latest": "2025",
+      "rows": 288,
+      "sha256": "34b0ff2c2c2742f0bea587443d2795a9b2d3c8f2f4ec63877565346eee1ea919"
+    },
+    "wages_industry": {
+      "latest": "2025",
+      "rows": 960,
+      "sha256": "2b60d64ac4da9e0ae4f0bc48f2828676cb2a8857afff21d8f4f1745a14e88170"
+    },
+    "wages_education": {
+      "latest": "2025",
+      "rows": 240,
+      "sha256": "d0f69525388debd8ae41bfeca9d22891751830fcd9e7e6fc1167b5e5dee39b07"
+    },
+    "wages_skill": {
+      "latest": "2025",
+      "rows": 192,
+      "sha256": "52f0cc023581045c33fde74ff2d60db05d37b2a4bd921ee8ae449b21b7eb4a34"
+    },
+    "formal_wages_state": {
+      "latest": "2026-06",
+      "rows": 918,
+      "sha256": "f6159ee5980d06c312ce6fce7d1df52b97d897e5e006dfbcc04d54337309b37e"
+    },
+    "formal_wages_msic": {
+      "latest": "2026-06",
+      "rows": 1242,
+      "sha256": "05c4e83a611c0210e2f417ee49baf604c7f488249cf690ec8b246802d00fa28f"
+    },
+    "formal_wages_band": {
+      "latest": "2026-06",
+      "rows": 810,
+      "sha256": "79beb796ff08c24fe1ea24a168b4137deed3ca44f057a9f5603756fd145eb6f7"
+    },
+    "lfs_state_sex": {
+      "latest": "2025",
+      "rows": 1908,
+      "sha256": "9c83959fa3e087569f3fb297ee023ce579016f3d44fe6b11f4a050cb8a393aae"
+    },
+    "cpi_2d_state": {
+      "latest": "2026-09",
+      "rows": 45024,
+      "sha256": "ce372e1350a32ae4c7e837e87fcb486a93fcb8c021286a9a07713e8e879aee26"
+    },
+    "cpi_2d_state_inflation": {
+      "latest": "2026-09",
+      "rows": 44800,
+      "sha256": "b457c1a1deb41c3cc695b966163c79103ed224febc529c3880a1a8cbb10f9494"
+    },
+    "hies_state": {
+      "latest": "2024",
+      "rows": 32,
+      "sha256": "2006002bbfb2e64f36ced670580e618ab04ceaedd1df3554f6f7eabcac93573b"
+    },
+    "hies_state_percentile": {
+      "latest": "2024",
+      "rows": 19200,
+      "sha256": "781990407571bcfb6a6f374aad34694d89b276f4c41c6b6f9e648fa6c82676d5"
+    }
+  },
+  "packs": {
+    "k3-data": "fa15cebee647",
+    "m6-data": "554c6dbc9eb7",
+    "snapshot.json": "2d3928898de6"
+  },
+  "stateProductivity": {
+    "source": "Produktiviti Buruh Negeri 2015-2025.xlsx",
+    "years": [
+      2015,
+      2025
+    ],
+    "nationalRowsFrom": "dosm/productivity_annual.csv"
+  },
+  "warnings": [],
+  "deployments": []
+}
