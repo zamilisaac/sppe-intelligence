@@ -73,6 +73,7 @@ const RADAR = (() => {
     else if (k === 'mon') { const m = st.month || new Date(); st.month = new Date(m.getFullYear(), m.getMonth() + (+v), 1); }
     else if (k === 'read') { markRead(notes().map(n => n.id)); }
     else if (k === 'refresh') { load(true).then(() => render(root)); }
+    else if (k === 'go') { const tg = root.querySelector('#' + v); if (tg) tg.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
     render(root);
   }
   function render(el) {
@@ -81,9 +82,9 @@ const RADAR = (() => {
     const src = d.sources || {}, okS = k => src[k] && src[k].ok;
     const srcChip = (k, l) => `<span class="rd-src ${okS(k) ? 'ok' : 'err'}" title="${esc(src[k] && src[k].error || '')}">${okS(k) ? '●' : '○'} ${esc(l)}</span>`;
     const K = d.kpi || {}, lc = d.lastCheck;
-    const kc = (v, l, s, cls, href) => `<a class="rd-kpi ${cls}" href="${href}"><b>${v}</b><span>${esc(l)}</span><small>${esc(s)}</small></a>`;
+    const kc = (v, l, s, cls, href) => `<button type="button" class="rd-kpi ${cls}" data-rd="go" data-v="${href.slice(1)}"><b>${v}</b><span>${esc(l)}</span><small>${esc(s)}</small></button>`;
     el.innerHTML = `
-    <div class="rd-bar"><div class="rd-srcs">${srcChip('arc', X('Kalendar DOSM', 'DOSM calendar'))}${srcChip('log', X('Log pemantauan', 'Monitoring log'))}${srcChip('pulls', 'GitHub')}${srcChip('live', 'OpenDOSM')}${srcChip('manifest', X('Manifest laman', 'Site manifest'))}</div>
+    <div class="rd-bar"><div class="rd-srcs">${srcChip('arc', X('Kalendar DOSM', 'DOSM calendar'))}${srcChip('log', X('Log pemantauan', 'Monitoring log'))}${srcChip('live', 'OpenDOSM')}${srcChip('manifest', X('Manifest laman', 'Site manifest'))}</div>
       <span class="rd-upd">${esc(X('Data radar: ', 'Radar data: ') + fmtD(d.generatedAt, true))}${lc ? ' · ' + esc(X('Semakan DOSM terakhir: ', 'Last DOSM check: ') + fmtD(lc.at, true)) : ''}</span>
       ${d.viewer && d.viewer.admin ? `<button type="button" class="btn k2-mini" data-rd="refresh">↻ ${esc(X('Muat semula sekarang', 'Refresh now'))}</button>` : ''}</div>
     ${st.err ? `<p class="k2-warn k2-review">${esc(X('Sambungan terakhir gagal; memaparkan salinan tersimpan. ', 'Last connection failed; showing the saved copy. ') + st.err)}</p>` : ''}

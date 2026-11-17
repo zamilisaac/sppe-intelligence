@@ -11,7 +11,8 @@ const ok = (n, c, x = '') => console.log((c ? 'PASS' : 'FAIL') + ' ' + n + (x !=
   ok('notification bell in the header', await p.isVisible('#rd-bell .rd-bell-btn'));
   await p.click('#nav a[href="#radar-data"]'); await p.waitForTimeout(2500);
   const d = await p.evaluate(() => fetch('/api/radar').then(r => r.json()));
-  ok('API reads every real source', ['arc', 'log', 'pulls', 'issues', 'runs', 'live', 'manifest'].every(k => d.sources[k] && d.sources[k].ok), JSON.stringify(d.sources));
+  ok('API reads every real source', ['arc', 'log', 'live', 'manifest'].every(k => d.sources[k] && d.sources[k].ok), JSON.stringify(d.sources));
+  { const h0 = await p.evaluate(() => location.hash); await p.click('.rd-kpi:nth-child(2)'); await p.waitForTimeout(600); ok('A. clicking a KPI card stays on Radar Data', (await p.evaluate(() => location.hash)) === '#radar-data' && h0 === '#radar-data'); }
   ok('A. four KPI cards from monitoring records', (await p.$$('.rd-kpi')).length === 4 && (await p.$eval('.rd-kpi b', e => e.textContent)) === String(d.kpi.upcomingSppe));
   ok('B. upcoming DOSM releases from the ARC calendar', (await p.$$('#rd-up > .tbl-w tbody tr')).length === d.arc.filter(a => a.sppe && !a.released).length && d.arc.length > 100);
   await p.click('[data-rd="view"][data-v="cal"]'); await p.waitForTimeout(300); ok('B. calendar view', (await p.$$('.rd-cal-c')).length >= 28); await p.click('[data-rd="view"][data-v="list"]');
