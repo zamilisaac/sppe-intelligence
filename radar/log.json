@@ -1,120 +1,123 @@
 {
  "schema": 1,
  "about": "Radar Data monitoring log written by scripts/radar_record.py (do not edit by hand).",
- "updated": "2026-11-19T02:23:55Z",
+ "updated": "2026-11-20T02:25:03Z",
  "lastCheck": {
-  "at": "2026-11-19T02:23:55Z",
-  "run": "https://github.com/zamilisaac/sppe-intelligence/actions/runs/44443969814",
-  "changed": [],
+  "at": "2026-11-20T02:25:03Z",
+  "run": "https://github.com/zamilisaac/sppe-intelligence/actions/runs/44660571873",
+  "changed": [
+   "cpi_2d_state",
+   "cpi_2d_state_inflation"
+  ],
   "failed": [],
   "simulated": false,
-  "validation": null,
-  "pr": null
+  "validation": "PASS",
+  "pr": "https://github.com/zamilisaac/sppe-intelligence/pull/8"
  },
  "datasets": {
   "gdp_state_real_supply": {
    "group": "gdp",
    "used": "2025",
    "dosm": "2025",
-   "checkedAt": "2026-11-19T02:23:55Z",
+   "checkedAt": "2026-11-20T02:25:03Z",
    "status": "current"
   },
   "cpi_2d_state": {
    "group": "cpi",
-   "used": "2026-09",
-   "dosm": "2026-09",
-   "checkedAt": "2026-11-19T02:23:55Z",
-   "status": "current"
+   "used": "2026-10",
+   "dosm": "2026-10",
+   "checkedAt": "2026-11-20T02:25:03Z",
+   "status": "pending"
   },
   "cpi_2d_state_inflation": {
    "group": "cpi",
-   "used": "2026-09",
-   "dosm": "2026-09",
-   "checkedAt": "2026-11-19T02:23:55Z",
-   "status": "current"
+   "used": "2026-10",
+   "dosm": "2026-10",
+   "checkedAt": "2026-11-20T02:25:03Z",
+   "status": "pending"
   },
   "lfs_state_sex": {
    "group": "lab",
    "used": "2025",
    "dosm": "2025",
-   "checkedAt": "2026-11-19T02:23:55Z",
+   "checkedAt": "2026-11-20T02:25:03Z",
    "status": "current"
   },
   "wages_state": {
    "group": "wage",
    "used": "2025",
    "dosm": "2025",
-   "checkedAt": "2026-11-19T02:23:55Z",
+   "checkedAt": "2026-11-20T02:25:03Z",
    "status": "current"
   },
   "wages_sector": {
    "group": "wage",
    "used": "2025",
    "dosm": "2025",
-   "checkedAt": "2026-11-19T02:23:55Z",
+   "checkedAt": "2026-11-20T02:25:03Z",
    "status": "current"
   },
   "wages_industry": {
    "group": "wage",
    "used": "2025",
    "dosm": "2025",
-   "checkedAt": "2026-11-19T02:23:55Z",
+   "checkedAt": "2026-11-20T02:25:03Z",
    "status": "current"
   },
   "wages_skill": {
    "group": "wage",
    "used": "2025",
    "dosm": "2025",
-   "checkedAt": "2026-11-19T02:23:55Z",
+   "checkedAt": "2026-11-20T02:25:03Z",
    "status": "current"
   },
   "wages_education": {
    "group": "wage",
    "used": "2025",
    "dosm": "2025",
-   "checkedAt": "2026-11-19T02:23:55Z",
+   "checkedAt": "2026-11-20T02:25:03Z",
    "status": "current"
   },
   "formal_wages_state": {
    "group": "wage",
    "used": "2026-06",
    "dosm": "2026-06",
-   "checkedAt": "2026-11-19T02:23:55Z",
+   "checkedAt": "2026-11-20T02:25:03Z",
    "status": "current"
   },
   "formal_wages_msic": {
    "group": "wage",
    "used": "2026-06",
    "dosm": "2026-06",
-   "checkedAt": "2026-11-19T02:23:55Z",
+   "checkedAt": "2026-11-20T02:25:03Z",
    "status": "current"
   },
   "formal_wages_band": {
    "group": "wage",
    "used": "2026-06",
    "dosm": "2026-06",
-   "checkedAt": "2026-11-19T02:23:55Z",
+   "checkedAt": "2026-11-20T02:25:03Z",
    "status": "current"
   },
   "productivity_annual": {
    "group": "prod",
    "used": "2025",
    "dosm": "2025",
-   "checkedAt": "2026-11-19T02:23:55Z",
+   "checkedAt": "2026-11-20T02:25:03Z",
    "status": "current"
   },
   "hies_state": {
    "group": "hies",
    "used": "2024",
    "dosm": "2024",
-   "checkedAt": "2026-11-19T02:23:55Z",
+   "checkedAt": "2026-11-20T02:25:03Z",
    "status": "current"
   },
   "hies_state_percentile": {
    "group": "hies",
    "used": "2024",
    "dosm": "2024",
-   "checkedAt": "2026-11-19T02:23:55Z",
+   "checkedAt": "2026-11-20T02:25:03Z",
    "status": "current"
   }
  },
@@ -282,6 +285,57 @@
    "bm": "Semakan DOSM selesai: 0 data baharu, 0 gagal dicapai.",
    "en": "DOSM check finished: 0 new, 0 unreachable.",
    "run": "https://github.com/zamilisaac/sppe-intelligence/actions/runs/44443969814"
+  },
+  {
+   "id": "7e79040ff024",
+   "at": "2026-11-20T02:25:03Z",
+   "type": "detected",
+   "level": "new",
+   "bm": "Data baharu dikesan: cpi_2d_state (2026-09 → 2026-10). Pengesahan diperlukan.",
+   "en": "New data detected: cpi_2d_state (2026-09 → 2026-10). Validation needed.",
+   "run": "https://github.com/zamilisaac/sppe-intelligence/actions/runs/44660571873",
+   "dataset": "cpi_2d_state",
+   "period": "2026-10"
+  },
+  {
+   "id": "5792cc018533",
+   "at": "2026-11-20T02:25:03Z",
+   "type": "detected",
+   "level": "new",
+   "bm": "Data baharu dikesan: cpi_2d_state_inflation (2026-09 → 2026-10). Pengesahan diperlukan.",
+   "en": "New data detected: cpi_2d_state_inflation (2026-09 → 2026-10). Validation needed.",
+   "run": "https://github.com/zamilisaac/sppe-intelligence/actions/runs/44660571873",
+   "dataset": "cpi_2d_state_inflation",
+   "period": "2026-10"
+  },
+  {
+   "id": "5cff0be68012",
+   "at": "2026-11-20T02:25:03Z",
+   "type": "validated",
+   "level": "ok",
+   "bm": "Pengesahan data: PASS.",
+   "en": "Data validation: PASS.",
+   "run": "https://github.com/zamilisaac/sppe-intelligence/actions/runs/44660571873",
+   "status": "PASS"
+  },
+  {
+   "id": "47330510b5ff",
+   "at": "2026-11-20T02:25:03Z",
+   "type": "pr",
+   "level": "pending",
+   "bm": "Pull Request GitHub telah dijana dan menunggu kelulusan.",
+   "en": "GitHub pull request created and awaiting approval.",
+   "run": "https://github.com/zamilisaac/sppe-intelligence/actions/runs/44660571873",
+   "url": "https://github.com/zamilisaac/sppe-intelligence/pull/8"
+  },
+  {
+   "id": "9c0c6deed18c",
+   "at": "2026-11-20T02:25:03Z",
+   "type": "check",
+   "level": "info",
+   "bm": "Semakan DOSM selesai: 2 data baharu, 0 gagal dicapai.",
+   "en": "DOSM check finished: 2 new, 0 unreachable.",
+   "run": "https://github.com/zamilisaac/sppe-intelligence/actions/runs/44660571873"
   }
  ]
 }
