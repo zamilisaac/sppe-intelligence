@@ -13,8 +13,8 @@
     "formal_wages_msic": "2026-06",
     "formal_wages_band": "2026-06",
     "lfs_state_sex": "2025",
-    "cpi_2d_state": "2026-09",
-    "cpi_2d_state_inflation": "2026-09",
+    "cpi_2d_state": "2026-10",
+    "cpi_2d_state_inflation": "2026-10",
     "hies_state": "2024",
     "hies_state_percentile": "2024",
     "state_productivity_workbook": "2025"
@@ -76,14 +76,14 @@
       "sha256": "9c83959fa3e087569f3fb297ee023ce579016f3d44fe6b11f4a050cb8a393aae"
     },
     "cpi_2d_state": {
-      "latest": "2026-09",
-      "rows": 45024,
-      "sha256": "ce372e1350a32ae4c7e837e87fcb486a93fcb8c021286a9a07713e8e879aee26"
+      "latest": "2026-10",
+      "rows": 45248,
+      "sha256": "a287bbe8fb03e5f23a5e9af5c73730cd8b8ba0900b660f7a9423f3129fa55c47"
     },
     "cpi_2d_state_inflation": {
-      "latest": "2026-09",
-      "rows": 44800,
-      "sha256": "b457c1a1deb41c3cc695b966163c79103ed224febc529c3880a1a8cbb10f9494"
+      "latest": "2026-10",
+      "rows": 45024,
+      "sha256": "a7245b206de42c8ddb6a708971c4284e4bc581868e6200ed44de24e6e1629313"
     },
     "hies_state": {
       "latest": "2024",
@@ -97,8 +97,8 @@
     }
   },
   "packs": {
-    "k3-data": "fa15cebee647",
-    "m6-data": "554c6dbc9eb7",
+    "k3-data": "060108360bb1",
+    "m6-data": "c4198ff4b0c7",
     "snapshot.json": "2d3928898de6"
   },
   "stateProductivity": {
