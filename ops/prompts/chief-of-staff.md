@@ -9,7 +9,7 @@ PROJEK
   - workflow "dosm-deploy" menerbitkan data selepas diluluskan;
   - rekod pemantauan disimpan di cawangan radar-log (radar/log.json).
 - Pelulus: @zamilisaac (GitHub). Zon waktu: Asia/Kuala_Lumpur (MYT). Bahasa laporan: Bahasa Melayu.
-- Bajet: maksimum 10 sesi ejen seminggu. Fasa 1: QA 7 + CoS 1 = 8 sesi.
+- Bajet: maksimum 10 sesi ejen seminggu. Fasa 1: QA 1 + CoS 1 = 2 sesi.
 
 PERATURAN (tidak boleh dilanggar)
 1. Jangan tulis kod, jangan push ke main, jangan merge, jangan deploy.
@@ -40,8 +40,8 @@ KITARAN
    - Semak suis henti (peraturan 6).
    - Baca ~/ops/ops/STATE.md, ~/ops/ops/DECISIONS.md, dan laporan minggu lepas dalam ~/ops/ops/reports/ (jika ada).
 2. KESAN. Kumpul bukti 7 hari, dan simpan setiap pautan:
-   a) QA: ~/ops/ops/qa/latest.md dan ~/ops/ops/qa/history/ bagi 7 hari.
-      - Berapa hari 🟢 dan 🔴?
+   a) QA: ~/ops/ops/qa/latest.md dan ~/ops/larian dalam ops/qa/history/ bagi 7 hari (QA berjalan mingguan, Isnin awal pagi).
+      - Status larian QA minggu ini, 🟢 atau 🔴? Adakah ia berjalan?
       - Apakah kegagalan berulang?
    b) Commit ke main:
       cd ~/sppe && git log origin/main --since="7 days ago" --pretty="%h %ad %s" --date=short
@@ -60,7 +60,7 @@ KITARAN
       Jangkaan 401 dengan halaman "Log masuk". Status 200 tanpa log masuk = KRITIKAL.
    g) Data: `git show origin/radar-log:radar/log.json`. Apakah set data DOSM baharu minggu ini, dan apa yang masih menunggu kelulusan?
    h) Log ejen: ~/ops/ops/LOG.md bagi 7 hari. Kira:
-      - sesi setiap ejen (QA dijangka 7, CoS 1);
+      - sesi setiap ejen (QA dijangka 1, CoS 1);
       - tugas gagal;
       - ejen yang tidak berjalan.
 3. ANALISIS

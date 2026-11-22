@@ -8,14 +8,14 @@ Ejen AI yang menjaga, menguji dan melaporkan projek ini secara berjadual. Manusi
 
 | Fasa | Ejen | Status |
 |---|---|---|
-| 1 | 🧪 QA (harian) + 🧭 Chief of Staff (mingguan) | sedang dibina |
+| 1 | 🧪 QA (mingguan, Isnin 2:13 pagi) + 🧭 Chief of Staff (mingguan, Isnin 7:45 pagi) | sedang dibina |
 | 2 | 📋 PM + 🛠 Jurutera | belum |
 | 3 | 📊 Penganalisis Data | belum |
 | 4 | 🛡 Keselamatan + mesej keluar | belum (perlu kelulusan IT) |
 
 ## Di mana semuanya
 
-Repo ini **awam**, dan push ke `main` terus dideploy ke laman. Sebab itu fail yang ditulis ejen setiap hari disimpan di cawangan berasingan, iaitu **`agents/ops`**:
+Repo ini **awam**, dan push ke `main` terus dideploy ke laman. Sebab itu fail yang ditulis ejen secara berkala disimpan di cawangan berasingan, iaitu **`agents/ops`**:
 - cawangan itu tidak pernah di-merge dan tidak dideploy;
 - setiap commit ke cawangan itu memakai `[skip ci]`.
 
@@ -24,7 +24,7 @@ Repo ini **awam**, dan push ke `main` terus dideploy ke laman. Sebab itu fail ya
 | `ops/STATE.md` | keutamaan minggu ini, risiko terbuka, keputusan menunggu | Chief of Staff |
 | `ops/DECISIONS.md` | keputusan Pelulus (tarikh, keputusan, sebab) | Pelulus, atau ejen yang menyalin keputusan bertulis Pelulus |
 | `ops/LOG.md` | log setiap tindakan ejen (tambah sahaja) | semua ejen |
-| `ops/qa/latest.md`, `ops/qa/history/` | hasil QA terkini dan arkib harian | QA |
+| `ops/qa/latest.md`, `ops/qa/history/` | hasil QA terkini dan arkib setiap larian | QA |
 | `ops/reports/YYYY-Www.md` | laporan mingguan | Chief of Staff |
 | `ops/PAUSE` | jika wujud, semua ejen berhenti | Pelulus |
 
