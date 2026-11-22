@@ -33,6 +33,10 @@ run_node() { # suite file
 }
 for f in tests/engine-lab.js tests/k2-e2e.js tests/mega-menu.js tests/profil.js tests/radar.js; do [ -f "$f" ] && run_node "$f"; done
 
+# Agent company configuration (BRIEF, roster, agent files, prompts)
+t0=$SECONDS; python3 scripts/check_agents.py >"$LOG/agents.out" 2>&1; rc=$?
+record "konfigurasi ejen" "$(grep -c '^PASS' "$LOG/agents.out")" "$(grep -c '^FAIL' "$LOG/agents.out")" 0 $((SECONDS-t0)) "$rc" "$LOG/agents.out"
+
 # DOSM pipeline (Python unittest)
 t0=$SECONDS; timeout 600 python3 scripts/test_dosm_pipeline.py -v >"$LOG/py.out" 2>&1; rc=$?
 p=$(grep -cE '\.\.\. ok$' "$LOG/py.out"); f=$(grep -cE '\.\.\. (FAIL|ERROR)$' "$LOG/py.out")

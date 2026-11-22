@@ -4,14 +4,15 @@ Ejen AI yang menjaga, menguji dan melaporkan projek ini secara berjadual. Manusi
 
 **Pelulus:** @zamilisaac. Hanya Pelulus boleh merge PR, meluluskan keputusan, deploy dan menghantar mesej keluar.
 
-## Fasa
+## Struktur: Gelung Kaizen
 
-| Fasa | Ejen | Status |
-|---|---|---|
-| 1 | 🧪 QA (mingguan, Isnin 2:13 pagi) + 🧭 Chief of Staff (mingguan, Isnin 7:45 pagi) | sedang dibina |
-| 2 | 📋 PM + 🛠 Jurutera | belum |
-| 3 | 📊 Penganalisis Data | belum |
-| 4 | 🛡 Keselamatan + mesej keluar | belum (perlu kelulusan IT) |
+Struktur penuh ada dalam **[SYARIKAT.md](SYARIKAT.md)**: carta organisasi, 8 peranan, gelung, format serahan dan jadual. Brief projek ada dalam **[BRIEF.md](BRIEF.md)**.
+
+- **Peringkat:** Pelulus → 🧭 Chief of Staff → 📋 Pengurus Program.
+- **Pekerja:** 🔎 Penyelidik Data · 🛠 Pembina · 🧪 Penguji · 🔍 Penyemak · 📐 Ahli Ekonomi · 🔧 Penambah Baik. Setiap pekerja ialah sub-ejen dalam `.claude/agents/`.
+- **Pengajaran:** dikumpul dalam `ops/LESSONS.md`. Hanya Penambah Baik menulisnya.
+- **Mesyuarat Kaizen:** setiap Isnin, dalam laporan Chief of Staff. Cadangannya hanya digunakan selepas Pelulus meluluskannya.
+- **Kemudian (Fasa 4, perlu kelulusan IT):** 🛡 Pemeriksa Keselamatan dan mesej keluar.
 
 ## Di mana semuanya
 
@@ -26,6 +27,8 @@ Repo ini **awam**, dan push ke `main` terus dideploy ke laman. Sebab itu fail ya
 | `ops/LOG.md` | log setiap tindakan ejen (tambah sahaja) | semua ejen |
 | `ops/qa/latest.md`, `ops/qa/history/` | hasil QA terkini dan arkib setiap larian | QA |
 | `ops/reports/YYYY-Www.md` | laporan mingguan | Chief of Staff |
+| `ops/LESSONS.md` | pengajaran (satu baris setiap satu) | Penambah Baik sahaja |
+| `ops/kaizen/metrik.md` | pusingan dan lulus kali pertama bagi setiap tugas | Pengurus Program |
 | `ops/PAUSE` | jika wujud, semua ejen berhenti | Pelulus |
 
 Dalam cawangan `main` (fail ini) pula ada:
