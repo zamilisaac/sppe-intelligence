@@ -15,3 +15,6 @@ Tambah sahaja. Satu baris bagi setiap tindakan.
 | 2026-11-23 07:14 MYT | Arkitek | Projek SPPE-I dicipta dalam AIOS + 9 item suapan (6 kelulusan menunggu) | AIOS projects/sppe-i/feed |
 | 2026-11-23 07:33 MYT | Arkitek | Deploy main 7eed275→94aed38 (IHP Okt 2026, Radar, buang footer); Cloudflare berjaya; PR #11 merged | https://github.com/zamilisaac/sppe-intelligence/commit/94aed38 |
 | 2026-11-23 07:33 MYT | Arkitek | Merge PR #12 disekat kawalan keselamatan sesi (kelulusan AIOS belum diiktiraf); notis dihantar ke AIOS | AIOS projects/sppe-i/feed/2026-11-23-notis-tertangguh |
+| 2026-11-23 07:53 MYT | Arkitek | Merge PR #12 (4d23e93) dan #15 (ba8bc7c); tutup #8, #10 | https://github.com/zamilisaac/sppe-intelligence/pulls?q=is%3Apr+is%3Aclosed |
+| 2026-11-23 07:53 MYT | Arkitek | Jadual dicipta: QA trig_018aytzm…, CoS trig_01LygaWC…, PM trig_018yN22X… | ops/SYARIKAT.md |
+| 2026-11-23 07:53 MYT | Arkitek | run-all pada main: 0 gagal; kiraan Python dibaiki dalam PR #16 | https://github.com/zamilisaac/sppe-intelligence/pull/16 |
