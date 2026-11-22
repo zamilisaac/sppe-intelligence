@@ -20,7 +20,8 @@ const ok = (n, c, x = '') => console.log((c ? 'PASS' : 'FAIL') + ' ' + n + (x ? 
   ok('2 stays open moving into panel', await vis());
   const bg = await item.evaluate(e => getComputedStyle(e).backgroundColor); ok('3 hovered item highlighted', bg !== 'rgba(0, 0, 0, 0)', bg);
   await item.click(); await p.waitForTimeout(1200); ok('4 click opens correct page', (await p.evaluate(() => location.hash)) === '#tersimpan'); ok('5 closes after navigation', !(await vis()));
-  ok('Kecerdasan marked current on child page', (await p.$eval('#nav [aria-current]', a => a.textContent.trim())) === 'Kecerdasan Ekonomi Bersepadu');
+  const cur = await p.$$eval('#nav [aria-current="page"]', l => l.map(a => (a.hasAttribute('data-mega') ? 'mega:' : '') + a.querySelector('.nl').textContent.trim()));
+  ok('Kecerdasan marked current on child page', cur.join('|') === 'mega:Kecerdasan Ekonomi Bersepadu', cur.join('|'));
   await trig.hover(); await p.waitForTimeout(250); await p.mouse.move(200, 800, { steps: 5 }); await p.waitForTimeout(120); const still = await vis(); await p.waitForTimeout(300); ok('6 closes ~250ms after leaving', still && !(await vis()));
   await trig.hover(); await p.waitForTimeout(250); await p.keyboard.press('Escape'); ok('7 Escape closes', !(await vis()));
   await p.mouse.move(10, 700); await p.waitForTimeout(400); await trig.focus(); await p.keyboard.press('ArrowDown'); await p.waitForTimeout(50);
