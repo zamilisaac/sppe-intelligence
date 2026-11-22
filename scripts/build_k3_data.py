@@ -133,6 +133,15 @@ def build_pack(d=None):
     pack['cpi'] = {'years': cyears, 'states': cst}
     pack['files']['cpi_2d_state'] = sha('cpi_2d_state', d)
 
+    # monthly state inflation (overall CPI, year on year), last 13 months; used by the monthly highlights newsletter
+    inf = [r for r in rows('cpi_2d_state_inflation', d) if r['division'] == 'overall']
+    idates = sorted({r['date'][:7] for r in inf if num(r['inflation_yoy']) is not None})[-13:]; ist = {}
+    for r in inf:
+        if r['date'][:7] in idates:
+            ist.setdefault(r['state'], [None] * len(idates))[idates.index(r['date'][:7])] = num(r['inflation_yoy'])
+    pack['infl'] = {'dates': idates, 'states': ist}
+    pack['files']['cpi_2d_state_inflation'] = sha('cpi_2d_state_inflation', d)
+
     # survey wages (national): median by education, skill and sector, by sex
     ws_ = {}
     for name, col in (('wages_education', 'education'), ('wages_skill', 'skill'), ('wages_sector', 'sector')):
