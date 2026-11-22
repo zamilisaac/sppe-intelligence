@@ -10,4 +10,5 @@ Tambah sahaja. Format: tarikh · keputusan · sebab · pautan.
 | sebelum 2026-11-22 | Analisis gaji dalam laporan: KIV. | Menunggu semakan lanjut | sesi kerja Pelulus |
 | sebelum 2026-11-22 | E-mel pengguna tidak boleh dimasukkan dalam kod atau repo awam. | Privasi | sesi kerja Pelulus |
 | sebelum 2026-11-22 | Buletin bulanan: KIV. | Keputusan penghantaran belum dibuat | sesi kerja Pelulus |
-| 2026-11-22 | Bina syarikat ejen AI secara berperingkat. Fasa 1 = QA harian + Chief of Staff mingguan. | Arahan Pelulus | PR Fasa 1 |
+| 2026-11-22 | Bina syarikat ejen AI secara berperingkat. Fasa 1 = QA + Chief of Staff. | Arahan Pelulus | PR Fasa 1 |
+| 2026-11-22 | QA dijalankan mingguan (Isnin 2:13 pagi MYT), bukan harian. Ia berjalan sebelum Chief of Staff (Isnin 7:45 pagi). | Arahan Pelulus | https://github.com/zamilisaac/sppe-intelligence/pull/12 |

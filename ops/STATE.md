@@ -3,7 +3,7 @@
 Dikemas kini: 2026-11-22 oleh Arkitek Operasi AI (persediaan Fasa 1). Chief of Staff akan mengambil alih setiap Isnin.
 
 ## Keutamaan minggu ini
-1. Aktifkan Fasa 1 (QA harian + Chief of Staff mingguan) dan hasilkan laporan mingguan pertama.
+1. Aktifkan Fasa 1 (QA mingguan + Chief of Staff mingguan) dan hasilkan laporan mingguan pertama.
 2. Selesaikan PR data DOSM yang bertindih.
 3. Deploy 4 commit yang menunggu di cawangan `add-microsoft-login`, bila Pelulus berkata "deploy".
 
