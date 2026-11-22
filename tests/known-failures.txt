@@ -1,0 +1,3 @@
+# One line per known, accepted test failure (a piece of the FAIL line). Each line needs a reason and an issue.
+# mega-menu: the test reads the wrong "current" marker; the site itself is correct (seen 2026-11).
+Kecerdasan marked current
