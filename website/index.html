@@ -1145,8 +1145,6 @@ i.lv-new { background: #fef3f2; color: #b42318; } i.lv-pending { background: #ff
   </main>
 
   <footer class="foot-page">
-    <p id="foot-text"></p>
-    <p id="other-files" class="muted"></p>
     <p><a class="fb-btn" id="fb-btn" hidden>✉ Maklum balas</a></p>
   </footer>
 </div>
@@ -2638,8 +2636,6 @@ function renderSectors() {
 }
 function renderFooter() {
   const s = S.snap;
-  $('foot-text').textContent = t('foot')(s.source.name, s.years[0], A(s).latest);
-  $('other-files').textContent = s.otherFiles && s.otherFiles.length ? t('otherFiles')(s.otherFiles.join(', ')) : '';
 }
 
 /* ---------- downloads ---------- */
