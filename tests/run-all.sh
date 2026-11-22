@@ -39,7 +39,10 @@ record "konfigurasi ejen" "$(grep -c '^PASS' "$LOG/agents.out")" "$(grep -c '^FA
 
 # DOSM pipeline (Python unittest)
 t0=$SECONDS; timeout 600 python3 scripts/test_dosm_pipeline.py -v >"$LOG/py.out" 2>&1; rc=$?
-p=$(grep -cE '\.\.\. ok$' "$LOG/py.out"); f=$(grep -cE '\.\.\. (FAIL|ERROR)$' "$LOG/py.out")
+# count from unittest's own summary ("Ran N tests" / "FAILED (failures=a, errors=b)"); warnings can break the per-test "... ok" lines
+n=$(grep -oE '^Ran [0-9]+ test' "$LOG/py.out" | grep -oE '[0-9]+' | tail -1); n=${n:-0}
+f=$(grep -oE '(failures|errors)=[0-9]+' "$LOG/py.out" | grep -oE '[0-9]+' | awk '{s+=$1} END{print s+0}')
+p=$((n-f)); [ "$n" -eq 0 ] && [ "$rc" -ne 0 ] && f=1
 record "dosm-pipeline (python)" "$p" "$f" 0 $((SECONDS-t0)) "$rc" "$LOG/py.out"
 
 # Live site: must answer, and every page must sit behind the Microsoft login
