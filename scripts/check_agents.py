@@ -52,7 +52,8 @@ for p in sorted((ROOT / 'ops/prompts').glob('*.md')):
     t = p.read_text(encoding='utf-8')
     if p.stem in ('chief-of-staff', 'pm'):
         ok(f'prompt {p.stem}: reads BRIEF and LESSONS', 'ops/BRIEF.md' in t and 'LESSONS' in t)
-    ok(f'prompt {p.stem}: has the kill switch', 'agents:pause' in t and 'PAUSE' in t)
+    ok(f'prompt {p.stem}: has the kill switch', 'agents:pause' in t and ('PAUSE' in t or p.stem == 'pelaksana-kelulusan'))
+    ok(f'prompt {p.stem}: reports to AIOS project SPPE-I', 'PUkL8j8ThYk1rL95Kx49vi' in t and 'projects/sppe-i/feed' in t)
 
 email = re.compile(r'[A-Za-z0-9._%+-]+@(?!anthropic\.com)[A-Za-z0-9-]+\.[A-Za-z.]{2,}')
 files = list((ROOT / 'ops').rglob('*.md')) + list(agents.values())

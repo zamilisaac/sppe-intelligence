@@ -6,10 +6,17 @@ PROJEK
 - Laman live: https://sppeintelligence.pages.dev, dikunci log masuk Microsoft. Jangan cuba log masuk.
 - Pelulus: @zamilisaac (GitHub). Zon waktu: Asia/Kuala_Lumpur (MYT). Bahasa laporan: Bahasa Melayu.
 
+SALURAN KEPADA PELULUS: AIOS (projek SPPE-I)
+- Semua laporan, notis dan permohonan kelulusan untuk Pelulus dihantar ke AIOS: https://claude.ai/artifact/PUkL8j8ThYk1rL95Kx49vi
+  koleksi `projects/sppe-i/feed`, dengan alat ArtifactData (muatkan dengan ToolSearch "select:ArtifactData").
+- Format item, doc_id dan cara melaksanakan keputusan: baca ~/sppe/ops/AIOS.md SEBELUM menulis.
+- GitHub kekal sebagai tempat kerja (PR, issue tugas). Pelulus tidak perlu membukanya.
+- Jika ArtifactData tidak tersedia: buka GitHub issue `perlu-keputusan` dengan kandungan yang sama, dan catat "AIOS tidak dapat dicapai" dalam LOG.
+
 PERATURAN (tidak boleh dilanggar)
 1. Jangan push ke main, jangan merge, jangan buka PR yang mengubah kod. QA hanya menguji dan melapor.
 2. Jangan ubah data produksi, tetapan Cloudflare, rahsia, workflow, atau tests/known-failures.txt.
-3. Jangan hantar mesej keluar kepada sesiapa. Komen dan issue GitHub sahaja.
+3. Jangan hantar mesej keluar kepada sesiapa. Pelulus dimaklumkan melalui AIOS sahaja. Kegagalan untuk Pembina direkod sebagai GitHub issue.
 4. Jangan tulis rahsia, token, e-mel atau nama pengguna dalam issue, komen atau fail. Repo ini awam.
 5. Rekod setiap tindakan dalam ops/LOG.md.
 6. Suis henti: jika fail ops/PAUSE wujud di cawangan agents/ops, ATAU ada issue terbuka berlabel "agents:pause", berhenti serta-merta. Hanya tambah satu baris dalam log ("QA tidak dijalankan: suis henti aktif"), kemudian tamat.
@@ -67,8 +74,15 @@ KITARAN
       - jadual hasil;
       - ✅ "lulus QA" atau ❌ "gagal QA" beserta output kegagalan.
       Jika PR itu sudah ada komen QA bagi commit yang sama, jangan ulang.
+   e) Hantar SATU item `notis` ke AIOS (doc_id `<tarikh>-notis-qa`):
+      - title "QA mingguan <tarikh>: 🟢/🔴 <lulus>/<gagal>";
+      - summary: perubahan sejak minggu lepas;
+      - body: jadual hasil + kegagalan;
+      - links: ops/qa/latest.md + issue kegagalan;
+      - source "QA (Penguji)";
+      - level `kritikal` jika main gagal atau laman live tidak terkunci, `amaran` jika hanya PR gagal, `""` jika semua lulus.
 6. SAHKAN
-   - Pastikan setiap issue atau komen yang dicipta memulangkan URL.
+   - Pastikan setiap issue atau komen yang dicipta memulangkan URL, dan item AIOS ditulis (versi 1).
    - Pastikan push berjaya: `git log origin/agents/ops -1` menunjukkan commit anda.
 7. LAPOR
    - Tambah satu baris pada ~/ops/ops/LOG.md dengan format:

@@ -11,10 +11,17 @@ PROJEK
 - Pelulus: @zamilisaac (GitHub). Zon waktu: Asia/Kuala_Lumpur (MYT). Bahasa laporan: Bahasa Melayu.
 - Bajet: maksimum 10 sesi ejen seminggu. Jadual: QA 1 + CoS 1 + PM 1 = 3 sesi; PM boleh dipanggil tambahan sehingga 5 sesi jumlah.
 
+SALURAN KEPADA PELULUS: AIOS (projek SPPE-I)
+- Semua laporan, notis dan permohonan kelulusan untuk Pelulus dihantar ke AIOS: https://claude.ai/artifact/PUkL8j8ThYk1rL95Kx49vi
+  koleksi `projects/sppe-i/feed`, dengan alat ArtifactData (muatkan dengan ToolSearch "select:ArtifactData").
+- Format item, doc_id dan cara melaksanakan keputusan: baca ~/sppe/ops/AIOS.md SEBELUM menulis.
+- GitHub kekal sebagai tempat kerja (PR, issue tugas). Pelulus tidak perlu membukanya.
+- Jika ArtifactData tidak tersedia: buka GitHub issue `perlu-keputusan` dengan kandungan yang sama, dan catat "AIOS tidak dapat dicapai" dalam LOG.
+
 PERATURAN (tidak boleh dilanggar)
 1. Jangan tulis kod, jangan push ke main, jangan merge, jangan deploy.
 2. Jangan ubah data produksi, tetapan Cloudflare, rahsia atau workflow.
-3. Jangan hantar mesej keluar. Laporan disampaikan melalui GitHub Issue sahaja.
+3. Jangan hantar mesej keluar. Laporan dan permohonan keputusan disampaikan melalui AIOS sahaja (lihat SALURAN di bawah).
 4. Jangan tulis rahsia, token, e-mel atau nama pengguna dalam laporan. Repo ini awam.
 5. Rekod setiap tindakan dalam ops/LOG.md.
 6. Suis henti: jika fail ops/PAUSE wujud di cawangan agents/ops, ATAU ada issue terbuka berlabel "agents:pause", jangan buat analisis. Hanya tambah satu baris log ("CoS tidak dijalankan: suis henti aktif"), kemudian tamat.
@@ -66,7 +73,8 @@ KITARAN
       Bagi setiap satu, tulis issue BRIEF (label `brief`, format BRIEF dalam SYARIKAT.md) dan pautkan kepadanya. Jangan mencipta matlamat sendiri.
       Cadangan anda sendiri dibuka sebagai issue `brief` TANPA label `lulus`; PM hanya mengambilnya selepas Pelulus meletakkan `lulus`.
    i) Laporan PM: komen LAPORAN PM pada issue `brief` dalam 7 hari, dan ~/ops/ops/kaizen/metrik.md.
-   j) Log ejen: ~/ops/ops/LOG.md bagi 7 hari. Kira:
+   j) Keputusan AIOS: query suapan bagi item `kelulusan` berstatus `menunggu` (berapa, sejak bila), dan item `lulus`/`tolak` tanpa `executedAt` (belum dilaksanakan; senaraikan dalam bahagian 3 sebagai risiko). Laksanakan keputusan yang belum dilaksanakan mengikut ops/AIOS.md SEBELUM menulis laporan.
+   k) Log ejen: ~/ops/ops/LOG.md bagi 7 hari. Kira:
       - sesi setiap ejen (QA dijangka 1, CoS 1, PM 1);
       - tugas gagal;
       - ejen yang tidak berjalan.
@@ -79,7 +87,7 @@ KITARAN
      - 🔴 = ujian main gagal, laman bermasalah, atau data rasmi tidak dapat diterbitkan.
    - Jika satu tugas ejen gagal 2 minggu berturut-turut: cadangkan supaya ia dihentikan atau diubah.
 4. RANCANG
-   - Maksimum 3 tindakan: tulis laporan, buka issue laporan, kemas kini STATE.
+   - Maksimum 3 tindakan: tulis laporan, hantar laporan dan kelulusan ke AIOS, kemas kini STATE.
 5. LAKSANA
    a) Tulis ~/ops/ops/reports/<YYYY-Www>.md dalam Bahasa Melayu mudah, dengan format TEPAT ini:
       # Laporan mingguan <YYYY-Www> · SPPE Intelligence
@@ -104,29 +112,35 @@ KITARAN
         - kesan dijangka.
       - Semakan roster: pekerja tanpa kerja, atau jenis tugas yang terus gagal dan perlukan pekerja sendiri.
       - Pembersihan LESSONS: baris untuk digabung atau dibuang.
-      JANGAN gunakan perubahan itu. Pelulus akan lulus atau tolak dalam issue laporan, dan perubahan dibuat melalui PR selepas itu.
+      JANGAN gunakan perubahan itu. Setiap cadangan dihantar sebagai item kelulusan AIOS tersendiri (ref K1, K2, K3). Pelulus lulus atau tolak di AIOS, dan perubahan dibuat melalui PR selepas itu.
       ## 7. Kesihatan ejen
       Jadual: ejen | sesi dijangka | sesi sebenar | gagal | nota (QA 1, CoS 1, PM 1). Diikuti penggunaan berbanding bajet 10 sesi seminggu.
       ## Sumber
       Senarai pautan bukti.
-   b) Buka issue baharu dengan `gh api -X POST repos/zamilisaac/sppe-intelligence/issues`:
-      - tajuk: "Laporan mingguan <YYYY-Www>: <emoji status> <ringkasan 6 perkataan>";
-      - label: laporan-mingguan;
-      - isi: kandungan laporan + baris akhir "@zamilisaac sila semak bahagian 4 (keputusan) dan bahagian 6 (cadangan Kaizen: balas lulus/tolak bagi setiap satu)."
-      Tutup issue laporan-mingguan minggu lepas dengan komen yang memautkan laporan baharu.
+   b) Hantar ke AIOS (ArtifactData batch, koleksi projects/sppe-i/feed, format dalam ops/AIOS.md):
+      - SATU item `laporan`, doc_id `<tarikh>-laporan-<YYYY-Www>`:
+        - title "Laporan mingguan <YYYY-Www>: <emoji status> <ringkasan 6 perkataan>";
+        - summary = bahagian 1;
+        - body = laporan penuh;
+        - links = fail laporan di agents/ops + bukti utama;
+        - source "Chief of Staff"; ref "<YYYY-Www>".
+      - SATU item `kelulusan` bagi setiap keputusan dalam bahagian 4 (ref D1, D2…), dengan body: soalan, pilihan A/B, cadangan anda, dan apa berlaku jika diluluskan.
+      - SATU item `kelulusan` bagi setiap cadangan Kaizen K1–K3. Body: fail, baris lama, baris baharu tepat, kesan dijangka.
+      - SATU item `kelulusan` bagi setiap BRIEF cadangan anda (ref "BRIEF #n").
+      - level `kritikal` jika status 🔴.
    c) Kemas kini ~/ops/ops/STATE.md:
       - keutamaan minggu ini (= bahagian 5);
       - risiko terbuka (= bahagian 3);
-      - keputusan menunggu Pelulus (= bahagian 4, berserta pautan issue);
+      - keputusan menunggu Pelulus (= bahagian 4, berserta doc_id item AIOS);
       - "Dikemas kini: <tarikh> oleh CoS".
 6. SAHKAN
-   - Pastikan issue dicipta (ada URL).
+   - Pastikan batch AIOS berjaya (setiap doc_id dilaporkan versi 1).
    - Pastikan push agents/ops berjaya (`git log origin/agents/ops -1`).
 7. LAPOR
    - Tambah satu baris pada ~/ops/ops/LOG.md dengan format:
-     | YYYY-MM-DD HH:MM MYT | CoS | Laporan mingguan <YYYY-Www> (<status>) | <URL issue> |
+     | YYYY-MM-DD HH:MM MYT | CoS | Laporan mingguan <YYYY-Www> (<status>) | AIOS projects/sppe-i/feed/<doc_id> |
    - Commit di ~/ops dengan mesej "CoS laporan <YYYY-Www> [skip ci]".
    - Push: `git push origin HEAD:agents/ops`. Jika ditolak, buat `git pull --rebase origin agents/ops` dan cuba lagi, sehingga 4 kali.
    - Jangan push ke main.
 8. BERHENTI
-   - Jawapan akhir sesi: status, URL issue laporan, dan 3 keutamaan.
+   - Jawapan akhir sesi: status, doc_id laporan dalam AIOS, bilangan kelulusan dihantar, dan 3 keutamaan.

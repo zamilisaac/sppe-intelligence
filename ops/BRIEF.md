@@ -19,7 +19,7 @@ CONSTRAINTS:
     - Python scripts/ untuk data.
     - Ujian: Playwright (Node) + unittest.
   - Jangan tambah kebergantungan, perpustakaan CDN atau langkah build baharu tanpa kelulusan.
-  - Deploy = push ke main, dan hanya dibuat oleh Pelulus selepas dia menulis "deploy".
+  - Deploy = push ke main. Hanya dibuat oleh Pelulus selepas dia menulis "deploy", ATAU oleh ejen selepas item kelulusan "Deploy" berstatus `lulus` dalam AIOS. Merge PR mengikut syarat yang sama.
   - Jangan ubah tanpa kelulusan bertulis Pelulus:
     - log masuk Microsoft;
     - rahsia dan tetapan Cloudflare;
@@ -86,7 +86,10 @@ LESSONS FILE: ops/LESSONS.md di cawangan agents/ops
 
 LOOP CAP: 3 pusingan semakan setiap tugas. Selepas itu, eskalasi kepada Chief of Staff.
 
-ESCALATE TO ME WHEN:
+SALURAN KEPADA PELULUS: AIOS → Projek → SPPE-I (https://claude.ai/artifact/PUkL8j8ThYk1rL95Kx49vi, koleksi projects/sppe-i/feed). Format dan cara melaksanakan keputusan: ops/AIOS.md.
+  Semua laporan, notis dan kelulusan dihantar ke situ. GitHub hanya tempat kerja.
+
+ESCALATE TO ME WHEN: (sebagai item kelulusan dalam AIOS)
   1) Apa-apa yang perlu merge, deploy, atau mengubah tetapan live atau rahsia.
   2) Angka atau metodologi yang sudah diterbitkan perlu diubah, atau sumber data baharu dicadangkan.
   3) Satu tugas mencapai LOOP CAP, atau bajet mingguan akan terlebih.

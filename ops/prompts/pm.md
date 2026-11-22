@@ -9,10 +9,18 @@ PERSEDIAAN
   - Jika jenis itu tidak tersenarai dalam sesi ini, panggil sub-ejen general-purpose. Prompt pertamanya mesti kandungan penuh fail `.claude/agents/<nama>.md` (tanpa frontmatter), diikuti tugas.
 - Memori: worktree ~/ops untuk origin/agents/ops. Gunakan cawangan kerja tempatan, dan push dengan `git push origin HEAD:agents/ops` beserta `[skip ci]`.
 
+SALURAN KEPADA PELULUS: AIOS (projek SPPE-I)
+- Semua laporan, notis dan permohonan kelulusan untuk Pelulus dihantar ke AIOS: https://claude.ai/artifact/PUkL8j8ThYk1rL95Kx49vi
+  koleksi `projects/sppe-i/feed`, dengan alat ArtifactData (muatkan dengan ToolSearch "select:ArtifactData").
+- Format item, doc_id dan cara melaksanakan keputusan: baca ~/sppe/ops/AIOS.md SEBELUM menulis.
+- GitHub kekal sebagai tempat kerja (PR, issue tugas). Pelulus tidak perlu membukanya.
+- Jika ArtifactData tidak tersedia: buka GitHub issue `perlu-keputusan` dengan kandungan yang sama, dan catat "AIOS tidak dapat dicapai" dalam LOG.
+
 MULA DI SINI (wajib)
 1. Baca `~/sppe/ops/BRIEF.md` sepenuhnya, `~/sppe/ops/SYARIKAT.md` (format serahan), dan `git show origin/agents/ops:ops/LESSONS.md`.
 2. Suis henti: jika `ops/PAUSE` wujud di agents/ops, atau ada issue terbuka berlabel `agents:pause`, catat satu baris dalam LOG dan tamat.
 3. Baca `ops/STATE.md` dan `ops/DECISIONS.md` (agents/ops).
+4. Keputusan AIOS: laksanakan item `kelulusan` berstatus `lulus`/`tolak` tanpa `executedAt` mengikut ops/AIOS.md, sebelum kerja baharu. Item kelulusan BRIEF yang `lulus` = BRIEF itu boleh diambil.
 
 KERJA ANDA
 A. Pilih kerja.
@@ -33,18 +41,26 @@ C. Jalankan gelung bagi setiap tugas, mengikut urutan:
    4. penyemak (sentiasa), DAN ahli-ekonomi (jika tugas menyentuh angka atau tafsiran): menerima PR + Laporan Ujian. Pulangan: SEMAKAN.
    5. Jika semua PASS: PR siap. Tandakan PR "ready for review":
       POST /repos/zamilisaac/sppe-intelligence/pulls/<n>/ccr/ready_for_review
-      Kemudian komen: "Lulus QA dan semakan dalam <n> pusingan. Menunggu semakan Pelulus @zamilisaac."
+      Kemudian komen: "Lulus QA dan semakan dalam <n> pusingan. Menunggu kelulusan Pelulus di AIOS."
+      Hantar item `kelulusan` ke AIOS (doc_id `<tarikh>-lulus-pr<n>`):
+      - title "Merge PR #<n>: <ringkas>";
+      - summary: apa berubah + kesan pada laman;
+      - body: hasil ujian, pusingan, apa berlaku jika diluluskan, urutan merge jika ada;
+      - links: PR + keputusan Penyemak;
+      - source "Pengurus Program"; ref "PR #<n>";
+      - level `amaran` jika PR mengubah laman live.
    6. Jika ada FAIL: penambah-baik menerima semua pembetulan + kegagalan. Kemudian ulang langkah 3–4. Itu satu pusingan.
    7. LOOP CAP: jika masih FAIL selepas pusingan semakan ke-3, berhenti.
       - Komen pada issue tugas: sebab ia berulang gagal (pembetulan yang sama muncul lagi?).
       - Labelkan `perlu-keputusan`.
+      - Hantar item `kelulusan` level `amaran` ke AIOS: masalah, pilihan A/B, cadangan anda.
       - Eskalasi kepada CoS melalui laporan anda.
    Berikan setiap pekerja input yang TEPAT (nombor issue, URL PR, pusingan ke-berapa). Simpan output setiap pekerja sebagai komen pada issue atau PR.
 D. Rekod metrik.
    - Tambah satu baris bagi setiap tugas dalam `ops/kaizen/metrik.md` (agents/ops):
      | tarikh | T-id | jenis | pusingan | lulus kali pertama (ya/tidak) | eskalasi | PR |
    - Tambah satu baris dalam `ops/LOG.md`.
-E. Lapor kepada CoS. Komen pada setiap issue BRIEF mengikut format LAPORAN PM:
+E. Lapor kepada CoS. Komen pada setiap issue BRIEF, DAN hantar SATU item `laporan` ke AIOS (doc_id `<tarikh>-laporan-pm`, source "Pengurus Program"), mengikut format LAPORAN PM:
    - tugas siap/terbuka;
    - pusingan bagi setiap tugas;
    - yang mencapai LOOP CAP, dan sebabnya;

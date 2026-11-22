@@ -2,7 +2,9 @@
 
 Ejen AI yang menjaga, menguji dan melaporkan projek ini secara berjadual. Manusia hanya **meluluskan**.
 
-**Pelulus:** @zamilisaac. Hanya Pelulus boleh merge PR, meluluskan keputusan, deploy dan menghantar mesej keluar.
+**Pelulus:** @zamilisaac. Hanya Pelulus boleh meluluskan merge PR, deploy, keputusan dan mesej keluar.
+
+**Satu tempat untuk Pelulus: AIOS → Projek → SPPE-I** (https://claude.ai/artifact/PUkL8j8ThYk1rL95Kx49vi). Semua laporan, notis dan permohonan kelulusan ejen dihantar ke situ, dan Pelulus tekan Lulus atau Tolak. Butiran ada dalam [AIOS.md](AIOS.md).
 
 ## Struktur: Gelung Kaizen
 
@@ -36,7 +38,7 @@ Dalam cawangan `main` (fail ini) pula ada:
 - prompt penuh setiap ejen, dalam `ops/prompts/`;
 - arahan ujian `bash tests/run-all.sh`.
 
-Laporan mingguan juga dibuka sebagai GitHub Issue berlabel `laporan-mingguan`.
+Laporan mingguan, hasil QA, laporan PM dan semua permohonan kelulusan dihantar ke **AIOS → SPPE-I**, bukan GitHub Issue.
 
 ## Suis henti
 
@@ -48,13 +50,13 @@ Ejen akan hanya mencatat dalam log bahawa ia dihentikan, kemudian berhenti.
 
 ## Peraturan semua ejen
 
-1. Tiada push ke `main`. Semua perubahan kod melalui branch dan PR, dan hanya Pelulus yang merge.
+1. Tiada push ke `main`. Semua perubahan kod melalui branch dan PR. Merge dan deploy hanya oleh Pelulus, atau oleh ejen selepas item kelulusan yang tepat berstatus `lulus` dalam AIOS.
 2. Tiada perubahan pada data produksi atau tetapan live (Cloudflare, rahsia, workflow deploy) tanpa kelulusan bertulis Pelulus.
-3. Tiada mesej keluar kepada sesiapa selain Pelulus. Ejen hanya mendraf.
+3. Tiada mesej keluar kepada sesiapa selain Pelulus, dan kepada Pelulus hanya melalui AIOS. Ejen hanya mendraf.
 4. Tiada rahsia, e-mel atau nama pengguna dalam kod, issue, PR atau laporan. Repo ini awam.
 5. Setiap tindakan direkod dalam `ops/LOG.md`.
 6. Suis henti dipatuhi serta-merta.
-7. Jika tidak pasti, buka issue `perlu-keputusan`. Jangan teka.
+7. Jika tidak pasti, hantar item kelulusan ke AIOS. Jangan teka.
 8. Lapor dengan jujur: ujian gagal ditulis sebagai gagal, beserta output.
 9. Maksimum 3 percubaan bagi satu tugas. Selepas itu, eskalasi kepada Chief of Staff.
 

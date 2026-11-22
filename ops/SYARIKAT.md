@@ -114,10 +114,13 @@ Metrik setiap tugas direkod oleh PM dalam `ops/kaizen/metrik.md` di cawangan `ag
 |---|---|---|
 | Isnin 2:13 pagi | 🧪 Penguji (sapuan QA mingguan) | `bash tests/run-all.sh` pada main + PR minggu ini · [`prompts/qa-mingguan.md`](prompts/qa-mingguan.md) |
 | Isnin 7:45 pagi | 🧭 Chief of Staff | laporan mingguan + Kaizen Review |
+| Isnin–Jumaat 12:43 tengah hari | ✅ Pelaksana Kelulusan | laksanakan keputusan Lulus/Tolak anda dalam AIOS · [`prompts/pelaksana-kelulusan.md`](prompts/pelaksana-kelulusan.md) (jika diluluskan) |
 | Isnin 10:20 pagi | 📋 Pengurus Program | jalankan gelung bagi BRIEF yang diluluskan (maksimum 3 tugas seminggu) |
-| bila-bila | Anda | beri matlamat; merge; tulis "deploy"; lulus Kaizen |
+| bila-bila | Anda | beri matlamat; tekan Lulus/Tolak dalam **AIOS → SPPE-I** (merge, deploy, BRIEF, Kaizen) |
 
-Bajet: QA 1 + CoS 1 + PM 1–3 = maksimum 5 sesi seminggu, jauh di bawah had 10.
+Bajet: QA 1 + CoS 1 + PM 1 = 3 sesi seminggu. Dengan Pelaksana Kelulusan (5), jumlahnya 8 daripada had 10.
+
+**Saluran:** semua laporan, notis dan kelulusan untuk anda dihantar ke **AIOS → Projek → SPPE-I**. Format dan cara pelaksanaan ada dalam [AIOS.md](AIOS.md).
 
 ## Menambah pekerja
 
