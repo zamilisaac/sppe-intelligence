@@ -2,3 +2,17 @@ dosm_check.md
 snapshots-preview/
 CLAUDE.md
 scripts/__pycache__/
+
+# Files written to the repo root by the Playwright test suites (screenshots and downloaded reports)
+/b.docx
+/b.pdf
+/b.xlsx
+/b.zip
+/lab.docx
+/lab.pdf
+/lab.xlsx
+/s.xlsx
+/lab-detail.png
+/library.png
+/mega*.png
+/shot-*.png
