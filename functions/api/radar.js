@@ -83,6 +83,16 @@ export async function build(context) {
       url_bm: released ? `https://open.dosm.gov.my/ms-MY/publications/${r.publication_id}` : 'https://open.dosm.gov.my/ms-MY/publications/upcoming',
       url_en: released ? `https://open.dosm.gov.my/en-GB/publications/${r.publication_id}` : 'https://open.dosm.gov.my/en-GB/publications/upcoming' };
   }).sort((a, b) => a.date < b.date ? -1 : 1);
+  // next year's releases: the DOSM portal publishes them (iCal) before arc.csv carries them
+  const nextYear = new Date(now.getTime() + 8 * 3600e3).getUTCFullYear() + 1;
+  let portalNext = [];
+  if (!arc.some(a => a.date.startsWith(String(nextYear)))) {
+    portalNext = await safe('arcNext', async () => parseIcs(await text(`https://www.dosm.gov.my/site/downloadarc?search_year=${nextYear}&search_month=All&action=download`))) || [];
+    portalNext.forEach(e => arc.push({ id: 'portal-' + e.uid, date: e.date, released: new Date(e.date.replace(' ', 'T') + '+08:00') <= now, type: 'portal', type_bm: 'Kalendar DOSM', type_en: 'DOSM calendar',
+      title_bm: e.title, title_en: e.title, period_bm: '', period_en: '', freq: '', sppe: SPPE_RE.test(e.title), url_bm: 'https://www.dosm.gov.my/portal-main/arc?search_year=' + nextYear, url_en: 'https://www.dosm.gov.my/portal-main/arc?search_year=' + nextYear, portal: true }));
+    arc.sort((a, b) => a.date < b.date ? -1 : 1);
+  }
+  const calendarYears = { [nextYear]: arc.some(a => a.date.startsWith(String(nextYear))) };
 
   // ---- dataset freshness ----
   const asOf = (manifest && manifest.asOf) || {}, logDs = (log && log.datasets) || {};
@@ -148,7 +158,7 @@ export async function build(context) {
     pending: prs.filter(p => p.state === 'open' && !p.test).length + datasets.filter(d => d.status === 'new').length,
     updated: datasets.filter(d => d.status === 'updated').length + ((manifest && manifest.deployments) || []).filter(d => d.cloudflare === 'success' && d.ref === 'main').length,
   };
-  return { generatedAt: now.toISOString(), repo, sources, kpi, arc, datasets, prs, latest, steps, runs: runList, notes: notes.slice(0, 120),
+  return { generatedAt: now.toISOString(), repo, sources, kpi, arc, calendarYears, nextYear, datasets, prs, latest, steps, runs: runList, notes: notes.slice(0, 120),
     lastCheck: (log && log.lastCheck) || null, watch: (log && log.watch) || [], manifest: manifest ? { asOf: manifest.asOf, deployments: (manifest.deployments || []).slice(-10), warnings: manifest.warnings || [] } : null };
 }
 
@@ -168,6 +178,14 @@ async function cloudflareState(gh, sha) {
   const s = st.find(x => /cloudflare/i.test(x.context || ''));
   if (s) return { state: s.state === 'success' ? 'success' : ['failure', 'error'].includes(s.state) ? 'failure' : 'pending', detail: `${s.context}: ${s.state}`, url: s.target_url };
   return { state: 'none', detail: 'Tiada semakan Cloudflare pada commit ini', url: null };
+}
+const SPPE_RE = /gross domestic product|gdp|productivity|labour force|labour market|employment|wages|salaries|consumer price|household income|poverty|socioeconomic|jobs/i;
+function parseIcs(t) {
+  return t.split('BEGIN:VEVENT').slice(1).map(b => {
+    const g = k => { const m = b.match(new RegExp('^' + k + '[^:]*:(.*)$', 'm')); return m ? m[1].trim() : ''; };
+    const d = g('DTSTART').match(/^(\d{4})(\d{2})(\d{2})T?(\d{2})?(\d{2})?/);
+    return d ? { uid: g('UID').slice(0, 16), date: `${d[1]}-${d[2]}-${d[3]} ${d[4] || '12'}:${d[5] || '00'}:00`, title: g('SUMMARY').replace(/\\,/g, ',') } : null;
+  }).filter(e => e && e.title);
 }
 function parseCsv(t) {
   const rows = []; let row = [], f = '', q = false;

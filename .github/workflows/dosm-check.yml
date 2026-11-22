@@ -88,7 +88,7 @@ jobs:
         env:
           DATE: ${{ steps.check.outputs.date }}
         run: |
-          BR="dosm-update/$DATE"
+          BR="dosm-update/pending"   # one open pull request at a time; later checks update it
           TITLE="New DOSM data $DATE"
           if [ "${{ steps.check.outputs.simulated }}" = "true" ]; then
             BR="dosm-update/$DATE-simulated"; TITLE="[TEST - do not merge into main] $TITLE"
