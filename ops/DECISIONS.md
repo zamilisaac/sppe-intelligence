@@ -13,3 +13,4 @@ Tambah sahaja. Format: tarikh · keputusan · sebab · pautan.
 | 2026-11-22 | Bina syarikat ejen AI secara berperingkat. Fasa 1 = QA + Chief of Staff. | Arahan Pelulus | PR Fasa 1 |
 | 2026-11-22 | QA dijalankan mingguan (Isnin 2:13 pagi MYT), bukan harian. Ia berjalan sebelum Chief of Staff (Isnin 7:45 pagi). | Arahan Pelulus | https://github.com/zamilisaac/sppe-intelligence/pull/12 |
 | 2026-11-22 | Bina syarikat ejen mengikut Gelung Kaizen: CoS → PM → 6 pekerja; LESSONS.md; Kaizen Review setiap Isnin dalam laporan CoS. | Arahan Pelulus | https://github.com/zamilisaac/sppe-intelligence/pull/12 |
+| 2026-11-23 | Semua laporan, notis dan kelulusan ejen dihantar ke AIOS → Projek → SPPE-I. Ejen boleh merge atau deploy hanya selepas item kelulusan berkenaan berstatus lulus dalam AIOS. | Arahan Pelulus: satu tempat untuk semua | https://claude.ai/artifact/PUkL8j8ThYk1rL95Kx49vi |
