@@ -1,125 +1,122 @@
 {
  "schema": 1,
  "about": "Radar Data monitoring log written by scripts/radar_record.py (do not edit by hand).",
- "updated": "2026-11-22T23:32:56Z",
+ "updated": "2026-11-23T02:26:41Z",
  "lastCheck": {
-  "at": "2026-11-22T02:22:24Z",
-  "run": "https://github.com/zamilisaac/sppe-intelligence/actions/runs/44975743602",
-  "changed": [
-   "cpi_2d_state",
-   "cpi_2d_state_inflation"
-  ],
+  "at": "2026-11-23T02:26:41Z",
+  "run": "https://github.com/zamilisaac/sppe-intelligence/actions/runs/45100207418",
+  "changed": [],
   "failed": [],
   "simulated": false,
-  "validation": "PASS",
-  "pr": "https://github.com/zamilisaac/sppe-intelligence/pull/11"
+  "validation": null,
+  "pr": null
  },
  "datasets": {
   "gdp_state_real_supply": {
    "group": "gdp",
    "used": "2025",
    "dosm": "2025",
-   "checkedAt": "2026-11-22T02:22:24Z",
+   "checkedAt": "2026-11-23T02:26:41Z",
    "status": "current"
   },
   "cpi_2d_state": {
    "group": "cpi",
    "used": "2026-10",
    "dosm": "2026-10",
-   "checkedAt": "2026-11-22T02:22:24Z",
-   "status": "updated",
+   "checkedAt": "2026-11-23T02:26:41Z",
+   "status": "current",
    "updatedAt": "2026-11-22T23:32:56Z"
   },
   "cpi_2d_state_inflation": {
    "group": "cpi",
    "used": "2026-10",
    "dosm": "2026-10",
-   "checkedAt": "2026-11-22T02:22:24Z",
-   "status": "updated",
+   "checkedAt": "2026-11-23T02:26:41Z",
+   "status": "current",
    "updatedAt": "2026-11-22T23:32:56Z"
   },
   "lfs_state_sex": {
    "group": "lab",
    "used": "2025",
    "dosm": "2025",
-   "checkedAt": "2026-11-22T02:22:24Z",
+   "checkedAt": "2026-11-23T02:26:41Z",
    "status": "current"
   },
   "wages_state": {
    "group": "wage",
    "used": "2025",
    "dosm": "2025",
-   "checkedAt": "2026-11-22T02:22:24Z",
+   "checkedAt": "2026-11-23T02:26:41Z",
    "status": "current"
   },
   "wages_sector": {
    "group": "wage",
    "used": "2025",
    "dosm": "2025",
-   "checkedAt": "2026-11-22T02:22:24Z",
+   "checkedAt": "2026-11-23T02:26:41Z",
    "status": "current"
   },
   "wages_industry": {
    "group": "wage",
    "used": "2025",
    "dosm": "2025",
-   "checkedAt": "2026-11-22T02:22:24Z",
+   "checkedAt": "2026-11-23T02:26:41Z",
    "status": "current"
   },
   "wages_skill": {
    "group": "wage",
    "used": "2025",
    "dosm": "2025",
-   "checkedAt": "2026-11-22T02:22:24Z",
+   "checkedAt": "2026-11-23T02:26:41Z",
    "status": "current"
   },
   "wages_education": {
    "group": "wage",
    "used": "2025",
    "dosm": "2025",
-   "checkedAt": "2026-11-22T02:22:24Z",
+   "checkedAt": "2026-11-23T02:26:41Z",
    "status": "current"
   },
   "formal_wages_state": {
    "group": "wage",
    "used": "2026-06",
    "dosm": "2026-06",
-   "checkedAt": "2026-11-22T02:22:24Z",
+   "checkedAt": "2026-11-23T02:26:41Z",
    "status": "current"
   },
   "formal_wages_msic": {
    "group": "wage",
    "used": "2026-06",
    "dosm": "2026-06",
-   "checkedAt": "2026-11-22T02:22:24Z",
+   "checkedAt": "2026-11-23T02:26:41Z",
    "status": "current"
   },
   "formal_wages_band": {
    "group": "wage",
    "used": "2026-06",
    "dosm": "2026-06",
-   "checkedAt": "2026-11-22T02:22:24Z",
+   "checkedAt": "2026-11-23T02:26:41Z",
    "status": "current"
   },
   "productivity_annual": {
    "group": "prod",
    "used": "2025",
    "dosm": "2025",
-   "checkedAt": "2026-11-22T02:22:24Z",
+   "checkedAt": "2026-11-23T02:26:41Z",
    "status": "current"
   },
   "hies_state": {
    "group": "hies",
    "used": "2024",
    "dosm": "2024",
-   "checkedAt": "2026-11-22T02:22:24Z",
+   "checkedAt": "2026-11-23T02:26:41Z",
    "status": "current"
   },
   "hies_state_percentile": {
    "group": "hies",
    "used": "2024",
    "dosm": "2024",
-   "checkedAt": "2026-11-22T02:22:24Z",
+   "checkedAt": "2026-11-23T02:26:41Z",
    "status": "current"
   }
  },
@@ -453,6 +450,15 @@
    "url": "https://dash.cloudflare.com/?to=/4d012edaf65c76b52ac8d5ce8fe4395c/pages/view/sppeintelligence/552e89ee-b217-43dd-9143-a22084862c12",
    "detail": "Cloudflare Pages: success",
    "ref": "main"
+  },
+  {
+   "id": "358d37de9493",
+   "at": "2026-11-23T02:26:41Z",
+   "type": "check",
+   "level": "info",
+   "bm": "Semakan DOSM selesai: 0 data baharu, 0 gagal dicapai.",
+   "en": "DOSM check finished: 0 new, 0 unreachable.",
+   "run": "https://github.com/zamilisaac/sppe-intelligence/actions/runs/45100207418"
   }
  ]
 }
