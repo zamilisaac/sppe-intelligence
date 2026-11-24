@@ -51,6 +51,9 @@ Medan yang ditulis ejen selepas melaksanakan keputusan, dengan `update` dan `if_
 | Tugas mencapai LOOP CAP | `kelulusan` level `amaran` (pilihan A/B) | Pengurus Program |
 | Laporan gelung (LAPORAN PM) | `laporan` | Pengurus Program |
 | Hasil QA mingguan | `notis` (`kritikal` jika main gagal atau laman tidak terkunci) | QA |
+| Data DOSM baharu sedia (PR data): minta terbit | `kelulusan` level `amaran`, ref `PR #n` | Pengurus Data DOSM |
+| DOSM sudah terbit tetapi OpenDOSM belum dikemas kini selepas 3 hari bekerja | `notis` level `amaran` | Pengurus Data DOSM |
+| Data keluaran kini di laman | `notis` | Pengurus Data DOSM |
 | Keputusan sudah dilaksanakan | `notis`, ref sama dengan item kelulusan | Pelaksana Kelulusan / ejen yang melaksana |
 
 ## Melaksanakan keputusan Pelulus
