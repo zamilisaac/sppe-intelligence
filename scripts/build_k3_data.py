@@ -47,6 +47,59 @@ def build_pack(d=None):
     pack['nat'] = {'years': years, 'sectors': sec}
     pack['files']['productivity_annual'] = sha('productivity_annual', d)
 
+    # national quarterly productivity (constant 2015 prices): productivity_qtr. Levels are per quarter
+    # (RM per employed person in the quarter, RM per hour); growth is year on year in %, as published by DOSM.
+    if os.path.exists(os.path.join(d, 'productivity_qtr.csv')):
+        pq = rows('productivity_qtr', d)
+        qd = sorted({r['date'][:7] for r in pq})
+        q = {}
+        for r in pq:
+            s = q.setdefault(r['sector'], {'lp': [None] * len(qd), 'lph': [None] * len(qd), 'g': [None] * len(qd), 'gh': [None] * len(qd)})
+            i = qd.index(r['date'][:7])
+            if r['series'] == 'abs':
+                s['lp'][i], s['lph'][i] = num(r['output_employment']), num(r['output_hour'])
+            elif r['series'] == 'growth_yoy':
+                s['g'][i], s['gh'][i] = num(r['output_employment']), num(r['output_hour'])
+        pack['natq'] = {'dates': qd, 'sectors': q}
+        pack['files']['productivity_qtr'] = sha('productivity_qtr', d)
+
+    # 14 priority sub-sectors (annual). OpenDOSM codes special.01-14 carry no names; the names come from DOSM
+    # "Jadual Produktiviti Buruh" tables 3a/4a, matched by value (every code matched exactly one row).
+    P14 = {'special.01': ('Agro-makanan', 'Agro-food'), 'special.02': ('Kimia dan produk kimia', 'Chemicals and chemical products'),
+           'special.03': ('Farmaseutikal', 'Pharmaceutical'), 'special.04': ('Elektrik dan elektronik', 'Electrical and electronics'),
+           'special.05': ('Mesin dan peralatan', 'Machinery and equipment'), 'special.06': ('Automotif', 'Automotive'),
+           'special.07': ('Aeroangkasa', 'Aerospace'), 'special.08': ('Pembinaan & alam bina', 'Construction & built environment'),
+           'special.09': ('Peruncitan dan makanan & minuman', 'Retail and food & beverages'), 'special.10': ('Logistik', 'Logistics'),
+           'special.11': ('Pelancongan', 'Tourism'), 'special.12': ('Teknologi, maklumat dan komunikasi (ICT)', 'Information, communication and technology (ICT)'),
+           'special.13': ('Perkhidmatan profesional', 'Professional services'), 'special.14': ('Penjagaan kesihatan swasta', 'Private healthcare')}
+    if os.path.exists(os.path.join(d, 'productivity_annual_p14.csv')):
+        pp = [r for r in rows('productivity_annual_p14', d) if r['series'] == 'abs']
+        py = sorted({int(r['date'][:4]) for r in pp}); sub = {}
+        for r in pp:
+            if r['subsector'] not in P14:
+                continue
+            x = sub.setdefault(r['subsector'], {'bm': P14[r['subsector']][0], 'en': P14[r['subsector']][1], 'lp': [None] * len(py), 'lph': [None] * len(py)})
+            i = py.index(int(r['date'][:4])); x['lp'][i], x['lph'][i] = num(r['output_employment']), num(r['output_hour'])
+        pack['p14'] = {'years': py, 'subs': sub}
+        pack['files']['productivity_annual_p14'] = sha('productivity_annual_p14', d)
+
+    # labour force by state, quarterly (latest 12 quarters) and national monthly (latest 25 months)
+    if os.path.exists(os.path.join(d, 'lfs_qtr_state.csv')):
+        lq = rows('lfs_qtr_state', d); ld = sorted({r['date'][:7] for r in lq})[-12:]; ls = {}
+        for r in lq:
+            if r['date'][:7] in ld:
+                x = ls.setdefault(r['state'], {k: [None] * len(ld) for k in ('lf', 'emp', 'unemp', 'prate', 'urate')})
+                i = ld.index(r['date'][:7])
+                x['lf'][i], x['emp'][i], x['unemp'][i] = num(r['lf']), num(r['lf_employed']), num(r['lf_unemployed'])
+                x['prate'][i], x['urate'][i] = num(r['p_rate']), num(r['u_rate'])
+        pack['lfsq'] = {'dates': ld, 'states': ls}
+        pack['files']['lfs_qtr_state'] = sha('lfs_qtr_state', d)
+    if os.path.exists(os.path.join(d, 'lfs_month.csv')):
+        lm = sorted(rows('lfs_month', d), key=lambda r: r['date'])[-25:]
+        pack['lfsm'] = {'dates': [r['date'][:7] for r in lm], 'lf': [num(r['lf']) for r in lm], 'emp': [num(r['lf_employed']) for r in lm],
+                        'unemp': [num(r['lf_unemployed']) for r in lm], 'prate': [num(r['p_rate']) for r in lm], 'urate': [num(r['u_rate']) for r in lm]}
+        pack['files']['lfs_month'] = sha('lfs_month', d)
+
     # formal sector wages (monthly): by state, by wage band, by sector
     fs = rows('formal_wages_state', d)
     dates = sorted({r['date'][:7] for r in fs})

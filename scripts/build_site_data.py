@@ -31,7 +31,8 @@ import m6_pack  # noqa: E402
 import build_k3_data  # noqa: E402
 
 DATASETS = [
-    'gdp_state_real_supply', 'productivity_annual', 'wages_state', 'wages_sector', 'wages_industry',
+    'gdp_state_real_supply', 'productivity_annual', 'productivity_qtr', 'productivity_state', 'productivity_annual_p14',
+    'lfs_qtr_state', 'lfs_month', 'wages_state', 'wages_sector', 'wages_industry',
     'wages_education', 'wages_skill', 'formal_wages_state', 'formal_wages_msic', 'formal_wages_band',
     'lfs_state_sex', 'cpi_2d_state', 'cpi_2d_state_inflation', 'hies_state', 'hies_state_percentile',
 ]

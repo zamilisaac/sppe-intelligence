@@ -19,7 +19,8 @@ const ARC_URL = 'https://storage.dosm.gov.my/meta/arc.csv';
 const OPENDOSM = 'https://storage.dosm.gov.my';
 const TTL = 300;
 const DATASETS = {
-  gdp_state_real_supply: ['gdp', 'gdp'], productivity_annual: ['labour', 'prod'], lfs_state_sex: ['labour', 'lab'],
+  gdp_state_real_supply: ['gdp', 'gdp'], productivity_annual: ['labour', 'prod'], productivity_qtr: ['labour', 'prod'],
+  productivity_state: ['labour', 'prod'], productivity_annual_p14: ['labour', 'prod'], lfs_qtr_state: ['labour', 'lab'], lfs_month: ['labour', 'lab'], lfs_state_sex: ['labour', 'lab'],
   wages_state: ['labour', 'wage'], wages_sector: ['labour', 'wage'], wages_industry: ['labour', 'wage'], wages_skill: ['labour', 'wage'], wages_education: ['labour', 'wage'],
   formal_wages_state: ['labour', 'wage'], formal_wages_msic: ['labour', 'wage'], formal_wages_band: ['labour', 'wage'],
   cpi_2d_state: ['cpi', 'cpi'], cpi_2d_state_inflation: ['cpi', 'cpi'], hies_state: ['hies', 'hies'], hies_state_percentile: ['hies', 'hies'],

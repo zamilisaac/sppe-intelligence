@@ -31,7 +31,7 @@ run_node() { # suite file
   [ "$rc" -eq 0 ] && [ "$f2" -gt 0 ] && rc=1
   record "$n" "$p" "$f2" "$k" $((SECONDS-t0)) "$rc" "$LOG/$n.out"
 }
-for f in tests/engine-lab.js tests/k2-e2e.js tests/mega-menu.js tests/profil.js tests/radar.js; do [ -f "$f" ] && run_node "$f"; done
+for f in tests/engine-lab.js tests/k2-e2e.js tests/mega-menu.js tests/profil.js tests/radar.js tests/suku.js; do [ -f "$f" ] && run_node "$f"; done
 
 # Agent company configuration (BRIEF, roster, agent files, prompts)
 t0=$SECONDS; python3 scripts/check_agents.py >"$LOG/agents.out" 2>&1; rc=$?

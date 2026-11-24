@@ -4,6 +4,11 @@
   "asOf": {
     "gdp_state_real_supply": "2025",
     "productivity_annual": "2025",
+    "productivity_qtr": "2026-07",
+    "productivity_state": "2025",
+    "productivity_annual_p14": "2025",
+    "lfs_qtr_state": "2026-07",
+    "lfs_month": "2026-09",
     "wages_state": "2025",
     "wages_sector": "2025",
     "wages_industry": "2025",
@@ -29,6 +34,31 @@
       "latest": "2025",
       "rows": 462,
       "sha256": "22dc24a99feeec36e688d81da37532f1ad1c6bda4127d294bf26b32b2ea041ea"
+    },
+    "productivity_qtr": {
+      "latest": "2026-07",
+      "rows": 1980,
+      "sha256": "eb13bffe32cf4de53923b3e1b2bf13d309035311e2adfdaa3d3bdf679a60cb4f"
+    },
+    "productivity_state": {
+      "latest": "2025",
+      "rows": 2142,
+      "sha256": "6bb93d314e118482892cf56637736800aef4e1f9371e161bf2ec36bb89022532"
+    },
+    "productivity_annual_p14": {
+      "latest": "2025",
+      "rows": 291,
+      "sha256": "35d268cfc1d0647621a9ea2beb6fce3b618f8cd0fe70c0136e7d4b944f1365e3"
+    },
+    "lfs_qtr_state": {
+      "latest": "2026-07",
+      "rows": 624,
+      "sha256": "b5c3f0e1d09e1ff423e5616d38df9d38eb15c3662fff0779bd1de3a0aedffaed"
+    },
+    "lfs_month": {
+      "latest": "2026-09",
+      "rows": 201,
+      "sha256": "bf281b1529cbbafd175e9bd7dd696fea67a215db10b70e53f8f169d3e8b0811f"
     },
     "wages_state": {
       "latest": "2025",
@@ -97,8 +127,8 @@
     }
   },
   "packs": {
-    "k3-data": "121ed32c9564",
-    "m6-data": "c4198ff4b0c7",
+    "k3-data": "0bf7ee4d756d",
+    "m6-data": "4121b39ffd16",
     "snapshot.json": "2d3928898de6"
   },
   "stateProductivity": {

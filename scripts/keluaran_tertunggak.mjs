@@ -29,7 +29,8 @@ const d = res instanceof Response ? await res.json() : res;
 // Same group mapping as the Radar page: which publication types feed which datasets
 const ARC_GROUP = { gdp: ['gdp', 'socioecon_state'], prod: ['productivity'], lab: ['lfs', 'employment', 'jobs', 'lmr'], wage: ['wages', 'formal_wages'], cpi: ['cpi'], hies: ['poverty', 'hh_lq', 'mywi'] };
 // Frequency of each OpenDOSM file the site reads. A release only updates a file of the same frequency.
-const FREQ = { gdp_state_real_supply: 'YEARLY', productivity_annual: 'YEARLY', lfs_state_sex: 'YEARLY',
+const FREQ = { gdp_state_real_supply: 'YEARLY', productivity_annual: 'YEARLY', productivity_qtr: 'QUARTERLY', productivity_state: 'YEARLY', productivity_annual_p14: 'YEARLY',
+  lfs_qtr_state: 'QUARTERLY', lfs_month: 'MONTHLY', lfs_state_sex: 'YEARLY',
   wages_state: 'YEARLY', wages_sector: 'YEARLY', wages_industry: 'YEARLY', wages_skill: 'YEARLY', wages_education: 'YEARLY',
   formal_wages_state: 'QUARTERLY', formal_wages_msic: 'QUARTERLY', formal_wages_band: 'QUARTERLY',
   cpi_2d_state: 'MONTHLY', cpi_2d_state_inflation: 'MONTHLY', hies_state: 'YEARLY', hies_state_percentile: 'YEARLY' };

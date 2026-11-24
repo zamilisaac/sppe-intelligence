@@ -27,6 +27,11 @@ import sys
 SCHEMA = {
     'gdp_state_real_supply': (['series', 'date', 'state', 'sector', 'value'], ['series', 'date', 'state', 'sector'], ['series', 'state', 'sector'], ['value']),
     'productivity_annual': (['series', 'date', 'sector', 'gdp', 'hours', 'employment', 'output_hour', 'output_employment'], ['series', 'date', 'sector'], ['series', 'sector'], ['gdp', 'hours', 'employment', 'output_hour', 'output_employment']),
+    'productivity_qtr': (['series', 'sector', 'date', 'gdp', 'hours', 'employment', 'output_hour', 'output_employment'], ['series', 'sector', 'date'], ['series', 'sector'], ['gdp', 'hours', 'employment', 'output_hour', 'output_employment']),
+    'productivity_state': (['series', 'date', 'state', 'sector', 'output_employment'], ['series', 'date', 'state', 'sector'], ['series', 'state', 'sector'], ['output_employment']),
+    'productivity_annual_p14': (['series', 'date', 'subsector', 'output_employment', 'output_hour'], ['series', 'date', 'subsector'], ['series', 'subsector'], ['output_employment', 'output_hour']),
+    'lfs_qtr_state': (['date', 'state', 'lf', 'lf_employed', 'lf_unemployed', 'lf_outside', 'p_rate', 'u_rate'], ['date', 'state'], ['state'], ['lf', 'lf_employed', 'lf_unemployed', 'lf_outside', 'p_rate', 'u_rate']),
+    'lfs_month': (['date', 'lf', 'lf_employed', 'lf_unemployed', 'lf_outside', 'p_rate', 'ep_ratio', 'u_rate'], ['date'], [], ['lf', 'lf_employed', 'lf_unemployed', 'lf_outside', 'p_rate', 'ep_ratio', 'u_rate']),
     'wages_state': (['state', 'date', 'sex', 'recipients', 'wages_median', 'wages_mean'], ['state', 'date', 'sex'], ['state', 'sex'], ['recipients', 'wages_median', 'wages_mean']),
     'wages_sector': (['date', 'sex', 'sector', 'recipients', 'wages_median', 'wages_mean'], ['date', 'sex', 'sector'], ['sex', 'sector'], ['recipients', 'wages_median', 'wages_mean']),
     'wages_industry': (['date', 'sex', 'section', 'recipients', 'wages_median', 'wages_mean'], ['date', 'sex', 'section'], ['sex', 'section'], ['recipients', 'wages_median', 'wages_mean']),

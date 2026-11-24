@@ -50,7 +50,7 @@ Ejen akan hanya mencatat dalam log bahawa ia dihentikan, kemudian berhenti.
 
 ## Peraturan semua ejen
 
-1. Tiada push ke `main`. Semua perubahan kod melalui branch dan PR. Merge dan deploy hanya oleh Pelulus, atau oleh ejen selepas item kelulusan yang tepat berstatus `lulus` dalam AIOS.
+1. Tiada push ke `main`. Semua perubahan kod melalui branch dan PR. Pengecualian: data DOSM yang lulus pengesahan dan ujian diterbitkan automatik oleh semakan GitHub (keputusan Pelulus, 24 Nov 2026). Merge dan deploy hanya oleh Pelulus, atau oleh ejen selepas item kelulusan yang tepat berstatus `lulus` dalam AIOS.
 2. Tiada perubahan pada data produksi atau tetapan live (Cloudflare, rahsia, workflow deploy) tanpa kelulusan bertulis Pelulus.
 3. Tiada mesej keluar kepada sesiapa selain Pelulus, dan kepada Pelulus hanya melalui AIOS. Ejen hanya mendraf.
 4. Tiada rahsia, e-mel atau nama pengguna dalam kod, issue, PR atau laporan. Repo ini awam.
