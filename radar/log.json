@@ -1,10 +1,10 @@
 {
  "schema": 1,
  "about": "Radar Data monitoring log written by scripts/radar_record.py (do not edit by hand).",
- "updated": "2026-11-24T02:27:14Z",
+ "updated": "2026-11-25T02:29:07Z",
  "lastCheck": {
-  "at": "2026-11-24T02:27:14Z",
-  "run": "https://github.com/zamilisaac/sppe-intelligence/actions/runs/45312433774",
+  "at": "2026-11-25T02:29:07Z",
+  "run": "https://github.com/zamilisaac/sppe-intelligence/actions/runs/45533226122",
   "changed": [],
   "failed": [],
   "simulated": false,
@@ -16,14 +16,14 @@
    "group": "gdp",
    "used": "2025",
    "dosm": "2025",
-   "checkedAt": "2026-11-24T02:27:14Z",
+   "checkedAt": "2026-11-25T02:29:07Z",
    "status": "current"
   },
   "cpi_2d_state": {
    "group": "cpi",
    "used": "2026-10",
    "dosm": "2026-10",
-   "checkedAt": "2026-11-24T02:27:14Z",
+   "checkedAt": "2026-11-25T02:29:07Z",
    "status": "current",
    "updatedAt": "2026-11-22T23:32:56Z"
   },
@@ -31,7 +31,7 @@
    "group": "cpi",
    "used": "2026-10",
    "dosm": "2026-10",
-   "checkedAt": "2026-11-24T02:27:14Z",
+   "checkedAt": "2026-11-25T02:29:07Z",
    "status": "current",
    "updatedAt": "2026-11-22T23:32:56Z"
   },
@@ -39,84 +39,84 @@
    "group": "lab",
    "used": "2025",
    "dosm": "2025",
-   "checkedAt": "2026-11-24T02:27:14Z",
+   "checkedAt": "2026-11-25T02:29:07Z",
    "status": "current"
   },
   "wages_state": {
    "group": "wage",
    "used": "2025",
    "dosm": "2025",
-   "checkedAt": "2026-11-24T02:27:14Z",
+   "checkedAt": "2026-11-25T02:29:07Z",
    "status": "current"
   },
   "wages_sector": {
    "group": "wage",
    "used": "2025",
    "dosm": "2025",
-   "checkedAt": "2026-11-24T02:27:14Z",
+   "checkedAt": "2026-11-25T02:29:07Z",
    "status": "current"
   },
   "wages_industry": {
    "group": "wage",
    "used": "2025",
    "dosm": "2025",
-   "checkedAt": "2026-11-24T02:27:14Z",
+   "checkedAt": "2026-11-25T02:29:07Z",
    "status": "current"
   },
   "wages_skill": {
    "group": "wage",
    "used": "2025",
    "dosm": "2025",
-   "checkedAt": "2026-11-24T02:27:14Z",
+   "checkedAt": "2026-11-25T02:29:07Z",
    "status": "current"
   },
   "wages_education": {
    "group": "wage",
    "used": "2025",
    "dosm": "2025",
-   "checkedAt": "2026-11-24T02:27:14Z",
+   "checkedAt": "2026-11-25T02:29:07Z",
    "status": "current"
   },
   "formal_wages_state": {
    "group": "wage",
    "used": "2026-06",
    "dosm": "2026-06",
-   "checkedAt": "2026-11-24T02:27:14Z",
+   "checkedAt": "2026-11-25T02:29:07Z",
    "status": "current"
   },
   "formal_wages_msic": {
    "group": "wage",
    "used": "2026-06",
    "dosm": "2026-06",
-   "checkedAt": "2026-11-24T02:27:14Z",
+   "checkedAt": "2026-11-25T02:29:07Z",
    "status": "current"
   },
   "formal_wages_band": {
    "group": "wage",
    "used": "2026-06",
    "dosm": "2026-06",
-   "checkedAt": "2026-11-24T02:27:14Z",
+   "checkedAt": "2026-11-25T02:29:07Z",
    "status": "current"
   },
   "productivity_annual": {
    "group": "prod",
    "used": "2025",
    "dosm": "2025",
-   "checkedAt": "2026-11-24T02:27:14Z",
+   "checkedAt": "2026-11-25T02:29:07Z",
    "status": "current"
   },
   "hies_state": {
    "group": "hies",
    "used": "2024",
    "dosm": "2024",
-   "checkedAt": "2026-11-24T02:27:14Z",
+   "checkedAt": "2026-11-25T02:29:07Z",
    "status": "current"
   },
   "hies_state_percentile": {
    "group": "hies",
    "used": "2024",
    "dosm": "2024",
-   "checkedAt": "2026-11-24T02:27:14Z",
+   "checkedAt": "2026-11-25T02:29:07Z",
    "status": "current"
   }
  },
@@ -468,6 +468,15 @@
    "bm": "Semakan DOSM selesai: 0 data baharu, 0 gagal dicapai.",
    "en": "DOSM check finished: 0 new, 0 unreachable.",
    "run": "https://github.com/zamilisaac/sppe-intelligence/actions/runs/45312433774"
+  },
+  {
+   "id": "abcf91d7a4da",
+   "at": "2026-11-25T02:29:07Z",
+   "type": "check",
+   "level": "info",
+   "bm": "Semakan DOSM selesai: 0 data baharu, 0 gagal dicapai.",
+   "en": "DOSM check finished: 0 new, 0 unreachable.",
+   "run": "https://github.com/zamilisaac/sppe-intelligence/actions/runs/45533226122"
   }
  ]
 }
