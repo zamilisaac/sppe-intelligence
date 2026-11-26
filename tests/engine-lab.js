@@ -41,7 +41,7 @@ const ok = (n, c, x = '') => console.log((c ? 'PASS' : 'FAIL') + ' ' + n + (x !=
   ok('EN Lab shows no BM labels', !/Cari pengiraan|Kategori|Boleh dikira/.test(enText));
   await p.click('#lang-bm'); await p.waitForTimeout(700); await p.goto(B + '/#makmal'); await p.waitForTimeout(800); await p.fill('input[data-k3f="q"]', ''); await p.waitForTimeout(600); await p.selectOption('select[data-k3f="g"]', '1'); await p.waitForTimeout(400);
   await p.click('button[data-k3open="2"]'); await p.waitForTimeout(800);
-  ok('detail shows formula, inputs and source', await p.$eval('#lab-d', e => /VA benar_s/.test(e.innerText) && /productivity_annual/.test(e.innerText)));
+  ok('detail shows formula, inputs and source', await p.$eval('#lab-d', e => /VA benar<sub>s<\/sub>/.test(e.querySelector('.fx').innerHTML) && /productivity_annual/.test(e.innerText)));
   await p.selectOption('#lab-d select[data-k3c="sec"]', 'p3'); await p.waitForTimeout(500);
   const labDisp = await p.$eval('#lab-d .lab-res b', e => e.textContent); ok('Lab manufacturing LP shown', labDisp === 'RM140,720', labDisp);
   await p.screenshot({ path: 'lab-detail.png' });

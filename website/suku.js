@@ -98,11 +98,110 @@ const SUKU = (() => {
     return h;
   }
 
+  // ---------- key findings ("3 dapatan utama" + "Apa maksudnya"), computed from the data on every render ----------
+  const ST = { johor: 'Johor', kedah: 'Kedah', kelantan: 'Kelantan', melaka: 'Melaka', nsembilan: 'Negeri Sembilan', pahang: 'Pahang', perak: 'Perak', perlis: 'Perlis', ppinang: 'Pulau Pinang', sabah: 'Sabah', sarawak: 'Sarawak', selangor: 'Selangor', terengganu: 'Terengganu', kl: 'W.P. Kuala Lumpur', labuan: 'W.P. Labuan', putrajaya: 'W.P. Putrajaya' };
+  const FT = ['W.P. Putrajaya', 'W.P. Labuan'];
+  const at = (ys, arr, y) => { const i = ys.indexOf(y); return i < 0 || !arr ? null : arr[i]; };
+  const gr = (a, b) => a != null && b ? (a / b - 1) * 100 : null;
+  const ext = list => { const v = list.filter(x => x[1] != null).sort((a, b) => b[1] - a[1]); return [v[0], v[v.length - 1]]; };
+  function natLfs(y) {
+    const L = P().lfs; if (!L) return null; const ks = Object.keys(L.series).filter(k => k.endsWith('|both'));
+    const s = f => ks.reduce((t, k) => t + (at(L.years, L.series[k][f], y) || 0), 0), lf = s('lf'), un = s('unemp'), out = s('out');
+    return lf ? { urate: un / lf * 100, prate: lf / (lf + out) * 100 } : null;
+  }
+  function findings(page) {
+    const k = P(); let items = [], mean = '', snap = (typeof S !== 'undefined' && S.snap) || null;
+    if (page === 'prod' && snap && snap.tables && snap.tables['1']) {
+      const t = snap.tables['1'], ys = t.years, Y = ys[ys.length - 1], N = at(ys, t.national, Y), g = gr(N, at(ys, t.national, Y - 1));
+      const [hi, lo] = ext(Object.entries(t.rows).map(([id, v]) => [ST[id] || id, at(ys, v, Y)]).filter(x => !FT.includes(x[0])));
+      items.push(X(`Produktiviti Malaysia ${Y}: ${rm(N)} setiap pekerja, ${pc(g)} berbanding ${Y - 1}.`, `Malaysia's productivity in ${Y}: ${rm(N)} per worker, ${pc(g)} on ${Y - 1}.`));
+      items.push(X(`Jurang antara negeri besar: ${hi[0]} (${rm(hi[1])}) menghasilkan ${nf(hi[1] / lo[1], 1)} kali ganda ${lo[0]} (${rm(lo[1])}), tanpa W.P. Putrajaya dan Labuan.`, `The gap between states is wide: ${hi[0]} (${rm(hi[1])}) produces ${nf(hi[1] / lo[1], 1)} times ${lo[0]} (${rm(lo[1])}), excluding Putrajaya and Labuan.`));
+      const q = k.natq; if (q && q.sectors && q.sectors.p0) { const n = q.dates.length - 1; items.push(X(`Data terkini ${qName(q.dates[n])}: produktiviti setiap pekerja ${pc(q.sectors.p0.g[n])} berbanding suku yang sama tahun lepas.`, `Latest data, ${qName(q.dates[n])}: productivity per worker ${pc(q.sectors.p0.g[n])} on the same quarter last year.`)); }
+      mean = X(`Produktiviti ialah nilai yang dihasilkan oleh seorang pekerja (bukan gajinya). ${rm(N)} setahun bersamaan kira-kira ${rm(N / 12)} sebulan bagi setiap pekerja. Apabila ia naik, setiap pekerja menghasilkan lebih banyak untuk masa dan tenaga yang sama, yang membuka ruang untuk gaji lebih tinggi.`,
+        `Productivity is the value one worker produces (not their pay). ${rm(N)} a year is about ${rm(N / 12)} a month per worker. When it rises, each worker produces more for the same time and effort, which makes room for higher pay.`);
+    }
+    if (page === 'gdp' && k.nat && k.sgdp) {
+      const ny = k.nat.years, Y = ny[ny.length - 1], G = at(ny, k.nat.sectors.p0.gdp, Y), g = gr(G, at(ny, k.nat.sectors.p0.gdp, Y - 1)), sy = k.sgdp.years;
+      const st = Object.entries(k.sgdp.series).filter(([key]) => key.endsWith('|p0') && !key.startsWith('Supra')).map(([key, v]) => [key.split('|')[0], at(sy, v, Y), gr(at(sy, v, Y), at(sy, v, Y - 1))]);
+      const big = st.slice().sort((a, b) => b[1] - a[1])[0], fast = st.filter(x => x[2] != null).sort((a, b) => b[2] - a[2])[0];
+      items.push(X(`KDNK Malaysia ${Y}: RM${nf(G / 1e6, 2)} trilion, ${pc(g)} berbanding ${Y - 1} (harga malar 2015).`, `Malaysia's GDP in ${Y}: RM${nf(G / 1e6, 2)} trillion, ${pc(g)} on ${Y - 1} (constant 2015 prices).`));
+      items.push(X(`${big[0]} ekonomi terbesar: ${nf(big[1] / G * 100, 1)}% daripada KDNK negara.`, `${big[0]} is the largest economy: ${nf(big[1] / G * 100, 1)}% of national GDP.`));
+      items.push(X(`Paling pantas berkembang pada ${Y}: ${fast[0]} (${pc(fast[2])}).`, `Fastest growing in ${Y}: ${fast[0]} (${pc(fast[2])}).`));
+      mean = X('KDNK (Keluaran Dalam Negeri Kasar) ialah jumlah nilai semua barang dan perkhidmatan yang dihasilkan dalam setahun. "Harga malar 2015" bermaksud kesan kenaikan harga telah dibuang, jadi pertumbuhan ini ialah pertambahan pengeluaran sebenar, bukan kerana barang lebih mahal.',
+        'GDP (Gross Domestic Product) is the total value of all goods and services produced in a year. "Constant 2015 prices" means price rises have been taken out, so this growth is a real increase in output, not things getting more expensive.');
+    }
+    if (page === 'wage' && k.wsex) {
+      const w = k.wsex, ys = w.years, Y = ys[ys.length - 1], M = at(ys, w.series['Malaysia|both'], Y), g = gr(M, at(ys, w.series['Malaysia|both'], Y - 1));
+      const [hi, lo] = ext(Object.entries(w.series).filter(([key]) => key.endsWith('|both') && !key.startsWith('Malaysia') && !FT.includes(key.split('|')[0])).map(([key, v]) => [key.split('|')[0], at(ys, v, Y)]));
+      const m = at(ys, w.series['Malaysia|male'], Y), f = at(ys, w.series['Malaysia|female'], Y);
+      items.push(X(`Gaji penengah Malaysia ${Y}: ${rm(M)} sebulan, ${pc(g)} berbanding ${Y - 1}.`, `Malaysia's median wage in ${Y}: ${rm(M)} a month, ${pc(g)} on ${Y - 1}.`));
+      items.push(X(`Tertinggi ${hi[0]} (${rm(hi[1])}), terendah ${lo[0]} (${rm(lo[1])}), tanpa W.P. Putrajaya dan Labuan.`, `Highest ${hi[0]} (${rm(hi[1])}), lowest ${lo[0]} (${rm(lo[1])}), excluding Putrajaya and Labuan.`));
+      if (m && f) items.push(X(`Gaji penengah lelaki ${rm(m)}, wanita ${rm(f)}: beza ${rm(Math.abs(m - f))}.`, `Median wage for men ${rm(m)}, women ${rm(f)}: a gap of ${rm(Math.abs(m - f))}.`));
+      mean = X(`Gaji penengah ialah gaji orang yang berada di tengah-tengah: separuh pekerja bergaji kurang daripada ${rm(M)} dan separuh lagi lebih. Ia lebih tepat daripada purata kerana tidak ditarik naik oleh segelintir yang bergaji sangat tinggi.`,
+        `The median wage is the pay of the person in the middle: half of workers earn less than ${rm(M)} and half earn more. It is fairer than the average because a few very high earners do not pull it up.`);
+    }
+    if (page === 'lab' && k.lfs) {
+      const ys = k.lfs.years, Y = ys[ys.length - 1], n = natLfs(Y), p = natLfs(Y - 1);
+      const [hi] = ext(Object.entries(k.lfs.series).filter(([key]) => key.endsWith('|both')).map(([key, v]) => [key.split('|')[0], at(ys, v.urate, Y)]));
+      if (n) items.push(X(`Kadar pengangguran Malaysia ${Y}: ${nf(n.urate, 1)}%${p ? ` (${pp(n.urate - p.urate)} berbanding ${Y - 1})` : ''}; kadar penyertaan ${nf(n.prate, 1)}%.`, `Malaysia's unemployment rate in ${Y}: ${nf(n.urate, 1)}%${p ? ` (${pp(n.urate - p.urate)} on ${Y - 1})` : ''}; participation rate ${nf(n.prate, 1)}%.`));
+      if (hi) items.push(X(`Pengangguran tertinggi ${Y}: ${hi[0]} (${nf(hi[1], 1)}%).`, `Highest unemployment in ${Y}: ${hi[0]} (${nf(hi[1], 1)}%).`));
+      const mo = k.lfsm; if (mo && mo.dates && mo.dates.length) { const j = mo.dates.length - 1; items.push(X(`Data terkini ${mName(mo.dates[j])}: kadar pengangguran ${nf(mo.urate[j], 1)}%.`, `Latest data, ${mName(mo.dates[j])}: unemployment rate ${nf(mo.urate[j], 1)}%.`)); }
+      mean = n ? X(`Kadar pengangguran ${nf(n.urate, 1)}% bermaksud: daripada setiap 100 orang yang bekerja atau sedang mencari kerja, kira-kira ${nf(n.urate, 0)} orang belum mendapat kerja. Kadar penyertaan ialah peratus penduduk umur bekerja (15–64 tahun) yang bekerja atau mencari kerja.`,
+        `An unemployment rate of ${nf(n.urate, 1)}% means: of every 100 people working or looking for work, about ${nf(n.urate, 0)} have no job yet. The participation rate is the share of working-age people (15–64) who are working or looking for work.`) : '';
+    }
+    if (!items.length) return '';
+    return `<section class="card sq-find" aria-label="${esc(X('Dapatan utama', 'Key findings'))}"><div class="sq-find-g"><div><h2>${esc(X('Dapatan utama', 'Key findings'))}</h2><ol>${items.map(i => `<li>${esc(i)}</li>`).join('')}</ol></div>
+      ${mean ? `<div class="sq-mean"><h3>${esc(X('Apa maksudnya?', 'What does it mean?'))}</h3><p>${esc(mean)}</p></div>` : ''}</div>
+      <p class="sq-src">${esc(X('Dikira automatik daripada data DOSM di laman ini; dikemas kini setiap kali data baharu diterbitkan.', 'Calculated automatically from the DOSM data on this site; updated whenever new data is published.'))}</p></section>`;
+  }
+
+  // ---------- performance against the RMK-13 productivity target (home) ----------
+  // Source: Buku Utama RMK13 (Kementerian Ekonomi, 2025), Bab 2: labour productivity growth target 3.6% a year for
+  // 2026-2030; achievement 2.7% a year for 2021-2024. Actual figures below come from the DOSM data on the site.
+  const RMK13 = { target: 3.6, from: 2026, to: 2030, past: 2.7, pastFrom: 2021, pastTo: 2024 };
+  function rmk() {
+    const q = P().natq, snap = (typeof S !== 'undefined' && S.snap) || null; if (!q || !q.sectors || !q.sectors.p0) return '';
+    const d = q.dates, g = q.sectors.p0.g, ix = d.map((x, i) => [x, i]).filter(([x]) => +x.slice(0, 4) >= RMK13.from && g[d.indexOf(x)] != null).map(([, i]) => i);
+    if (!ix.length) return '';
+    const avg = ix.reduce((t, i) => t + g[i], 0) / ix.length, last = ix[ix.length - 1], ok = avg >= RMK13.target;
+    const t1 = snap && snap.tables && snap.tables['1'], ys = t1 ? t1.years : [], Y = ys[ys.length - 1], gY = t1 ? gr(at(ys, t1.national, Y), at(ys, t1.national, Y - 1)) : null;
+    const W = 100, bar = v => Math.max(2, Math.min(100, v / 6 * W));
+    const row = (lab, v, cl) => `<div class="sq-r"><span>${esc(lab)}</span><div class="sq-rb"><i class="${cl}" style="width:${bar(v)}%"></i><b style="left:${bar(RMK13.target)}%"></b></div><strong>${pc(v)}</strong></div>`;
+    return `<section class="card sq-rmk" id="sq-rmk"><div class="card-h"><div><h2>${esc(X('Prestasi berbanding sasaran RMK-13', 'Performance against the 13MP target'))}</h2>
+      <p class="sub">${esc(X(`Sasaran pertumbuhan produktiviti buruh: ${nf(RMK13.target, 1)}% setahun, ${RMK13.from}–${RMK13.to}. Garis merah ialah sasaran.`, `Labour productivity growth target: ${nf(RMK13.target, 1)}% a year, ${RMK13.from}–${RMK13.to}. The red line is the target.`))}</p></div>
+      <span class="pill ${ok ? 'q-lead' : 'q-catch'}">${esc(ok ? X('Melebihi sasaran', 'Above target') : X('Di bawah sasaran', 'Below target'))}</span></div>
+      <div class="sq-rows">
+        ${row(X(`${RMK13.from} setakat ${qName(d[last])} (purata ${ix.length} suku)`, `${RMK13.from} to ${qName(d[last])} (average of ${ix.length} quarters)`), avg, ok ? 'ok' : 'lo')}
+        ${row(X(`Suku terkini, ${qName(d[last])}`, `Latest quarter, ${qName(d[last])}`), g[last], g[last] >= RMK13.target ? 'ok' : 'lo')}
+        ${gY != null ? row(X(`Tahun asas ${Y} (sebelum RMK-13)`, `Base year ${Y} (before the 13MP)`), gY, 'base') : ''}
+        ${row(X(`Pencapaian ${RMK13.pastFrom}–${RMK13.pastTo} (RMK-13)`, `Achieved ${RMK13.pastFrom}–${RMK13.pastTo} (13MP)`), RMK13.past, 'base')}
+      </div>
+      <p class="sub">${esc(X(`Maksudnya: ${ok ? `setakat ini produktiviti tumbuh ${pc(avg)} setahun, melebihi sasaran ${nf(RMK13.target, 1)}%. Ia perlu dikekalkan sepanjang ${RMK13.from}–${RMK13.to}.` : `setakat ini produktiviti tumbuh ${pc(avg)} setahun, di bawah sasaran ${nf(RMK13.target, 1)}%. Pertumbuhan perlu dipercepat.`}`,
+        `What it means: ${ok ? `so far productivity is growing ${pc(avg)} a year, above the ${nf(RMK13.target, 1)}% target. It has to be sustained through ${RMK13.from}–${RMK13.to}.` : `so far productivity is growing ${pc(avg)} a year, below the ${nf(RMK13.target, 1)}% target. Growth needs to speed up.`}`))}</p>
+      <p class="sq-src">${esc(X('Sasaran dan pencapaian 2021–2024: Buku Utama RMK13, Bab 2 (Kementerian Ekonomi). Pertumbuhan sebenar: DOSM, produktiviti buruh setiap pekerja, tahun ke tahun (suku tahunan) dan tahunan, harga malar 2015.', 'Target and 2021–2024 achievement: 13MP main document, Chapter 2 (Ministry of Economy). Actual growth: DOSM, labour productivity per worker, year on year (quarterly) and annual, constant 2015 prices.'))}</p></section>`;
+  }
+
+  function place(el, cls, html, anchor) {
+    let box = el.querySelector(':scope > .' + cls);
+    if (!html) { if (box) box.remove(); return null; }
+    if (!box) { box = document.createElement('div'); box.className = cls; if (anchor) anchor.after(box); else el.prepend(box); }
+    box.innerHTML = html; return box;
+  }
   function mount(page, el) {
-    if (!el || !['prod', 'lab'].includes(page)) return;
-    let box = el.querySelector(':scope > .sq-root');
-    if (!box) { box = document.createElement('div'); box.className = 'sq-root'; const after = page === 'prod' ? el.querySelector(':scope > section.kpis') : el.querySelector(':scope > .kpis, :scope > section'); if (after) after.after(box); else el.appendChild(box); }
-    box.innerHTML = page === 'prod' ? prod() : lab();
+    if (!el) return;
+    const ph = el.querySelector('.ph'), top = el.querySelector(':scope > #ph-' + page) || (ph && [...el.children].find(c => c === ph || c.contains(ph))) || null;
+    if (['prod', 'gdp', 'wage', 'lab'].includes(page)) place(el, 'sq-find-box', findings(page), top);
+    if (page === 'home') {
+      const so = [...el.querySelectorAll('h2, h3')].find(h => /Sorotan utama|Key highlights/i.test(h.textContent));
+      const anchor = so ? [...el.children].find(c => c.contains(so)) : top;
+      const block = anchor && anchor.nextElementSibling && anchor.nextElementSibling.querySelector('.hl, article, .kpi') ? anchor.nextElementSibling : anchor;
+      place(el, 'sq-rmk-box', rmk(), block);
+    }
+    if (['prod', 'lab'].includes(page)) {
+      let box = el.querySelector(':scope > .sq-root');
+      if (!box) { box = document.createElement('div'); box.className = 'sq-root'; const after = page === 'prod' ? el.querySelector(':scope > section.kpis') : el.querySelector(':scope > .kpis, :scope > section'); if (after) after.after(box); else el.appendChild(box); }
+      box.innerHTML = page === 'prod' ? prod() : lab();
+    }
   }
   return { mount };
 })();

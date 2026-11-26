@@ -9,6 +9,12 @@ cd "$(dirname "$0")/.."
 OUT=${1:-ops/qa/run-latest.md}; mkdir -p "$(dirname "$OUT")"
 LIVE=${LIVE_URL:-https://sppeintelligence.pages.dev}
 LOG=$(mktemp -d); KNOWN=tests/known-failures.txt
+# Refuse to run on ports another server already holds: the tests would then check that server's (possibly old) code.
+for port in 8811 8822; do
+  if curl -s -o /dev/null --max-time 2 "http://127.0.0.1:$port/"; then
+    echo "Port $port is already in use by another server. Stop it first, otherwise the tests would run against old code." >&2; exit 2
+  fi
+done
 python3 -m http.server 8811 --bind 127.0.0.1 -d website >"$LOG/static.log" 2>&1 & P1=$!
 NODE_USE_ENV_PROXY=1 node tests/dev-server.mjs 8822 >"$LOG/dev.log" 2>&1 & P2=$!
 trap 'kill $P1 $P2 2>/dev/null' EXIT

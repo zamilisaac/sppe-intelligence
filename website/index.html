@@ -171,6 +171,16 @@ select { background: var(--soft); border: 1px solid var(--line); border-radius: 
 .profile { gap: 14px; }
 .pf-h { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
 .pf-h h2 { font-size: 24px; font-weight: 800; letter-spacing: -0.02em; }
+.fx { font-family: 'Cambria Math', 'STIX Two Math', 'Latin Modern Math', Cambria, Georgia, serif; font-size: 16px; white-space: normal; line-height: 1.6; }
+.fx sub, .fx sup { font-size: 0.72em; line-height: 0; }
+.lab-chips, .lab-pop { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 10px; }
+.lab-pop > span { font-size: 12.5px; color: var(--muted); margin-right: 4px; }
+.lab-chip { border: 1px solid var(--line, #e2dfdb); background: var(--surface); border-radius: 999px; padding: 6px 12px; font-size: 13px; font-weight: 600; cursor: pointer; color: inherit; }
+.lab-chip span { color: var(--muted); font-weight: 500; margin-left: 2px; }
+.lab-chip.sm { padding: 4px 10px; font-size: 12.5px; font-weight: 500; }
+.lab-chip.on { background: var(--tile-ink); color: var(--on-ink); border-color: var(--tile-ink); } .lab-chip.on span { color: inherit; opacity: .8; }
+.lab-clear { border: 0; background: none; color: var(--red); font-weight: 600; cursor: pointer; padding: 0; font-size: inherit; }
+.lab-q input { font-size: 16px; padding: 12px 14px; }
 .sq-root { display: flex; flex-direction: column; gap: 16px; margin: 16px 0; }
 .sq-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
 .sq-kpis .chip-v { font-size: 22px; }
@@ -183,6 +193,22 @@ select { background: var(--soft); border: 1px solid var(--line); border-radius: 
 .sq-bl { font-size: 11px; fill: currentColor; } .sq-bx { font-size: 10px; fill: currentColor; }
 .sq-tot td { font-weight: 700; }
 .sq-src { font-size: 12px; color: var(--muted); }
+.sq-find-box, .sq-rmk-box { margin: 14px 0; }
+.sq-find { border-left: 4px solid var(--red); }
+.sq-find-g { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 20px; }
+@media (max-width: 760px) { .sq-find-g { grid-template-columns: 1fr; } }
+.sq-find h2 { font-size: 17px; } .sq-find ol { margin: 8px 0 0 20px; display: grid; gap: 6px; font-size: 15px; line-height: 1.45; }
+.sq-mean { background: var(--bg, #f4f3f1); border-radius: 12px; padding: 12px 14px; }
+.sq-mean h3 { font-size: 14px; margin-bottom: 4px; } .sq-mean p { font-size: 14px; line-height: 1.5; }
+.sq-rows { display: grid; gap: 10px; }
+.sq-r { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 2fr) 64px; gap: 12px; align-items: center; font-size: 14px; }
+@media (max-width: 600px) { .sq-r { grid-template-columns: 1fr 56px; } .sq-r .sq-rb { grid-column: 1 / -1; grid-row: 2; } }
+.sq-rb { position: relative; height: 12px; background: var(--bg, #f0eeeb); border-radius: 6px; }
+.sq-rb i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 6px; background: var(--tile-ink); }
+.sq-rb i.lo { background: var(--muted); } .sq-rb i.base { background: #bdb8b2; }
+.sq-rb b { position: absolute; top: -4px; bottom: -4px; width: 3px; background: var(--red); border-radius: 2px; }
+.sq-r strong { text-align: right; }
+
 .pill { font-size: 11.5px; font-weight: 700; padding: 4px 10px; border-radius: 999px; white-space: nowrap; text-transform: uppercase; letter-spacing: 0.05em; }
 .pill.q-lead { background: var(--tile-ink); color: var(--on-ink); }
 .pill.q-catch { background: var(--red-soft); color: var(--red); }
@@ -5252,6 +5278,15 @@ const K3 = (() => {
     cache.set(key, out); return out;
   }
   const runnable = id => !!R[id];
+  // Formula in math notation: subscripts (LP_s,t-1), powers ^(1/n), x -> ×, - -> −, sums -> Σ. Text is escaped first.
+  function fx(f) {
+    let h = esc(f);
+    h = h.replace(/\^\(([^()]+)\)/g, '<sup>$1</sup>').replace(/\^([A-Za-z0-9]+)/g, '<sup>$1</sup>');
+    h = h.replace(/([A-Za-z\u00C0-\u024F]+)((?:_[A-Za-z0-9,+\-]+)+)/g, (m, b, sub) => b + '<sub>' + sub.slice(1).split('_').join(',').replace(/-/g, '\u2212') + '</sub>');
+    h = h.replace(/ x /g, ' \u00D7 ').replace(/ - /g, ' \u2212 ').replace(/\(1\+/g, '(1 + ').replace(/ \/ /g, ' \u2215 ');
+    h = h.replace(/^jumlah bagi sektor /, '\u03A3<sub>s</sub> ').replace(/^jumlah (?=share|LP|perubahan)/, '\u03A3 ').replace(/^0\.5 \u00D7 jumlah /, '0.5 \u00D7 \u03A3 ');
+    return '<span class="fx">' + h + '</span>';
+  }
   const FKEY = f => f === F.rm ? 'rm' : f === F.p ? 'p' : f === F.ps ? 'ps' : f === F.rmm ? 'rmbS' : f === F.k ? 'kS' : f === F.n ? 'n3' : 'n1';
 
   /* ---------- report recipes (catalogue section 4) ---------- */
@@ -5274,7 +5309,7 @@ const K3 = (() => {
   const yrsLabel = id => { if (!R[id]) return '–'; const d = DIM[id] || {}; if (d.date) { const ds = D().formal.dates; return ds[0] + ' – ' + ds[ds.length - 1]; } const y = yearsFor(id); return y.length ? y[0] + '–' + y[y.length - 1] : '–'; };
   function page(el) {
     const q = U.q.trim().toLowerCase();
-    const rows = CAT.filter(r => runnable(r[0]) && (!U.g || grp(r[0]) === +U.g) && (!U.cls || r[5] === U.cls) && (!U.geo || (U.geo === 'state' ? DIM[r[0]] && /both|state/.test(DIM[r[0]].geo || '') : true)) && (!q || [String(r[0]), r[1], r[2], r[3]].some(t => t.toLowerCase().includes(q))));
+    const rows = CAT.filter(r => runnable(r[0]) && (!U.g || grp(r[0]) === +U.g) && (!U.cls || r[5] === U.cls) && (!U.geo || (U.geo === 'state' ? DIM[r[0]] && /both|state/.test(DIM[r[0]].geo || '') : true)) && (!q || [String(r[0]), r[1], r[2], r[3]].concat(WHAT[r[0]] || []).some(t => String(t).toLowerCase().includes(q))));
     const nRun = CAT.filter(r => runnable(r[0])).length;
     const sel = (k, opts, cur, lab) => `<label class="lab-flt">${esc(lab)}<select data-k3f="${k}">${opts.map(([v, l]) => `<option value="${v}"${String(v) === String(cur) ? ' selected' : ''}>${esc(l)}</option>`).join('')}</select></label>`;
     if (U.open && !R[U.open]) U.open = null;
@@ -5283,10 +5318,12 @@ const K3 = (() => {
         ${sel('g', [['', X('Semua kategori', 'All categories')]].concat(GROUPS().filter(([i]) => CAT.some(r => runnable(r[0]) && grp(r[0]) === i)).map(([i, l]) => [i, l])), U.g, X('Kategori', 'Category'))}
         ${sel('cls', [['', X('Semua kelas', 'All classes')], ['D', CLS('D')], ['T', CLS('T')], ['S', CLS('S')]], U.cls, X('Kelas', 'Class'))}
         ${sel('geo', [['', X('Nasional atau negeri', 'National or state')], ['state', X('Ada data negeri', 'Has state data')]], U.geo, X('Lokasi', 'Location'))}</div>
-        <p class="lab-sum">${esc(X(`${rows.length} daripada ${nRun} pengiraan dipaparkan`, `${rows.length} of ${nRun} calculations shown`))}</p>
+        <div class="lab-chips" role="group" aria-label="${esc(X('Kategori', 'Categories'))}">${GROUPS().filter(([i]) => CAT.some(r => runnable(r[0]) && grp(r[0]) === i)).map(([i, l]) => `<button type="button" class="lab-chip${String(U.g) === String(i) ? ' on' : ''}" data-k3chip="g:${i}" aria-pressed="${String(U.g) === String(i)}">${esc(l)} <span>${CAT.filter(r => runnable(r[0]) && grp(r[0]) === i).length}</span></button>`).join('')}</div>
+        <div class="lab-pop"><span>${esc(X('Carian popular:', 'Popular searches:'))}</span>${(en() ? ['productivity', 'growth', 'CAGR', 'wage', 'unemployment', 'projection', 'per hour'] : ['produktiviti', 'pertumbuhan', 'CAGR', 'gaji', 'pengangguran', 'unjuran', 'sejam']).map(w => `<button type="button" class="lab-chip sm${U.q === w ? ' on' : ''}" data-k3chip="q:${esc(w)}">${esc(w)}</button>`).join('')}</div>
+        <p class="lab-sum">${esc(X(`${rows.length} daripada ${nRun} pengiraan dipaparkan`, `${rows.length} of ${nRun} calculations shown`))}${q || U.g ? ` · <button type="button" class="lab-clear" data-k3chip="clear:">${esc(X('Kosongkan carian', 'Clear search'))}</button>` : ''}</p>
         ${GROUPS().map(([gi, gl]) => { const rs = rows.filter(r => grp(r[0]) === gi); if (!rs.length) return ''; const ok = rs.filter(r => runnable(r[0])).length;
           return `<details class="lab-g"${q || U.g || U.st || U.cls ? ' open' : gi === 1 ? ' open' : ''}><summary><b>${esc(gl)}</b><span>${rs.length} ${esc(X('pengiraan', 'calculations'))}</span></summary><div class="tbl-w"><table class="tbl lab-t"><thead><tr><th>ID</th><th>${esc(X('Pengiraan', 'Calculation'))}</th><th>${esc(X('Formula', 'Formula'))}</th><th>${esc(X('Tahun', 'Years'))}</th><th>${esc(X('Sumber', 'Source'))}</th><th>${esc(X('Kelas', 'Class'))}</th><th></th></tr></thead><tbody>
-          ${rs.map(r => `<tr class="${runnable(r[0]) ? '' : 'k2-na'}"><td>${r[0]}</td><td><b>${esc(en() ? r[2] : r[1])}</b></td><td><code>${esc(r[3])}</code></td><td>${esc(yrsLabel(r[0]))}</td><td>${esc(r[4])}</td><td>${r[5]}</td><td><button type="button" class="btn${runnable(r[0]) ? ' dark' : ''} k2-mini" data-k3open="${r[0]}">${esc(runnable(r[0]) ? X('Kira', 'Calculate') : X('Butiran', 'Details'))}</button></td></tr>`).join('')}</tbody></table></div></details>`; }).join('')}
+          ${rs.map(r => `<tr class="${runnable(r[0]) ? '' : 'k2-na'}"><td>${r[0]}</td><td><b>${esc(en() ? r[2] : r[1])}</b></td><td>${fx(r[3])}</td><td>${esc(yrsLabel(r[0]))}</td><td>${esc(r[4])}</td><td>${r[5]}</td><td><button type="button" class="btn${runnable(r[0]) ? ' dark' : ''} k2-mini" data-k3open="${r[0]}">${esc(runnable(r[0]) ? X('Kira', 'Calculate') : X('Butiran', 'Details'))}</button></td></tr>`).join('')}</tbody></table></div></details>`; }).join('')}
       </article>`;
     if (U.open && R[U.open]) drawChart(el, U.open);
   }
@@ -5764,7 +5801,7 @@ const K3 = (() => {
     const row = CAT.find(x => x[0] === id), r = calculate(id, U.ctx), c = r.context;
     const srcRows = row[4].split(',').map(s => SRC[s] ? `<li><b>${s}</b> · ${esc(SRC[s][en() ? 1 : 0])} · <span>${esc(SRC[s][2])}</span>${SRC[s][3] ? ` · ${esc(X('dimuatkan sebagai ', 'loaded as '))}<code>${esc(FILE_LABEL[SRC[s][3]])}</code>` : ` · <em>${esc(X('belum dimuat naik', 'not uploaded yet'))}</em>`}</li>` : '').join('');
     const kiv = WAGE_IDS.includes(id);
-    return `<article class="card lab-d" id="lab-d"><div class="card-h"><div><p class="ph-k">ID ${id} · ${esc(GROUPS().find(g => g[0] === grp(id))[1])}</p><h2>${esc(r.name)}</h2><p class="sub"><code>${esc(r.formula)}</code></p></div><button type="button" class="btn k2-mini" data-k3close>✕ ${esc(X('Tutup', 'Close'))}</button></div>
+    return `<article class="card lab-d" id="lab-d"><div class="card-h"><div><p class="ph-k">ID ${id} · ${esc(GROUPS().find(g => g[0] === grp(id))[1])}</p><h2>${esc(r.name)}</h2><p class="sub">${fx(r.formula)}</p></div><button type="button" class="btn k2-mini" data-k3close>✕ ${esc(X('Tutup', 'Close'))}</button></div>
       <div class="lab-badges"><span class="k2-st ${stCls[r.status]}">${esc(STL(r.status))}</span><span class="k2-st k2-info">${esc(PRV(r.provenance))}</span><span class="k2-st k2-info">${esc(CLS(row[5]))}</span>${row[5] === 'S' ? `<span class="k2-st k2-review">${esc(X('Mod senario: andaian anda, bukan unjuran rasmi DOSM', 'Scenario mode: your assumptions, not an official DOSM projection'))}</span>` : ''}</div>
       ${explainBox(id, r)}
       ${R[id] ? `<div class="lab-ctl">${controls(id, c)}</div>` : ''}
@@ -5802,6 +5839,7 @@ const K3 = (() => {
     const t = e.target; let b;
     if ((b = t.closest('[data-k3open]'))) { U.open = +b.dataset.k3open; U.ctx = {}; U.msg = ''; paint(); setTimeout(() => { const d = document.getElementById('lab-d'); if (d) d.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 30); return; }
     if (t.closest('[data-k3close]')) { U.open = null; paint(); return; }
+    if ((b = t.closest('[data-k3chip]'))) { const [k, ...v] = b.dataset.k3chip.split(':'), val = v.join(':'); if (k === 'g') U.g = String(U.g) === val ? '' : val; else if (k === 'q') U.q = U.q === val ? '' : val; else { U.q = ''; U.g = ''; } paint(); return; }
     if (t.closest('[data-k3copy]')) { const r = calculate(U.open, U.ctx); const txt = `${r.metricId}. ${r.name}: ${r.display} (${r.unit}) — ${r.formula}. ${PRV(r.provenance)}. ${(r.inputs || []).map(i => i.file).filter((v, i, a) => a.indexOf(v) === i).join('; ')}`; try { navigator.clipboard.writeText(txt); U.msg = X('Hasil disalin.', 'Result copied.'); } catch (er) { U.msg = txt; } paint(); return; }
     if (t.closest('[data-k3csv]')) { const r = calculate(U.open, U.ctx), q = v => '"' + String(v).replace(/"/g, '""') + '"', lines = [['metric_id', 'name', 'value', 'unit', 'status', 'provenance', 'formula', 'formula_version', 'data_version', 'audit_hash', 'context'].join(','), [r.metricId, q(r.name), r.value, q(r.unit), r.status, r.provenance, q(r.formula), r.formulaVersion, r.dataVersion, r.auditHash, q(JSON.stringify(r.context))].join(','), '', 'input,value,unit,source', ...(r.inputs || []).map(i => [q(i.label), i.value, q(i.unit || ''), q(i.file)].join(','))]; saveFile(`MPC_Makmal_${r.metricId}.csv`, new Blob(['﻿' + lines.join('\n')], { type: 'text/csv' })); return; }
     if (t.closest('[data-k3add]')) { const r = calculate(U.open, U.ctx); K2.addLab({ id: r.metricId, ctx: r.context }); location.hash = 'bina-laporan'; return; }
