@@ -20,6 +20,7 @@ CONSTRAINTS:
     - Ujian: Playwright (Node) + unittest.
   - Jangan tambah kebergantungan, perpustakaan CDN atau langkah build baharu tanpa kelulusan.
   - Deploy = push ke main. Hanya dibuat oleh Pelulus selepas dia menulis "deploy", ATAU oleh ejen selepas item kelulusan "Deploy" berstatus `lulus` dalam AIOS. Merge PR mengikut syarat yang sama.
+  - Data DOSM baharu DITERBITKAN AUTOMATIK oleh semakan GitHub jika pengesahan PASS dan ujian laman lulus (keputusan Pelulus, 24 Nov 2026). WARN, FAIL atau ujian gagal ditahan untuk semakan. Senarai semua data: ops/data/KATALOG.md.
   - Jangan ubah tanpa kelulusan bertulis Pelulus:
     - log masuk Microsoft;
     - rahsia dan tetapan Cloudflare;

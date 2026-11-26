@@ -19,6 +19,7 @@ import io
 import json
 import os
 import sys
+import re
 import urllib.request
 
 BASE = "https://storage.dosm.gov.my"
@@ -27,6 +28,8 @@ DATASETS = {
     "lfs_state_sex": "labour", "wages_state": "labour", "wages_sector": "labour", "wages_industry": "labour",
     "wages_skill": "labour", "wages_education": "labour", "formal_wages_state": "labour",
     "formal_wages_msic": "labour", "formal_wages_band": "labour", "productivity_annual": "labour",
+    "productivity_qtr": "labour", "productivity_state": "labour", "productivity_annual_p14": "labour",
+    "lfs_qtr_state": "labour", "lfs_month": "labour",
     "hies_state": "hies", "hies_state_percentile": "hies",
 }
 SIM_DATASET = "formal_wages_state"
@@ -45,6 +48,44 @@ def fetch(url, method="GET", timeout=60):
     req = urllib.request.Request(url, method=method, headers=UA)
     with urllib.request.urlopen(req, timeout=timeout) as r:
         return r.read() if method == "GET" else b"", {k.lower(): v for k, v in r.headers.items()}
+
+
+PORTAL = "https://www.dosm.gov.my/portal-main"
+
+
+def portal_productivity_qtr(local_latest):
+    """DOSM publishes the quarterly labour productivity tables (Excel) on its portal on release day, often days
+    before OpenDOSM's productivity_qtr.csv is refreshed. If the next quarter after the one in dosm/ is out on the
+    portal, download the official tables and convert them with scripts/dosm_jadual_produktiviti.py (same columns
+    and units as OpenDOSM; values copied, never estimated). Returns (csv_text, note) or (None, reason)."""
+    y, m = int(local_latest[:4]), int(local_latest[5:7])
+    q = (m - 1) // 3 + 1
+    y, q = (y + 1, 1) if q == 4 else (y, q + 1)
+    slug = f"labour-productivity-q{q}{y}"
+    try:
+        html, _ = fetch(f"{PORTAL}/release-content/{slug}")
+    except Exception as e:
+        return None, f"portal page {slug} not reachable ({e.__class__.__name__})"
+    ids = sorted(set(re.findall(r"release_document_id=(\d+)", html.decode("utf-8", "replace"))))
+    for i in ids:
+        try:
+            req = urllib.request.Request(f"{PORTAL}/release-document-log?release_document_id={i}", headers=UA)
+            with urllib.request.urlopen(req, timeout=120) as r:
+                url, data = r.geturl(), r.read()
+        except Exception:
+            continue
+        if not url.lower().endswith(".xlsx"):
+            continue
+        import tempfile, subprocess
+        with tempfile.TemporaryDirectory() as t:
+            x, out = os.path.join(t, "tables.xlsx"), os.path.join(t, "productivity_qtr.csv")
+            open(x, "wb").write(data)
+            res = subprocess.run([sys.executable, os.path.join(HERE, "scripts", "dosm_jadual_produktiviti.py"), x, out],
+                                 capture_output=True, text=True)
+            if res.returncode != 0 or not os.path.exists(out):
+                return None, f"tables for Q{q} {y} found ({url}) but could not be converted: {res.stderr.strip()[-200:]}"
+            return open(out, encoding="utf-8").read(), f"DOSM portal tables Q{q} {y}: {url}"
+    return None, f"Q{q} {y} tables not on the DOSM portal yet ({slug})"
 
 
 def next_month(d):
@@ -136,6 +177,11 @@ def main(argv=None):
             lines.append(f"| {name} | {old or '–'} | – | could not download ({e.__class__.__name__}) |")
             continue
         new = latest(remote)
+        if name == "productivity_qtr" and old and (not new or new <= old):
+            text, note = portal_productivity_qtr(old)
+            if text and latest(text) and latest(text) > old:
+                remote, new = text, latest(text)
+                lines.append(f"| {name} (DOSM portal) | {old} | {new} | {note} |")
         if new and (old is None or new > old):
             with open(path, "w", encoding="utf-8", newline="") as f:
                 f.write(remote)

@@ -7,6 +7,7 @@ name: Weekly DOSM data check
 on:
   schedule:
     - cron: "17 1 * * *"   # every day 09:17 Malaysia time (01:17 UTC); Radar Data shows each result
+    - cron: "17 4-10 * * 1-5" # weekdays every hour 12:17-18:17 Malaysia time: DOSM releases at 12:00, so new data is picked up within the hour
   workflow_dispatch:
     inputs:
       simulate_new_data:
@@ -40,6 +41,9 @@ jobs:
       BASE_BRANCH: ${{ inputs.base_branch || 'main' }}
       SIMULATE: ${{ inputs.simulate_new_data && 'true' || 'false' }}
       SIMULATE_BAD: ${{ inputs.simulate_bad_data && 'true' || 'false' }}
+      # Approver decision (2026-11-24): new DOSM data is published without waiting for a person when validation is
+      # a clean PASS and the site checks pass. WARN or FAIL is held for review. Set to "false" to require review again.
+      AUTO_PUBLISH: "true"
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
@@ -48,6 +52,9 @@ jobs:
       - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6.0.0
         with:
           python-version: "3.12"
+
+      - name: Install the Excel reader (DOSM portal tables)
+        run: python -m pip install --quiet "openpyxl==3.1.5"
 
       - name: "Stage 1: check OpenDOSM and the watchlist"
         id: check
@@ -101,7 +108,7 @@ jobs:
           git push --force origin "$BR"
           {
             [ "${{ steps.check.outputs.simulated }}" = "true" ] && printf '> **TEST RUN**: formal_wages_state was given a fake extra month (simulate_new_data). Close this pull request instead of merging it into main.\n\n'
-            echo "Automated pull request from the weekly DOSM check. **Nothing is published until a reviewer approves and merges it.**"
+            if [ "$AUTO_PUBLISH" = "true" ]; then echo "Automated pull request from the DOSM check. If validation is a clean PASS and the site checks pass, it is **merged and published automatically** in this same run; otherwise it waits for review."; else echo "Automated pull request from the weekly DOSM check. **Nothing is published until a reviewer approves and merges it.**"; fi
             echo
             cat "$RUNNER_TEMP/validation.md"
             echo
@@ -134,6 +141,35 @@ jobs:
           python scripts/dosm_github.py pr --head "$BR" --base "$BASE_BRANCH" --title "$TITLE" --body-file "$RUNNER_TEMP/pr.md" --reviewer zamilisaac
           echo "pr_rc=$?" >> "$GITHUB_OUTPUT"
 
+      - name: "Stage 3: publish automatically (validation PASS and site checks pass)"
+        id: auto
+        if: steps.pr.outputs.pr_number != '' && steps.validate.outputs.status == 'PASS' && steps.check.outputs.simulated != 'true' && env.AUTO_PUBLISH == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ steps.pr.outputs.pr_number }}
+        run: |
+          set +e
+          python scripts/test_dosm_pipeline.py > "$RUNNER_TEMP/py-tests.txt" 2>&1; PY=$?
+          npm install --no-save --silent playwright@1.63.0 > /dev/null 2>&1 && npx playwright install --with-deps chromium > /dev/null 2>&1
+          git fetch -q origin "pull/$PR/head:pr-auto" && git checkout -q pr-auto
+          python -m http.server 8811 --bind 127.0.0.1 -d website > /dev/null 2>&1 & SRV=$!
+          sleep 2; : > "$RUNNER_TEMP/site-tests.txt"
+          for t in tests/engine-lab.js tests/suku.js tests/profil.js; do echo "## $t" >> "$RUNNER_TEMP/site-tests.txt"; timeout 600 node "$t" >> "$RUNNER_TEMP/site-tests.txt" 2>&1; done
+          kill $SRV
+          FAILS=$(grep -c '^FAIL' "$RUNNER_TEMP/site-tests.txt"); PASSES=$(grep -c '^PASS' "$RUNNER_TEMP/site-tests.txt")
+          echo "Site checks: $PASSES passed, $FAILS failed; Python pipeline tests exit $PY" | tee -a "$GITHUB_STEP_SUMMARY"
+          if [ "$PY" -ne 0 ] || [ "$FAILS" -ne 0 ] || [ "$PASSES" -eq 0 ]; then
+            echo "published=false" >> "$GITHUB_OUTPUT"; echo "reason=site or pipeline checks failed ($FAILS site failures, python exit $PY)" >> "$GITHUB_OUTPUT"
+            gh api "repos/$GITHUB_REPOSITORY/issues/$PR/comments" -f body="Terbit automatik DITAHAN: semakan laman atau saluran gagal ($FAILS kegagalan laman, Python $PY). Perlu semakan. Butiran: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" > /dev/null
+            exit 0
+          fi
+          SHA=$(gh api -X PUT "repos/$GITHUB_REPOSITORY/pulls/$PR/merge" -f merge_method=merge -f commit_title="Publish DOSM data automatically (PR #$PR)" --jq .sha)
+          if [ -z "$SHA" ]; then echo "published=false" >> "$GITHUB_OUTPUT"; echo "reason=merge refused" >> "$GITHUB_OUTPUT"; exit 0; fi
+          echo "published=true" >> "$GITHUB_OUTPUT"; echo "sha=$SHA" >> "$GITHUB_OUTPUT"
+          gh api "repos/$GITHUB_REPOSITORY/issues/$PR/comments" -f body="Diterbitkan automatik: pengesahan PASS, $PASSES semakan laman lulus, ujian saluran lulus. Commit $SHA. Cloudflare Pages mendeploy dari main." > /dev/null
+          # a merge made with the workflow token does not start push workflows, so start the deploy report by hand
+          gh api -X POST "repos/$GITHUB_REPOSITORY/actions/workflows/dosm-deploy.yml/dispatches" -f ref=main -f "inputs[sha]=$SHA" || true
+
       - name: "Stage 1: notify (issue, Teams, e-mail)"
         if: steps.check.outputs.changed == 'true' || steps.check.outputs.watch_alert == 'true'
         env:
@@ -162,8 +198,13 @@ jobs:
             elif [ "${{ steps.build.outputs.pagecode }}" = "changed" ]; then
               echo "## Result: stopped, the rebuild would have changed page code outside the data packs"
               echo; echo '```'; cat "$RUNNER_TEMP/pagecode.txt"; echo '```'
+            elif [ "${{ steps.auto.outputs.published }}" = "true" ]; then
+              echo "## Result: published automatically"
+              echo
+              echo "$PRURL was merged into main (commit ${{ steps.auto.outputs.sha }}) because validation was PASS and the site checks passed."
             elif [ -n "$PRURL" ]; then
               echo "## Result: pull request ready for review"
+              [ -n "${{ steps.auto.outputs.reason }}" ] && echo "Automatic publishing was held: ${{ steps.auto.outputs.reason }}."
               echo
               echo "$PRURL (validation: $VSTATUS). Review and merge it to publish; nothing is published before that."
             else
